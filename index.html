@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Hệ Thống Du Lịch Số CSE703073</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f6f9; }
+    nav { background: #007bff; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+    nav a { color: white; text-decoration: none; margin-right: 15px; font-weight: bold; }
+    .container { padding: 30px; max-width: 1000px; margin: auto; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    table, th, td { border: 1px solid #ddd; }
+    th, td { padding: 12px; text-align: left; }
+    th { background-color: #f8f9fa; }
+    .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-primary { background: #007bff; color: white; }
+    .btn-success { background: #28a745; color: white; }
+    .btn-warning { background: #ffc107; color: black; }
+    .btn-danger { background: #dc3545; color: white; }
+    .hidden { display: none !important; }
+    .login-box { max-width: 350px; margin: 50px auto; }
+    input { width: 100%; padding: 8px; margin: 8px 0 15px; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div>
+      <span style="font-size: 20px; font-weight: bold;">Du Lịch Số CSE703073</span>
+    </div>
+    <div>
+      <a href="#" onclick="showPage('home')">Trang chủ</a>
+      <a href="#" onclick="showPage('products')">Danh mục</a>
+      
+      <!-- Nút Admin (Chỉ hiện khi là Admin) -->
+      <a href="#" id="admin-nav-link" class="hidden" style="color: #ffeb3b;" onclick="showPage('admin')">[Trang Quản Trị]</a>
+
+      <!-- Thông tin User / Nút Đăng nhập -->
+      <span id="user-info" class="hidden">Xin chào, <b id="user-name"></b> (<span id="user-role"></span>)</span>
+      <button id="btn-login-page" class="btn btn-success" onclick="showPage('login')">Đăng nhập</button>
+      <button id="btn-logout" class="btn btn-danger hidden" onclick="handleLogout()">Đăng xuất</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+    <!-- TRANG CHỦ -->
+    <div id="page-home" class="card">
+      <h2>Chào mừng đến với Hệ thống Du lịch số</h2>
+      <p>Hệ thống cung cấp thông tin các điểm đến và tour du lịch chất lượng cao.</p>
+    </div>
+
+    <!-- TRANG ĐĂNG NHẬP -->
+    <div id="page-login" class="card login-box hidden">
+      <h2>Đăng Nhập System</h2>
+      <form onsubmit="handleLogin(event)">
+        <label>Email / Tên đăng nhập:</label>
+        <input type="text" id="email" required placeholder="Nhập admin@gmail.com hoặc user@gmail.com">
+        
+        <label>Mật khẩu:</label>
+        <input type="password" id="password" required placeholder="Nhập mật khẩu bất kỳ">
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Đăng nhập</button>
+      </form>
+    </div>
+
+    <!-- TRANG DANH MỤC -->
+    <div id="page-products" class="card hidden">
+      <h2>Danh Sách Địa Điểm Du Lịch</h2>
+      
+      <!-- Nút Thêm sản phẩm (Chỉ Admin mới thấy) -->
+      <button id="btn-add-product" class="btn btn-success hidden" style="margin-bottom: 15px;">+ Thêm điểm đến mới (Admin)</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên điểm đến / Tour</th>
+            <th>Loại hình</th>
+            <th>Giá dịch vụ</th>
+            <th class="admin-col hidden">Thao tác Quản trị</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Chùa Bái Đính - Tràng An</td>
+            <td>Du lịch tâm linh / Văn hóa</td>
+            <td>850.000 VNĐ</td>
+            <td class="admin-col hidden">
+              <button class="btn btn-warning">Sửa</button>
+              <button class="btn btn-danger">Xóa</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Khu du lịch sinh thái Vườn Quốc gia Cúc Phương</td>
+            <td>Du lịch sinh thái</td>
+            <td>450.000 VNĐ</td>
+            <td class="admin-col hidden">
+              <button class="btn btn-warning">Sửa</button>
+              <button class="btn btn-danger">Xóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TRANG QUẢN TRỊ ADMIN -->
+    <div id="page-admin" class="card hidden">
+      <h2 style="color: #dc3545;">BẢNG ĐIỀU KHIỂN QUẢN TRỊ VIÊN (ADMIN ONLY)</h2>
+      <p>Trang này chỉ dành riêng cho tài khoản có quyền Admin.</p>
+    </div>
+
+  </div>
+
+  <script>
+    // Xử lý chuyển trang đơn giản
+    function showPage(pageName) {
+      const role = localStorage.getItem('role');
+      
+      // Chặn đường dẫn /admin nếu không phải Admin
+      if (pageName === 'admin' && role !== 'admin') {
+        alert('BẠN KHÔNG CÓ QUYỀN TRUY CẬP TRANG QUẢN TRỊ!');
+        return;
+      }
+
+      document.getElementById('page-home').classList.add('hidden');
+      document.getElementById('page-login').classList.add('hidden');
+      document.getElementById('page-products').classList.add('hidden');
+      document.getElementById('page-admin').classList.add('hidden');
+
+      document.getElementById('page-' + pageName).classList.remove('hidden');
+    }
+
+    // Xử lý Đăng nhập
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+
+      let role = 'user';
+      let name = 'Người Dùng';
+
+      // Phân quyền giả lập theo email
+      if (email.includes('admin')) {
+        role = 'admin';
+        name = 'Quản Trị Viên';
+      }
+
+      localStorage.setItem('token', 'fake-jwt-token-123456');
+      localStorage.setItem('role', role);
+      localStorage.setItem('username', name);
+
+      alert('Đăng nhập thành công với quyền: ' + role.toUpperCase());
+      updateUI();
+      showPage('products');
+    }
+
+    // Xử lý Đăng xuất
+    function handleLogout() {
+      localStorage.clear();
+      alert('Đã đăng xuất!');
+      updateUI();
+      showPage('home');
+    }
+
+    // Cập nhật ẩn/hiện giao diện theo Role
+    function updateUI() {
+      const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
+      const username = localStorage.getItem('username');
+
+      if (token) {
+        document.getElementById('btn-login-page').classList.add('hidden');
+        document.getElementById('btn-logout').classList.remove('hidden');
+        document.getElementById('user-info').classList.remove('hidden');
+        document.getElementById('user-name').innerText = username;
+        document.getElementById('user-role').innerText = role;
+
+        if (role === 'admin') {
+          document.getElementById('admin-nav-link').classList.remove('hidden');
+          document.getElementById('btn-add-product').classList.remove('hidden');
+          document.querySelectorAll('.admin-col').forEach(el => el.classList.remove('hidden'));
+        } else {
+          document.getElementById('admin-nav-link').classList.add('hidden');
+          document.getElementById('btn-add-product').classList.add('hidden');
+          document.querySelectorAll('.admin-col').forEach(el => el.classList.add('hidden'));
+        }
+      } else {
+        document.getElementById('btn-login-page').classList.remove('hidden');
+        document.getElementById('btn-logout').classList.add('hidden');
+        document.getElementById('user-info').classList.add('hidden');
+        document.getElementById('admin-nav-link').classList.add('hidden');
+        document.getElementById('btn-add-product').classList.add('hidden');
+        document.querySelectorAll('.admin-col').forEach(el => el.classList.add('hidden'));
+      }
+    }
+
+    // Khởi chạy ban đầu
+    updateUI();
+  </script>
+</body>
+</html>
