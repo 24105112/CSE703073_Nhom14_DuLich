@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';// Chỉnh lại đường dẫn file kết nối DB cho đúng
+require_once 'db.php'; // Chỉnh lại đường dẫn file kết nối DB cho đúng
 
 try {
     // 1. CƠ CHẾ TỰ HẾT HIỆU LỰC GIỮ CHỖ (EXPIRED BOOKINGS)
