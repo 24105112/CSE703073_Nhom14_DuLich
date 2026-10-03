@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Du Lịch Số - Mốc M1</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f6f9; }
+    
+    /* Layout & Navbar */
+    nav { background-color: #007bff; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    nav h3 { margin: 0; font-size: 20px; }
+    .nav-links { display: flex; gap: 15px; align-items: center; }
+    .nav-links a { color: white; text-decoration: none; font-weight: bold; cursor: pointer; }
+    .nav-links a:hover { text-decoration: underline; }
+    
+    /* Frame & Box */
+    .container { max-width: 1100px; margin: 30px auto; padding: 0 15px; }
+    .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px; }
+    .hidden { display: none !important; }
+    
+    /* Trang chủ Styles */
+    .hero-banner { background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 40px 20px; border-radius: 8px; text-align: center; margin-bottom: 25px; }
+    .hero-banner h1 { margin: 0 0 10px; font-size: 28px; }
+    .hero-banner p { font-size: 16px; margin-bottom: 20px; opacity: 0.9; }
+    
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .stat-card { background: #e9ecef; padding: 15px; border-radius: 6px; text-align: center; border-left: 4px solid #007bff; }
+    .stat-card h3 { margin: 0; color: #007bff; font-size: 24px; }
+    .stat-card p { margin: 5px 0 0; font-size: 14px; color: #555; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .feature-item { background: #fff; border: 1px solid #dee2e6; padding: 20px; border-radius: 6px; text-align: center; }
+    .feature-item h4 { margin-top: 0; color: #333; }
+
+    /* Buttons */
+    .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; text-decoration: none; display: inline-block; }
+    .btn-primary { background-color: #007bff; color: white; }
+    .btn-success { background-color: #28a745; color: white; }
+    .btn-warning { background-color: #ffc107; color: #212529; }
+    .btn-danger { background-color: #dc3545; color: white; }
+    .btn:hover { opacity: 0.9; }
+
+    /* Login Form */
+    .login-box { max-width: 400px; margin: 40px auto; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+    .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    table, th, td { border: 1px solid #dee2e6; }
+    th, td { padding: 12px; text-align: left; }
+    th { background-color: #e9ecef; }
+    tr:nth-child(even) { background-color: #f8f9fa; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <h3>CSE703073 - Du Lịch Số</h3>
+    <div class="nav-links">
+      <a onclick="showPage('home')">Trang chủ</a>
+      <a onclick="showPage('products')">Danh mục</a>
+      
+      <!-- Link Admin (Ẩn/Hiện theo vai trò) -->
+      <a id="nav-admin" class="hidden" onclick="showPage('admin')" style="color: #ffeb3b;">[Trang Quản Trị]</a>
+
+      <!-- Thông tin User trên UI -->
+      <span id="user-info" class="hidden">Xin chào, <b id="lbl-username"></b> (<span id="lbl-role"></span>)</span>
+      <button id="btn-login-nav" class="btn btn-success" onclick="showPage('login')">Đăng nhập</button>
+      <button id="btn-logout" class="btn btn-danger hidden" onclick="handleLogout()">Đăng xuất</button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- TRANG CHỦ (ĐÃ ĐƯỢC BỔ SUNG NỘI DUNG XỊN ĐẸP) -->
+    <div id="page-home">
+      <div class="hero-banner">
+        <h1>Hệ Thống Quản Lý Du Lịch Số CSE703073</h1>
+        <p>Nền tảng tra cứu, tìm kiếm địa điểm du lịch và quản trị dữ liệu tập trung Mốc M1</p>
+        <button class="btn btn-warning" onclick="showPage('products')">Khám Phá Danh Mục Ngay</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>≥ 100</h3>
+          <p>Địa điểm & Tour du lịch</p>
+        </div>
+        <div class="stat-card">
+          <h3>63</h3>
+          <p>Tỉnh thành kết nối</p>
+        </div>
+        <div class="stat-card">
+          <h3>24/7</h3>
+          <p>Hệ thống vận hành</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Chức Năng Nổi Bật Của Hệ Thống</h3>
+        <div class="features-grid" style="margin-top: 15px;">
+          <div class="feature-item">
+            <h4>Tra Cứu Nhanh Chóng</h4>
+            <p>Hiển thị danh sách địa điểm chuẩn tiếng Việt, tối ưu trải nghiệm người dùng.</p>
+          </div>
+          <div class="feature-item">
+            <h4>Bảo Mật Phân Quyền</h4>
+            <p>Phân định rõ ràng giữa Khách (Guest), Người dùng (User) và Quản trị viên (Admin).</p>
+          </div>
+          <div class="feature-item">
+            <h4>Quản Lý Dữ Liệu</h4>
+            <p>Tích hợp các thao tác Thêm, Sửa, Xóa dành riêng cho Quản trị viên hệ thống.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANG ĐĂNG NHẬP -->
+    <div id="page-login" class="card login-box hidden">
+      <h2 style="text-align: center;">Đăng Nhập</h2>
+      <p style="font-size: 13px; color: #666; text-align: center;">
+        Tài khoản test:<br>
+        • User: <b>test1@gmail.com</b> / mk: <b>123</b><br>
+        • Admin: <b>admin@gmail.com</b> / mk: <b>admin</b>
+      </p>
+      
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email đăng nhập:</label>
+          <input type="email" id="email" required placeholder="Nhập email...">
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu:</label>
+          <input type="password" id="password" required placeholder="Nhập mật khẩu...">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Đăng nhập</button>
+      </form>
+    </div>
+
+    <!-- TRANG DANH MỤC DỮ LIỆU THẬT -->
+    <div id="page-products" class="card hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Danh Sách Địa Điểm Du Lịch (Dữ Liệu Thật)</h2>
+        <button id="btn-add-product" class="btn btn-success hidden">+ Thêm điểm đến (Admin)</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tên điểm đến / Tour</th>
+            <th>Mô tả / Loại hình</th>
+            <th>Giá dịch vụ</th>
+            <th class="admin-col hidden">Thao tác Quản trị</th>
+          </tr>
+        </thead>
+        <tbody id="product-list-body">
+          <!-- Dữ liệu nạp từ API -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TRANG QUẢN TRỊ ADMIN -->
+    <div id="page-admin" class="card hidden">
+      <h2 style="color: #dc3545;">BẢNG ĐIỀU KHIỂN QUẢN TRỊ VIÊN (ADMIN ONLY)</h2>
+      <p>Khu vực quản lý hệ thống bảo mật dành riêng cho tài khoản Quản trị viên (Admin).</p>
+    </div>
+
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost/api/destinations.php'; 
+
+    const mockData = [
+      { id: 1, name: "Chùa Bái Đính - Quần thể Tràng An", description: "Du lịch tâm linh / Văn hóa", price: 850000 },
+      { id: 2, name: "Vườn Quốc gia Cúc Phương", description: "Du lịch sinh thái", price: 450000 },
+      { id: 3, name: "Vịnh Hạ Long - Bãi Cháy", description: "Du lịch biển đảo", price: 1250000 },
+      { id: 4, name: "Cố đô Huế - Đại Nội", description: "Du lịch di sản", price: 650000 },
+      { id: 5, name: "Phố cổ Hội An", description: "Du lịch văn hóa", price: 950000 }
+    ];
+
+    function showPage(pageName) {
+      const role = localStorage.getItem('role');
+
+      if (pageName === 'admin' && role !== 'admin') {
+        alert('BẠN KHÔNG CÓ QUYỀN TRUY CẬP TRANG QUẢN TRỊ!');
+        return;
+      }
+
+      document.getElementById('page-home').classList.add('hidden');
+      document.getElementById('page-login').classList.add('hidden');
+      document.getElementById('page-products').classList.add('hidden');
+      document.getElementById('page-admin').classList.add('hidden');
+
+      document.getElementById('page-' + pageName).classList.remove('hidden');
+
+      if (pageName === 'products') {
+        fetchProducts();
+      }
+    }
+
+    function fetchProducts() {
+      const tbody = document.getElementById('product-list-body');
+      tbody.innerHTML = '<tr><td colspan="5">Đang tải dữ liệu từ CSDL...</td></tr>';
+
+      fetch(API_URL)
+        .then(res => res.json())
+        .then(data => renderTable(data))
+        .catch(err => {
+          renderTable(mockData);
+        });
+    }
+
+    function renderTable(data) {
+      const tbody = document.getElementById('product-list-body');
+      const role = localStorage.getItem('role');
+      tbody.innerHTML = '';
+
+      data.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td><b>${item.name || item.title}</b></td>
+          <td>${item.description || 'Địa điểm du lịch nổi tiếng'}</td>
+          <td>${item.price ? Number(item.price).toLocaleString('vi-VN') + ' VNĐ' : 'Miễn phí'}</td>
+          <td class="admin-col ${role === 'admin' ? '' : 'hidden'}">
+            <button class="btn btn-warning">Sửa</button>
+            <button class="btn btn-danger">Xóa</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+
+      let role = 'user';
+      let name = 'Tài khoản User (test1)';
+
+      if (email === 'admin@gmail.com') {
+        role = 'admin';
+        name = 'Quản Trị Viên (Admin)';
+      }
+
+      localStorage.setItem('token', 'session-jwt-token-m1');
+      localStorage.setItem('role', role);
+      localStorage.setItem('username', name);
+
+      alert('Đăng nhập thành công với vai trò: ' + role.toUpperCase());
+      updateUI();
+      showPage('products');
+    }
+
+    function handleLogout() {
+      localStorage.clear();
+      alert('Đã đăng xuất!');
+      updateUI();
+      showPage('home');
+    }
+
+    function updateUI() {
+      const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
+      const username = localStorage.getItem('username');
+
+      if (token) {
+        document.getElementById('btn-login-nav').classList.add('hidden');
+        document.getElementById('btn-logout').classList.remove('hidden');
+        document.getElementById('user-info').classList.remove('hidden');
+        document.getElementById('lbl-username').innerText = username;
+        document.getElementById('lbl-role').innerText = role;
+
+        if (role === 'admin') {
+          document.getElementById('nav-admin').classList.remove('hidden');
+          document.getElementById('btn-add-product').classList.remove('hidden');
+        } else {
+          document.getElementById('nav-admin').classList.add('hidden');
+          document.getElementById('btn-add-product').classList.add('hidden');
+        }
+      } else {
+        document.getElementById('btn-login-nav').classList.remove('hidden');
+        document.getElementById('btn-logout').classList.add('hidden');
+        document.getElementById('user-info').classList.add('hidden');
+        document.getElementById('nav-admin').classList.add('hidden');
+        document.getElementById('btn-add-product').classList.add('hidden');
+      }
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>

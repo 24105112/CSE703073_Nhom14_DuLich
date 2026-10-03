@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Kiếm & Đặt Chỗ Du Lịch Trợ Năng - CSE703073</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #059669;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-yellow: #d97706;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
+
+        /* Navbar Header */
+        .navbar { background: var(--primary-color); color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .navbar .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        .navbar .nav-links { display: flex; gap: 20px; align-items: center; }
+        .navbar a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: opacity 0.2s; }
+        .navbar a:hover { opacity: 0.8; }
+        .btn-nav-login { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.4); }
+
+        /* Banner Container */
+        .main-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .page-header { margin-bottom: 24px; }
+        .page-header h1 { font-size: 28px; font-weight: 700; color: var(--text-main); }
+        .page-header p { color: var(--text-muted); font-size: 15px; margin-top: 4px; }
+
+        /* Sticky Countdown Timer Banner */
+        #countdownBanner {
+            display: none;
+            position: sticky;
+            top: 20px;
+            z-index: 99;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 6px solid var(--accent-yellow);
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .countdown-content { display: flex; justify-content: space-between; align-items: center; }
+        .countdown-title { font-weight: 600; color: #92400e; display: flex; align-items: center; gap: 8px; font-size: 15px; }
+        .countdown-time { font-size: 18px; font-weight: 700; color: #b45309; }
+
+        /* Search & Filter Card Box */
+        .filter-card { background: var(--card-bg); border-radius: 16px; padding: 24px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 30px; }
+        .filter-grid { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 16px; align-items: center; }
+        @media (max-width: 768px) { .filter-grid { grid-template-columns: 1fr; } }
+
+        .search-input-group { position: relative; }
+        .search-input-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .search-input-group input { width: 100%; padding: 12px 14px 12px 42px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; transition: all 0.2s; }
+        .search-input-group input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        .filter-checkbox-group { display: flex; gap: 16px; align-items: center; }
+        .checkbox-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-main); user-select: none; }
+        .checkbox-label input { width: 18px; height: 18px; accent-color: var(--primary-color); cursor: pointer; }
+
+        .btn-search { background: var(--primary-color); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: center; transition: background 0.2s; }
+        .btn-search:hover { background: var(--primary-dark); }
+
+        /* Destination Grid Cards */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 32px; }
+        .destination-card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-color); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; }
+        .destination-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1); }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+        .card-address { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+        
+        /* Accessibility Badges */
+        .badges-container { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .badge { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
+        .badge-wheelchair { background: #dcfce7; color: #15803d; }
+        .badge-elevator { background: #e0f2fe; color: #0369a1; }
+        
+        .card-footer { padding: 16px 20px; background: #f8fafc; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .price-tag { display: flex; flex-direction: column; }
+        .price-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .price-value { font-size: 16px; font-weight: 700; color: #d97706; }
+        .slots-left { font-size: 12px; font-weight: 600; color: var(--secondary-color); margin-top: 2px; }
+
+        .btn-book { background: var(--secondary-color); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-book:hover { opacity: 0.9; }
+
+        /* Pagination Styling */
+        .pagination-container { display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .pagination-btn { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--border-color); background: white; font-weight: 600; cursor: pointer; transition: all 0.2s; color: var(--text-main); }
+        .pagination-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        .pagination-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        /* Modal Overlay & Dialog */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
+        .modal-dialog { background: white; border-radius: 16px; width: 100%; max-width: 420px; padding: 28px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); animation: modalIn 0.2s ease-out; }
+        @keyframes modalIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h3 { font-size: 20px; font-weight: 700; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
+        .form-group input { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; }
+        .modal-actions { display: flex; gap: 12px; }
+        .btn-cancel { flex: 1; background: #f1f5f9; color: var(--text-muted); border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-confirm { flex: 1; background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-wheelchair-move"></i> CSE703073 - Du Lịch Số
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Trang chủ</a>
+            <a href="search.html" style="color: #fde047;">Tìm kiếm / Đặt chỗ</a>
+            <a href="#" class="btn-nav-login" id="loginNavBtn">Đăng nhập</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        
+        <!-- Page Title Section -->
+        <div class="page-header">
+            <h1>Tra Cứu & Đặt Chỗ Địa Điểm Tiếp Cận</h1>
+            <p>Tìm kiếm địa điểm hỗ trợ trợ năng (xe lăn, thang máy) và giữ chỗ trực tuyến trong 15 phút.</p>
+        </div>
+
+        <!-- Sticky Floating Countdown Timer Banner -->
+        <div id="countdownBanner">
+            <div class="countdown-content">
+                <div class="countdown-title">
+                    <i class="fa-solid fa-clock-rotate-left fa-spin"></i>
+                    <span>PHIẾU GIỮ CHỖ CÓ THỜI HẠN (MỐC M2):</span>
+                </div>
+                <div class="countdown-time" id="countdownTimer">15 phút 00 giây</div>
+            </div>
+        </div>
+
+        <!-- Filter & Search Section -->
+        <section class="filter-card">
+            <div class="filter-grid">
+                <!-- Từ khóa -->
+                <div class="search-input-group">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="keywordInput" placeholder="Nhập địa danh, thành phố, từ khóa...">
+                </div>
+
+                <!-- Checkbox Trợ năng Xe Lăn -->
+                <div class="filter-checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="wheelchairCheck">
+                        <i class="fa-solid fa-wheelchair" style="color: #15803d;"></i> Hỗ trợ xe lăn
+                    </label>
+                </div>
+
+                <!-- Checkbox Thang máy (Mở rộng UI) -->
+                <div class="filter-checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="elevatorCheck">
+                        <i class="fa-solid fa-elevator" style="color: #0369a1;"></i> Thang máy
+                    </label>
+                </div>
+
+                <!-- Nút Search -->
+                <button class="btn-search" onclick="loadDestinations(1)">
+                    <i class="fa-solid fa-filter"></i> Lọc dữ liệu
+                </button>
+            </div>
+        </section>
+
+        <!-- Dynamic Destination Card Grid -->
+        <section class="cards-grid" id="destinationList">
+            <!-- JavaScript tự động đổ dữ liệu Cards vào đây -->
+        </section>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-container" id="paginationControls">
+            <!-- Nút phân trang vẽ tự động -->
+        </div>
+
+    </main>
+
+    <!-- Modal Form Đặt Chỗ -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Xác Nhận Đặt Chỗ</h3>
+                <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="closeModal()"></i>
+            </div>
+            <input type="hidden" id="selectedDestinationId">
+            <div class="form-group">
+                <label for="bookingQuantity">Số lượng vé / chỗ cần giữ:</label>
+                <input type="number" id="bookingQuantity" value="1" min="1" max="5">
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">
+                * Giữ chỗ tối đa 15 phút. Nếu không hoàn tất thanh toán, chỗ sẽ tự động nhả về kho.
+            </p>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeModal()">Hủy bỏ</button>
+                <button class="btn-confirm" onclick="confirmBooking()">Đồng ý giữ chỗ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let timerInterval = null;
+
+        // 1. Tải danh sách Địa điểm kết nối API Backend Trung Anh (V3)
+        async function loadDestinations(page = 1) {
+            currentPage = page;
+            const keyword = document.getElementById('keywordInput').value;
+            const hasWheelchair = document.getElementById('wheelchairCheck').checked ? 1 : '';
+            const hasElevator = document.getElementById('elevatorCheck').checked ? 1 : '';
+
+            const listContainer = document.getElementById('destinationList');
+            listContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Đang tải danh sách địa điểm...</p>';
+
+            try {
+                // Endpoint gọi API Phân trang & Lọc ở Server
+                const response = await fetch(`/api/destinations/search.php?page=${page}&limit=6&keyword=${encodeURIComponent(keyword)}&has_wheelchair=${hasWheelchair}&has_elevator=${hasElevator}`);
+                const result = await response.json();
+
+                listContainer.innerHTML = '';
+
+                if (!result.data || result.data.length === 0) {
+                    listContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">Không tìm thấy địa điểm nào phù hợp tiêu chí.</p>';
+                    document.getElementById('paginationControls').innerHTML = '';
+                    return;
+                }
+
+                // Render danh sách Card
+                result.data.forEach(item => {
+                    const slots = item.available_slots !== undefined ? item.available_slots : 5;
+                    listContainer.innerHTML += `
+                        <div class="destination-card">
+                            <div class="card-body">
+                                <h3 class="card-title">${item.title}</h3>
+                                <div class="card-address"><i class="fa-solid fa-location-dot"></i> ${item.address}</div>
+                                
+                                <div class="badges-container">
+                                    ${item.has_wheelchair_access == 1 ? '<span class="badge badge-wheelchair"><i class="fa-solid fa-wheelchair"></i> Xe lăn</span>' : ''}
+                                    ${item.has_elevator == 1 ? '<span class="badge badge-elevator"><i class="fa-solid fa-elevator"></i> Thang máy</span>' : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <div class="price-tag">
+                                    <span class="price-label">Giá niêm yết</span>
+                                    <span class="price-value">${Number(item.price).toLocaleString('vi-VN')} VNĐ</span>
+                                    <span class="slots-left">Còn lại: ${slots} chỗ</span>
+                                </div>
+                                <button class="btn-book" onclick="openBookingModal(${item.id})">
+                                    <i class="fa-solid fa-ticket"></i> Đặt chỗ
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Render nút Phân trang
+                renderPagination(result.total_pages || 1, page);
+
+            } catch (error) {
+                console.error("Lỗi API Backend:", error);
+                // Dữ liệu Mock dự phòng chuyên nghiệp nếu chưa bật XAMPP
+                renderMockData();
+            }
+        }
+
+        // 2. Render Nút Phân trang
+        function renderPagination(totalPages, activePage) {
+            const container = document.getElementById('paginationControls');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `pagination-btn ${i === activePage ? 'active' : ''}`;
+                btn.innerText = i;
+                btn.onclick = () => loadDestinations(i);
+                container.appendChild(btn);
+            }
+        }
+
+        // 3. Mở / Đóng Modal Đặt Chỗ
+        function openBookingModal(id) {
+            document.getElementById('selectedDestinationId').value = id;
+            document.getElementById('bookingModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        // 4. Gửi Request Giữ chỗ lên API Đặt chỗ (Xử lý Khóa Hàng Race Condition)
+        async function confirmBooking() {
+            const destinationId = document.getElementById('selectedDestinationId').value;
+            const quantity = document.getElementById('bookingQuantity').value;
+
+            closeModal();
+
+            try {
+                const response = await fetch('/api/bookings/create.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        destination_id: parseInt(destinationId),
+                        quantity: parseInt(quantity)
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('🎉 Đặt giữ chỗ thành công! Đã bắt đầu tính giờ 15 phút.');
+                    startCountdown(result.expires_at || new Date(Date.now() + 15 * 60000).toISOString());
+                    loadDestinations(currentPage);
+                } else {
+                    alert('❌ Đặt chỗ thất bại: ' + (result.error || 'Đã hết chỗ trống!'));
+                }
+            } catch (error) {
+                // Giả lập kích hoạt thành công khi chạy Frontend độc lập
+                const mockExpires = new Date(Date.now() + 15 * 60000).toISOString();
+                startCountdown(mockExpires);
+                alert('🎉 Giả lập Đặt chỗ thành công! Kích hoạt Countdown 15 phút.');
+            }
+        }
+
+        // 5. Đồng hồ đếm ngược giữ chỗ (Countdown Timer)
+        function startCountdown(expiresAtString) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            const expiresAt = new Date(expiresAtString).getTime();
+            const banner = document.getElementById('countdownBanner');
+            const timerDisplay = document.getElementById('countdownTimer');
+
+            banner.style.display = 'block';
+
+            timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = expiresAt - now;
+
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.innerHTML = "<b style='color:#dc2626;'>⚠️ Hết thời gian giữ chỗ! Đơn hàng đã tự hủy.</b>";
+                    return;
+                }
+
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timerDisplay.innerHTML = `Thời gian giữ chỗ còn lại: <b>${minutes} phút ${seconds < 10 ? '0' : ''}${seconds} giây</b>`;
+            }, 1000);
+        }
+
+        // Dữ liệu Mock dữ phòng hiển thị siêu đẹp khi chưa nối Database
+        function renderMockData() {
+            const listContainer = document.getElementById('destinationList');
+            listContainer.innerHTML = `
+                <div class="destination-card">
+                    <div class="card-body">
+                        <h3 class="card-title">Bảo Tàng Lịch Sử Quốc Gia</h3>
+                        <div class="card-address"><i class="fa-solid fa-location-dot"></i> Tràn Tiền, Hoàn Kiếm, Hà Nội</div>
+                        <div class="badges-container">
+                            <span class="badge badge-wheelchair"><i class="fa-solid fa-wheelchair"></i> Xe lăn</span>
+                            <span class="badge badge-elevator"><i class="fa-solid fa-elevator"></i> Thang máy</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="price-tag">
+                            <span class="price-label">Giá vé</span>
+                            <span class="price-value">40.000 VNĐ</span>
+                            <span class="slots-left">Còn lại: 1 chỗ (Hot)</span>
+                        </div>
+                        <button class="btn-book" onclick="openBookingModal(10)"><i class="fa-solid fa-ticket"></i> Đặt chỗ</button>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="card-body">
+                        <h3 class="card-title">Công Viên Văn Hóa Đầm Sen</h3>
+                        <div class="card-address"><i class="fa-solid fa-location-dot"></i> Quận 11, TP. Hồ Chí Minh</div>
+                        <div class="badges-container">
+                            <span class="badge badge-wheelchair"><i class="fa-solid fa-wheelchair"></i> Xe lăn</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="price-tag">
+                            <span class="price-label">Giá vé</span>
+                            <span class="price-value">120.000 VNĐ</span>
+                            <span class="slots-left">Còn lại: 15 chỗ</span>
+                        </div>
+                        <button class="btn-book" onclick="openBookingModal(11)"><i class="fa-solid fa-ticket"></i> Đặt chỗ</button>
+                    </div>
+                </div>
+            `;
+            renderPagination(3, 1);
+        }
+
+        window.onload = () => loadDestinations(1);
+    </script>
+</body>
+</html>
