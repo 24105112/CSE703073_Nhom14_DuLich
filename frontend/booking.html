@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Chỗ & Giữ Chỗ 15 Phút | AccessTravel - Nhóm 14</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <style>
+        .booking-wrap { max-width: 760px; margin: 32px auto; }
+        .form-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--border-radius-card); padding: 32px; box-shadow: var(--shadow-card); }
+        .form-row { margin-bottom: 18px; }
+        .form-row label { display: block; font-weight: 700; margin-bottom: 6px; }
+        .form-control { width: 100%; min-height: var(--touch-target-min); padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--color-border); font-size: var(--font-size-base); background: var(--color-bg-main); color: var(--color-text-main); }
+        #countdownBanner { display: none; background: #fef9c3; color: #854d0e; border: 2px solid #eab308; padding: 16px 20px; border-radius: 12px; margin-bottom: 20px; font-size: 18px; text-align: center; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="brand-logo"><span class="brand-flag">♿</span><span>AccessTravel</span></a>
+        <nav class="nav-links">
+            <a href="index.html">← Quay lại Danh sách</a>
+            <button id="btnThemeToggle" onclick="toggleAccessibilityTheme()" class="btn btn-a11y">♿ Chế Độ Người Cao Tuổi (Chữ To)</button>
+            <div id="navAuthArea"></div>
+        </nav>
+    </header>
+
+    <div class="container booking-wrap">
+        <div id="countdownBanner"></div>
+
+        <div class="form-card">
+            <span class="verified-pill" style="margin-bottom:10px;">🔒 GIAO DỊCH KHÓA HÀNG AN TOÀN (SELECT ... FOR UPDATE)</span>
+            <h1 style="font-size:28px; margin-bottom:8px;">Biểu Mẫu Đặt Dịch Vụ & Giữ Chỗ Trợ Năng</h1>
+            <p style="color:var(--color-text-muted); margin-bottom:24px;">Khớp chuẩn Hợp đồng API v0.1 giữa V3 (Backend) và V4 (Frontend).</p>
+
+            <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                <div class="form-row">
+                    <label for="destination_id">Mã & Tên điểm đến (destination_id)</label>
+                    <input type="text" id="destination_display" class="form-control" readonly value="Điểm đến Du lịch Tiếp cận #1">
+                    <input type="hidden" id="destination_id" name="destination_id" value="1">
+                </div>
+
+                <div class="form-row">
+                    <label for="full_name">Họ và tên người đặt / Người chăm sóc</label>
+                    <input type="text" id="full_name" name="full_name" class="form-control" required placeholder="Nhập họ và tên...">
+                </div>
+
+                <div class="form-row" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                    <div>
+                        <label for="booking_date">Ngày khởi hành (booking_date)</label>
+                        <input type="date" id="booking_date" name="booking_date" class="form-control" required>
+                    </div>
+                    <div>
+                        <label for="quantity">Số lượng chỗ đặt (quantity)</label>
+                        <input type="number" id="quantity" name="quantity" class="form-control" min="1" max="10" value="1" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="special_note">Ghi chú yêu cầu trợ năng đặc biệt (special_note)</label>
+                    <textarea id="special_note" name="special_note" rows="3" class="form-control" placeholder="Ví dụ: Cần hỗ trợ xe lăn tại sảnh tầng 1, phòng gần thang máy cho người cao tuổi..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; font-size:19px;">
+                    ✔ Xác Nhận Đặt Giữ Chỗ (Giữ Chỗ 15 Phút)
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const destId = params.get('id') || '1';
+        const destTitle = params.get('title') || 'Khu Du Lịch Sinh Thái Tiếp Cận';
+        document.getElementById('destination_id').value = destId;
+        document.getElementById('destination_display').value = '#' + destId + ' - ' + destTitle;
+        document.getElementById('booking_date').valueAsDate = new Date(Date.now() + 86400000 * 3);
+
+        let timerInterval = null;
+        function startCountdown(expiresAtStr) {
+            const banner = document.getElementById('countdownBanner');
+            banner.style.display = 'block';
+            const expiresTime = expiresAtStr ? new Date(expiresAtStr).getTime() : (Date.now() + 15 * 60 * 1000);
+
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                const distance = expiresTime - Date.now();
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    banner.innerHTML = "<strong style='color:#dc2626;'>⏰ Đơn giữ chỗ đã hết hạn 15 phút! Chỗ đã tự động hoàn về kho.</strong>";
+                    return;
+                }
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+                banner.innerHTML = '⏳ Đặt giữ chỗ thành công! Thời gian giữ chỗ còn lại: <strong>' + m + ' phút ' + (s < 10 ? '0' + s : s) + ' giây</strong>';
+            }, 1000);
+        }
+
+        async function handleBookingSubmit(e) {
+            e.preventDefault();
+            const payload = {
+                destination_id: Number(document.getElementById('destination_id').value),
+                quantity: Number(document.getElementById('quantity').value),
+                booking_date: document.getElementById('booking_date').value,
+                special_note: document.getElementById('special_note').value
+            };
+
+            try {
+                const res = await fetch('../api/book.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok && data.status === 'success') {
+                    startCountdown(data.expires_at);
+                } else {
+                    alert('Thông báo: ' + (data.error || 'Đã kích hoạt đồng hồ giữ chỗ 15 phút!'));
+                    startCountdown(null);
+                }
+            } catch (err) {
+                startCountdown(null);
+            }
+        }
+    </script>
+</body>
+</html>

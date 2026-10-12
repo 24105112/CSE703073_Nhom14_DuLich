@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Hạ Tầng Trợ Năng | AccessTravel - Nhóm 14</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <style>
+        .detail-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 28px; margin-top: 28px; }
+        .panel { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--border-radius-card); padding: 28px; box-shadow: var(--shadow-card); margin-bottom: 24px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
+        .metric-box { background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 12px; padding: 16px; }
+        .metric-val { font-size: 24px; font-weight: 800; color: var(--color-primary); }
+        @media (max-width: 850px) { .detail-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="brand-logo"><span class="brand-flag">♿</span><span>AccessTravel</span></a>
+        <nav class="nav-links">
+            <a href="index.html">← Quay lại Danh sách</a>
+            <button id="btnThemeToggle" onclick="toggleAccessibilityTheme()" class="btn btn-a11y">♿ Chế Độ Người Cao Tuổi (Chữ To)</button>
+            <div id="navAuthArea"></div>
+        </nav>
+    </header>
+
+    <div class="container detail-layout">
+        <div>
+            <div class="panel">
+                <span class="verified-pill" style="margin-bottom:12px;">🏅 ĐÃ ĐO ĐẠC & XÁC MINH BỞI WHEEL THE WORLD STANDARD</span>
+                <h1 id="detTitle" style="font-size:30px; margin-bottom:8px;">Khu Nghỉ Dưỡng Sinh Thái & Chăm Sóc Sức Khỏe</h1>
+                <p id="detAddress" style="color:var(--color-text-muted); margin-bottom:20px;">📍 Địa chỉ điểm đến tiếp cận</p>
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80" alt="Ảnh thực tế lối đi xe lăn" style="width:100%; height:340px; object-fit:cover; border-radius:14px; margin-bottom:20px;">
+                
+                <h3>Thông Số Hạ Tầng Tiếp Cận Đo Đạc Thực Tế (Bảng Accessibility_Info)</h3>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div>📐 Độ dốc đường dốc xe lăn (ramp_slope)</div>
+                        <div class="metric-val">6.5% (Chuẩn ≤ 8.0%)</div>
+                        <small>Xe lăn tay và người cao tuổi di chuyển nhẹ nhàng không cần đẩy phụ.</small>
+                    </div>
+                    <div class="metric-box">
+                        <div>🚪 Chiều rộng cửa phòng & WC (door_width)</div>
+                        <div class="metric-val">88 cm (Chuẩn ≥ 80cm)</div>
+                        <small>Đảm bảo mọi loại xe lăn điện tiêu chuẩn quay đầu thoải mái.</small>
+                    </div>
+                    <div class="metric-box">
+                        <div>🛗 Hệ thống Thang máy & Lối vào</div>
+                        <div class="metric-val">0 Bậc thềm (Step-free)</div>
+                        <small>Có thang máy chữ nổi Braille và thông báo giọng nói tiếng Việt.</small>
+                    </div>
+                    <div class="metric-box">
+                        <div>🚻 Nhà vệ sinh & Phòng tắm trợ năng</div>
+                        <div class="metric-val">Tay vịn Inox + Ghế tắm</div>
+                        <small>Sàn chống trượt, có chuông gọi y tá hỗ trợ khẩn cấp 24/7.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>★★★★★ Đánh Giá Xác Thực Từ Du Khách (Trustpilot & Atria Senior Care)</h3>
+                <p style="margin-top:10px;"><strong>Bác Nguyễn Văn Nam (68 tuổi):</strong> "Chữ trên web rất to dễ đọc, đến nơi có nhân viên đẩy xe hỗ trợ ngay từ sảnh, không có bậc thang cao nên tôi đi lại rất an tâm."</p>
+                <hr style="margin:12px 0; border:0; border-top:1px solid var(--color-border);">
+                <p><strong>Bạn Lê Minh Ánh (24 tuổi - Dùng xe lăn):</strong> "Thông số cửa rộng 88cm và độ dốc 6.5% hoàn toàn chính xác như ảnh chụp trên hệ thống."</p>
+            </div>
+        </div>
+
+        <div>
+            <div class="panel" style="position:sticky; top:90px;">
+                <h3>Đặt Dịch Vụ & Giữ Chỗ</h3>
+                <p style="margin:10px 0; color:var(--color-text-muted);">Hệ thống tự động khóa hàng chống tranh chấp tồn kho và giữ chỗ cho bạn trong 15 phút.</p>
+                <div id="detPrice" style="font-size:28px; font-weight:800; color:var(--color-primary); margin:16px 0;">1.250.000 đ / khách</div>
+                <a id="btnGoBooking" href="booking.html" class="btn btn-primary" style="width:100%;">Tiến hành Đặt & Giữ chỗ ngay →</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('title')) document.getElementById('detTitle').innerText = params.get('title');
+        if (params.get('address')) document.getElementById('detAddress').innerText = '📍 ' + params.get('address');
+        if (params.get('price')) document.getElementById('detPrice').innerText = Number(params.get('price')).toLocaleString('vi-VN') + ' đ / khách';
+        document.getElementById('btnGoBooking').href = 'booking.html?' + params.toString();
+    </script>
+</body>
+</html>
