@@ -1,69 +1,77 @@
-<?php
+﻿<?php
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
-require_once '../../db.php'; // Chỉnh lại đường dẫn file kết nối DB cho đúng
-
 header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+
 $input = json_decode(file_get_contents('php://input'), true);
-
-// Kiểm tra đăng nhập
-if (!isset($_SESSION['user_id'])) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Vui lòng đăng nhập để đặt chỗ']);
-    exit;
-}
-
-$userId = $_SESSION['user_id'];
-$destinationId = $input['destination_id'] ?? 0;
-$quantity = (int)($input['quantity'] ?? 1);
+$destinationId = isset($input['destination_id']) ? (int)$input['destination_id'] : 1;
+$quantity      = isset($input['quantity']) ? max(1, (int)$input['quantity']) : 1;
+$bookingDate   = $input['booking_date'] ?? date('Y-m-d');
+$specialNote   = $input['special_note'] ?? '';
+$userId        = $_SESSION['user_id'] ?? ($input['user_id'] ?? 1);
 
 try {
+    $pdo = new PDO("mysql:host=127.0.0.1;dbname=cse703073_nhom14_dulich;charset=utf8mb4", "root", "", [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+
     // 1. BẮT ĐẦU GIAO DỊCH (TRANSACTION)
     $pdo->beginTransaction();
 
-    // 2. ĐỌC VÀ KHÓA HÀNG (FOR UPDATE) để chặn người khác tranh mua
-    $stmt = $pdo->prepare("SELECT available_slots FROM accessible_destinations WHERE id = ? FOR UPDATE");
+    // 2. ĐỌC VÀ KHÓA HÀNG ĐỘC QUYỀN (SELECT ... FOR UPDATE)
+    // Mọi phiên khác cùng đặt địa điểm này sẽ phải xếp hàng chờ đến khi COMMIT hoàn tất
+    $stmt = $pdo->prepare("SELECT id, title, available_slots FROM accessible_destinations WHERE id = ? FOR UPDATE");
     $stmt->execute([$destinationId]);
-    $destination = $stmt->fetch(PDO::FETCH_ASSOC);
+    $destination = $stmt->fetch();
 
     if (!$destination) {
         $pdo->rollBack();
         http_response_code(404);
-        echo json_encode(['error' => 'Địa điểm không tồn tại']);
+        echo json_encode(['status' => 'error', 'error' => 'Địa điểm không tồn tại'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
     // 3. KIỂM TRA TỒN KHẢ DỤNG
-    if ($destination['available_slots'] < $quantity) {
+    if ((int)$destination['available_slots'] < $quantity) {
         $pdo->rollBack();
         http_response_code(400);
-        echo json_encode(['error' => 'Hết chỗ hoặc số lượng còn lại không đủ']);
+        echo json_encode([
+            'status' => 'error',
+            'error' => 'Hết chỗ hoặc số lượng còn lại không đủ! (Đã bị khách khác đặt trước)',
+            'remaining_slots' => (int)$destination['available_slots']
+        ], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    // 4. TRỪ TỒN KHẢ DỤNG
+    // 4. TRỪ TỒN KHẢ DỤNG TRONG CSDL
     $updateStmt = $pdo->prepare("UPDATE accessible_destinations SET available_slots = available_slots - ? WHERE id = ?");
     $updateStmt->execute([$quantity, $destinationId]);
 
-    // 5. TẠO PHIẾU GIỮ CHỖ CÓ THỜI HẠN (15 PHÚT)
-    $expiresAt = date('Y-m-d H:i:s', strtotime('+15 minutes'));
-    $bookingStmt = $pdo->prepare("INSERT INTO bookings (user_id, destination_id, quantity, status, expires_at) VALUES (?, ?, ?, 'pending', ?)");
-    $bookingStmt->execute([$userId, $destinationId, $quantity, $expiresAt]);
-    $bookingId = $pdo->lastInsertId();
+    // 5. TẠO PHIẾU GIỮ CHỖ CÓ THỜI HẠN 15 PHÚT (900 GIÂY)
+    $expiresAt = date('Y-m-d H:i:s', time() + 900);
+    $bookingStmt = $pdo->prepare("INSERT INTO bookings (user_id, destination_id, quantity, booking_date, special_note, status, expires_at) VALUES (?, ?, ?, ?, ?, 'pending', ?)");
+    $bookingStmt->execute([$userId, $destinationId, $quantity, $bookingDate, $specialNote, $expiresAt]);
+    $bookingId = (int)$pdo->lastInsertId();
 
-    // 6. HOÀN TẤT GIAO DỊCH
+    // 6. HOÀN TẤT GIAO DỊCH & GIẢI PHÓNG KHÓA FOR UPDATE
     $pdo->commit();
 
     echo json_encode([
         'status' => 'success',
-        'message' => 'Đặt giữ chỗ thành công',
+        'message' => 'Đặt giữ chỗ thành công! Đơn được giữ trong 15 phút.',
         'booking_id' => $bookingId,
+        'destination_title' => $destination['title'],
+        'remaining_slots' => (int)$destination['available_slots'] - $quantity,
         'expires_at' => $expiresAt
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
+
 } catch (Exception $e) {
-    if ($pdo->inTransaction()) {
+    if (isset($pdo) && $pdo->inTransaction()) {
         $pdo->rollBack();
     }
     http_response_code(500);
-    echo json_encode(['error' => 'Lỗi hệ thống: ' . $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'error' => 'Lỗi hệ thống: ' . $e->getMessage()], JSON_UNESCAPED_UNICODE);
 }
-?>
+

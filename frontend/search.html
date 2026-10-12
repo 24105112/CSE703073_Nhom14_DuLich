@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccessTravel | Tìm Kiếm, Lọc Trợ Năng & Đặt Chỗ (Mốc M2)</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <style>
+        .wtw-hero {
+            margin-top: 20px;
+            background: linear-gradient(90deg, rgba(11,61,58,0.92) 0%, rgba(17,94,89,0.78) 55%, rgba(17,94,89,0.2) 100%),
+                        url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+            border-radius: 22px;
+            padding: 52px 44px;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 300px;
+        }
+        .wtw-hero h1 { font-size: var(--font-size-heading); font-weight: 800; margin-bottom: 12px; max-width: 680px; }
+        .wtw-hero p { font-size: var(--font-size-lg); max-width: 600px; margin-bottom: 24px; opacity: 0.95; }
+
+        .search-tabs { display: flex; gap: 8px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+        .search-tab { padding: 12px 22px; border-radius: 12px 12px 0 0; background: transparent; color: var(--color-text-muted); font-weight: 700; cursor: pointer; border: none; font-size: 16px; }
+        .search-tab.active { background: var(--color-secondary); color: var(--color-primary-dark); }
+        [data-theme="accessible"] .search-tab.active { color: #ffff00; border: 1px solid #ffff00; }
+
+        .wtw-search-box { background: var(--color-secondary); padding: 28px 32px; border-radius: 18px; box-shadow: var(--shadow-card); border: 1px solid var(--color-border); }
+        .search-grid { display: grid; grid-template-columns: 1.8fr 1.1fr 1.2fr auto; gap: 16px; align-items: end; }
+        .field-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 15px; }
+        .field-input { width: 100%; min-height: var(--touch-target-min); padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--color-border); font-size: var(--font-size-base); background: var(--color-bg-card); color: var(--color-text-main); }
+        .a11y-checks { display: flex; gap: 18px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--color-border); flex-wrap: wrap; align-items: center; }
+        .a11y-checks label { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; }
+        .a11y-checks input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--color-primary); }
+
+        .video-showcase { margin: 40px 0; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 22px; padding: 32px; text-align: center; box-shadow: var(--shadow-card); }
+        .video-showcase h2 { font-size: 22px; margin-bottom: 18px; }
+        .video-wrapper { position: relative; max-width: 920px; margin: 0 auto; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 14px 35px rgba(0,0,0,0.2); }
+        .video-wrapper video { width: 100%; max-height: 460px; display: block; object-fit: cover; }
+        .video-overlay-badge { position: absolute; bottom: 85px; left: 28px; text-align: left; pointer-events: none; }
+        .video-overlay-badge span { display: inline-block; background: rgba(17, 94, 89, 0.92); color: #ffffff; font-weight: 800; font-size: 20px; padding: 6px 14px; margin-bottom: 4px; text-transform: uppercase; }
+        .video-caption-bar { position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.85); color: #ffffff; padding: 6px 18px; border-radius: 6px; font-size: 16px; pointer-events: none; width: 80%; max-width: 620px; }
+
+        .trust-banner { display: flex; justify-content: space-between; align-items: center; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 20px 28px; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
+        .trust-stars { color: var(--color-trust); font-size: 22px; font-weight: 900; }
+
+        .dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+        .dest-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--border-radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; transition: transform 0.2s; }
+        .dest-card:hover { transform: translateY(-4px); }
+        .dest-img-box { position: relative; height: 210px; background: #0f4c45; overflow: hidden; }
+        .dest-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .verified-ribbon { position: absolute; top: 0; right: 18px; background: var(--color-verified); color: #0f172a; padding: 8px 12px; font-weight: 900; font-size: 11px; text-align: center; border-radius: 0 0 8px 8px; line-height: 1.2; }
+        .slot-pill { position: absolute; bottom: 12px; left: 12px; background: rgba(15, 23, 42, 0.88); color: #fff; padding: 5px 12px; border-radius: 99px; font-size: 13px; font-weight: 700; }
+        .slot-pill.last-one { background: #dc2626; color: #fff; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .dest-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .dest-body h3 { font-size: 20px; margin-bottom: 6px; }
+        .dest-address { color: var(--color-text-muted); font-size: 15px; margin-bottom: 12px; }
+        .spec-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .spec-tag { background: var(--color-primary-light); color: var(--color-primary-dark); padding: 4px 10px; border-radius: 6px; font-size: 13.5px; font-weight: 700; }
+        [data-theme="accessible"] .spec-tag { color: #ffff00; border: 1px solid #ffff00; }
+        .dest-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; }
+        .price-text { font-size: var(--font-size-price); font-weight: 800; color: var(--color-primary); }
+        .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
+
+        @media (max-width: 900px) {
+            .search-grid { grid-template-columns: 1fr; }
+            .wtw-hero { padding: 32px 24px; }
+            .navbar { padding: 12px 16px; flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="brand-logo">
+            <span class="brand-flag">♿</span>
+            <span>AccessTravel</span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html">Điểm đến</a>
+            <a href="detail.html?id=1">Chi tiết Hạ tầng</a>
+            <a href="booking.html?id=1&title=Ch%C3%B9a%20B%C3%A1i%20%C4%90%C3%ADnh&price=850000&slots=1">Đặt & Giữ chỗ (15p)</a>
+            <a href="admin.html" id="navAdminLink" style="display:none; color:#dc2626; font-weight:800;">🛡️ Quản trị (/admin)</a>
+            <span class="verified-pill">🏅 ACCESSIBILITY VERIFIED</span>
+            <button id="btnThemeToggle" onclick="toggleAccessibilityTheme()" class="btn btn-a11y">
+                ♿ Chế Độ Người Cao Tuổi (Chữ To)
+            </button>
+            <div id="navAuthArea"></div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section class="wtw-hero">
+            <h1>Making Travel Accessible — Du Lịch Tiếp Cận Cho Mọi Người</h1>
+            <p>Đặt khách sạn, tour nghỉ dưỡng cho người cao tuổi và tìm kiếm điểm đến với đầy đủ thông số kỹ thuật xe lăn đã được kiểm chứng thực tế.</p>
+            <div>
+                <a href="#catalogSection" class="btn btn-primary" style="background:#0d9488; border:2px solid #fff;">Xem đánh giá & Khám phá ngay</a>
+            </div>
+        </section>
+
+        <div class="search-tabs">
+            <button class="search-tab active">🏨 Điểm đến & Khách sạn (≥300 bản ghi)</button>
+            <button class="search-tab" onclick="window.location.href='booking.html?id=1'">🚌 Đặt Giữ Chỗ Có Thời Hạn (Mốc M2)</button>
+            <button class="search-tab" onclick="window.location.href='detail.html?id=1'">🦽 Thông Số Kỹ Thuật Trợ Năng</button>
+        </div>
+        <section class="wtw-search-box" aria-label="Bộ lọc tìm kiếm trợ năng phía máy chủ">
+            <p style="font-weight:700; margin-bottom:14px;">Đặt chỗ tự tin. Lọc đa tiêu chí và phân trang trực tiếp trên Cơ sở dữ liệu (Server-side Pagination)!</p>
+            <div class="search-grid">
+                <div class="field-group">
+                    <label for="keywordInput">Từ khóa điểm đến / Địa chỉ</label>
+                    <input type="text" id="keywordInput" class="field-input" placeholder="Nhập tên địa danh (VD: Bái Đính, Văn Miếu, Hội An)...">
+                </div>
+                <div class="field-group">
+                    <label for="slopeSelect">Độ dốc đường dốc</label>
+                    <select id="slopeSelect" class="field-input" onchange="loadDestinations(1)">
+                        <option value="">Tất cả độ dốc (≤ 12%)</option>
+                        <option value="8">Chuẩn nhẹ người già (≤ 8%)</option>
+                        <option value="6">Siêu thoải xe lăn tay (≤ 6%)</option>
+                    </select>
+                </div>
+                <div class="field-group">
+                    <label for="sortSelect">Sắp xếp phía Máy chủ (Server Sort)</label>
+                    <select id="sortSelect" class="field-input" onchange="loadDestinations(1)">
+                        <option value="id_asc">Mặc định (Điểm đến nổi bật)</option>
+                        <option value="slots_asc">🔥 Sắp hết chỗ (1 chỗ cuối lên đầu)</option>
+                        <option value="price_asc">💰 Giá thấp đến cao</option>
+                        <option value="price_desc">💎 Giá cao xuống thấp</option>
+                    </select>
+                </div>
+                <button onclick="loadDestinations(1)" class="btn btn-primary" style="padding:0 32px;">🔍 Tìm kiếm</button>
+            </div>
+            <div class="a11y-checks">
+                <label><input type="checkbox" id="wheelchairCheck" onchange="loadDestinations(1)"> ♿ Hỗ trợ lối đi Xe lăn (has_wheelchair=1)</label>
+                <label><input type="checkbox" id="elevatorCheck" onchange="loadDestinations(1)"> 🛗 Có Thang máy rộng (has_elevator=1)</label>
+                <label><input type="checkbox" id="toiletCheck" onchange="loadDestinations(1)"> 🚻 Nhà vệ sinh có tay vịn an toàn</label>
+            </div>
+        </section>
+
+        <section class="video-showcase">
+            <h2>Watch now: Vì sao AccessTravel là nền tảng đặt dịch vụ du lịch trợ năng & nghỉ dưỡng người cao tuổi hàng đầu</h2>
+            <div class="video-wrapper">
+                <video id="introVideo" controls poster="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=80">
+                    <source src="images/intro.mp4" type="video/mp4">
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay-badge">
+                    <span>CONFIRM</span><br>
+                    <span>ACCESSIBILITY REQUESTS</span>
+                </div>
+                <div class="video-caption-bar">
+                    "to confirm your accessibility requests can be accommodated."
+                </div>
+            </div>
+        </section>
+
+        <section class="trust-banner">
+            <div>
+                <div class="trust-stars">★★★★★ Tuyệt vời 4.9 / 5.0 (Trustpilot & Atria Senior Care Standard)</div>
+                <p style="font-size:15px; color:var(--color-text-muted);">Dựa trên hơn <strong>1.250+ đánh giá xác thực</strong> từ cộng đồng Người khuyết tật & Gia đình Người cao tuổi.</p>
+            </div>
+            <div style="display:flex; gap:14px; flex-wrap:wrap;">
+                <span class="spec-tag">✔ CSDL ≥ 300 bản ghi (Mốc M2)</span>
+                <span class="spec-tag">✔ Khóa hàng SELECT ... FOR UPDATE</span>
+                <span class="spec-tag">✔ Giữ chỗ tự hết hạn 15 phút</span>
+            </div>
+        </section>
+
+        <section id="catalogSection">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                <h2>Danh Sách Điểm Đến Đã Xác Minh Hạ Tầng Trợ Năng</h2>
+                <span id="recordCounter" style="font-weight:700; color:var(--color-primary); background:var(--color-primary-light); padding:6px 14px; border-radius:99px;">Đang kết nối CSDL...</span>
+            </div>
+
+            <div id="destinationList" class="dest-grid"></div>
+            <div id="paginationControls" class="pagination"></div>
+        </section>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+            <div>
+                <h3>♿ AccessTravel — Nhóm 14 (CSE703073)</h3>
+                <p>Hệ thống Thông tin Du lịch Tiếp cận hỗ trợ Người khuyết tật và Người cao tuổi (Mốc M1 & M2).</p>
+            </div>
+            <div>
+                <p><strong>Chuẩn tiếp cận:</strong> WCAG 2.1 Level AA | <strong>Database:</strong> MySQL (≥300 records)</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        const SAMPLE_IMAGES = [
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80'
+        ];
+
+        async function loadDestinations(page = 1) {
+            const keyword = document.getElementById('keywordInput').value.trim();
+            const wheelchairChecked = document.getElementById('wheelchairCheck').checked;
+            const elevatorChecked = document.getElementById('elevatorCheck').checked;
+            const maxSlope = document.getElementById('slopeSelect').value;
+            const sortVal = document.getElementById('sortSelect').value;
+
+            const listContainer = document.getElementById('destinationList');
+            const counter = document.getElementById('recordCounter');
+
+            listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">⏳ Đang truy vấn phân trang từ Server MySQL...</p>';
+
+            let url = '../api/search.php?page=' + page + '&limit=9&keyword=' + encodeURIComponent(keyword) + '&sort=' + encodeURIComponent(sortVal);
+            if (wheelchairChecked) url += '&has_wheelchair=1';
+            if (elevatorChecked)   url += '&has_elevator=1';
+            if (maxSlope !== '')   url += '&max_slope=' + encodeURIComponent(maxSlope);
+
+            try {
+                const res = await fetch(url);
+                const result = await res.json();
+                const items = result.data || [];
+                const total = result.total_records !== undefined ? result.total_records : items.length;
+                const totalPages = result.total_pages || 1;
+
+                counter.innerText = 'Trang ' + page + '/' + totalPages + ' — Hiển thị ' + items.length + ' / Tổng số ' + total + ' bản ghi trong CSDL';
+
+                if (items.length === 0) {
+                    listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">Không tìm thấy điểm đến phù hợp với bộ lọc.</p>';
+                    document.getElementById('paginationControls').innerHTML = '';
+                    return;
+                }
+
+                const user = getCurrentUser();
+                const isAdmin = user && user.role === 'admin';
+
+                listContainer.innerHTML = items.map((item, idx) => {
+                    const imgUrl = SAMPLE_IMAGES[(item.id || idx) % SAMPLE_IMAGES.length];
+                    const hasWheelchair = Number(item.has_wheelchair_access) === 1;
+                    const hasElevator = Number(item.has_elevator) === 1;
+                    const slots = Number(item.available_slots);
+                    const slope = Number(item.ramp_slope || 6.0).toFixed(1);
+                    const door = item.door_width || 85;
+
+                    let slotBadge = '<span class="slot-pill">Còn ' + slots + ' chỗ trống</span>';
+                    if (slots === 1) {
+                        slotBadge = '<span class="slot-pill last-one">🔥 Chỉ còn 1 chỗ cuối!</span>';
+                    } else if (slots <= 0) {
+                        slotBadge = '<span class="slot-pill" style="background:#64748b;">❌ Đã hết chỗ (0 chỗ)</span>';
+                    }
+
+                    let adminBtns = '';
+                    if (isAdmin) {
+                        adminBtns = '<div style="margin-top:12px; padding-top:10px; border-top:1px dashed var(--color-border); display:flex; gap:8px;">' +
+                            '<button onclick="alert(\'Quyền Admin: Sửa điểm đến #' + item.id + '\')" class="btn btn-outline" style="flex:1; min-height:36px; font-size:14px;">✏️ Sửa (Admin)</button>' +
+                            '<button onclick="alert(\'Quyền Admin: Xóa điểm đến #' + item.id + '\')" class="btn btn-outline" style="flex:1; min-height:36px; font-size:14px; color:#dc2626;">🗑️ Xóa</button>' +
+                            '</div>';
+                    }
+
+                    return '<article class="dest-card">' +
+                        '<div class="dest-img-box">' +
+                            '<img src="' + imgUrl + '" alt="' + item.title + '" loading="lazy">' +
+                            '<div class="verified-ribbon">♿<br>ACCESSIBILITY<br>VERIFIED</div>' +
+                            slotBadge +
+                        '</div>' +
+                        '<div class="dest-body">' +
+                            '<h3>' + item.title + '</h3>' +
+                            '<p class="dest-address">📍 ' + (item.address || 'Việt Nam') + '</p>' +
+                            '<div class="spec-tags">' +
+                                '<span class="spec-tag">' + (hasWheelchair ? '♿ Xe lăn: Có' : '🚶 Cơ bản') + '</span>' +
+                                '<span class="spec-tag">' + (hasElevator ? '🛗 Thang máy: Có' : '🛗 Tầng trệt') + '</span>' +
+                                '<span class="spec-tag">📐 Dốc: ' + slope + '%</span>' +
+                                '<span class="spec-tag">🚪 Cửa: ' + door + 'cm</span>' +
+                            '</div>' +
+                            '<div class="dest-footer">' +
+                                '<div>' +
+                                    '<small style="color:var(--color-text-muted); display:block;">Giá trọn gói / khách</small>' +
+                                    '<span class="price-text">' + Number(item.price || 0).toLocaleString('vi-VN') + ' đ</span>' +
+                                '</div>' +
+                                '<div style="display:flex; gap:8px;">' +
+                                    '<a href="detail.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&address=' + encodeURIComponent(item.address || '') + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-outline" style="padding:8px 12px;">Chi tiết</a>' +
+                                    '<a href="booking.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-primary" style="padding:8px 14px;">Đặt chỗ</a>' +
+                                '</div>' +
+                            '</div>' +
+                            adminBtns +
+                        '</div>' +
+                    '</article>';
+                }).join('');
+
+                renderPagination(totalPages, page);
+            } catch (err) {
+                counter.innerText = 'Lỗi kết nối API search.php';
+            }
+        }
+
+        function renderPagination(totalPages, activePage) {
+            const container = document.getElementById('paginationControls');
+            container.innerHTML = '';
+            const maxButtons = Math.min(totalPages, 12);
+            for (let i = 1; i <= maxButtons; i++) {
+                const btn = document.createElement('button');
+                btn.className = (i === activePage) ? 'btn btn-primary' : 'btn btn-outline';
+                btn.innerText = 'Trang ' + i;
+                btn.onclick = () => loadDestinations(i);
+                container.appendChild(btn);
+            }
+            if (totalPages > 12) {
+                const span = document.createElement('span');
+                span.style.alignSelf = 'center';
+                span.style.fontWeight = '700';
+                span.innerText = '... / Tổng ' + totalPages + ' trang';
+                container.appendChild(span);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => loadDestinations(1));
+    </script>
+</body>
+</html>

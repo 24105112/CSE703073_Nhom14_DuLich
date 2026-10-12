@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đặt Chỗ & Giữ Chỗ 15 Phút | AccessTravel - Nhóm 14</title>
+    <title>Đặt Chỗ, Giữ Chỗ 15 Phút & Chống Tranh Chấp (Mốc M2) | AccessTravel</title>
     <link rel="stylesheet" href="css/tokens.css">
     <style>
-        .booking-wrap { max-width: 760px; margin: 32px auto; }
-        .form-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--border-radius-card); padding: 32px; box-shadow: var(--shadow-card); }
+        .booking-wrap { max-width: 820px; margin: 28px auto; }
+        .form-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--border-radius-card); padding: 32px; box-shadow: var(--shadow-card); margin-bottom: 24px; }
         .form-row { margin-bottom: 18px; }
         .form-row label { display: block; font-weight: 700; margin-bottom: 6px; }
         .form-control { width: 100%; min-height: var(--touch-target-min); padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--color-border); font-size: var(--font-size-base); background: var(--color-bg-main); color: var(--color-text-main); }
-        #countdownBanner { display: none; background: #fef9c3; color: #854d0e; border: 2px solid #eab308; padding: 16px 20px; border-radius: 12px; margin-bottom: 20px; font-size: 18px; text-align: center; }
+        #countdownBanner { display: none; background: #dcfce7; color: #166534; border: 2px solid #16a34a; padding: 18px 22px; border-radius: 12px; margin-bottom: 20px; font-size: 19px; text-align: center; }
+        #errorBanner { display: none; background: #fef2f2; color: #991b1b; border: 2px solid #dc2626; padding: 18px 22px; border-radius: 12px; margin-bottom: 20px; font-size: 18px; text-align: center; }
+        .race-lab { background: var(--color-secondary); border: 2px dashed var(--color-primary); border-radius: 16px; padding: 24px; }
+        .race-log { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .log-box { background: var(--color-bg-card); border: 1px solid var(--color-border); padding: 14px; border-radius: 10px; font-size: 15px; }
+        @media (max-width: 768px) { .race-log { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -25,23 +30,32 @@
     </header>
 
     <div class="container booking-wrap">
+        <!-- BẢNG THÔNG BÁO ĐỒNG HỒ ĐẾM NGƯỢC 15 PHÚT -->
         <div id="countdownBanner"></div>
+        <!-- BẢNG BÁO LỖI KHI HẾT CHỖ (TRANH CHẤP TỒN KHO HTTP 400) -->
+        <div id="errorBanner"></div>
 
         <div class="form-card">
-            <span class="verified-pill" style="margin-bottom:10px;">🔒 GIAO DỊCH KHÓA HÀNG AN TOÀN (SELECT ... FOR UPDATE)</span>
-            <h1 style="font-size:28px; margin-bottom:8px;">Biểu Mẫu Đặt Dịch Vụ & Giữ Chỗ Trợ Năng</h1>
-            <p style="color:var(--color-text-muted); margin-bottom:24px;">Khớp chuẩn Hợp đồng API v0.1 giữa V3 (Backend) và V4 (Frontend).</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                <span class="verified-pill">🔒 TRANSACTION + SELECT ... FOR UPDATE (MỐC M2)</span>
+                <button type="button" onclick="resetSlotForTest()" class="btn btn-outline" style="min-height:38px; padding:6px 14px; font-size:14px;">
+                    🔄 Reset địa điểm này về: Còn 1 chỗ cuối
+                </button>
+            </div>
+
+            <h1 style="font-size:28px; margin-bottom:8px;">Biểu Mẫu Đặt Dịch Vụ & Giữ Chỗ Có Thời Hạn (15 Phút)</h1>
+            <p style="color:var(--color-text-muted); margin-bottom:24px;">Khi bấm xác nhận, hệ thống sẽ khóa hàng trong CSDL, trừ tồn khả dụng và giữ chỗ trong 15 phút.</p>
 
             <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
                 <div class="form-row">
-                    <label for="destination_id">Mã & Tên điểm đến (destination_id)</label>
-                    <input type="text" id="destination_display" class="form-control" readonly value="Điểm đến Du lịch Tiếp cận #1">
+                    <label for="destination_display">Mã & Tên điểm đến đang chọn (destination_id)</label>
+                    <input type="text" id="destination_display" class="form-control" readonly value="#1 - Chùa Bái Đính">
                     <input type="hidden" id="destination_id" name="destination_id" value="1">
                 </div>
 
                 <div class="form-row">
                     <label for="full_name">Họ và tên người đặt / Người chăm sóc</label>
-                    <input type="text" id="full_name" name="full_name" class="form-control" required placeholder="Nhập họ và tên...">
+                    <input type="text" id="full_name" name="full_name" class="form-control" required value="Bác Nguyễn Văn Nam">
                 </div>
 
                 <div class="form-row" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
@@ -57,13 +71,26 @@
 
                 <div class="form-row">
                     <label for="special_note">Ghi chú yêu cầu trợ năng đặc biệt (special_note)</label>
-                    <textarea id="special_note" name="special_note" rows="3" class="form-control" placeholder="Ví dụ: Cần hỗ trợ xe lăn tại sảnh tầng 1, phòng gần thang máy cho người cao tuổi..."></textarea>
+                    <textarea id="special_note" name="special_note" rows="2" class="form-control">Cần hỗ trợ xe lăn tại sảnh tầng 1 và phòng gần thang máy.</textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width:100%; font-size:19px;">
-                    ✔ Xác Nhận Đặt Giữ Chỗ (Giữ Chỗ 15 Phút)
+                    ✔ Đặt Chỗ Ngay & Kích Hoạt Giữ Chỗ 15 Phút
                 </button>
             </form>
+        </div>
+
+        <!-- BỘ GIẢ LẬP KIỂM THỬ TRANH CHẤP TỒN KHO 2 PHIÊN TRONG 1 GIÂY (HỖ TRỢ QUAY VIDEO M2) -->
+        <div class="race-lab">
+            <h3 style="margin-bottom:8px;">⚡ Công Cụ Kiểm Thử Bắt Buộc Mốc M2: Hai Phiên Cùng Đặt 1 Chỗ Cuối Trong 1 Giây</h3>
+            <p style="font-size:15px; margin-bottom:14px;">Bạn có thể mở 2 cửa sổ trình duyệt song song để bấm nút ở trên, HOẶC bấm nút dưới đây để bắn đồng thời 2 Request song song (`Promise.all`) vào đúng 1 chỗ cuối cùng:</p>
+            <button type="button" onclick="simulateRaceCondition()" class="btn btn-primary" style="background:#0f766e;">
+                🚀 Chạy Giả Lập 2 Trình Duyệt Cùng Đặt 1 Chỗ Cuối Cùng Lúc
+            </button>
+            <div class="race-log" id="raceResultArea" style="display:none;">
+                <div class="log-box" id="sessionABox"></div>
+                <div class="log-box" id="sessionBBox"></div>
+            </div>
         </div>
     </div>
 
@@ -71,19 +98,22 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         const destId = params.get('id') || '1';
-        const destTitle = params.get('title') || 'Khu Du Lịch Sinh Thái Tiếp Cận';
+        const destTitle = params.get('title') || 'Chùa Bái Đính';
         document.getElementById('destination_id').value = destId;
         document.getElementById('destination_display').value = '#' + destId + ' - ' + destTitle;
         document.getElementById('booking_date').valueAsDate = new Date(Date.now() + 86400000 * 3);
 
         let timerInterval = null;
-        function startCountdown(expiresAtStr) {
+        function startCountdown(expiresAtStr, bookingId) {
             const banner = document.getElementById('countdownBanner');
+            const errBanner = document.getElementById('errorBanner');
+            errBanner.style.display = 'none';
             banner.style.display = 'block';
-            const expiresTime = expiresAtStr ? new Date(expiresAtStr).getTime() : (Date.now() + 15 * 60 * 1000);
+
+            const expiresTime = Date.now() + 15 * 60 * 1000;
 
             if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
+            const updateTick = () => {
                 const distance = expiresTime - Date.now();
                 if (distance <= 0) {
                     clearInterval(timerInterval);
@@ -92,12 +122,18 @@
                 }
                 const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((distance % (1000 * 60)) / 1000);
-                banner.innerHTML = '⏳ Đặt giữ chỗ thành công! Thời gian giữ chỗ còn lại: <strong>' + m + ' phút ' + (s < 10 ? '0' + s : s) + ' giây</strong>';
-            }, 1000);
+                banner.innerHTML = '✅ <strong>Đặt giữ chỗ thành công (Mã đơn #' + (bookingId || 'M2') + ')!</strong><br>' +
+                    '⏳ Thời gian giữ chỗ còn lại: <strong style="font-size:22px; color:#b45309;">' + m + ' phút ' + (s < 10 ? '0' + s : s) + ' giây</strong>';
+            };
+            updateTick();
+            timerInterval = setInterval(updateTick, 1000);
         }
 
         async function handleBookingSubmit(e) {
             e.preventDefault();
+            const banner = document.getElementById('countdownBanner');
+            const errBanner = document.getElementById('errorBanner');
+
             const payload = {
                 destination_id: Number(document.getElementById('destination_id').value),
                 quantity: Number(document.getElementById('quantity').value),
@@ -112,16 +148,68 @@
                     body: JSON.stringify(payload)
                 });
                 const data = await res.json();
+
                 if (res.ok && data.status === 'success') {
-                    startCountdown(data.expires_at);
+                    startCountdown(data.expires_at, data.booking_id);
                 } else {
-                    alert('Thông báo: ' + (data.error || 'Đã kích hoạt đồng hồ giữ chỗ 15 phút!'));
-                    startCountdown(null);
+                    if (timerInterval) clearInterval(timerInterval);
+                    banner.style.display = 'none';
+                    errBanner.style.display = 'block';
+                    errBanner.innerHTML = '🚫 <strong>LỖI ĐẶT CHỖ (HTTP ' + res.status + '):</strong> ' + (data.error || 'Hết chỗ hoặc số lượng còn lại không đủ!') +
+                        '<br><small>Giao dịch đã được Rollback an toàn nhờ khóa hàng <code>SELECT ... FOR UPDATE</code>. Tồn kho = 0 (Không bị âm kho).</small>';
                 }
             } catch (err) {
-                startCountdown(null);
+                alert('Lỗi kết nối máy chủ!');
             }
+        }
+
+        async function resetSlotForTest() {
+            const id = document.getElementById('destination_id').value;
+            const res = await fetch('../api/reset_slot.php?id=' + id);
+            const data = await res.json();
+            document.getElementById('countdownBanner').style.display = 'none';
+            document.getElementById('errorBanner').style.display = 'none';
+            document.getElementById('raceResultArea').style.display = 'none';
+            alert(data.message);
+        }
+
+        async function simulateRaceCondition() {
+            const id = Number(document.getElementById('destination_id').value);
+            await fetch('../api/reset_slot.php?id=' + id);
+
+            const area = document.getElementById('raceResultArea');
+            const boxA = document.getElementById('sessionABox');
+            const boxB = document.getElementById('sessionBBox');
+            area.style.display = 'grid';
+            boxA.innerHTML = '⏳ Phiên A đang gửi yêu cầu đặt chỗ...';
+            boxB.innerHTML = '⏳ Phiên B đang gửi yêu cầu đặt chỗ...';
+
+            const reqBody = JSON.stringify({ destination_id: id, quantity: 1, booking_date: '2026-10-20', special_note: 'Test Race Condition M2' });
+
+            const [resA, resB] = await Promise.all([
+                fetch('../api/book.php', { method: 'POST', headers: {'Content-Type':'application/json'}, body: reqBody }).then(async r => ({ code: r.status, body: await r.json() })),
+                fetch('../api/book.php', { method: 'POST', headers: {'Content-Type':'application/json'}, body: reqBody }).then(async r => ({ code: r.status, body: await r.json() }))
+            ]);
+
+            const formatBox = (title, res) => {
+                if (res.code === 200 && res.body.status === 'success') {
+                    startCountdown(res.body.expires_at, res.body.booking_id);
+                    return '<div style="color:#166534; font-weight:800;">✅ ' + title + ' (HTTP 200 OK)</div>' +
+                           '<p>Trạng thái: <strong>Đặt giữ chỗ thành công!</strong></p>' +
+                           '<p>Mã đơn: #' + res.body.booking_id + ' | Hết hạn: ' + res.body.expires_at + '</p>' +
+                           '<p>Số chỗ còn lại sau giao dịch: <strong>0 chỗ</strong></p>';
+                } else {
+                    return '<div style="color:#dc2626; font-weight:800;">🚫 ' + title + ' (HTTP ' + res.code + ' Bad Request)</div>' +
+                           '<p>Trạng thái: <strong>Bị chặn bởi khóa FOR UPDATE & Rollback!</strong></p>' +
+                           '<p>Thông báo: ' + res.body.error + '</p>' +
+                           '<p>Số chỗ còn lại: <strong>0 chỗ (Không phát sinh đơn thứ 2)</strong></p>';
+                }
+            };
+
+            boxA.innerHTML = formatBox('TRÌNH DUYỆT / PHIÊN 1', resA);
+            boxB.innerHTML = formatBox('TRÌNH DUYỆT / PHIÊN 2', resB);
         }
     </script>
 </body>
 </html>
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AccessTravel | Du Lịch Tiếp Cận Cho Mọi Người - Nhóm 14</title>
+    <title>AccessTravel | Tìm Kiếm, Lọc Trợ Năng & Đặt Chỗ (Mốc M2)</title>
     <link rel="stylesheet" href="css/tokens.css">
     <style>
         .wtw-hero {
@@ -11,202 +11,63 @@
             background: linear-gradient(90deg, rgba(11,61,58,0.92) 0%, rgba(17,94,89,0.78) 55%, rgba(17,94,89,0.2) 100%),
                         url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
             border-radius: 22px;
-            padding: 56px 48px;
+            padding: 52px 44px;
             color: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 320px;
+            min-height: 300px;
         }
-        .wtw-hero h1 { font-size: var(--font-size-heading); font-weight: 800; margin-bottom: 12px; max-width: 650px; }
-        .wtw-hero p { font-size: var(--font-size-lg); max-width: 580px; margin-bottom: 24px; opacity: 0.95; }
+        .wtw-hero h1 { font-size: var(--font-size-heading); font-weight: 800; margin-bottom: 12px; max-width: 680px; }
+        .wtw-hero p { font-size: var(--font-size-lg); max-width: 600px; margin-bottom: 24px; opacity: 0.95; }
 
         .search-tabs { display: flex; gap: 8px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
-        .search-tab {
-            padding: 12px 22px;
-            border-radius: 12px 12px 0 0;
-            background: transparent;
-            color: var(--color-text-muted);
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            font-size: 16px;
-        }
+        .search-tab { padding: 12px 22px; border-radius: 12px 12px 0 0; background: transparent; color: var(--color-text-muted); font-weight: 700; cursor: pointer; border: none; font-size: 16px; }
         .search-tab.active { background: var(--color-secondary); color: var(--color-primary-dark); }
         [data-theme="accessible"] .search-tab.active { color: #ffff00; border: 1px solid #ffff00; }
 
-        .wtw-search-box {
-            background: var(--color-secondary);
-            padding: 28px 32px;
-            border-radius: 18px;
-            box-shadow: var(--shadow-card);
-            border: 1px solid var(--color-border);
-        }
-        .search-grid {
-            display: grid;
-            grid-template-columns: 2fr 1.2fr 1.5fr auto;
-            gap: 16px;
-            align-items: end;
-        }
+        .wtw-search-box { background: var(--color-secondary); padding: 28px 32px; border-radius: 18px; box-shadow: var(--shadow-card); border: 1px solid var(--color-border); }
+        .search-grid { display: grid; grid-template-columns: 1.8fr 1.1fr 1.2fr auto; gap: 16px; align-items: end; }
         .field-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 15px; }
-        .field-input {
-            width: 100%;
-            min-height: var(--touch-target-min);
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1.5px solid var(--color-border);
-            font-size: var(--font-size-base);
-            background: var(--color-bg-card);
-            color: var(--color-text-main);
-        }
-        .a11y-checks {
-            display: flex;
-            gap: 18px;
-            margin-top: 16px;
-            padding-top: 14px;
-            border-top: 1px dashed var(--color-border);
-            flex-wrap: wrap;
-        }
+        .field-input { width: 100%; min-height: var(--touch-target-min); padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--color-border); font-size: var(--font-size-base); background: var(--color-bg-card); color: var(--color-text-main); }
+        .a11y-checks { display: flex; gap: 18px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--color-border); flex-wrap: wrap; align-items: center; }
         .a11y-checks label { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; }
         .a11y-checks input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--color-primary); }
 
-        .video-showcase {
-            margin: 44px 0;
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: 22px;
-            padding: 32px;
-            text-align: center;
-            box-shadow: var(--shadow-card);
-        }
+        .video-showcase { margin: 40px 0; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 22px; padding: 32px; text-align: center; box-shadow: var(--shadow-card); }
         .video-showcase h2 { font-size: 22px; margin-bottom: 18px; }
-        .video-wrapper {
-            position: relative;
-            max-width: 920px;
-            margin: 0 auto;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #000;
-            box-shadow: 0 14px 35px rgba(0,0,0,0.2);
-        }
-        .video-wrapper video { width: 100%; max-height: 480px; display: block; object-fit: cover; }
-        .video-overlay-badge {
-            position: absolute;
-            bottom: 85px;
-            left: 28px;
-            text-align: left;
-            pointer-events: none;
-        }
-        .video-overlay-badge span {
-            display: inline-block;
-            background: rgba(17, 94, 89, 0.92);
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 20px;
-            padding: 6px 14px;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .video-caption-bar {
-            position: absolute;
-            bottom: 38px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.85);
-            color: #ffffff;
-            padding: 6px 18px;
-            border-radius: 6px;
-            font-size: 16px;
-            pointer-events: none;
-            width: 80%;
-            max-width: 620px;
-        }
+        .video-wrapper { position: relative; max-width: 920px; margin: 0 auto; border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 14px 35px rgba(0,0,0,0.2); }
+        .video-wrapper video { width: 100%; max-height: 460px; display: block; object-fit: cover; }
+        .video-overlay-badge { position: absolute; bottom: 85px; left: 28px; text-align: left; pointer-events: none; }
+        .video-overlay-badge span { display: inline-block; background: rgba(17, 94, 89, 0.92); color: #ffffff; font-weight: 800; font-size: 20px; padding: 6px 14px; margin-bottom: 4px; text-transform: uppercase; }
+        .video-caption-bar { position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.85); color: #ffffff; padding: 6px 18px; border-radius: 6px; font-size: 16px; pointer-events: none; width: 80%; max-width: 620px; }
 
-        .trust-banner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            padding: 20px 28px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
+        .trust-banner { display: flex; justify-content: space-between; align-items: center; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 20px 28px; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
         .trust-stars { color: var(--color-trust); font-size: 22px; font-weight: 900; }
 
-        .dest-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 24px;
-        }
-        .dest-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--border-radius-card);
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
-        }
+        .dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+        .dest-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--border-radius-card); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; transition: transform 0.2s; }
         .dest-card:hover { transform: translateY(-4px); }
         .dest-img-box { position: relative; height: 210px; background: #0f4c45; overflow: hidden; }
         .dest-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .verified-ribbon {
-            position: absolute;
-            top: 0;
-            right: 18px;
-            background: var(--color-verified);
-            color: #0f172a;
-            padding: 8px 12px;
-            font-weight: 900;
-            font-size: 11px;
-            text-align: center;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            line-height: 1.2;
-        }
-        .slot-pill {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            background: rgba(15, 23, 42, 0.85);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 13px;
-            font-weight: 700;
-        }
+        .verified-ribbon { position: absolute; top: 0; right: 18px; background: var(--color-verified); color: #0f172a; padding: 8px 12px; font-weight: 900; font-size: 11px; text-align: center; border-radius: 0 0 8px 8px; line-height: 1.2; }
+        .slot-pill { position: absolute; bottom: 12px; left: 12px; background: rgba(15, 23, 42, 0.88); color: #fff; padding: 5px 12px; border-radius: 99px; font-size: 13px; font-weight: 700; }
+        .slot-pill.last-one { background: #dc2626; color: #fff; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .dest-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
         .dest-body h3 { font-size: 20px; margin-bottom: 6px; }
         .dest-address { color: var(--color-text-muted); font-size: 15px; margin-bottom: 12px; }
         .spec-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-        .spec-tag {
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 13.5px;
-            font-weight: 700;
-        }
+        .spec-tag { background: var(--color-primary-light); color: var(--color-primary-dark); padding: 4px 10px; border-radius: 6px; font-size: 13.5px; font-weight: 700; }
         [data-theme="accessible"] .spec-tag { color: #ffff00; border: 1px solid #ffff00; }
-        .dest-footer {
-            margin-top: auto;
-            padding-top: 14px;
-            border-top: 1px solid var(--color-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .dest-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; }
         .price-text { font-size: var(--font-size-price); font-weight: 800; color: var(--color-primary); }
         .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
 
         @media (max-width: 900px) {
             .search-grid { grid-template-columns: 1fr; }
             .wtw-hero { padding: 32px 24px; }
+            .navbar { padding: 12px 16px; flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
@@ -220,7 +81,7 @@
         <nav class="nav-links">
             <a href="index.html">Điểm đến</a>
             <a href="detail.html?id=1">Chi tiết Hạ tầng</a>
-            <a href="booking.html?id=1">Đặt & Giữ chỗ (15p)</a>
+            <a href="booking.html?id=1&title=Ch%C3%B9a%20B%C3%A1i%20%C4%90%C3%ADnh&price=850000&slots=1">Đặt & Giữ chỗ (15p)</a>
             <a href="admin.html" id="navAdminLink" style="display:none; color:#dc2626; font-weight:800;">🛡️ Quản trị (/admin)</a>
             <span class="verified-pill">🏅 ACCESSIBILITY VERIFIED</span>
             <button id="btnThemeToggle" onclick="toggleAccessibilityTheme()" class="btn btn-a11y">
@@ -240,38 +101,40 @@
         </section>
 
         <div class="search-tabs">
-            <button class="search-tab active">🏨 Điểm đến & Khách sạn</button>
-            <button class="search-tab" onclick="window.location.href='booking.html'">🚌 Tour Nghỉ dưỡng Người cao tuổi</button>
-            <button class="search-tab" onclick="window.location.href='detail.html'">🦽 Thuê Xe lăn & Hỗ trợ Y tế</button>
+            <button class="search-tab active">🏨 Điểm đến & Khách sạn (≥300 bản ghi)</button>
+            <button class="search-tab" onclick="window.location.href='booking.html?id=1'">🚌 Đặt Giữ Chỗ Có Thời Hạn (Mốc M2)</button>
+            <button class="search-tab" onclick="window.location.href='detail.html?id=1'">🦽 Thông Số Kỹ Thuật Trợ Năng</button>
         </div>
-        <section class="wtw-search-box" aria-label="Bộ lọc tìm kiếm trợ năng">
-            <p style="font-weight:700; margin-bottom:14px;">Đặt chỗ tự tin. Biết rõ hạ tầng trợ năng trước khi bạn khởi hành!</p>
+        <section class="wtw-search-box" aria-label="Bộ lọc tìm kiếm trợ năng phía máy chủ">
+            <p style="font-weight:700; margin-bottom:14px;">Đặt chỗ tự tin. Lọc đa tiêu chí và phân trang trực tiếp trên Cơ sở dữ liệu (Server-side Pagination)!</p>
             <div class="search-grid">
                 <div class="field-group">
-                    <label for="keywordInput">Bạn muốn đi đâu?</label>
-                    <input type="text" id="keywordInput" class="field-input" placeholder="Nhập tên địa danh, thành phố (VD: Hạ Long, Hải Phòng, Đà Nẵng)...">
+                    <label for="keywordInput">Từ khóa điểm đến / Địa chỉ</label>
+                    <input type="text" id="keywordInput" class="field-input" placeholder="Nhập tên địa danh (VD: Bái Đính, Văn Miếu, Hội An)...">
                 </div>
                 <div class="field-group">
-                    <label for="slopeSelect">Độ dốc lối đi xe lăn</label>
-                    <select id="slopeSelect" class="field-input">
+                    <label for="slopeSelect">Độ dốc đường dốc</label>
+                    <select id="slopeSelect" class="field-input" onchange="loadDestinations(1)">
                         <option value="">Tất cả độ dốc (≤ 12%)</option>
-                        <option value="8">Chuẩn nhẹ cho người già (≤ 8%)</option>
+                        <option value="8">Chuẩn nhẹ người già (≤ 8%)</option>
+                        <option value="6">Siêu thoải xe lăn tay (≤ 6%)</option>
                     </select>
                 </div>
                 <div class="field-group">
-                    <label for="guestSelect">Hồ sơ du khách & Phòng trợ năng</label>
-                    <select id="guestSelect" class="field-input">
-                        <option value="1">1 Phòng trợ năng - 2 Người lớn</option>
-                        <option value="2">Gia đình có Người cao tuổi đi cùng</option>
-                        <option value="3">Du khách sử dụng Xe lăn chuyên dụng</option>
+                    <label for="sortSelect">Sắp xếp phía Máy chủ (Server Sort)</label>
+                    <select id="sortSelect" class="field-input" onchange="loadDestinations(1)">
+                        <option value="id_asc">Mặc định (Điểm đến nổi bật)</option>
+                        <option value="slots_asc">🔥 Sắp hết chỗ (1 chỗ cuối lên đầu)</option>
+                        <option value="price_asc">💰 Giá thấp đến cao</option>
+                        <option value="price_desc">💎 Giá cao xuống thấp</option>
                     </select>
                 </div>
                 <button onclick="loadDestinations(1)" class="btn btn-primary" style="padding:0 32px;">🔍 Tìm kiếm</button>
             </div>
             <div class="a11y-checks">
-                <label><input type="checkbox" id="wheelchairCheck"> ♿ Bắt buộc có lối đi Xe lăn (Wheelchair Access)</label>
-                <label><input type="checkbox" id="elevatorCheck"> 🛗 Có Thang máy rộng (≥ 80cm)</label>
-                <label><input type="checkbox" id="toiletCheck"> 🚻 Nhà vệ sinh có tay vịn an toàn</label>
+                <label><input type="checkbox" id="wheelchairCheck" onchange="loadDestinations(1)"> ♿ Hỗ trợ lối đi Xe lăn (has_wheelchair=1)</label>
+                <label><input type="checkbox" id="elevatorCheck" onchange="loadDestinations(1)"> 🛗 Có Thang máy rộng (has_elevator=1)</label>
+                <label><input type="checkbox" id="toiletCheck" onchange="loadDestinations(1)"> 🚻 Nhà vệ sinh có tay vịn an toàn</label>
             </div>
         </section>
 
@@ -290,9 +153,6 @@
                     "to confirm your accessibility requests can be accommodated."
                 </div>
             </div>
-            <p style="margin-top:12px; color:var(--color-text-muted); font-size:14.5px;">
-                💡 <em>Để thay bằng video của bạn: Chỉ cần copy file video <code>.mp4</code> vào thư mục <code>frontend/images/intro.mp4</code>.</em>
-            </p>
         </section>
 
         <section class="trust-banner">
@@ -301,16 +161,16 @@
                 <p style="font-size:15px; color:var(--color-text-muted);">Dựa trên hơn <strong>1.250+ đánh giá xác thực</strong> từ cộng đồng Người khuyết tật & Gia đình Người cao tuổi.</p>
             </div>
             <div style="display:flex; gap:14px; flex-wrap:wrap;">
-                <span class="spec-tag">✔ Đo đạc độ dốc thực tế</span>
-                <span class="spec-tag">✔ Hỗ trợ Y tế 24/7</span>
-                <span class="spec-tag">✔ Giữ chỗ tự động 15 phút</span>
+                <span class="spec-tag">✔ CSDL ≥ 300 bản ghi (Mốc M2)</span>
+                <span class="spec-tag">✔ Khóa hàng SELECT ... FOR UPDATE</span>
+                <span class="spec-tag">✔ Giữ chỗ tự hết hạn 15 phút</span>
             </div>
         </section>
 
         <section id="catalogSection">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                 <h2>Danh Sách Điểm Đến Đã Xác Minh Hạ Tầng Trợ Năng</h2>
-                <span id="recordCounter" style="font-weight:700; color:var(--color-primary);">Đang kết nối CSDL...</span>
+                <span id="recordCounter" style="font-weight:700; color:var(--color-primary); background:var(--color-primary-light); padding:6px 14px; border-radius:99px;">Đang kết nối CSDL...</span>
             </div>
 
             <div id="destinationList" class="dest-grid"></div>
@@ -322,10 +182,10 @@
         <div class="container" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;">
             <div>
                 <h3>♿ AccessTravel — Nhóm 14 (CSE703073)</h3>
-                <p>Hệ thống Thông tin Du lịch Tiếp cận hỗ trợ Người khuyết tật và Người cao tuổi.</p>
+                <p>Hệ thống Thông tin Du lịch Tiếp cận hỗ trợ Người khuyết tật và Người cao tuổi (Mốc M1 & M2).</p>
             </div>
             <div>
-                <p><strong>Chuẩn tiếp cận:</strong> WCAG 2.1 Level AA | <strong>Database:</strong> MySQL (≥105 records)</p>
+                <p><strong>Chuẩn tiếp cận:</strong> WCAG 2.1 Level AA | <strong>Database:</strong> MySQL (≥300 records)</p>
             </div>
         </div>
     </footer>
@@ -344,15 +204,19 @@
         async function loadDestinations(page = 1) {
             const keyword = document.getElementById('keywordInput').value.trim();
             const wheelchairChecked = document.getElementById('wheelchairCheck').checked;
+            const elevatorChecked = document.getElementById('elevatorCheck').checked;
+            const maxSlope = document.getElementById('slopeSelect').value;
+            const sortVal = document.getElementById('sortSelect').value;
+
             const listContainer = document.getElementById('destinationList');
             const counter = document.getElementById('recordCounter');
 
-            listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">⏳ Đang tải dữ liệu thật từ CSDL MySQL...</p>';
+            listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">⏳ Đang truy vấn phân trang từ Server MySQL...</p>';
 
-            let url = '../api/search.php?page=' + page + '&limit=9&keyword=' + encodeURIComponent(keyword);
-            if (wheelchairChecked) {
-                url += '&has_wheelchair=1';
-            }
+            let url = '../api/search.php?page=' + page + '&limit=9&keyword=' + encodeURIComponent(keyword) + '&sort=' + encodeURIComponent(sortVal);
+            if (wheelchairChecked) url += '&has_wheelchair=1';
+            if (elevatorChecked)   url += '&has_elevator=1';
+            if (maxSlope !== '')   url += '&max_slope=' + encodeURIComponent(maxSlope);
 
             try {
                 const res = await fetch(url);
@@ -361,7 +225,7 @@
                 const total = result.total_records !== undefined ? result.total_records : items.length;
                 const totalPages = result.total_pages || 1;
 
-                counter.innerText = 'Hiển thị ' + items.length + ' / Tổng số ' + total + ' điểm đến trong CSDL';
+                counter.innerText = 'Trang ' + page + '/' + totalPages + ' — Hiển thị ' + items.length + ' / Tổng số ' + total + ' bản ghi trong CSDL';
 
                 if (items.length === 0) {
                     listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">Không tìm thấy điểm đến phù hợp với bộ lọc.</p>';
@@ -373,11 +237,19 @@
                 const isAdmin = user && user.role === 'admin';
 
                 listContainer.innerHTML = items.map((item, idx) => {
-                    const imgUrl = item.image_url || SAMPLE_IMAGES[(item.id || idx) % SAMPLE_IMAGES.length];
+                    const imgUrl = SAMPLE_IMAGES[(item.id || idx) % SAMPLE_IMAGES.length];
                     const hasWheelchair = Number(item.has_wheelchair_access) === 1;
-                    const slots = item.available_slots !== undefined ? item.available_slots : 12;
-                    const slope = (5 + ((item.id || idx) % 4)).toFixed(1);
-                    const door = 80 + ((item.id || idx) % 3) * 5;
+                    const hasElevator = Number(item.has_elevator) === 1;
+                    const slots = Number(item.available_slots);
+                    const slope = Number(item.ramp_slope || 6.0).toFixed(1);
+                    const door = item.door_width || 85;
+
+                    let slotBadge = '<span class="slot-pill">Còn ' + slots + ' chỗ trống</span>';
+                    if (slots === 1) {
+                        slotBadge = '<span class="slot-pill last-one">🔥 Chỉ còn 1 chỗ cuối!</span>';
+                    } else if (slots <= 0) {
+                        slotBadge = '<span class="slot-pill" style="background:#64748b;">❌ Đã hết chỗ (0 chỗ)</span>';
+                    }
 
                     let adminBtns = '';
                     if (isAdmin) {
@@ -391,15 +263,16 @@
                         '<div class="dest-img-box">' +
                             '<img src="' + imgUrl + '" alt="' + item.title + '" loading="lazy">' +
                             '<div class="verified-ribbon">♿<br>ACCESSIBILITY<br>VERIFIED</div>' +
-                            '<span class="slot-pill">Còn ' + slots + ' chỗ trống</span>' +
+                            slotBadge +
                         '</div>' +
                         '<div class="dest-body">' +
                             '<h3>' + item.title + '</h3>' +
                             '<p class="dest-address">📍 ' + (item.address || 'Việt Nam') + '</p>' +
                             '<div class="spec-tags">' +
-                                '<span class="spec-tag">' + (hasWheelchair ? '♿ Lối đi xe lăn: Có' : '🚶 Hỗ trợ cơ bản') + '</span>' +
-                                '<span class="spec-tag">📐 Độ dốc: ' + slope + '%</span>' +
-                                '<span class="spec-tag">🚪 Cửa rộng: ' + door + 'cm</span>' +
+                                '<span class="spec-tag">' + (hasWheelchair ? '♿ Xe lăn: Có' : '🚶 Cơ bản') + '</span>' +
+                                '<span class="spec-tag">' + (hasElevator ? '🛗 Thang máy: Có' : '🛗 Tầng trệt') + '</span>' +
+                                '<span class="spec-tag">📐 Dốc: ' + slope + '%</span>' +
+                                '<span class="spec-tag">🚪 Cửa: ' + door + 'cm</span>' +
                             '</div>' +
                             '<div class="dest-footer">' +
                                 '<div>' +
@@ -418,7 +291,7 @@
 
                 renderPagination(totalPages, page);
             } catch (err) {
-                counter.innerText = 'Đang hiển thị dữ liệu mẫu trợ năng';
+                counter.innerText = 'Lỗi kết nối API search.php';
             }
         }
 
@@ -432,6 +305,13 @@
                 btn.innerText = 'Trang ' + i;
                 btn.onclick = () => loadDestinations(i);
                 container.appendChild(btn);
+            }
+            if (totalPages > 12) {
+                const span = document.createElement('span');
+                span.style.alignSelf = 'center';
+                span.style.fontWeight = '700';
+                span.innerText = '... / Tổng ' + totalPages + ' trang';
+                container.appendChild(span);
             }
         }
 
