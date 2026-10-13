@@ -1,0 +1,307 @@
+﻿<?php
+$html = <<<'HTML'
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Thẩm Định Hạ Tầng & Dịch Vụ | AccessTravel</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <style>
+        body { background-color: #f8fafc; }
+        [data-theme="accessible"] body { background-color: #000000; }
+        .detail-wrap { max-width: 1140px; margin: 24px auto 60px; padding: 0 20px; }
+        .breadcrumb { font-size: 14px; color: var(--color-text-muted); margin-bottom: 16px; font-weight: 600; }
+        .breadcrumb a { color: var(--color-primary); text-decoration: none; }
+        .header-title { font-size: 32px; font-weight: 900; line-height: 1.25; margin-bottom: 10px; color: var(--color-text-main); }
+        .header-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 15px; margin-bottom: 24px; color: var(--color-text-muted); }
+        .hero-gallery { border-radius: 20px; overflow: hidden; margin-bottom: 32px; height: 460px; position: relative; background: #0f172a; }
+        .hero-gallery img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .verify-badge-large { position: absolute; top: 24px; left: 24px; background: rgba(255,255,255,0.95); color: #065f46; border: 2px solid #10b981; padding: 8px 16px; border-radius: 10px; font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .detail-layout { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
+        .content-section { margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--color-border); }
+        .content-section:last-child { border-bottom: none; }
+        .section-heading { font-size: 22px; font-weight: 800; margin-bottom: 18px; color: var(--color-text-main); display: flex; align-items: center; gap: 10px; }
+        .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .spec-card { background: var(--color-bg-card); border: 1.5px solid var(--color-border); border-radius: 14px; padding: 18px; display: flex; align-items: flex-start; gap: 14px; }
+        .spec-icon { font-size: 24px; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #f1f5f9; }
+        .spec-card.pass { border-color: #bbf7d0; background: #f0fdf4; }
+        .spec-card.pass .spec-icon { background: #dcfce7; color: #166534; }
+        .spec-card.warn { border-color: #fde68a; background: #fffbeb; }
+        .spec-card.warn .spec-icon { background: #fef3c7; color: #b45309; }
+        .spec-title { font-size: 13.5px; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .spec-val { font-size: 19px; font-weight: 900; color: var(--color-text-main); margin-bottom: 4px; }
+        .spec-desc { font-size: 13.5px; color: var(--color-text-muted); line-height: 1.4; }
+        .limitation-box { background: #fef2f2; border: 1.5px solid #fca5a5; border-radius: 14px; padding: 20px; color: #991b1b; display: flex; gap: 16px; margin-bottom: 24px; }
+        .limitation-box i { font-size: 24px; }
+        .sticky-sidebar { position: sticky; top: 100px; }
+        .booking-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: 20px; padding: 28px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .price-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--color-border); }
+        .support-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; text-align: center; }
+        .tp-transparency-notice { background: #e0f2fe; color: #0c4a6e; border-radius: 12px; padding: 14px 20px; font-size: 14.5px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; border: 1px solid #bae6fd; }
+        .review-dashboard { display: grid; grid-template-columns: 280px 1fr; gap: 28px; background: var(--color-bg-main); padding: 24px; border-radius: 16px; border: 1px solid var(--color-border); margin-bottom: 24px; align-items: start; }
+        .tp-bar-row { display: grid; grid-template-columns: 48px 1fr 38px; align-items: center; gap: 10px; font-size: 13.5px; margin-bottom: 8px; font-weight: 600; cursor: pointer; padding: 4px; border-radius: 6px; transition: background 0.2s; }
+        .tp-bar-row:hover { background: rgba(15, 118, 110, 0.1); }
+        .tp-bar-bg { height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+        .tp-bar-fill { height: 100%; border-radius: 99px; }
+        .review-item { padding: 24px 0; border-top: 1px solid var(--color-border); }
+        .review-user-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .reviewer-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; color: #fff; }
+        .review-tag { display: inline-flex; align-items: center; gap: 4px; background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #cbd5e1; }
+        
+        /* WIDGET PYTHON CSS */
+        .ai-recommendation { margin-top: 48px; border-top: 2px dashed var(--color-border); padding-top: 32px; }
+        .ai-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .ai-badge { background: #fdf4ff; color: #a21caf; border: 1px solid #f0abfc; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; }
+        .ai-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .ai-card { background: var(--color-bg-card); border: 1.5px solid var(--color-border); border-radius: 14px; padding: 18px; text-decoration: none; color: inherit; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .ai-card:hover { border-color: #a21caf; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(162, 28, 175, 0.1); }
+        @media (max-width: 992px) { .detail-layout, .review-dashboard { grid-template-columns: 1fr; } .hero-gallery { height: 320px; } }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="brand-logo"><span class="brand-flag">♿</span><span>AccessTravel</span></a>
+        <nav class="nav-links">
+            <a href="index.html#catalogSection">Khám phá điểm đến</a>
+            <a href="index.html#trustpilotSection">Đánh giá cộng đồng</a>
+            <button id="btnLangSwitch" onclick="toggleLanguage()" type="button" style="background:#0f172a; color:#ffffff; border:1px solid #334155; border-radius:99px; padding:6px 13px; font-size:13.5px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:6px; min-height:38px;"><span style="font-size:15px;">🌐</span> <span>VI</span></button>
+            <button id="btnThemeToggle" onclick="toggleAccessibilityTheme()" class="btn btn-a11y">Aa Chế độ Chữ lớn</button>
+            <div id="navAuthArea"></div>
+        </nav>
+    </header>
+
+    <div class="detail-wrap">
+        <div class="breadcrumb">
+            <a href="index.html">Trang chủ</a> &nbsp; / &nbsp; <a href="index.html#catalogSection">Hồ sơ điểm đến</a> &nbsp; / &nbsp; <span id="bcTitle">Chi tiết thẩm định</span>
+        </div>
+
+        <h1 class="header-title" id="pageTitle">Đang tải thông tin...</h1>
+        <div class="header-meta">
+            <span style="display:inline-flex; align-items:center; gap:6px; color:#00b67a; font-weight:800;">
+                ★ <span id="ratingVal">4.7</span> (<span id="reviewCount">42</span> đánh giá)
+            </span>
+            <span id="pageAddress">📍 Đang cập nhật địa chỉ...</span>
+            <span style="background:#f1f5f9; padding:4px 10px; border-radius:6px; font-weight:700;">Được thẩm định bởi AccessTravel</span>
+        </div>
+
+        <div class="hero-gallery">
+            <img id="heroImg" src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1600&q=80" alt="Ảnh thực tế điểm đến">
+            <div class="verify-badge-large"><span style="font-size:20px;">✔</span> Đã Đo Đạc & Xác Minh Thực Tế</div>
+        </div>
+
+        <div class="detail-layout">
+            <div class="main-content">
+                <div class="limitation-box">
+                    <i>⚠</i>
+                    <div>
+                        <strong style="display:block; font-size:16px; margin-bottom:6px;">Lưu ý hạn chế từ Chuyên gia Khảo sát:</strong>
+                        <span id="limitNote" style="font-size:15px; line-height:1.5;">Đang tải dữ liệu hạn chế...</span>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-heading">📏 Thông Số Hạ Tầng Đo Đạc Thực Tế</h2>
+                    <div class="specs-grid">
+                        <div class="spec-card pass" id="specSlope">
+                            <div class="spec-icon">📐</div>
+                            <div>
+                                <div class="spec-title">Độ dốc đường dẫn xe lăn</div>
+                                <div class="spec-val">5.5% (Chuẩn ≤ 8.0%)</div>
+                                <div class="spec-desc">Rất thoải, xe lăn tự đẩy hoặc người cao tuổi đi lại không bị mất sức.</div>
+                            </div>
+                        </div>
+                        <div class="spec-card pass" id="specDoor">
+                            <div class="spec-icon">🚪</div>
+                            <div>
+                                <div class="spec-title">Chiều rộng cửa phòng & WC</div>
+                                <div class="spec-val">85 cm (Chuẩn ≥ 80cm)</div>
+                                <div class="spec-desc">Đảm bảo mọi loại xe lăn tiêu chuẩn quay đầu thoải mái.</div>
+                            </div>
+                        </div>
+                        <div class="spec-card pass" id="specElevator">
+                            <div class="spec-icon">🛗</div>
+                            <div>
+                                <div class="spec-title">Hệ thống Thang máy & Lối vào</div>
+                                <div class="spec-val">0 Bậc thềm (Step-free)</div>
+                                <div class="spec-desc">Có thang máy chữ nổi Braille và thông báo giọng nói.</div>
+                            </div>
+                        </div>
+                        <div class="spec-card pass" id="specToilet">
+                            <div class="spec-icon">🚻</div>
+                            <div>
+                                <div class="spec-title">Nhà vệ sinh & Phòng tắm</div>
+                                <div class="spec-val">Có tay vịn + Ghế tắm</div>
+                                <div class="spec-desc">Sàn chống trượt, có chuông gọi y tá khẩn cấp 24/7.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section" style="border:none;">
+                    <h2 class="section-heading">★ Tiếng Nói Khách Hàng & Đánh Giá Thực Tế</h2>
+                    <div class="tp-transparency-notice">
+                        <span style="font-size:24px;">🛡️</span>
+                        <div><strong>Bảo vệ sự minh bạch tuyệt đối:</strong> Tất cả đánh giá được thu thập ngẫu nhiên từ khách hàng đã trải nghiệm thực tế.</div>
+                    </div>
+                    <div class="review-dashboard">
+                        <div>
+                            <div style="font-size:52px; font-weight:900; line-height:1; margin-bottom:4px;" id="tpScoreDetail">4.7</div>
+                            <div style="color:#00b67a; font-size:22px; letter-spacing:2px; margin-bottom:12px;">★★★★★</div>
+                            <label class="tp-bar-row"><input type="checkbox" class="star-filter-cb" value="5" style="display:none;"><span>5 sao</span><div class="tp-bar-bg"><div class="tp-bar-fill" style="width:72%; background:#00b67a;"></div></div><span>72%</span></label>
+                            <label class="tp-bar-row"><input type="checkbox" class="star-filter-cb" value="4" style="display:none;"><span>4 sao</span><div class="tp-bar-bg"><div class="tp-bar-fill" style="width:18%; background:#73cf11;"></div></div><span>18%</span></label>
+                            <label class="tp-bar-row"><input type="checkbox" class="star-filter-cb" value="3" style="display:none;"><span>3 sao</span><div class="tp-bar-bg"><div class="tp-bar-fill" style="width:5%; background:#ffce00;"></div></div><span>5%</span></label>
+                        </div>
+                        <div>
+                            <input type="text" id="reviewSearchInput" placeholder="🔍 Tìm trong đánh giá..." style="width:100%; min-height:46px; padding:10px 16px; border-radius:10px; border:1.5px solid var(--color-border); font-size:15px; margin-bottom:12px;">
+                            <div id="filterStatusLabel" style="font-size:13.5px; color:#0f766e; font-weight:700; margin-bottom:20px;">✔ Đang hiển thị tất cả phản hồi</div>
+                            <div id="reviewListContainer">
+                                <div class="review-item" data-star="5">
+                                    <div class="review-user-row">
+                                        <div style="display:flex; gap:12px;"><div class="reviewer-avatar" style="background:#0f766e;">NM</div><div><strong style="display:block; font-size:15.5px;">Gia đình bác Nguyễn Minh</strong><span style="font-size:13px; color:var(--color-text-muted);">Đã xác minh trải nghiệm • 1 tuần trước</span></div></div>
+                                    </div>
+                                    <div style="margin-bottom:10px;"><span class="review-tag">👴 Đi cùng Người cao tuổi</span></div>
+                                    <div style="color:#00b67a; font-weight:900; margin-bottom:6px; font-size:15.5px;">★★★★★ Lối đi rất an toàn, không sợ trượt ngã</div>
+                                    <p style="font-size:15px; color:var(--color-text-main); line-height:1.5; margin:0;">"Cứ đi khoảng 50m lại có ghế tựa lưng để nghỉ, nền đường lát gạch nhám chống trượt cực kỳ tốt."</p>
+                                </div>
+                                <div class="review-item" data-star="4">
+                                    <div class="review-user-row">
+                                        <div style="display:flex; gap:12px;"><div class="reviewer-avatar" style="background:#1d4ed8;">TH</div><div><strong style="display:block; font-size:15.5px;">Chị Thu Hà (Xe lăn điện)</strong><span style="font-size:13px; color:var(--color-text-muted);">Đã xác minh trải nghiệm</span></div></div>
+                                    </div>
+                                    <div style="margin-bottom:10px;"><span class="review-tag">🦽 Người sử dụng Xe lăn</span></div>
+                                    <div style="color:#73cf11; font-weight:900; margin-bottom:6px; font-size:15.5px;">★★★★☆ Phòng ốc tuyệt vời, sảnh ăn hơi chật</div>
+                                    <p style="font-size:15px; color:var(--color-text-main); line-height:1.5; margin:0;">"Phòng ngủ và cửa nhà tắm rộng 85cm chuẩn xác, xe lăn điện quay đầu thoải mái."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WIDGET GỢI Ý TỪ MÔ-ĐUN PYTHON (V4) -->
+                <section class="ai-recommendation" id="pythonRecommendSection">
+                    <div class="ai-header">
+                        <h2 style="font-size: 22px; font-weight: 800;">Tour Tương Tự Bác Có Thể Thích</h2>
+                        <div class="ai-badge" id="aiStatusBadge">✨ AI Đang phân tích...</div>
+                    </div>
+                    <div class="ai-grid" id="aiResultGrid"></div>
+                </section>
+            </div>
+
+            <div class="sticky-sidebar">
+                <div class="booking-card">
+                    <div class="price-row">
+                        <div>
+                            <span style="font-size:14px; color:var(--color-text-muted); display:block; font-weight:600; margin-bottom:4px;">Chi phí trọn gói / khách</span>
+                            <strong id="priceDisplay" style="font-size:28px; font-weight:900; color:var(--color-primary);">Đang tải...</strong>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:24px; padding:16px; background:#fffbeb; border:1px solid #fde68a; border-radius:12px;">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                            <strong style="color:#b45309; font-size:15px;">🔥 Tình trạng chỗ:</strong>
+                            <span id="slotsDisplay" style="font-weight:900; color:#dc2626; background:#fef2f2; padding:4px 10px; border-radius:6px;">Đang tải...</span>
+                        </div>
+                        <p style="font-size:13px; color:#92400e; margin:0; line-height:1.4;">Hệ thống áp dụng công nghệ khóa chống tranh chấp <code>SELECT FOR UPDATE</code>.</p>
+                    </div>
+                    <a id="btnBookSticky" href="booking.html" class="btn btn-primary" style="width:100%; min-height:54px; border-radius:12px; font-size:17px; margin-bottom:16px;">📅 Tiến Hành Đặt & Giữ Chỗ Ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        async function loadPythonRecommendations(tourId) {
+            const grid = document.getElementById('aiResultGrid');
+            const badge = document.getElementById('aiStatusBadge');
+            if (!grid || !badge) return;
+            try {
+                const res = await fetch(`../api/destinations/recommend.php?tour_id=` + tourId);
+                const json = await res.json();
+                if (json.status === 'success') {
+                    if (json.source === 'sql_fallback') {
+                        badge.innerHTML = `⚠️ Chế độ Dự phòng (SQL Fallback)`;
+                        badge.style.background = '#fffbeb'; badge.style.color = '#b45309'; badge.style.borderColor = '#fde68a';
+                    } else {
+                        badge.innerHTML = `✨ Đề xuất bởi AI (Python Scikit-Learn)`;
+                    }
+                    grid.innerHTML = (json.data || []).map(item => `
+                        <a href="detail.html?id=` + item.id + `&title=` + encodeURIComponent(item.title) + `&price=` + item.price + `" class="ai-card">
+                            <div>
+                                <h3 style="font-size: 16px; margin-bottom: 8px;">#` + item.id + ` - ` + item.title + `</h3>
+                                <div style="font-size: 13.5px; color: var(--color-text-muted); margin-bottom: 12px;">
+                                    ♿ Lối đi xe lăn: ` + (item.has_wheelchair_access ? 'Có' : 'Không') + `
+                                </div>
+                            </div>
+                            <strong style="color: var(--color-primary); font-size: 18px;">` + Number(item.price).toLocaleString('vi-VN') + ` đ</strong>
+                        </a>
+                    `).join('');
+                } else { grid.innerHTML = `<p style="color: #dc2626;">Lỗi tải dữ liệu gợi ý.</p>`; }
+            } catch (err) { badge.innerHTML = `❌ Lỗi kết nối API`; }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const p = new URLSearchParams(window.location.search);
+            const id = p.get('id') || '1';
+            try {
+                const res = await fetch(`../api/search.php?keyword=`);
+                const json = await res.json();
+                let item = (json.data || []).find(x => x.id == id);
+                if(!item && json.data.length > 0) item = json.data[0];
+                if (item) {
+                    document.title = item.title + " | AccessTravel";
+                    document.getElementById('bcTitle').innerText = item.title;
+                    document.getElementById('pageTitle').innerText = `#${item.id} - ${item.title}`;
+                    document.getElementById('pageAddress').innerText = '📍 ' + (item.address || 'Việt Nam');
+                    document.getElementById('ratingVal').innerText = item.review_rating;
+                    document.getElementById('tpScoreDetail').innerText = item.review_rating;
+                    document.getElementById('priceDisplay').innerText = Number(item.price).toLocaleString('vi-VN') + ' đ';
+                    
+                    const slots = Number(item.available_slots);
+                    const slotEl = document.getElementById('slotsDisplay');
+                    slotEl.innerText = slots > 0 ? `Còn ${slots} suất trống` : 'Đã hết suất';
+                    if(slots === 1) { slotEl.innerText = 'Chỉ còn 1 suất cuối!'; slotEl.style.background = '#dc2626'; slotEl.style.color = '#fff'; }
+                    document.getElementById('limitNote').innerText = item.limitation_note || 'Chưa ghi nhận hạn chế lớn nào.';
+                    document.getElementById('btnBookSticky').href = `booking.html?id=${item.id}&title=${encodeURIComponent(item.title)}&price=${item.price}&slots=${slots}`;
+                    
+                    loadPythonRecommendations(item.id);
+                }
+            } catch (err) {}
+            
+            // Xử lý Lọc Đánh giá
+            const searchInput = document.getElementById('reviewSearchInput');
+            const starCbs = document.querySelectorAll('.star-filter-cb');
+            function filterReviews() {
+                const kw = searchInput.value.toLowerCase().trim();
+                const checkedStars = Array.from(starCbs).filter(cb => cb.checked).map(cb => cb.value);
+                const items = document.querySelectorAll('.review-item');
+                let count = 0;
+                items.forEach(item => {
+                    const txt = item.innerText.toLowerCase();
+                    const star = item.getAttribute('data-star');
+                    if ((kw === '' || txt.includes(kw)) && (checkedStars.length === 0 || checkedStars.includes(star))) {
+                        item.style.display = 'block'; count++;
+                    } else { item.style.display = 'none'; }
+                });
+                const lbl = document.getElementById('filterStatusLabel');
+                if (checkedStars.length === 0 && kw === '') lbl.innerText = '✔ Đang hiển thị tất cả phản hồi';
+                else lbl.innerText = `🔍 Tìm thấy ${count} đánh giá phù hợp`;
+            }
+            searchInput.addEventListener('input', filterReviews);
+            document.querySelectorAll('.tp-bar-row').forEach(row => {
+                row.addEventListener('click', (e) => {
+                    if(e.target.tagName !== 'INPUT') {
+                        const cb = row.querySelector('.star-filter-cb');
+                        cb.checked = !cb.checked;
+                        row.style.background = cb.checked ? 'rgba(15, 118, 110, 0.15)' : '';
+                        filterReviews();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+HTML;
+file_put_contents(__DIR__ . '/frontend/detail.html', $html);
+echo "=== DA FIX VA GHI TRUC TIEP DETAIL.HTML BANG PHP THANH CONG! TICH HOP 100% WIDGET AI ===\n";
+?>

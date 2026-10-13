@@ -282,13 +282,27 @@
                 }
                 const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((distance % (1000 * 60)) / 1000);
-                banner.innerHTML = `✅ <strong>Đặt lịch thành công! Mã đặt chỗ: #${bookingId}</strong> (Trạng thái: Đang giữ chỗ chờ xác nhận)<br>
-                    ⏳ Thời gian giữ chỗ còn lại: <strong style="color:#b45309; font-size:20px;">${m} phút ${s < 10 ? '0' + s : s} giây</strong> | 📞 Hỗ trợ khẩn cấp: 1900 6868`;
+                banner.innerHTML = `✅ <strong>Đặt lịch thành công! Mã đơn: #${bookingId}</strong> (Đang chờ thanh toán)<br>⏳ Giữ chỗ còn lại: <strong style="color:#b45309; font-size:20px;">${m} phút ${s < 10 ? '0' + s : s} giây</strong><br><div style="margin-top:14px; display:flex; gap:10px;"><button type="button" onclick="processPayment(${bookingId}, 'pay')" class="btn btn-primary" style="background:#16a34a; border:none; padding:8px 16px; border-radius:8px; font-weight:700;">💳 Thanh toán Sandbox</button><button type="button" onclick="processPayment(${bookingId}, 'cancel')" class="btn btn-outline" style="border-color:#dc2626; color:#dc2626; padding:8px 16px; border-radius:8px; font-weight:700;">❌ Hủy đơn</button></div>`;
             };
             updateTick();
             timerInterval = setInterval(updateTick, 1000);
         }
 
+                async function processPayment(bookingId, action) {
+            if (!confirm(action === 'pay' ? '💳 Xác nhận thanh toán Sandbox (MoMo/VNPay)?' : '❌ Chắc chắn hủy giữ chỗ?')) return;
+            try {
+                const res = await fetch('../api/bookings/pay.php', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ booking_id: bookingId, action: action })
+                });
+                const data = await res.json();
+                if(res.ok && data.status === 'success') {
+                    alert('🎉 ' + data.message);
+                    document.getElementById('countdownBanner').style.display = 'none';
+                    checkMatchingServices(); // Tải lại danh sách
+                } else alert('Lỗi: ' + data.message);
+            } catch(e) { alert('Lỗi kết nối Server thanh toán!'); }
+        }
         async function handleBookingSubmit(e) {
             e.preventDefault();
             const staffRadio = document.querySelector('input[name="staffPref"]:checked');
