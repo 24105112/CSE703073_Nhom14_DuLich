@@ -252,6 +252,48 @@
             .wtw-hero { padding: 32px 20px; }
         }
     </style>
+
+
+<style id="super-dark-mode">
+    /* Cưỡng chế toàn bộ thân trang web thành màu tối */
+    html[data-theme="dark"] body, html[data-theme="dark"] header, html[data-theme="dark"] .navbar { 
+        background-color: #0f172a !important; color: #f8fafc !important; border-bottom-color: #334155 !important;
+    }
+    
+    /* Bắt mọi thẻ div mặc định trong suốt để không bị đè màu */
+    html[data-theme="dark"] div, html[data-theme="dark"] section, html[data-theme="dark"] article {
+        background-color: transparent !important; 
+        color: #f8fafc !important;
+        border-color: #334155 !important;
+    }
+    
+    /* TUYỆT CHIÊU: Tự động nhận diện các khối thẻ (card) thông qua class, viền hoặc shadow để tô nền xám đen */
+    html[data-theme="dark"] .tour-card, html[data-theme="dark"] .card, html[data-theme="dark"] .booking-card, 
+    html[data-theme="dark"] .spec-card, html[data-theme="dark"] .ai-card, html[data-theme="dark"] .metric-card, 
+    html[data-theme="dark"] .review-item, html[data-theme="dark"] .review-dashboard,
+    html[data-theme="dark"] .content-section, html[data-theme="dark"] [style*="border"], 
+    html[data-theme="dark"] [style*="box-shadow"], html[data-theme="dark"] [style*="padding: 24px"] {
+        background-color: #1e293b !important;
+    }
+
+    /* Ép tất cả các loại chữ (tiêu đề, thẻ p, span, nhãn) phát sáng */
+    html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3, 
+    html[data-theme="dark"] h4, html[data-theme="dark"] p, html[data-theme="dark"] span,
+    html[data-theme="dark"] strong, html[data-theme="dark"] label, html[data-theme="dark"] input { 
+        color: #f8fafc !important; 
+    }
+
+    /* Bảo vệ các nút bấm, icon và badge trợ năng không bị hỏng màu */
+    html[data-theme="dark"] button, html[data-theme="dark"] .btn, html[data-theme="dark"] .btn-primary { 
+        background-color: #0284c7 !important; color: #fff !important; border:none !important; 
+    }
+    html[data-theme="dark"] img, html[data-theme="dark"] i, html[data-theme="dark"] svg {
+        background-color: transparent !important;
+    }
+    html[data-theme="dark"] .verify-badge-large, html[data-theme="dark"] .ai-badge {
+        background-color: #a21caf !important; color: #fdf4ff !important;
+    }
+</style>
 </head>
 <body>
 
@@ -265,6 +307,7 @@
             <a href="detail.html?id=1">Đánh giá cộng đồng</a>
             <a href="booking.html?id=1&title=Ch%C3%B9a%20B%C3%A1i%20%C4%90%C3%ADnh&price=850000&slots=1">Kiểm tra & Đặt lịch</a>
             <a href="admin.html" id="navAdminLink" style="display:none; color:#dc2626; font-weight:800;">🛡️ Quản trị (/admin)</a>
+            <button id="themeToggleBtn" onclick="toggleTheme()" type="button" style="background:var(--color-bg-card, #fff); color:var(--color-text-main, #0f172a); border:1px solid var(--color-border, #cbd5e1); border-radius:99px; padding:6px 13px; font-size:13.5px; font-weight:800; cursor:pointer; min-height:38px; margin-right:8px; display:inline-flex; align-items:center; transition: all 0.3s;">🌙 Chế độ Tối</button>
             <button id="btnThemeToggle" onclick="toggleAccessibilityTheme()" class="btn btn-a11y">
                 Aa Chế độ Chữ lớn (Trợ năng)
             </button>
@@ -708,7 +751,7 @@
                                     '<span class="price-text">' + Number(item.price || 0).toLocaleString('vi-VN') + ' đ</span>' +
                                 '</div>' +
                                 '<div style="display:flex; gap:8px;">' +
-                                    '<a href="detail.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&address=' + encodeURIComponent(item.address || '') + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-outline" style="padding:8px 12px; font-size:14.5px;">Xem thẩm định</a>' +
+                                    '<button onclick="window.location.href='detail.html?id=' + (typeof item !== 'undefined' ? item.id : (typeof tour !== 'undefined' ? tour.id : 1))"  href="detail.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&address=' + encodeURIComponent(item.address || '') + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-outline" style="padding:8px 12px; font-size:14.5px;" style="cursor:pointer;">Xem thẩm định</button>' +
                                     '<a href="booking.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-primary" style="padding:8px 14px; font-size:14.5px;">Đặt giữ chỗ</a>' +
                                 '</div>' +
                             '</div>' +
@@ -804,6 +847,23 @@
         }
         document.addEventListener('DOMContentLoaded', () => loadDestinations(1));
     </script>
+<script>
+function toggleTheme() {
+    var currentTheme = document.documentElement.getAttribute('data-theme');
+    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+}
+// Khoi phuc theme khi F5
+var savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+window.addEventListener("DOMContentLoaded", function() {
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+});
+</script>
 </body>
 </html>
 
