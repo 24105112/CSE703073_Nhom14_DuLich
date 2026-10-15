@@ -305,3 +305,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (listEl) obs.observe(listEl, obsConfig);
     if (matchBox) obs.observe(matchBox, obsConfig);
 });
+
+// === BUOI 8: THEME SWITCHER ===
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeButton(newTheme);
+}
+function updateThemeButton(theme) {
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn) btn.innerHTML = theme === 'dark' ? '☀️ Sáng' : '🌙 Tối';
+}
+(function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.addEventListener("DOMContentLoaded", () => updateThemeButton(savedTheme));
+})();

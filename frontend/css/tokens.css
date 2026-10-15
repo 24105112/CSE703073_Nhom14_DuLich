@@ -248,3 +248,29 @@ body {
     color: #ffffff !important;
     border: none !important;
 }
+
+/* === BUOI 8: DARK MODE & RESPONSIVE === */
+:root {
+    --bg-main: #f8fafc;
+    --color-bg-card: #ffffff;
+    --color-text-main: #0f172a;
+    --color-text-muted: #64748b;
+    --color-border: #e2e8f0;
+}
+[data-theme="dark"] {
+    --bg-main: #0f172a;
+    --color-bg-card: #1e293b;
+    --color-text-main: #f8fafc;
+    --color-text-muted: #94a3b8;
+    --color-border: #334155;
+}
+body { background-color: var(--bg-main); color: var(--color-text-main); transition: background-color 0.3s, color 0.3s; }
+
+/* Responsive Media Queries cho 3 khổ màn hình */
+@media (max-width: 1023px) { /* Tablet 768px - 1023px */
+    .tour-grid, .metrics-grid, .charts-grid, .grid-4, .grid-2 { grid-template-columns: repeat(2, 1fr) !important; gap: 16px; }
+}
+@media (max-width: 767px) { /* Mobile < 768px (Chuẩn 375px) */
+    .tour-grid, .metrics-grid, .charts-grid, .grid-4, .grid-2, .detail-layout, .review-dashboard { grid-template-columns: 1fr !important; gap: 12px; }
+    .hero-gallery { height: 240px !important; }
+}
