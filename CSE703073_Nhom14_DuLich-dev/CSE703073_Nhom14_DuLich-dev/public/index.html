@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Tour Du Lịch Tiếp Cận - Nhóm 14</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <style>
+    body {
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-base);
+      background-color: var(--color-bg-main);
+      color: var(--color-text-main);
+      margin: 0; padding: 24px;
+      line-height: 1.5;
+    }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 20px; border-bottom: 2px solid var(--color-border);
+      flex-wrap: wrap; gap: 15px;
+    }
+    h1 { margin: 0; font-size: 1.8rem; }
+    .btn-toggle {
+      background-color: var(--color-secondary); color: #000;
+      padding: 12px 20px; border: none; font-weight: bold;
+      border-radius: 8px; cursor: pointer; font-size: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .grid-container {
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 24px;
+    }
+    .card {
+      background-color: var(--color-bg-card);
+      border: 2px solid var(--color-border);
+      border-radius: var(--border-radius-card);
+      padding: 16px; 
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .card img { 
+      width: 100%; height: 200px; object-fit: cover; border-radius: 8px; 
+    }
+    .price { font-weight: bold; font-size: var(--font-size-price); color: var(--color-primary); margin: 8px 0; }
+    .badge-accessible {
+      background-color: #2e7d32; color: #ffffff;
+      display: inline-block; padding: 6px 10px; font-size: 0.9rem;
+      border-radius: 6px; margin: 10px 0; font-weight: bold; width: fit-content;
+    }
+    .btn-detail {
+      display: block; text-align: center;
+      background-color: var(--color-primary); color: #ffffff;
+      padding: 12px; text-decoration: none; border-radius: 6px;
+      font-weight: bold; margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hệ Thống Đặt Tour Du Lịch Nhóm 14</h1>
+    <button class="btn-toggle" onclick="toggleTheme()">♿ Bật / Tắt Chế Độ Chữ To - Tương Phản Cao</button>
+  </header>
+
+  <main>
+    <h2>Danh Sách Địa Điểm Du Lịch Hỗ Trợ Trợ Năng (Accessible Tours)</h2>
+    <div class="grid-container">
+      
+      <!-- Tour 1 -->
+      <div class="card">
+        <div>
+          <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=500" alt="Bãi Cháy Hạ Long">
+          <h3>Tour Bãi Cháy Hạ Long 3N2Đ</h3>
+          <p class="price">1.500.000 VNĐ / người</p>
+          <span class="badge-accessible" name="accessible_for_disabled">♿ Hỗ trợ xe lăn & Dốc thoải 5.5°</span>
+        </div>
+        <a href="detail.html" class="btn-detail">Xem Chi Tiết Tour</a>
+      </div>
+
+      <!-- Tour 2 -->
+      <div class="card">
+        <div>
+          <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=500" alt="Đà Nẵng Hoi An">
+          <h3>Tour Đà Nẵng - Hội An</h3>
+          <p class="price">3.500.000 VNĐ / người</p>
+          <span class="badge-accessible" name="accessible_for_disabled">♿ Lối đi riêng & Thang máy trợ năng</span>
+        </div>
+        <a href="detail.html" class="btn-detail">Xem Chi Tiết Tour</a>
+      </div>
+
+      <!-- Tour 3 -->
+      <div class="card">
+        <div>
+          <img src="https://images.unsplash.com/photo-1506461883276-594a12b11cf3?w=500" alt="Đà Lạt">
+          <h3>Tour Đà Lạt Mộng Mơ</h3>
+          <p class="price">4.200.000 VNĐ / người</p>
+          <span class="badge-accessible" name="accessible_for_disabled">♿ Cửa rộng 90cm & Phòng tầng trệt</span>
+        </div>
+        <a href="detail.html" class="btn-detail">Xem Chi Tiết Tour</a>
+      </div>
+
+      <!-- Tour 4 -->
+      <div class="card">
+        <div>
+          <img src="https://images.unsplash.com/photo-1528127269322-539801943592?w=500" alt="Phú Quốc">
+          <h3>Tour Nghỉ Dưỡng Phú Quốc</h3>
+          <p class="price">5.800.000 VNĐ / người</p>
+          <span class="badge-accessible" name="accessible_for_disabled">♿ Xe đưa đón chuyên dụng & HDV hỗ trợ</span>
+        </div>
+        <a href="detail.html" class="btn-detail">Xem Chi Tiết Tour</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.getAttribute('data-theme') === 'accessible') {
+        html.setAttribute('data-theme', 'default');
+      } else {
+        html.setAttribute('data-theme', 'accessible');
+      }
+    }
+  </script>
+</body>
+</html>

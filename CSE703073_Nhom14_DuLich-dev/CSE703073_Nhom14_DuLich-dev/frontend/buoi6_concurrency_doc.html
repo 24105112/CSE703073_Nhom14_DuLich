@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>TaiLieu_MoTa_GiaoDich_TranhChap_TonKho_V3</title>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; color: #0f172a; padding: 28px 36px; line-height: 1.55; font-size: 13px; }
+        h1 { color: #115e59; font-size: 19px; border-bottom: 3px solid #115e59; padding-bottom: 10px; margin-bottom: 14px; text-transform: uppercase; }
+        h2 { color: #0b3d3a; font-size: 15px; margin: 16px 0 8px; }
+        pre { background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; font-family: Consolas, monospace; font-size: 11.5px; white-space: pre-wrap; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; }
+        th { background: #0f766e; color: #fff; }
+        @media print { .no-print { display: none; } body { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="no-print" style="background:#fef08a; padding:10px; margin-bottom:16px; border-radius:6px; text-align:center; font-weight:bold;">
+        👉 Bấm Ctrl + P -> Chọn Save as PDF -> Lưu tên: TaiLieu_MoTa_GiaoDich_TranhChap_TonKho_V3.pdf
+    </div>
+    <h1>TÀI LIỆU MÔ TẢ GIAO DỊCH XỬ LÝ TRANH CHẤP TỒN KHO (CONCURRENCY & LOCKING)</h1>
+    <p><strong>Học phần:</strong> CSE703073 – Nhóm 14 (Buổi 06 - Mốc M2) | <strong>Thực hiện:</strong> Nguyễn Trung Anh (V3 – Backend Developer)</p>
+
+    <h2>1. Bài toán Tranh chấp Tồn kho (Race Condition) trong Đặt chỗ Du lịch</h2>
+    <p>Khi một địa điểm du lịch trợ năng chỉ còn đúng <strong>01 chỗ trống cuối cùng</strong> (<code>available_slots = 1</code>) và có 02 người dùng (Phiên A và Phiên B) cùng bấm nút "Đặt chỗ" trong cùng một giây: Nếu chỉ kiểm tra bằng lệnh <code>SELECT</code> thông thường rồi mới <code>UPDATE</code> mà không đặt trong Giao dịch có khóa hàng, cả 2 phiên đều đọc thấy <code>available_slots = 1</code>, dẫn tới tạo ra 02 đơn đặt chỗ cho 1 suất duy nhất và làm âm tồn kho (Overbooking).</p>
+
+    <h2>2. Giải pháp Kỹ thuật: Giao dịch (Transaction) kết hợp Khóa hàng độc quyền (SELECT ... FOR UPDATE)</h2>
+    <p>Hệ thống Backend của Nhóm 14 sử dụng cơ chế khóa bi quan (Pessimistic Locking) của InnoDB trong MySQL:</p>
+    <table>
+        <tr><th>Bước</th><th>Thao tác tại Phiên A (Đến trước 0.01s)</th><th>Thao tác tại Phiên B (Đến đồng thời)</th></tr>
+        <tr><td><strong>Bước 1</strong></td><td>Gọi <code>$pdo->beginTransaction()</code></td><td>Gọi <code>$pdo->beginTransaction()</code></td></tr>
+        <tr><td><strong>Bước 2</strong></td><td>Chạy <code>SELECT available_slots FROM accessible_destinations WHERE id = ? FOR UPDATE</code> $\rightarrow$ Đọc được <code>available_slots = 1</code> và <strong>giữ khóa độc quyền (X-Lock)</strong> trên dòng này.</td><td>Chạy lệnh <code>SELECT ... FOR UPDATE</code> $\rightarrow$ Bị InnoDB <strong>bắt buộc chờ (Blocked)</strong> cho đến khi Phiên A kết thúc giao dịch.</td></tr>
+        <tr><td><strong>Bước 3</strong></td><td>Kiểm tra <code>1 >= 1</code> (Hợp lệ) $\rightarrow$ Trừ tồn kho về <code>0</code> $\rightarrow$ Chèn đơn <code>pending</code> (hạn <code>+15 minutes</code>) $\rightarrow$ Gọi <code>$pdo->commit()</code> giải phóng khóa.</td><td>Sau khi Phiên A commit, Phiên B mới đọc được giá trị mới nhất là <code>available_slots = 0</code>.</td></tr>
+        <tr><td><strong>Bước 4</strong></td><td>Nhận phản hồi <strong>HTTP 200 OK</strong> kèm đồng hồ đếm ngược 15 phút.</td><td>Kiểm tra <code>0 < 1</code> (Không đủ chỗ) $\rightarrow$ Gọi <code>$pdo->rollBack()</code> và trả về lỗi <strong>HTTP 400 Bad Request ("Hết chỗ")</strong>.</td></tr>
+    </table>
+
+    <h2>3. Đoạn Mã Nguồn Thực Thi Trọng Tâm (api/book.php & api/bookings/create.php)</h2>
+    <pre>$pdo->beginTransaction();
+$stmt = $pdo->prepare("SELECT id, title, available_slots FROM accessible_destinations WHERE id = ? FOR UPDATE");
+$stmt->execute([$destinationId]);
+$destination = $stmt->fetch();
+
+if ((int)$destination['available_slots'] < $quantity) {
+    $pdo->rollBack();
+    http_response_code(400);
+    echo json_encode(['error' => 'Hết chỗ hoặc số lượng còn lại không đủ!']);
+    exit;
+}
+
+$updateStmt = $pdo->prepare("UPDATE accessible_destinations SET available_slots = available_slots - ? WHERE id = ?");
+$updateStmt->execute([$quantity, $destinationId]);
+
+$expiresAt = date('Y-m-d H:i:s', time() + 900); // Giữ chỗ 15 phút
+$bookingStmt = $pdo->prepare("INSERT INTO bookings (user_id, destination_id, quantity, status, expires_at) VALUES (?, ?, ?, 'pending', ?)");
+$bookingStmt->execute([$userId, $destinationId, $quantity, $expiresAt]);
+$pdo->commit();</pre>
+</body>
+</html>
