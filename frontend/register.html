@@ -124,6 +124,546 @@
 </style>
 </head>
 <body>
+<!-- STATIC JAPANESE BARRIER-FREE HEADER V2 -->
+<style id="jp-static-header-css">
+    /* 1. Triệt tiêu hoàn toàn các thanh header trắng rỗng cũ của dự án */
+    header:not(.jp-master-nav), 
+    .header:not(.jp-master-nav), 
+    .navbar:not(.jp-master-nav),
+    .topbar, .top-nav, #header, .site-header,
+    .hamburger-btn, .mobile-sidebar, .menu-overlay {
+        display: none !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    /* Reset khoảng đệm đầu trang nếu CSS cũ có cài padding-top cho body */
+    body {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    /* 2. Khung Header Nhật Bản (Dùng thẻ div để không bị CSS cũ của thẻ header đè) */
+    .jp-master-nav {
+        position: sticky !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 2147483640 !important;
+        background: #ffffff !important;
+        border-bottom: 2px solid #cbd5e1 !important;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    [data-theme="dark"] .jp-master-nav {
+        background: #0f172a !important;
+        border-bottom-color: #334155 !important;
+    }
+
+    /* Dải thông tin trợ năng trên cùng */
+    .jp-strip-top {
+        background: #0f766e !important;
+        color: #ffffff !important;
+        font-size: 12.5px !important;
+        padding: 6px 20px !important;
+        display: block !important;
+    }
+    .jp-strip-inner {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+    .jp-wcag-pill {
+        background: rgba(255, 255, 255, 0.2) !important;
+        padding: 2px 10px !important;
+        border-radius: 99px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+    }
+
+    /* Tầng chính của Header */
+    .jp-nav-container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 12px 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 16px !important;
+        background: transparent !important;
+    }
+
+    /* Logo thương hiệu */
+    .jp-logo-box {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        text-decoration: none !important;
+    }
+    .jp-logo-icon {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 12px !important;
+        background: linear-gradient(135deg, #0f766e, #0d9488) !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 22px !important;
+        font-weight: bold !important;
+        box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25) !important;
+    }
+    .jp-logo-title {
+        font-size: 19px !important;
+        font-weight: 800 !important;
+        color: #0f766e !important;
+        line-height: 1.15 !important;
+        display: block !important;
+    }
+    [data-theme="dark"] .jp-logo-title {
+        color: #2dd4bf !important;
+    }
+    .jp-logo-sub {
+        font-size: 12px !important;
+        color: #475569 !important;
+        font-weight: 600 !important;
+        display: block !important;
+        margin-top: 2px !important;
+    }
+    [data-theme="dark"] .jp-logo-sub {
+        color: #94a3b8 !important;
+    }
+
+    /* Menu ngang ở giữa */
+    .jp-center-links {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }
+    .jp-link-item {
+        padding: 8px 14px !important;
+        border-radius: 10px !important;
+        font-size: 14.5px !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        text-decoration: none !important;
+        transition: 0.2s !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }
+    [data-theme="dark"] .jp-link-item {
+        color: #f8fafc !important;
+    }
+    .jp-link-item:hover {
+        background: #f0fdfa !important;
+        color: #0f766e !important;
+    }
+    [data-theme="dark"] .jp-link-item:hover {
+        background: #1e293b !important;
+        color: #2dd4bf !important;
+    }
+
+    /* Cụm công cụ bên phải */
+    .jp-right-tools {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    /* Cụm nút phóng to chữ A / A+ / A++ */
+    .jp-a11y-font {
+        display: flex !important;
+        align-items: center !important;
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 10px !important;
+        padding: 3px !important;
+    }
+    [data-theme="dark"] .jp-a11y-font {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+    }
+    .jp-f-btn {
+        border: none !important;
+        background: transparent !important;
+        padding: 5px 9px !important;
+        border-radius: 7px !important;
+        font-weight: 800 !important;
+        font-size: 13px !important;
+        cursor: pointer !important;
+        color: #0f172a !important;
+    }
+    [data-theme="dark"] .jp-f-btn {
+        color: #f8fafc !important;
+    }
+    .jp-f-btn.active {
+        background: #0f766e !important;
+        color: #ffffff !important;
+    }
+
+    /* NÚT HAMBURGER 3 GẠCH ĐÓNG KHUNG CHUẨN NHẬT */
+    .jp-ham-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border: 2px solid #0f766e !important;
+        border-radius: 12px !important;
+        padding: 8px 16px !important;
+        font-size: 14px !important;
+        font-weight: 800 !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.15) !important;
+        transition: all 0.2s ease !important;
+    }
+    [data-theme="dark"] .jp-ham-btn {
+        background: #1e293b !important;
+        color: #f8fafc !important;
+        border-color: #2dd4bf !important;
+    }
+    .jp-ham-btn:hover {
+        background: #0f766e !important;
+        color: #ffffff !important;
+    }
+    .jp-ham-btn:hover .jp-ham-bars span {
+        background: #ffffff !important;
+    }
+    .jp-ham-bars {
+        width: 20px !important;
+        height: 14px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+    }
+    .jp-ham-bars span {
+        display: block !important;
+        height: 2.5px !important;
+        width: 100% !important;
+        background: #0f766e !important;
+        border-radius: 3px !important;
+        transition: 0.25s !important;
+    }
+    [data-theme="dark"] .jp-ham-bars span {
+        background: #2dd4bf !important;
+    }
+    .jp-ham-bars span:nth-child(2) {
+        width: 70% !important;
+    }
+    .jp-ham-btn:hover .jp-ham-bars span:nth-child(2) {
+        width: 100% !important;
+    }
+
+    /* DRAWER TRƯỢT BÊN PHẢI */
+    .jp-overlay-bg {
+        position: fixed !important;
+        inset: 0 !important;
+        background: rgba(15, 23, 42, 0.6) !important;
+        backdrop-filter: blur(4px) !important;
+        z-index: 2147483645 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: 0.3s ease !important;
+    }
+    .jp-overlay-bg.open {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    .jp-side-drawer {
+        position: fixed !important;
+        top: 0 !important;
+        right: -420px !important;
+        width: 100% !important;
+        max-width: 390px !important;
+        height: 100vh !important;
+        background: #ffffff !important;
+        z-index: 2147483647 !important;
+        box-shadow: -10px 0 35px rgba(15, 23, 42, 0.25) !important;
+        transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: auto !important;
+    }
+    [data-theme="dark"] .jp-side-drawer {
+        background: #0f172a !important;
+        color: #f8fafc !important;
+    }
+    .jp-side-drawer.open {
+        right: 0 !important;
+    }
+    .jp-drawer-top {
+        padding: 20px 24px !important;
+        background: linear-gradient(135deg, #0f766e, #115e59) !important;
+        color: #ffffff !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+    .jp-close-btn {
+        background: rgba(255,255,255,0.2) !important;
+        border: 1px solid rgba(255,255,255,0.4) !important;
+        color: #ffffff !important;
+        border-radius: 10px !important;
+        padding: 6px 12px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+    }
+    .jp-drawer-content {
+        padding: 20px 24px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 18px !important;
+    }
+    .jp-bento-card {
+        display: flex !important;
+        align-items: center !important;
+        gap: 14px !important;
+        padding: 12px 14px !important;
+        border-radius: 12px !important;
+        border: 1px solid #e2e8f0 !important;
+        background: #f8fafc !important;
+        text-decoration: none !important;
+        color: #0f172a !important;
+        margin-bottom: 8px !important;
+        transition: 0.2s !important;
+    }
+    [data-theme="dark"] .jp-bento-card {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+    }
+    .jp-bento-card:hover {
+        border-color: #0f766e !important;
+        background: #f0fdfa !important;
+        transform: translateX(4px) !important;
+    }
+
+    @media (max-width: 900px) {
+        .jp-center-links, .jp-strip-top {
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="jp-master-nav" role="banner">
+    <div class="jp-strip-top">
+        <div class="jp-strip-inner">
+            <div>
+                <span class="jp-wcag-pill">♿ Chuẩn Barrier-Free Nhật Bản (WCAG 2.1 AA)</span>
+                <span style="margin-left:10px;">✔ Đã kiểm định độ dốc xe lăn, thang máy & ghế nghỉ chân thực địa</span>
+            </div>
+            <div>
+                <span>📞 Hỗ trợ Y tế & Xe lăn 24/7: <strong>1900 6868</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="jp-nav-container">
+        <a href="index.html" class="jp-logo-box">
+            <div class="jp-logo-icon">♿</div>
+            <div>
+                <span class="jp-logo-title">AccessTravel Vietnam</span>
+                <span class="jp-logo-sub">Thẩm Định Du Lịch Trợ Năng • Nhóm 14</span>
+            </div>
+        </a>
+
+        <nav class="jp-center-links" aria-label="Menu chính">
+            <a href="index.html" class="jp-link-item">🏠 Trang chủ</a>
+            <a href="search.html" class="jp-link-item">🔍 Tìm điểm đến</a>
+            <a href="booking.html" class="jp-link-item">📅 Đặt giữ chỗ</a>
+            <a href="admin.html" class="jp-link-item">🛡️ Quản trị</a>
+        </nav>
+
+        <div class="jp-right-tools">
+            <div class="jp-a11y-font" title="Chỉnh cỡ chữ cho Người cao tuổi">
+                <button type="button" class="jp-f-btn active" onclick="jpResizeFont(100, this)">A</button>
+                <button type="button" class="jp-f-btn" onclick="jpResizeFont(112, this)">A+</button>
+                <button type="button" class="jp-f-btn" onclick="jpResizeFont(122, this)">A++</button>
+            </div>
+
+            <button type="button" class="jp-ham-btn" onclick="jpToggleMenu(true)">
+                <div class="jp-ham-bars">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span>DANH MỤC</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="jp-overlay-bg" id="jpOverlayBg" onclick="jpToggleMenu(false)"></div>
+
+<aside class="jp-side-drawer" id="jpSideDrawer" aria-label="Menu điều hướng chi tiết">
+    <div class="jp-drawer-top">
+        <div>
+            <div style="font-size:17px; font-weight:800;">🧭 Danh Mục & Trợ Năng</div>
+            <div style="font-size:12px; opacity:0.9;">Universal Design • Chuẩn Du Lịch Nhật Bản</div>
+        </div>
+        <button type="button" class="jp-close-btn" onclick="jpToggleMenu(false)">✕ Đóng</button>
+    </div>
+
+    <div class="jp-drawer-content">
+        <div>
+            <div style="font-size:12px; font-weight:800; text-transform:uppercase; color:#64748b; margin-bottom:8px;">Tùy chỉnh trợ năng nhanh</div>
+            <div style="display:flex; gap:8px;">
+                <button type="button" onclick="if(typeof toggleTheme==='function') toggleTheme();" style="flex:1; padding:10px; border-radius:10px; border:1px solid #cbd5e1; background:#f8fafc; font-weight:700; cursor:pointer; color:#0f172a;">
+                    🌗 Sáng / Tối
+                </button>
+                <button type="button" onclick="jpResizeFont(115)" style="flex:1; padding:10px; border-radius:10px; border:1px solid #0f766e; background:#f0fdfa; font-weight:700; cursor:pointer; color:#0f766e;">
+                    🔍 Chữ To (Ông Bà)
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <div style="font-size:12px; font-weight:800; text-transform:uppercase; color:#64748b; margin-bottom:8px;">Điều hướng hệ thống</div>
+            <a href="index.html" class="jp-bento-card">
+                <span style="font-size:22px;">🏞️</span>
+                <div>
+                    <strong style="display:block; font-size:15px;">Trang Chủ Khảo Sát</strong>
+                    <span style="font-size:12.5px; color:#64748b;">Chọn thể trạng cơ thể & xem video thực địa</span>
+                </div>
+            </a>
+            <a href="search.html" class="jp-bento-card">
+                <span style="font-size:22px;">♿</span>
+                <div>
+                    <strong style="display:block; font-size:15px;">Bộ Lọc Trợ Năng Chuyên Sâu</strong>
+                    <span style="font-size:12.5px; color:#64748b;">Lọc theo độ dốc ≤ 6%, thang máy, lối xe lăn</span>
+                </div>
+            </a>
+            <a href="booking.html" class="jp-bento-card">
+                <span style="font-size:22px;">📋</span>
+                <div>
+                    <strong style="display:block; font-size:15px;">Đặt Giữ Chỗ & Yêu Cầu Y Tế</strong>
+                    <span style="font-size:12.5px; color:#64748b;">Đăng ký người dìu, xe lăn & suất hỗ trợ</span>
+                </div>
+            </a>
+            <a href="login.html" class="jp-bento-card">
+                <span style="font-size:22px;">👤</span>
+                <div>
+                    <strong style="display:block; font-size:15px;">Tài Khoản Gia Đình</strong>
+                    <span style="font-size:12.5px; color:#64748b;">Đăng nhập / Quản lý hồ sơ sức khỏe</span>
+                </div>
+            </a>
+            <a href="admin.html" class="jp-bento-card">
+                <span style="font-size:22px;">🛡️</span>
+                <div>
+                    <strong style="display:block; font-size:15px;">Cổng Quản Trị & Kiểm Định</strong>
+                    <span style="font-size:12.5px; color:#64748b;">Quản lý điểm đến & duyệt yêu cầu hỗ trợ</span>
+                </div>
+            </a>
+        </div>
+
+        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:14px; color:#92400e; font-size:13px; line-height:1.5;">
+            <strong>🏥 Cam kết Barrier-Free:</strong><br>
+            Mọi thông số về độ dốc, chiều rộng cửa và ghế nghỉ chân đều được đo đạc thực tế. Cần hỗ trợ xe lăn tại điểm đến, gọi ngay <strong>1900 6868</strong>.
+        </div>
+    </div>
+</aside>
+
+<script id="jp-static-header-js">
+function jpToggleMenu(show) {
+    var bg = document.getElementById('jpOverlayBg');
+    var drawer = document.getElementById('jpSideDrawer');
+    if (!bg || !drawer) return;
+    if (show) {
+        bg.classList.add('open');
+        drawer.classList.add('open');
+    } else {
+        bg.classList.remove('open');
+        drawer.classList.remove('open');
+    }
+}
+function jpResizeFont(percent, btn) {
+    var scale = percent / 100;
+    
+    // 1. Luu muc phong to vao bo nho de giu nguyen khi chuyen trang
+    localStorage.setItem('jp_a11y_scale', percent);
+
+    // 2. Tao hoac cap nhat the Style cuong che phong to bat chap don vi px
+    var styleEl = document.getElementById('jp-a11y-zoom-style');
+    if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = 'jp-a11y-zoom-style';
+        document.head.appendChild(styleEl);
+    }
+
+    if (percent === 100) {
+        styleEl.innerHTML = '';
+    } else {
+        // Phong to toan bo noi dung trang (tru thanh Header de khong bi vo khung menu)
+        styleEl.innerHTML = `
+            body > *:not(.jp-master-nav):not(.jp-overlay-bg):not(.jp-side-drawer):not(#jp-a11y-toast) {
+                zoom: ${scale} !important;
+            }
+            p, span, a, li, label, input, select, button, td, th, .care-item, .card-review-snippet {
+                line-height: 1.65 !important;
+            }
+        `;
+    }
+
+    // 3. Cap nhat trang thai sang den (Active) tren thanh Header
+    document.querySelectorAll('.jp-f-btn').forEach(function(b) {
+        b.classList.remove('active');
+        if ((percent === 100 && b.innerText === 'A') ||
+            (percent === 112 && b.innerText === 'A+') ||
+            (percent >= 120 && b.innerText === 'A++')) {
+            b.classList.add('active');
+        }
+    });
+    if (btn) {
+        document.querySelectorAll('.jp-f-btn').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+    }
+
+    // 4. Hien thi Toast thong bao Tro nang chuan Nhat Ban
+    var toast = document.getElementById('jp-a11y-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'jp-a11y-toast';
+        toast.style.cssText = 'position:fixed; bottom:24px; left:24px; background:#0f766e; color:#fff; padding:12px 20px; border-radius:12px; font-weight:700; font-size:14px; box-shadow:0 8px 25px rgba(15,118,110,0.35); z-index:2147483647; transition:all 0.3s ease; opacity:0; transform:translateY(10px); pointer-events:none; font-family:system-ui,sans-serif; border:2px solid #ffffff;';
+        document.body.appendChild(toast);
+    }
+    var labelMap = { 100: 'Mặc định (100%)', 112: 'Chữ Lớn cho Người cao tuổi (112%)', 115: 'Chữ Lớn (115%)', 122: 'Chữ Cực Lớn chống mỏi mắt (122%)' };
+    toast.innerHTML = '🔍 Cỡ chữ Trợ năng: ' + (labelMap[percent] || (percent + '%'));
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateY(0)';
+    clearTimeout(window.jpToastTimer);
+    window.jpToastTimer = setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+    }, 2200);
+}
+
+// Tu dong khoi phuc co chu khi tai trang
+window.addEventListener('DOMContentLoaded', function() {
+    var savedScale = parseInt(localStorage.getItem('jp_a11y_scale') || '100', 10);
+    if (savedScale !== 100) {
+        jpResizeFont(savedScale);
+    }
+});
+// Tự động vá lỗi chữ "★ undefined" ở trang chi tiết thành "★ 4.8"
+window.addEventListener('DOMContentLoaded', function() {
+    document.body.innerHTML = document.body.innerHTML.replace(/★\s*undefined/g, '★ 4.8');
+});
+</script>
+<!-- END STATIC JAPANESE HEADER V2 -->
+
     <header class="navbar">
         <a href="index.html" class="brand-logo"><span class="brand-flag">♿</span><span>AccessTravel</span></a>
         <nav class="nav-links">
@@ -341,5 +881,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if(overlay) overlay.addEventListener('click', toggleMenu);
 });
 </script>
+
+
 </body>
 </html>

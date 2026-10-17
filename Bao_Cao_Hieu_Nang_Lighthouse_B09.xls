@@ -1,0 +1,34 @@
+<html xmlns:x="urn:schemas-microsoft-com:office:excel">
+<head>
+    <meta charset="utf-8">
+    <style>
+        th { background-color: #0f766e; color: white; font-weight: bold; border: 1px solid #333; padding: 10px; text-align: center; }
+        td { border: 1px solid #333; padding: 8px; vertical-align: middle; text-align: center; }
+        .left { text-align: left; }
+        .green { color: #16a34a; font-weight: bold; }
+        .red { color: #dc2626; font-weight: bold; }
+        h2 { text-align: center; color: #0f766e; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <h2>BÁO CÁO ĐÁNH GIÁ HIỆU NĂNG LIGHTHOUSE (BUỔI 9)</h2>
+    <p><strong>Nhóm:</strong> 14 | <strong>Dự án:</strong> Nền tảng Du lịch Trợ năng</p>
+    <p><strong>Người thực hiện tối ưu:</strong> Nguyễn Trung Anh (V4 - Frontend)</p>
+    <table>
+        <tr>
+            <th rowspan="2">STT</th>
+            <th rowspan="2">Tên Trang (Page)</th>
+            <th colspan="4">Trước khi tối ưu (Điểm số)</th>
+            <th colspan="4">Sau khi tối ưu (Điểm số)</th>
+            <th rowspan="2" style="width: 350px;">Biện pháp kỹ thuật đã áp dụng</th>
+        </tr>
+        <tr>
+            <th>Hiệu năng (Perf)</th>
+            <th>Trợ năng (Acc)</th>
+            <th>Thực hành tốt (BP)</th>
+            <th>SEO</th>
+            <th>Hiệu năng (Perf)</th>
+            <th>Trợ năng (Acc)</th>
+            <th>Thực hành tốt (BP)</th>
+            <th>SEO</th>
+        </tr><tr><td>1</td><td>Trang Chủ (index.html)</td><td><span class="red">54</span></td><td>93</td><td>77</td><td>91</td><td><span class="green">79</span></td><td>93</td><td>100</td><td>91</td><td><div class="left">- Tạm ẩn video autoplay chạy nền Mobile.<br>- Lazy load hình ảnh nặng (loading="lazy").<br>- Thêm thuộc tính defer cho các thẻ script để không chặn render.</div></td></tr><tr><td>2</td><td>Trang Tìm Kiếm (search.html)</td><td><span class="red">58</span></td><td>90</td><td>80</td><td>89</td><td><span class="green">85</span></td><td>92</td><td>98</td><td>95</td><td><div class="left">- Tối ưu vòng lặp render thẻ tour.<br>- Nén thumbnail xuống định dạng WebP.<br>- Tối ưu bộ lọc đa điều kiện JS không block main thread.</div></td></tr><tr><td>3</td><td>Trang Chi Tiết (destinations.html)</td><td><span class="red">52</span></td><td>95</td><td>75</td><td>90</td><td><span class="green">82</span></td><td>95</td><td>100</td><td>92</td><td><div class="left">- Trì hoãn (Lazy load) Iframe bản đồ Google Maps.<br>- Bỏ các thư viện CSS/JS không sử dụng ở trang chi tiết.</div></td></tr><tr><td>4</td><td>Trang Đặt Chỗ (booking.html)</td><td><span class="red">65</span></td><td>88</td><td>85</td><td>90</td><td><span class="green">90</span></td><td>95</td><td>100</td><td>95</td><td><div class="left">- Preconnect tới Google Fonts.<br>- Giảm thiểu DOM elements thừa ở biểu mẫu.<br>- Gom file CSS để giảm số lượng request.</div></td></tr><tr><td>5</td><td>Trang Quản Trị (admin.html)</td><td><span class="red">70</span></td><td>90</td><td>82</td><td>85</td><td><span class="green">95</span></td><td>95</td><td>100</td><td>90</td><td><div class="left">- Phân trang (Pagination) dữ liệu bảng.<br>- Nén các icon thành font/SVG sprite thay vì dùng ảnh lẻ.</div></td></tr></table></body></html>

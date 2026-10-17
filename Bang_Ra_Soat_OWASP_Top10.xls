@@ -1,0 +1,19 @@
+<html xmlns:x="urn:schemas-microsoft-com:office:excel">
+<head>
+    <meta charset="utf-8">
+    <style>
+        th { background-color: #0f766e; color: white; font-weight: bold; border: 1px solid #333; padding: 8px; text-align: center; }
+        td { border: 1px solid #333; padding: 8px; vertical-align: top; }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>STT</th>
+            <th>Mã OWASP</th>
+            <th>Hạng mục rà soát (OWASP Top 10)</th>
+            <th>Mô tả kiểm tra trên hệ thống Nhóm 14</th>
+            <th>Trạng thái</th>
+            <th>Mức rủi ro</th>
+            <th>Biện pháp đã khắc phục / Cấu hình</th>
+        </tr><tr><td>1</td><td>A01:2021</td><td>Broken Access Control</td><td>Thử gọi trực tiếp URL admin/dashboard.php dưới quyền Khách</td><td>ĐẠT</td><td>Cao (High)</td><td>Chặn bằng Session ở tầng Server: nếu role != admin trả về HTTP 403 Forbidden.</td></tr><tr><td>2</td><td>A02:2021</td><td>Cryptographic Failures</td><td>SELECT mat_khau FROM nguoi_dung trong MySQL xem có lưu mật khẩu rõ không</td><td>ĐẠT</td><td>Cao (High)</td><td>Dùng thuật toán băm Bcrypt/Argon2i có Salt an toàn.</td></tr><tr><td>3</td><td>A03:2021</td><td>Injection (SQL/XSS)</td><td>Nhập chuỗi OR 1=1 và script vào các ô tìm kiếm/biểu mẫu</td><td>ĐẠT</td><td>Nghiêm trọng (Critical)</td><td>Dùng PDO Prepared Statements 100% cho SQL và hàm htmlspecialchars() tránh XSS.</td></tr><tr><td>4</td><td>A04:2021</td><td>Insecure Design</td><td>Kiểm tra luồng đặt giữ chỗ 15 phút và xử lý hủy đơn</td><td>ĐẠT</td><td>Trung bình (Medium)</td><td>Thiết kế Máy trạng thái đơn (State Machine) ràng buộc strict status transitions.</td></tr><tr><td>5</td><td>A05:2021</td><td>Security Misconfiguration</td><td>Kiểm tra thông báo lỗi khi gọi đường dẫn sai trên Production</td><td>ĐẠT</td><td>Trung bình (Medium)</td><td>Tắt display_errors=Off trên Server, hiển thị trang lỗi thân thiện không lộ đường dẫn.</td></tr><tr><td>6</td><td>A06:2021</td><td>Vulnerable Components</td><td>Kiểm tra phiên bản PHP (8.3), MySQL (8.0) và các thư viện npm/composer</td><td>ĐẠT</td><td>Thấp (Low)</td><td>Cập nhật toàn bộ dependencies lên phiên bản ổn định mới nhất.</td></tr><tr><td>7</td><td>A07:2021</td><td>Auth Failures</td><td>Thử đăng nhập sai mật khẩu liên tiếp và kiểm tra Session Timeout</td><td>ĐẠT</td><td>Cao (High)</td><td>Hủy Session hoàn toàn khi bấm Đăng xuất, cấu hình Session Cookie httponly.</td></tr><tr><td>8</td><td>A08:2021</td><td>Data Integrity Failures</td><td>Kiểm tra tính toàn vẹn của file dữ liệu khi gọi API Python</td><td>ĐẠT</td><td>Trung bình (Medium)</td><td>Xác thực định dạng JSON đầu vào và có cơ chế Fallback SQL nếu Python bị dừng.</td></tr><tr><td>9</td><td>A09:2021</td><td>Security Logging</td><td>Kiểm tra khả năng ghi nhận lịch sử giao dịch và lỗi hệ thống</td><td>ĐẠT</td><td>Trung bình (Medium)</td><td>Tạo hệ thống ghi log 3 mức (INFO, WARNING, ERROR) lưu vào file log hệ thống.</td></tr><tr><td>10</td><td>A10:2021</td><td>SSRF</td><td>Thử gửi URL độc hại vào các điểm cuối API external</td><td>ĐẠT</td><td>Trung bình (Medium)</td><td>Validate và Whitelist strict toàn bộ domain URL cho phép gọi kết nối.</td></tr></table></body></html>
