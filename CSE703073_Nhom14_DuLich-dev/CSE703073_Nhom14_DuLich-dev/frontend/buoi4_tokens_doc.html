@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Khung_UI_va_DesignTokens</title>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; color: #0f172a; padding: 28px 36px; line-height: 1.5; font-size: 13px; }
+        h1 { color: #115e59; font-size: 20px; border-bottom: 3px solid #115e59; padding-bottom: 10px; margin-bottom: 16px; }
+        h2 { color: #0b3d3a; font-size: 15px; margin: 18px 0 8px; }
+        pre { background: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; border-radius: 8px; font-family: Consolas, monospace; font-size: 11.5px; white-space: pre-wrap; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 10px; }
+        .box { border: 1px solid #99f6e4; background: #f0fdfa; padding: 12px; border-radius: 8px; }
+        @media print { .no-print { display: none; } body { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="no-print" style="background:#fef08a; padding:10px; margin-bottom:16px; border-radius:6px; text-align:center; font-weight:bold;">
+        👉 Bấm Ctrl + P -> Chọn Save as PDF -> Lưu tên: Khung_UI_va_DesignTokens.pdf
+    </div>
+    <h1>TÀI LIỆU KHUNG GIAO DIỆN (WIREFRAME) & DESIGN TOKENS CSS - BUỔI 04</h1>
+    <p><strong>Học phần:</strong> CSE703073 – Nhóm 14 | <strong>Vai trò:</strong> V4 – Phát triển Giao diện (Frontend Developer)</p>
+
+    <h2>1. Hệ thống Biến Thiết kế (Design Tokens - frontend/css/tokens.css)</h2>
+    <p>Hỗ trợ chuyển đổi tức thì giữa 02 chủ đề: Giao diện Sáng tiêu chuẩn (Forest Teal & Warm Sand) và Chế độ Người cao tuổi / Tương phản cao (<code>[data-theme="accessible"]</code> - Nền đen chữ vàng rực, cỡ chữ ≥ 20px, nút bấm ≥ 46px đạt chuẩn WCAG 2.1 AA).</p>
+    <pre>:root {
+  --color-primary: #115e59;          /* Xanh rừng chủ đạo (Wheel the World Style) */
+  --color-secondary: #f6efe6;        /* Kem ấm hộp tìm kiếm */
+  --color-verified: #facc15;         /* Nhãn vàng Accessibility Verified */
+  --font-size-base: 17px;            /* Cỡ chữ tiêu chuẩn */
+  --touch-target-min: 46px;          /* Kích thước vùng chạm tối thiểu >= 44px */
+}
+[data-theme="accessible"] {
+  --color-bg-main: #000000;          /* Nền đen tương phản cao */
+  --color-text-main: #ffff00;        /* Chữ vàng rực (>7:1 AAA) */
+  --color-primary: #00ff66;          /* Nút bấm xanh dạ quang */
+  --font-size-base: 20px;            /* Phóng to chữ cho người cao tuổi */
+}</pre>
+
+    <h2>2. Cấu trúc Khung Giao diện 03 Trang Chính & Đồng bộ Hợp đồng API v0.1</h2>
+    <div class="grid">
+        <div class="box">
+            <strong>1. Trang Danh sách & Lọc (index.html)</strong><br>
+            • Kết nối API: <code>GET /api/search.php</code><br>
+            • Tham số: <code>page</code>, <code>limit</code>, <code>keyword</code>, <code>has_wheelchair</code>.<br>
+            • Tích hợp Video giới thiệu & Dải đánh giá 4.9★.
+        </div>
+        <div class="box">
+            <strong>2. Trang Chi tiết Hạ tầng (detail.html)</strong><br>
+            • Hiển thị thông số đo đạc thực tế: Độ dốc <code>ramp_slope</code> (%), Cửa rộng <code>door_width</code> (cm), Thang máy, Tay vịn WC.<br>
+            • Đánh giá xác thực từ cộng đồng.
+        </div>
+        <div class="box">
+            <strong>3. Trang Đặt & Giữ chỗ (booking.html)</strong><br>
+            • Kết nối API: <code>POST /api/book.php</code><br>
+            • Khớp Request JSON: <code>destination_id</code>, <code>booking_date</code>, <code>quantity</code>, <code>special_note</code>.<br>
+            • Tích hợp Countdown Timer 15 phút.
+        </div>
+    </div>
+</body>
+</html>
