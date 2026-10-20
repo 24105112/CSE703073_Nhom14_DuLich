@@ -1188,5 +1188,255 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 
+<!-- ACCESSIBILITY MODULE -->
+<style>
+    /* Nút Trợ năng lơ lửng */
+    #access-widget-btn {
+        position: fixed; bottom: 30px; left: 30px; width: 56px; height: 56px;
+        background: #0f766e; color: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(15,118,110,0.4);
+        display: flex; align-items: center; justify-content: center; font-size: 28px;
+        cursor: pointer; z-index: 99999; transition: 0.3s;
+    }
+    #access-widget-btn:hover { transform: scale(1.1); background: #0d9488; }
+    
+    /* Bảng điều khiển */
+    #access-panel {
+        position: fixed; bottom: 100px; left: 30px; width: 280px; background: #fff;
+        border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid #0f766e;
+        padding: 20px; z-index: 99998; opacity: 0; visibility: hidden; transform: translateY(20px);
+        transition: 0.3s; font-family: system-ui, sans-serif;
+    }
+    #access-panel.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    #access-panel h4 { margin: 0 0 15px 0; color: #0f172a; font-size: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+    
+    .access-row { display: flex; gap: 10px; margin-bottom: 15px; }
+    .access-btn { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 700; color: #0f172a; cursor: pointer; transition: 0.2s; }
+    .access-btn:hover, .access-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
+    
+    .access-toggle { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .access-toggle:hover { background: #e2e8f0; }
+
+    /* CSS Chế độ Tương phản cao */
+    body.high-contrast { background: #000 !important; color: #ffff00 !important; }
+    body.high-contrast * { background-color: #000 !important; color: #ffff00 !important; border-color: #ffff00 !important; box-shadow: none !important; }
+    body.high-contrast img { filter: contrast(120%) grayscale(20%); }
+
+    /* Nút Đọc văn bản mọc ra khi bôi đen */
+    #tts-popup {
+        position: absolute; background: #0f766e; color: #fff; padding: 8px 16px;
+        border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100000; display: none; align-items: center; gap: 8px;
+    }
+    #tts-popup:hover { background: #0d9488; }
+</style>
+
+<!-- Nút nổi -->
+<div id="access-widget-btn" onclick="toggleAccessPanel()">
+    <i class="fa fa-wheelchair-alt"></i>
+</div>
+
+<!-- Bảng Trợ năng -->
+<div id="access-panel">
+    <h4><i class="fa fa-cogs"></i> Tùy chỉnh Trợ năng</h4>
+    <div style="font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Kích thước chữ:</div>
+    <div class="access-row">
+        <button class="access-btn active" id="btn-font-1" onclick="setFontSize(1)">A</button>
+        <button class="access-btn" id="btn-font-2" onclick="setFontSize(2)">A+</button>
+        <button class="access-btn" id="btn-font-3" onclick="setFontSize(3)">A++</button>
+    </div>
+    
+    <button class="access-toggle" onclick="toggleHighContrast()">
+        <span><i class="fa fa-adjust"></i> Tương phản cao</span>
+        <span id="contrast-status">TẮT</span>
+    </button>
+    
+    <button class="access-toggle" id="btn-tts-mode" onclick="toggleTTSMode()">
+        <span><i class="fa fa-volume-up"></i> Chế độ Đọc (Chạm)</span>
+        <span id="tts-status">TẮT</span>
+    </button>
+</div>
+
+<!-- Nút Đọc Văn Bản Ẩn -->
+<div id="tts-popup" onclick="speakSelectedText()"><i class="fa fa-play-circle"></i> Đọc chữ</div>
+
+<script>
+    // 1. Mở bảng công cụ
+    function toggleAccessPanel() {
+        document.getElementById('access-panel').classList.toggle('show');
+    }
+
+    // 2. Chỉnh cỡ chữ
+    function setFontSize(level) {
+        document.querySelectorAll('.access-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-font-' + level).classList.add('active');
+        
+        let root = document.documentElement;
+        if(level === 1) root.style.fontSize = '100%'; // Mặc định
+        if(level === 2) root.style.fontSize = '110%'; // To vừa
+        if(level === 3) root.style.fontSize = '125%'; // To đại
+    }
+
+    // 3. Chế độ tương phản cao (Mù màu / Mắt kém)
+    let isHighContrast = false;
+    function toggleHighContrast() {
+        isHighContrast = !isHighContrast;
+        if(isHighContrast) {
+            document.body.classList.add('high-contrast');
+            document.getElementById('contrast-status').innerText = 'BẬT';
+        } else {
+            document.body.classList.remove('high-contrast');
+            document.getElementById('contrast-status').innerText = 'TẮT';
+        }
+    }
+
+    // 4. Trợ lý Đọc văn bản (Bôi đen là đọc)
+    let isTTSMode = false;
+    function toggleTTSMode() {
+        isTTSMode = !isTTSMode;
+        const status = document.getElementById('tts-status');
+        const btn = document.getElementById('btn-tts-mode');
+        if(isTTSMode) {
+            status.innerText = 'BẬT';
+            btn.style.borderColor = '#10b981';
+            alert('Đã BẬT Trợ lý đọc! Hãy dùng chuột bôi đen một đoạn văn bản trên web để nghe hệ thống đọc.');
+        } else {
+            status.innerText = 'TẮT';
+            btn.style.borderColor = '#cbd5e1';
+            window.speechSynthesis.cancel(); // Tắt đọc ngay
+        }
+    }
+
+    // Hiện nút loa khi bôi đen chữ
+    document.addEventListener('mouseup', function(e) {
+        if(!isTTSMode) return;
+        const text = window.getSelection().toString().trim();
+        const popup = document.getElementById('tts-popup');
+        
+        if(text.length > 0) {
+            popup.style.display = 'flex';
+            popup.style.top = (e.pageY - 40) + 'px';
+            popup.style.left = e.pageX + 'px';
+        } else {
+            popup.style.display = 'none';
+        }
+    });
+
+    // Phát âm thanh
+    function speakSelectedText() {
+        const text = window.getSelection().toString().trim();
+        if(text.length > 0) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'vi-VN'; // Chuẩn giọng tiếng Việt
+            utterance.rate = 0.9;     // Đọc hơi chậm lại cho người già dễ nghe
+            window.speechSynthesis.speak(utterance);
+        }
+        document.getElementById('tts-popup').style.display = 'none';
+    }
+
+    // Tích hợp với 3 nút A A+ A++ có sẵn trên thanh Menu của bro
+    document.addEventListener('DOMContentLoaded', () => {
+        const existingA = document.querySelectorAll('span, button, a');
+        existingA.forEach(el => {
+            if(el.innerText === 'A') el.onclick = (e) => { e.preventDefault(); setFontSize(1); };
+            if(el.innerText === 'A+') el.onclick = (e) => { e.preventDefault(); setFontSize(2); };
+            if(el.innerText === 'A++') el.onclick = (e) => { e.preventDefault(); setFontSize(3); };
+        });
+    });
+</script>
+<!-- END ACCESSIBILITY MODULE -->
+<!-- ACCESSIBLE REVIEW MODULE -->
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    .review-section { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); font-family: system-ui, sans-serif; }
+    .review-header { display: flex; gap: 30px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
+    .overall-score { text-align: center; }
+    .overall-score h1 { font-size: 48px; color: #0f172a; margin: 0; line-height: 1; }
+    .overall-score .stars { color: #f59e0b; font-size: 20px; margin: 10px 0; }
+    .overall-score p { margin: 0; color: #64748b; font-size: 14px; font-weight: 600; }
+    
+    .criteria-list { flex: 1; }
+    .criteria-item { margin-bottom: 12px; }
+    .criteria-label { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 6px; }
+    .progress-bg { height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+    .progress-bar { height: 100%; background: #0f766e; border-radius: 10px; }
+    
+    .review-card { padding: 20px 0; border-bottom: 1px solid #f1f5f9; }
+    .review-card:last-child { border-bottom: none; }
+    .reviewer-info { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .avatar { width: 40px; height: 40px; background: #0f766e; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; }
+    .reviewer-name { font-weight: 700; color: #0f172a; margin: 0; }
+    .reviewer-tag { background: #dcfce7; color: #166534; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+    .review-text { color: #475569; font-size: 14.5px; line-height: 1.6; margin: 0 0 10px 0; }
+    .review-tags span { display: inline-block; background: #f1f5f9; color: #475569; font-size: 12px; padding: 4px 10px; border-radius: 6px; margin-right: 6px; font-weight: 600; }
+    
+    .write-review-btn { background: #0f766e; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s; width: 100%; margin-top: 20px; }
+    .write-review-btn:hover { background: #0d9488; }
+</style>
+
+<div class="review-section">
+    <h3 style="margin-top:0; font-size:22px; color:#0f172a;">Khách hàng nói gì về mức độ Trợ năng?</h3>
+    
+    <div class="review-header">
+        <div class="overall-score">
+            <h1>4.8</h1>
+            <div class="stars">★★★★★</div>
+            <p>128 bài đánh giá</p>
+        </div>
+        
+        <div class="criteria-list">
+            <div class="criteria-item">
+                <div class="criteria-label"><span><i class="fa fa-wheelchair"></i> Độ bằng phẳng cho xe lăn</span> <span>4.9/5</span></div>
+                <div class="progress-bg"><div class="progress-bar" style="width: 98%;"></div></div>
+            </div>
+            <div class="criteria-item">
+                <div class="criteria-label"><span><i class="fa fa-user-md"></i> Sự nhiệt tình của nhân viên hỗ trợ</span> <span>4.8/5</span></div>
+                <div class="progress-bg"><div class="progress-bar" style="width: 96%;"></div></div>
+            </div>
+            <div class="criteria-item">
+                <div class="criteria-label"><span><i class="fa fa-bath"></i> Tiện ích phòng (Tay vịn, chống trượt)</span> <span>4.7/5</span></div>
+                <div class="progress-bg"><div class="progress-bar" style="width: 94%;"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="review-list">
+        <!-- Review 1 -->
+        <div class="review-card">
+            <div class="reviewer-info">
+                <div class="avatar">A</div>
+                <div>
+                    <h4 class="reviewer-name">Gia đình Bác An <span class="reviewer-tag">✔ Đã xác minh trải nghiệm</span></h4>
+                    <div style="color:#f59e0b; font-size:14px; margin-top:2px;">★★★★★ <span style="color:#94a3b8; font-size:12px; margin-left:8px;">2 ngày trước</span></div>
+                </div>
+            </div>
+            <p class="review-text">"Tôi đưa bố 75 tuổi đi nghỉ dưỡng. Đường đi xe lăn cực kỳ mượt mà, không có bậc thang gắt. Đặc biệt các bạn nhân viên y tế trực 24/7 rất nhiệt tình dìu ông cụ xuống bể bơi. Gia đình rất an tâm!"</p>
+            <div class="review-tags">
+                <span><i class="fa fa-thumbs-up"></i> Nhân viên tận tâm</span>
+                <span><i class="fa fa-wheelchair"></i> Xe lăn đi thoải mái</span>
+            </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-card">
+            <div class="reviewer-info">
+                <div class="avatar" style="background:#8b5cf6;">M</div>
+                <div>
+                    <h4 class="reviewer-name">Cô Mai Lan <span class="reviewer-tag">✔ Đã xác minh trải nghiệm</span></h4>
+                    <div style="color:#f59e0b; font-size:14px; margin-top:2px;">★★★★☆ <span style="color:#94a3b8; font-size:12px; margin-left:8px;">1 tuần trước</span></div>
+                </div>
+            </div>
+            <p class="review-text">"Nhà vệ sinh thiết kế cực kỳ chuẩn xác, có tay vịn vững chắc và sàn nhám hoàn toàn không sợ trượt ngã. Điểm trừ nhỏ là xe điện nội khu đôi khi phải đợi hơi lâu (khoảng 10 phút)."</p>
+            <div class="review-tags">
+                <span><i class="fa fa-bath"></i> Toilet an toàn</span>
+            </div>
+        </div>
+    </div>
+
+    <button class="write-review-btn" onclick="alert('Tính năng viết đánh giá sẽ yêu cầu đăng nhập. (Demo)')">
+        <i class="fa fa-pencil"></i> Viết đánh giá trải nghiệm của bạn
+    </button>
+</div>
+<!-- END ACCESSIBLE REVIEW MODULE -->
 </body>
 </html>

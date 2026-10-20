@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cảnh báo Bảo trì | AccessTravel Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f8fafc; margin: 0; color: #0f172a; overflow-x: hidden; }
+        .admin-layout { display: flex; min-height: 100vh; width: 100vw; }
+        .sidebar { width: 260px; background: #0f766e; color: #fff; padding: 20px 0; flex-shrink: 0; display: flex; flex-direction: column; }
+        .sidebar-logo { font-size: 20px; font-weight: 800; padding: 0 20px 20px; border-bottom: 1px solid #115e59; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .menu-item { padding: 15px 20px; display: block; color: #ccfbf1; text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .menu-item:hover, .menu-item.active { background: #0d9488; color: #fff; border-left: 4px solid #5eead4; }
+        .btn-logout { margin-top: auto; padding: 15px 20px; color: #fca5a5; text-decoration: none; font-weight: 600; display: block; border-top: 1px solid #115e59; transition: 0.2s;} 
+        .btn-logout:hover { color: #fff; background: #0f766e; }
+        .content { flex: 1; padding: 30px; overflow-y: auto; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #f1f5f9; color: #475569; font-weight: 700; text-align: left; padding: 14px 16px; font-size: 13px; text-transform: uppercase; }
+        td { padding: 16px; border-bottom: 1px solid #e2e8f0; font-size: 14px; vertical-align: middle; }
+        
+        /* Toggle Switch iOS Style */
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #ef4444; }
+        input:focus + .slider { box-shadow: 0 0 1px #ef4444; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1; bottom: 30px; right: 30px; font-weight: 600; opacity: 0; transition: opacity 0.3s; }
+        #toast.show { visibility: visible; opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fa fa-wheelchair"></i> AccessTravel
+            </div>
+            <a href="admin_dashboard.html" class="menu-item"><i class="fa fa-pie-chart fa-fw"></i> Tổng quan (Dashboard)</a>
+            <a href="admin_auditor.html" class="menu-item"><i class="fa fa-check-square-o fa-fw"></i> Trạm Kiểm Định</a>
+            <a href="admin_medical.html" class="menu-item"><i class="fa fa-heartbeat fa-fw"></i> Quản lý Y tế & Hỗ trợ</a>
+            <a href="admin_maintenance.html" class="menu-item active"><i class="fa fa-exclamation-triangle fa-fw"></i> Cảnh báo Bảo trì</a>
+            <a href="index.html" class="btn-logout"><i class="fa fa-sign-out fa-fw"></i> Thoát về Trang chủ</a>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="header">
+                <h2 style="margin:0; font-size: 24px; color:#b91c1c;">Cảnh Báo Bảo Trì Khẩn Cấp 🚧</h2>
+                <div style="background:#e2e8f0; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:700;">Admin: spep3233</div>
+            </div>
+
+            <div class="card">
+                <p style="color:#64748b; margin-top:0; margin-bottom:20px;">Kích hoạt công tắc để khóa điểm đến trên trang chủ nếu phát hiện cơ sở vật chất (thang máy, dốc xe lăn) bị hỏng, đảm bảo an toàn tuyệt đối cho khách hàng.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Điểm Đến / Resort</th>
+                            <th>Tình trạng sự cố (Ghi chú)</th>
+                            <th style="text-align:center;">Trạng thái Khóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>#304</strong></td>
+                            <td>Du thuyền Trợ Năng 304 (Phú Quốc)</td>
+                            <td><input type="text" placeholder="Nhập ghi chú..." style="padding:8px; border:1px solid #cbd5e1; border-radius:6px; width:90%;" value="Hoạt động bình thường"></td>
+                            <td style="text-align:center;">
+                                <label class="switch"><input type="checkbox" onchange="toggleAlert(this, 'Du thuyền 304')"><span class="slider"></span></label>
+                            </td>
+                        </tr>
+                        <tr style="background:#fef2f2;">
+                            <td><strong>#003</strong></td>
+                            <td>Chùa Bái Đính - Lối riêng</td>
+                            <td><input type="text" style="padding:8px; border:1px solid #fca5a5; border-radius:6px; width:90%; color:#b91c1c; font-weight:600;" value="Đang sửa chữa dốc xe lăn cổng số 2"></td>
+                            <td style="text-align:center;">
+                                <label class="switch"><input type="checkbox" checked onchange="toggleAlert(this, 'Chùa Bái Đính')"><span class="slider"></span></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#305</strong></td>
+                            <td>Resort Trợ Năng 305 (Huế)</td>
+                            <td><input type="text" placeholder="Nhập ghi chú..." style="padding:8px; border:1px solid #cbd5e1; border-radius:6px; width:90%;" value=""></td>
+                            <td style="text-align:center;">
+                                <label class="switch"><input type="checkbox" onchange="toggleAlert(this, 'Resort 305')"><span class="slider"></span></label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div id="toast">Cập nhật thành công!</div>
+
+    <script>
+        function toggleAlert(checkbox, name) {
+            const toast = document.getElementById("toast");
+            if(checkbox.checked) {
+                toast.innerHTML = `<i class="fa fa-lock"></i> Đã KHÓA và hiện cảnh báo: <b>${name}</b>`;
+                toast.style.backgroundColor = "#ef4444";
+            } else {
+                toast.innerHTML = `<i class="fa fa-unlock"></i> Đã MỞ KHÓA điểm đến: <b>${name}</b>`;
+                toast.style.backgroundColor = "#10b981";
+            }
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
+<!-- ACCESSIBILITY MODULE -->
+<style>
+    /* Nút Trợ năng lơ lửng */
+    #access-widget-btn {
+        position: fixed; bottom: 30px; left: 30px; width: 56px; height: 56px;
+        background: #0f766e; color: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(15,118,110,0.4);
+        display: flex; align-items: center; justify-content: center; font-size: 28px;
+        cursor: pointer; z-index: 99999; transition: 0.3s;
+    }
+    #access-widget-btn:hover { transform: scale(1.1); background: #0d9488; }
+    
+    /* Bảng điều khiển */
+    #access-panel {
+        position: fixed; bottom: 100px; left: 30px; width: 280px; background: #fff;
+        border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid #0f766e;
+        padding: 20px; z-index: 99998; opacity: 0; visibility: hidden; transform: translateY(20px);
+        transition: 0.3s; font-family: system-ui, sans-serif;
+    }
+    #access-panel.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    #access-panel h4 { margin: 0 0 15px 0; color: #0f172a; font-size: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+    
+    .access-row { display: flex; gap: 10px; margin-bottom: 15px; }
+    .access-btn { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 700; color: #0f172a; cursor: pointer; transition: 0.2s; }
+    .access-btn:hover, .access-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
+    
+    .access-toggle { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .access-toggle:hover { background: #e2e8f0; }
+
+    /* CSS Chế độ Tương phản cao */
+    body.high-contrast { background: #000 !important; color: #ffff00 !important; }
+    body.high-contrast * { background-color: #000 !important; color: #ffff00 !important; border-color: #ffff00 !important; box-shadow: none !important; }
+    body.high-contrast img { filter: contrast(120%) grayscale(20%); }
+
+    /* Nút Đọc văn bản mọc ra khi bôi đen */
+    #tts-popup {
+        position: absolute; background: #0f766e; color: #fff; padding: 8px 16px;
+        border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100000; display: none; align-items: center; gap: 8px;
+    }
+    #tts-popup:hover { background: #0d9488; }
+</style>
+
+<!-- Nút nổi -->
+<div id="access-widget-btn" onclick="toggleAccessPanel()">
+    <i class="fa fa-wheelchair-alt"></i>
+</div>
+
+<!-- Bảng Trợ năng -->
+<div id="access-panel">
+    <h4><i class="fa fa-cogs"></i> Tùy chỉnh Trợ năng</h4>
+    <div style="font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Kích thước chữ:</div>
+    <div class="access-row">
+        <button class="access-btn active" id="btn-font-1" onclick="setFontSize(1)">A</button>
+        <button class="access-btn" id="btn-font-2" onclick="setFontSize(2)">A+</button>
+        <button class="access-btn" id="btn-font-3" onclick="setFontSize(3)">A++</button>
+    </div>
+    
+    <button class="access-toggle" onclick="toggleHighContrast()">
+        <span><i class="fa fa-adjust"></i> Tương phản cao</span>
+        <span id="contrast-status">TẮT</span>
+    </button>
+    
+    <button class="access-toggle" id="btn-tts-mode" onclick="toggleTTSMode()">
+        <span><i class="fa fa-volume-up"></i> Chế độ Đọc (Chạm)</span>
+        <span id="tts-status">TẮT</span>
+    </button>
+</div>
+
+<!-- Nút Đọc Văn Bản Ẩn -->
+<div id="tts-popup" onclick="speakSelectedText()"><i class="fa fa-play-circle"></i> Đọc chữ</div>
+
+<script>
+    // 1. Mở bảng công cụ
+    function toggleAccessPanel() {
+        document.getElementById('access-panel').classList.toggle('show');
+    }
+
+    // 2. Chỉnh cỡ chữ
+    function setFontSize(level) {
+        document.querySelectorAll('.access-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-font-' + level).classList.add('active');
+        
+        let root = document.documentElement;
+        if(level === 1) root.style.fontSize = '100%'; // Mặc định
+        if(level === 2) root.style.fontSize = '110%'; // To vừa
+        if(level === 3) root.style.fontSize = '125%'; // To đại
+    }
+
+    // 3. Chế độ tương phản cao (Mù màu / Mắt kém)
+    let isHighContrast = false;
+    function toggleHighContrast() {
+        isHighContrast = !isHighContrast;
+        if(isHighContrast) {
+            document.body.classList.add('high-contrast');
+            document.getElementById('contrast-status').innerText = 'BẬT';
+        } else {
+            document.body.classList.remove('high-contrast');
+            document.getElementById('contrast-status').innerText = 'TẮT';
+        }
+    }
+
+    // 4. Trợ lý Đọc văn bản (Bôi đen là đọc)
+    let isTTSMode = false;
+    function toggleTTSMode() {
+        isTTSMode = !isTTSMode;
+        const status = document.getElementById('tts-status');
+        const btn = document.getElementById('btn-tts-mode');
+        if(isTTSMode) {
+            status.innerText = 'BẬT';
+            btn.style.borderColor = '#10b981';
+            alert('Đã BẬT Trợ lý đọc! Hãy dùng chuột bôi đen một đoạn văn bản trên web để nghe hệ thống đọc.');
+        } else {
+            status.innerText = 'TẮT';
+            btn.style.borderColor = '#cbd5e1';
+            window.speechSynthesis.cancel(); // Tắt đọc ngay
+        }
+    }
+
+    // Hiện nút loa khi bôi đen chữ
+    document.addEventListener('mouseup', function(e) {
+        if(!isTTSMode) return;
+        const text = window.getSelection().toString().trim();
+        const popup = document.getElementById('tts-popup');
+        
+        if(text.length > 0) {
+            popup.style.display = 'flex';
+            popup.style.top = (e.pageY - 40) + 'px';
+            popup.style.left = e.pageX + 'px';
+        } else {
+            popup.style.display = 'none';
+        }
+    });
+
+    // Phát âm thanh
+    function speakSelectedText() {
+        const text = window.getSelection().toString().trim();
+        if(text.length > 0) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'vi-VN'; // Chuẩn giọng tiếng Việt
+            utterance.rate = 0.9;     // Đọc hơi chậm lại cho người già dễ nghe
+            window.speechSynthesis.speak(utterance);
+        }
+        document.getElementById('tts-popup').style.display = 'none';
+    }
+
+    // Tích hợp với 3 nút A A+ A++ có sẵn trên thanh Menu của bro
+    document.addEventListener('DOMContentLoaded', () => {
+        const existingA = document.querySelectorAll('span, button, a');
+        existingA.forEach(el => {
+            if(el.innerText === 'A') el.onclick = (e) => { e.preventDefault(); setFontSize(1); };
+            if(el.innerText === 'A+') el.onclick = (e) => { e.preventDefault(); setFontSize(2); };
+            if(el.innerText === 'A++') el.onclick = (e) => { e.preventDefault(); setFontSize(3); };
+        });
+    });
+</script>
+<!-- END ACCESSIBILITY MODULE -->
+</body>
+</html>

@@ -1,947 +1,303 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | AccessTravel M3</title>
-    <link rel="stylesheet" href="css/tokens.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <title>Tổng quan | AccessTravel Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { background: #f1f5f9; padding: 24px; font-family: system-ui, sans-serif; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 24px; }
-        .kpi-card {  border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 16px; }
-        .kpi-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; }
-        .kpi-val { font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 4px; }
-        .kpi-lbl { font-size: 14px; color: #64748b; font-weight: 600; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .chart-card {  border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .chart-card h3 { font-size: 16px; color: #334155; margin-bottom: 20px; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        body { font-family: system-ui, sans-serif; background: #f8fafc; margin: 0; color: #0f172a; overflow-x: hidden; }
+        
+        /* Bố cục chia 2 cột Trái (Sidebar) - Phải (Nội dung) */
+        .admin-layout { display: flex; min-height: 100vh; width: 100vw; }
+        
+        /* Sidebar cố định bên trái */
+        .sidebar { width: 260px; background: #0f766e; color: #fff; padding: 20px 0; flex-shrink: 0; display: flex; flex-direction: column; }
+        .sidebar-logo { font-size: 20px; font-weight: 800; padding: 0 20px 20px; border-bottom: 1px solid #115e59; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .menu-item { padding: 15px 20px; display: block; color: #ccfbf1; text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .menu-item:hover, .menu-item.active { background: #0d9488; color: #fff; border-left: 4px solid #5eead4; }
+        .btn-logout { margin-top: auto; padding: 15px 20px; color: #fca5a5; text-decoration: none; font-weight: 600; display: block; border-top: 1px solid #115e59; transition: 0.2s;} 
+        .btn-logout:hover { color: #fff; background: #0f766e; }
+        
+        /* Nội dung cuộn bên phải */
+        .content { flex: 1; padding: 30px; overflow-y: auto; }
+        
+        /* Dashboard Styles */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; }
+        .stat-icon { width: 55px; height: 55px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; }
+        .stat-info h4 { margin: 0; font-size: 13px; color: #64748b; font-weight: 600; }
+        .stat-info div { font-size: 22px; font-weight: 800; color: #0f172a; margin-top: 5px; }
+        
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .chart-card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .chart-card h3 { margin-top: 0; font-size: 16px; color: #334155; margin-bottom: 25px; display:flex; align-items:center; gap:8px;}
     </style>
-
-
-<style id="super-dark-mode">
-    /* Cưỡng chế toàn bộ thân trang web thành màu tối */
-    html[data-theme="dark"] body, html[data-theme="dark"] header, html[data-theme="dark"] .navbar { 
-        background-color: #0f172a !important; color: #f8fafc !important; border-bottom-color: #334155 !important;
-    }
-    
-    /* Bắt mọi thẻ div mặc định trong suốt để không bị đè màu */
-    html[data-theme="dark"] div, html[data-theme="dark"] section, html[data-theme="dark"] article {
-        background-color: transparent !important; 
-        color: #f8fafc !important;
-        border-color: #334155 !important;
-    }
-    
-    /* TUYỆT CHIÊU: Tự động nhận diện các khối thẻ (card) thông qua class, viền hoặc shadow để tô nền xám đen */
-    html[data-theme="dark"] .tour-card, html[data-theme="dark"] .card, html[data-theme="dark"] .booking-card, 
-    html[data-theme="dark"] .spec-card, html[data-theme="dark"] .ai-card, html[data-theme="dark"] .metric-card, 
-    html[data-theme="dark"] .review-item, html[data-theme="dark"] .review-dashboard,
-    html[data-theme="dark"] .content-section, html[data-theme="dark"] [style*="border"], 
-    html[data-theme="dark"] [style*="box-shadow"], html[data-theme="dark"] [style*="padding: 24px"] {
-        background-color: #1e293b !important;
-    }
-
-    /* Ép tất cả các loại chữ (tiêu đề, thẻ p, span, nhãn) phát sáng */
-    html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3, 
-    html[data-theme="dark"] h4, html[data-theme="dark"] p, html[data-theme="dark"] span,
-    html[data-theme="dark"] strong, html[data-theme="dark"] label, html[data-theme="dark"] input { 
-        color: #f8fafc !important; 
-    }
-
-    /* Bảo vệ các nút bấm, icon và badge trợ năng không bị hỏng màu */
-    html[data-theme="dark"] button, html[data-theme="dark"] .btn, html[data-theme="dark"] .btn-primary { 
-        background-color: #0284c7 !important; color: #fff !important; border:none !important; 
-    }
-    html[data-theme="dark"] img, html[data-theme="dark"] i, html[data-theme="dark"] svg {
-        background-color: transparent !important;
-    }
-    html[data-theme="dark"] .verify-badge-large, html[data-theme="dark"] .ai-badge {
-        background-color: #a21caf !important; color: #fdf4ff !important;
-    }
-</style>
-
-
-
-<style id="ultimate-responsive-grid">
-    /* 1. CHỐNG VỠ GIAO DIỆN TOÀN TẬP */
-    html, body {
-        max-width: 100vw !important; /* Cấm web phình to hơn màn hình */
-        overflow-x: hidden !important; /* Cấm kéo ngang tạo khoảng trắng */
-        box-sizing: border-box !important;
-    }
-    *, *:before, *:after {
-        box-sizing: inherit !important;
-    }
-
-    /* 2. CẤU TRÚC LƯỚI (GRID) LINH HOẠT CHO TẤT CẢ THIẾT BỊ */
-    .tour-grid, .metrics-grid, .grid-container {
-        display: grid !important;
-        width: 100% !important;
-    }
-
-    /* --- GIAO DIỆN DESKTOP & LAPTOP (Màn hình lớn > 1024px) --- */
-    @media (min-width: 1024px) {
-        .tour-grid { 
-            grid-template-columns: repeat(3, 1fr) !important; /* 3 Cột rộng rãi */
-            gap: 24px !important; 
-        }
-    }
-
-    /* --- GIAO DIỆN TABLET (iPad từ 768px đến 1023px) --- */
-    @media (min-width: 768px) and (max-width: 1023px) {
-        .tour-grid, .metrics-grid { 
-            grid-template-columns: repeat(2, 1fr) !important; /* 2 Cột cân đối */
-            gap: 16px !important; 
-        }
-    }
-
-    /* --- GIAO DIỆN MOBILE & THIẾT BỊ CẦM TAY (Màn hình < 768px) --- */
-    @media (max-width: 767px) {
-        .tour-grid { 
-            grid-template-columns: repeat(2, 1fr) !important; /* HIỂN THỊ 2 CỘT SONG SONG GỌN GÀNG */
-            gap: 8px !important; /* Giảm khoảng cách để đỡ tốn diện tích */
-            padding: 8px !important;
-        }
-        
-        .metrics-grid {
-            grid-template-columns: repeat(2, 1fr) !important; /* Bảng admin cũng chia 2 ô/hàng */
-            gap: 8px !important;
-        }
-
-        /* Ép thẻ tour trên mobile phải nhỏ gọn, xinh xắn */
-        .tour-card, .card {
-            padding: 8px !important;
-            border-radius: 12px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: space-between !important;
-        }
-
-        /* Thu nhỏ ảnh bìa để chừa chỗ cho chữ */
-        .tour-card img, .card-img { 
-            height: 100px !important; 
-            width: 100% !important;
-            object-fit: cover !important; 
-            border-radius: 8px !important; 
-            margin-bottom: 8px !important;
-        }
-
-        /* Chữ bên trong thẻ phải nhỏ lại cho vừa khung 2 cột */
-        .tour-card h3, .tour-card h4 { 
-            font-size: 13px !important; 
-            line-height: 1.3 !important; 
-            margin: 0 0 4px 0 !important; 
-            overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; /* Chống chữ dài tràn dòng */
-        }
-        
-        .tour-card p, .tour-card span { 
-            font-size: 11px !important; 
-            line-height: 1.2 !important; 
-            margin-bottom: 4px !important;
-        }
-
-        /* Nút bấm trong thẻ tự động dàn ngang hoặc xếp gọn */
-        .tour-card .btn, .tour-card button { 
-            padding: 6px !important; 
-            font-size: 11px !important; 
-            width: 100% !important; /* Nút trải dài hết thẻ */
-            margin-top: 4px !important;
-        }
-        
-        /* Ẩn bớt đoạn mô tả dài thòng lọng trên thẻ mobile */
-        .tour-card .description-preview, .card-desc { 
-            display: none !important; 
-        }
-        
-        /* Đảm bảo trang chi tiết (Detail) không bị bóp nghẹt */
-        .detail-layout {
-            grid-template-columns: 1fr !important;
-        }
-    }
-</style>
-
-
-
-
-<style id="modern-sidebar-fix">
-    /* 1. HEADER GỌN GÀNG NHƯ CŨ */
-    body { padding-top: 60px !important; }
-    header, .header, .navbar {
-        position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important;
-        height: 60px !important; background-color: var(--color-bg-card, #ffffff) !important;
-        z-index: 9999 !important; display: flex !important; align-items: center !important;
-        justify-content: space-between !important; padding: 0 16px !important;
-        box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important; border: none !important;
-    }
-    html[data-theme="dark"] header { background-color: #0f172a !important; border-bottom: 1px solid #334155 !important; }
-    
-    header > *:not(.logo):not(img):not(.hamburger-btn):not(#themeToggleBtn) { display: none !important; }
-    #themeToggleBtn { margin-left: auto !important; margin-right: 16px !important; }
-    
-    .hamburger-btn {
-        background: transparent !important; border: none !important; font-size: 24px !important;
-        cursor: pointer !important; display: block !important; color: var(--color-text-main, #0f172a) !important;
-        padding: 4px !important; margin: 0 !important;
-    }
-    html[data-theme="dark"] .hamburger-btn { color: #f8fafc !important; }
-
-    /* 2. LỚP PHỦ ĐEN (OVERLAY) */
-    .menu-overlay {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(15, 23, 42, 0.6); z-index: 99998;
-        opacity: 0; visibility: hidden; transition: all 0.3s ease;
-        backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
-    }
-    .menu-overlay.show { opacity: 1; visibility: visible; }
-
-    /* 3. MENU TRƯỢT TỪ BÊN PHẢI (SIDEBAR DRAWER) */
-    .mobile-sidebar {
-        position: fixed !important; top: 0 !important; right: -320px !important;
-        width: 280px !important; height: 100vh !important;
-        background-color: var(--color-bg-card, #ffffff) !important;
-        box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
-        z-index: 99999 !important; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        display: flex !important; flex-direction: column !important;
-        padding: 20px 16px !important; overflow-y: auto !important;
-    }
-    html[data-theme="dark"] .mobile-sidebar { background-color: #1e293b !important; border-left: 1px solid #334155 !important; }
-    .mobile-sidebar.show { right: 0 !important; }
-
-    /* 4. STYLE CÁC NÚT BÊN TRONG SIDEBAR */
-    .close-sidebar-btn {
-        align-self: flex-end !important; background: transparent !important;
-        border: none !important; font-size: 24px !important; cursor: pointer !important;
-        color: #64748b !important; margin-bottom: 24px !important; padding: 8px !important;
-        border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important;
-    }
-    .close-sidebar-btn:active { background: #f1f5f9 !important; }
-    
-    .mobile-sidebar a, .mobile-sidebar button:not(.close-sidebar-btn) {
-        display: block !important; width: 100% !important; text-align: left !important;
-        padding: 14px 16px !important; margin-bottom: 8px !important;
-        font-size: 15px !important; font-weight: 500 !important;
-        border-radius: 12px !important; text-decoration: none !important;
-        color: var(--color-text-main, #0f172a) !important;
-        background: transparent !important; border: 1px solid transparent !important;
-        transition: all 0.2s ease !important;
-    }
-    html[data-theme="dark"] .mobile-sidebar a, html[data-theme="dark"] .mobile-sidebar button:not(.close-sidebar-btn) { color: #f8fafc !important; }
-    
-    .mobile-sidebar a:active, .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #f1f5f9 !important; }
-    html[data-theme="dark"] .mobile-sidebar a:active, html[data-theme="dark"] .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #334155 !important; }
-    
-    /* Làm nổi bật nút Đăng nhập / Đăng ký */
-    .mobile-sidebar .btn-primary { 
-        background: #0284c7 !important; color: #fff !important; 
-        font-weight: 600 !important; text-align: center !important; margin-top: 16px !important;
-    }
-</style>
 </head>
 <body>
-<!-- STATIC JAPANESE BARRIER-FREE HEADER V2 -->
-<style id="jp-static-header-css">
-    /* 1. Triệt tiêu hoàn toàn các thanh header trắng rỗng cũ của dự án */
-    header:not(.jp-master-nav), 
-    .header:not(.jp-master-nav), 
-    .navbar:not(.jp-master-nav),
-    .topbar, .top-nav, #header, .site-header,
-    .hamburger-btn, .mobile-sidebar, .menu-overlay {
-        display: none !important;
-        height: 0 !important;
-        overflow: hidden !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border: none !important;
-    }
-
-    /* Reset khoảng đệm đầu trang nếu CSS cũ có cài padding-top cho body */
-    body {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-    }
-
-    /* 2. Khung Header Nhật Bản (Dùng thẻ div để không bị CSS cũ của thẻ header đè) */
-    .jp-master-nav {
-        position: sticky !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        z-index: 2147483640 !important;
-        background: #ffffff !important;
-        border-bottom: 2px solid #cbd5e1 !important;
-        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
-        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-
-    [data-theme="dark"] .jp-master-nav {
-        background: #0f172a !important;
-        border-bottom-color: #334155 !important;
-    }
-
-    /* Dải thông tin trợ năng trên cùng */
-    .jp-strip-top {
-        background: #0f766e !important;
-        color: #ffffff !important;
-        font-size: 12.5px !important;
-        padding: 6px 20px !important;
-        display: block !important;
-    }
-    .jp-strip-inner {
-        max-width: 1200px !important;
-        margin: 0 auto !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-    }
-    .jp-wcag-pill {
-        background: rgba(255, 255, 255, 0.2) !important;
-        padding: 2px 10px !important;
-        border-radius: 99px !important;
-        font-weight: 700 !important;
-        color: #ffffff !important;
-    }
-
-    /* Tầng chính của Header */
-    .jp-nav-container {
-        max-width: 1200px !important;
-        margin: 0 auto !important;
-        padding: 12px 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        gap: 16px !important;
-        background: transparent !important;
-    }
-
-    /* Logo thương hiệu */
-    .jp-logo-box {
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
-        text-decoration: none !important;
-    }
-    .jp-logo-icon {
-        width: 44px !important;
-        height: 44px !important;
-        border-radius: 12px !important;
-        background: linear-gradient(135deg, #0f766e, #0d9488) !important;
-        color: #ffffff !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 22px !important;
-        font-weight: bold !important;
-        box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25) !important;
-    }
-    .jp-logo-title {
-        font-size: 19px !important;
-        font-weight: 800 !important;
-        color: #0f766e !important;
-        line-height: 1.15 !important;
-        display: block !important;
-    }
-    [data-theme="dark"] .jp-logo-title {
-        color: #2dd4bf !important;
-    }
-    .jp-logo-sub {
-        font-size: 12px !important;
-        color: #475569 !important;
-        font-weight: 600 !important;
-        display: block !important;
-        margin-top: 2px !important;
-    }
-    [data-theme="dark"] .jp-logo-sub {
-        color: #94a3b8 !important;
-    }
-
-    /* Menu ngang ở giữa */
-    .jp-center-links {
-        display: flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-    }
-    .jp-link-item {
-        padding: 8px 14px !important;
-        border-radius: 10px !important;
-        font-size: 14.5px !important;
-        font-weight: 700 !important;
-        color: #0f172a !important;
-        text-decoration: none !important;
-        transition: 0.2s !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-    }
-    [data-theme="dark"] .jp-link-item {
-        color: #f8fafc !important;
-    }
-    .jp-link-item:hover {
-        background: #f0fdfa !important;
-        color: #0f766e !important;
-    }
-    [data-theme="dark"] .jp-link-item:hover {
-        background: #1e293b !important;
-        color: #2dd4bf !important;
-    }
-
-    /* Cụm công cụ bên phải */
-    .jp-right-tools {
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-    }
-
-    /* Cụm nút phóng to chữ A / A+ / A++ */
-    .jp-a11y-font {
-        display: flex !important;
-        align-items: center !important;
-        background: #f1f5f9 !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 10px !important;
-        padding: 3px !important;
-    }
-    [data-theme="dark"] .jp-a11y-font {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-    }
-    .jp-f-btn {
-        border: none !important;
-        background: transparent !important;
-        padding: 5px 9px !important;
-        border-radius: 7px !important;
-        font-weight: 800 !important;
-        font-size: 13px !important;
-        cursor: pointer !important;
-        color: #0f172a !important;
-    }
-    [data-theme="dark"] .jp-f-btn {
-        color: #f8fafc !important;
-    }
-    .jp-f-btn.active {
-        background: #0f766e !important;
-        color: #ffffff !important;
-    }
-
-    /* NÚT HAMBURGER 3 GẠCH ĐÓNG KHUNG CHUẨN NHẬT */
-    .jp-ham-btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-        background: #ffffff !important;
-        color: #0f172a !important;
-        border: 2px solid #0f766e !important;
-        border-radius: 12px !important;
-        padding: 8px 16px !important;
-        font-size: 14px !important;
-        font-weight: 800 !important;
-        cursor: pointer !important;
-        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.15) !important;
-        transition: all 0.2s ease !important;
-    }
-    [data-theme="dark"] .jp-ham-btn {
-        background: #1e293b !important;
-        color: #f8fafc !important;
-        border-color: #2dd4bf !important;
-    }
-    .jp-ham-btn:hover {
-        background: #0f766e !important;
-        color: #ffffff !important;
-    }
-    .jp-ham-btn:hover .jp-ham-bars span {
-        background: #ffffff !important;
-    }
-    .jp-ham-bars {
-        width: 20px !important;
-        height: 14px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-    }
-    .jp-ham-bars span {
-        display: block !important;
-        height: 2.5px !important;
-        width: 100% !important;
-        background: #0f766e !important;
-        border-radius: 3px !important;
-        transition: 0.25s !important;
-    }
-    [data-theme="dark"] .jp-ham-bars span {
-        background: #2dd4bf !important;
-    }
-    .jp-ham-bars span:nth-child(2) {
-        width: 70% !important;
-    }
-    .jp-ham-btn:hover .jp-ham-bars span:nth-child(2) {
-        width: 100% !important;
-    }
-
-    /* DRAWER TRƯỢT BÊN PHẢI */
-    .jp-overlay-bg {
-        position: fixed !important;
-        inset: 0 !important;
-        background: rgba(15, 23, 42, 0.6) !important;
-        backdrop-filter: blur(4px) !important;
-        z-index: 2147483645 !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        transition: 0.3s ease !important;
-    }
-    .jp-overlay-bg.open {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    .jp-side-drawer {
-        position: fixed !important;
-        top: 0 !important;
-        right: -420px !important;
-        width: 100% !important;
-        max-width: 390px !important;
-        height: 100vh !important;
-        background: #ffffff !important;
-        z-index: 2147483647 !important;
-        box-shadow: -10px 0 35px rgba(15, 23, 42, 0.25) !important;
-        transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        display: flex !important;
-        flex-direction: column !important;
-        overflow-y: auto !important;
-    }
-    [data-theme="dark"] .jp-side-drawer {
-        background: #0f172a !important;
-        color: #f8fafc !important;
-    }
-    .jp-side-drawer.open {
-        right: 0 !important;
-    }
-    .jp-drawer-top {
-        padding: 20px 24px !important;
-        background: linear-gradient(135deg, #0f766e, #115e59) !important;
-        color: #ffffff !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-    }
-    .jp-close-btn {
-        background: rgba(255,255,255,0.2) !important;
-        border: 1px solid rgba(255,255,255,0.4) !important;
-        color: #ffffff !important;
-        border-radius: 10px !important;
-        padding: 6px 12px !important;
-        font-weight: 700 !important;
-        cursor: pointer !important;
-    }
-    .jp-drawer-content {
-        padding: 20px 24px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 18px !important;
-    }
-    .jp-bento-card {
-        display: flex !important;
-        align-items: center !important;
-        gap: 14px !important;
-        padding: 12px 14px !important;
-        border-radius: 12px !important;
-        border: 1px solid #e2e8f0 !important;
-        background: #f8fafc !important;
-        text-decoration: none !important;
-        color: #0f172a !important;
-        margin-bottom: 8px !important;
-        transition: 0.2s !important;
-    }
-    [data-theme="dark"] .jp-bento-card {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-    }
-    .jp-bento-card:hover {
-        border-color: #0f766e !important;
-        background: #f0fdfa !important;
-        transform: translateX(4px) !important;
-    }
-
-    @media (max-width: 900px) {
-        .jp-center-links, .jp-strip-top {
-            display: none !important;
-        }
-    }
-</style>
-
-<div class="jp-master-nav" role="banner">
-    <div class="jp-strip-top">
-        <div class="jp-strip-inner">
-            <div>
-                <span class="jp-wcag-pill">♿ Chuẩn Barrier-Free Nhật Bản (WCAG 2.1 AA)</span>
-                <span style="margin-left:10px;">✔ Đã kiểm định độ dốc xe lăn, thang máy & ghế nghỉ chân thực địa</span>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fa fa-wheelchair"></i> AccessTravel
             </div>
-            <div>
-                <span>📞 Hỗ trợ Y tế & Xe lăn 24/7: <strong>1900 6868</strong></span>
-            </div>
+            <a href="admin_dashboard.html" class="menu-item active"><i class="fa fa-pie-chart fa-fw"></i> Tổng quan (Dashboard)</a>
+            <a href="admin_auditor.html" class="menu-item"><i class="fa fa-check-square-o fa-fw"></i> Trạm Kiểm Định</a>
+            <a href="admin_medical.html" class="menu-item"><i class="fa fa-heartbeat fa-fw"></i> Quản lý Y tế & Hỗ trợ</a>
+            <a href="admin_maintenance.html" class="menu-item"><i class="fa fa-exclamation-triangle fa-fw"></i> Cảnh báo Bảo trì</a>
+            <a href="#" class="menu-item"><i class="fa fa-cog fa-fw"></i> Cài đặt</a>
+            <a href="index.html" class="btn-logout"><i class="fa fa-sign-out fa-fw"></i> Thoát về Trang chủ</a>
         </div>
-    </div>
 
-    <div class="jp-nav-container">
-        <a href="index.html" class="jp-logo-box">
-            <div class="jp-logo-icon">♿</div>
-            <div>
-                <span class="jp-logo-title">AccessTravel Vietnam</span>
-                <span class="jp-logo-sub">Thẩm Định Du Lịch Trợ Năng • Nhóm 14</span>
-            </div>
-        </a>
-
-        <nav class="jp-center-links" aria-label="Menu chính">
-            <a href="index.html" class="jp-link-item">🏠 Trang chủ</a>
-            <a href="search.html" class="jp-link-item">🔍 Tìm điểm đến</a>
-            <a href="booking.html" class="jp-link-item">📅 Đặt giữ chỗ</a>
-            <a href="admin.html" class="jp-link-item">🛡️ Quản trị</a>
-        </nav>
-
-        <div class="jp-right-tools">
-            <div class="jp-a11y-font" title="Chỉnh cỡ chữ cho Người cao tuổi">
-                <button type="button" class="jp-f-btn active" onclick="jpResizeFont(100, this)">A</button>
-                <button type="button" class="jp-f-btn" onclick="jpResizeFont(112, this)">A+</button>
-                <button type="button" class="jp-f-btn" onclick="jpResizeFont(122, this)">A++</button>
-            </div>
-
-            <button type="button" class="jp-ham-btn" onclick="jpToggleMenu(true)">
-                <div class="jp-ham-bars">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+        <!-- Content -->
+        <div class="content">
+            <div class="header">
+                <h2 style="margin:0; font-size: 24px;">Tổng Quan Hệ Thống 📊</h2>
+                                <div style="display:flex; align-items:center; gap:15px;">
+                    <div style="background:#e2e8f0; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:700;">Admin: spep3233</div>
+                    <a href="../api/export_excel.php" style="background:#10b981; color:#fff; padding:9px 18px; border-radius:8px; text-decoration:none; font-weight:700; font-size:14px; display:inline-flex; align-items:center; gap:8px; transition:0.2s; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+                        <i class="fa fa-file-excel-o"></i> Xuất Báo Cáo Excel
+                    </a>
                 </div>
-                <span>DANH MỤC</span>
-            </button>
-        </div>
-    </div>
-</div>
-
-<div class="jp-overlay-bg" id="jpOverlayBg" onclick="jpToggleMenu(false)"></div>
-
-<aside class="jp-side-drawer" id="jpSideDrawer" aria-label="Menu điều hướng chi tiết">
-    <div class="jp-drawer-top">
-        <div>
-            <div style="font-size:17px; font-weight:800;">🧭 Danh Mục & Trợ Năng</div>
-            <div style="font-size:12px; opacity:0.9;">Universal Design • Chuẩn Du Lịch Nhật Bản</div>
-        </div>
-        <button type="button" class="jp-close-btn" onclick="jpToggleMenu(false)">✕ Đóng</button>
-    </div>
-
-    <div class="jp-drawer-content">
-        <div>
-            <div style="font-size:12px; font-weight:800; text-transform:uppercase; color:#64748b; margin-bottom:8px;">Tùy chỉnh trợ năng nhanh</div>
-            <div style="display:flex; gap:8px;">
-                <button type="button" onclick="if(typeof toggleTheme==='function') toggleTheme();" style="flex:1; padding:10px; border-radius:10px; border:1px solid #cbd5e1; background:#f8fafc; font-weight:700; cursor:pointer; color:#0f172a;">
-                    🌗 Sáng / Tối
-                </button>
-                <button type="button" onclick="jpResizeFont(115)" style="flex:1; padding:10px; border-radius:10px; border:1px solid #0f766e; background:#f0fdfa; font-weight:700; cursor:pointer; color:#0f766e;">
-                    🔍 Chữ To (Ông Bà)
-                </button>
             </div>
-        </div>
 
-        <div>
-            <div style="font-size:12px; font-weight:800; text-transform:uppercase; color:#64748b; margin-bottom:8px;">Điều hướng hệ thống</div>
-            <a href="index.html" class="jp-bento-card">
-                <span style="font-size:22px;">🏞️</span>
-                <div>
-                    <strong style="display:block; font-size:15px;">Trang Chủ Khảo Sát</strong>
-                    <span style="font-size:12.5px; color:#64748b;">Chọn thể trạng cơ thể & xem video thực địa</span>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #0ea5e9;"><i class="fa fa-usd"></i></div>
+                    <div class="stat-info">
+                        <h4>Tổng Doanh Thu</h4>
+                        <div>3.850.000 đ</div>
+                    </div>
                 </div>
-            </a>
-            <a href="search.html" class="jp-bento-card">
-                <span style="font-size:22px;">♿</span>
-                <div>
-                    <strong style="display:block; font-size:15px;">Bộ Lọc Trợ Năng Chuyên Sâu</strong>
-                    <span style="font-size:12.5px; color:#64748b;">Lọc theo độ dốc ≤ 6%, thang máy, lối xe lăn</span>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #10b981;"><i class="fa fa-file-text-o"></i></div>
+                    <div class="stat-info">
+                        <h4>Tổng Đơn Đặt Chỗ</h4>
+                        <div>6</div>
+                    </div>
                 </div>
-            </a>
-            <a href="booking.html" class="jp-bento-card">
-                <span style="font-size:22px;">📋</span>
-                <div>
-                    <strong style="display:block; font-size:15px;">Đặt Giữ Chỗ & Yêu Cầu Y Tế</strong>
-                    <span style="font-size:12.5px; color:#64748b;">Đăng ký người dìu, xe lăn & suất hỗ trợ</span>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #8b5cf6;"><i class="fa fa-map"></i></div>
+                    <div class="stat-info">
+                        <h4>Tổng Số Tour Trợ Năng</h4>
+                        <div>305</div>
+                    </div>
                 </div>
-            </a>
-            <a href="login.html" class="jp-bento-card">
-                <span style="font-size:22px;">👤</span>
-                <div>
-                    <strong style="display:block; font-size:15px;">Tài Khoản Gia Đình</strong>
-                    <span style="font-size:12.5px; color:#64748b;">Đăng nhập / Quản lý hồ sơ sức khỏe</span>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #f59e0b;"><i class="fa fa-fire"></i></div>
+                    <div class="stat-info">
+                        <h4>Tỷ Lệ Lấp Đầy</h4>
+                        <div>59.8%</div>
+                    </div>
                 </div>
-            </a>
-            <a href="admin.html" class="jp-bento-card">
-                <span style="font-size:22px;">🛡️</span>
-                <div>
-                    <strong style="display:block; font-size:15px;">Cổng Quản Trị & Kiểm Định</strong>
-                    <span style="font-size:12.5px; color:#64748b;">Quản lý điểm đến & duyệt yêu cầu hỗ trợ</span>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3><i class="fa fa-pie-chart" style="color:#10b981;"></i> Trạng Thái Thanh Toán Đơn Hàng</h3>
+                    <canvas id="pieChart" style="max-height: 280px;"></canvas>
                 </div>
-            </a>
-        </div>
-
-        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:14px; color:#92400e; font-size:13px; line-height:1.5;">
-            <strong>🏥 Cam kết Barrier-Free:</strong><br>
-            Mọi thông số về độ dốc, chiều rộng cửa và ghế nghỉ chân đều được đo đạc thực tế. Cần hỗ trợ xe lăn tại điểm đến, gọi ngay <strong>1900 6868</strong>.
-        </div>
-    </div>
-</aside>
-
-<script id="jp-static-header-js">
-function jpToggleMenu(show) {
-    var bg = document.getElementById('jpOverlayBg');
-    var drawer = document.getElementById('jpSideDrawer');
-    if (!bg || !drawer) return;
-    if (show) {
-        bg.classList.add('open');
-        drawer.classList.add('open');
-    } else {
-        bg.classList.remove('open');
-        drawer.classList.remove('open');
-    }
-}
-function jpResizeFont(percent, btn) {
-    var scale = percent / 100;
-    
-    // 1. Luu muc phong to vao bo nho de giu nguyen khi chuyen trang
-    localStorage.setItem('jp_a11y_scale', percent);
-
-    // 2. Tao hoac cap nhat the Style cuong che phong to bat chap don vi px
-    var styleEl = document.getElementById('jp-a11y-zoom-style');
-    if (!styleEl) {
-        styleEl = document.createElement('style');
-        styleEl.id = 'jp-a11y-zoom-style';
-        document.head.appendChild(styleEl);
-    }
-
-    if (percent === 100) {
-        styleEl.innerHTML = '';
-    } else {
-        // Phong to toan bo noi dung trang (tru thanh Header de khong bi vo khung menu)
-        styleEl.innerHTML = `
-            body > *:not(.jp-master-nav):not(.jp-overlay-bg):not(.jp-side-drawer):not(#jp-a11y-toast) {
-                zoom: ${scale} !important;
-            }
-            p, span, a, li, label, input, select, button, td, th, .care-item, .card-review-snippet {
-                line-height: 1.65 !important;
-            }
-        `;
-    }
-
-    // 3. Cap nhat trang thai sang den (Active) tren thanh Header
-    document.querySelectorAll('.jp-f-btn').forEach(function(b) {
-        b.classList.remove('active');
-        if ((percent === 100 && b.innerText === 'A') ||
-            (percent === 112 && b.innerText === 'A+') ||
-            (percent >= 120 && b.innerText === 'A++')) {
-            b.classList.add('active');
-        }
-    });
-    if (btn) {
-        document.querySelectorAll('.jp-f-btn').forEach(function(b){ b.classList.remove('active'); });
-        btn.classList.add('active');
-    }
-
-    // 4. Hien thi Toast thong bao Tro nang chuan Nhat Ban
-    var toast = document.getElementById('jp-a11y-toast');
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'jp-a11y-toast';
-        toast.style.cssText = 'position:fixed; bottom:24px; left:24px; background:#0f766e; color:#fff; padding:12px 20px; border-radius:12px; font-weight:700; font-size:14px; box-shadow:0 8px 25px rgba(15,118,110,0.35); z-index:2147483647; transition:all 0.3s ease; opacity:0; transform:translateY(10px); pointer-events:none; font-family:system-ui,sans-serif; border:2px solid #ffffff;';
-        document.body.appendChild(toast);
-    }
-    var labelMap = { 100: 'Mặc định (100%)', 112: 'Chữ Lớn cho Người cao tuổi (112%)', 115: 'Chữ Lớn (115%)', 122: 'Chữ Cực Lớn chống mỏi mắt (122%)' };
-    toast.innerHTML = '🔍 Cỡ chữ Trợ năng: ' + (labelMap[percent] || (percent + '%'));
-    toast.style.opacity = '1';
-    toast.style.transform = 'translateY(0)';
-    clearTimeout(window.jpToastTimer);
-    window.jpToastTimer = setTimeout(function() {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(10px)';
-    }, 2200);
-}
-
-// Tu dong khoi phuc co chu khi tai trang
-window.addEventListener('DOMContentLoaded', function() {
-    var savedScale = parseInt(localStorage.getItem('jp_a11y_scale') || '100', 10);
-    if (savedScale !== 100) {
-        jpResizeFont(savedScale);
-    }
-});
-// Tự động vá lỗi chữ "★ undefined" ở trang chi tiết thành "★ 4.8"
-window.addEventListener('DOMContentLoaded', function() {
-    document.body.innerHTML = document.body.innerHTML.replace(/★\s*undefined/g, '★ 4.8');
-});
-</script>
-<!-- END STATIC JAPANESE HEADER V2 -->
-
-    <div class="header"><button id="themeToggleBtn" onclick="toggleTheme()" type="button" style="background:var(--color-bg-card, #fff); color:var(--color-text-main, #0f172a); border:1px solid var(--color-border, #cbd5e1); border-radius:99px; padding:6px 13px; font-size:13.5px; font-weight:800; cursor:pointer; min-height:38px; margin-right:8px; display:inline-flex; align-items:center; transition: all 0.3s;">🌙 Chế độ Tối</button>
-        <h1 style="color:#0f766e; font-size:24px; font-weight:900;">📈 Bảng Điều Khiển Quản Trị</h1>
-        <a href="index.html" style="color:#334155; text-decoration:none; font-weight:700;  padding:10px 20px; border-radius:10px; box-shadow:0 2px 4px rgba(0,0,0,0.05);">🏠 Về Trang Chủ</a>
-    </div>
-
-    <div class="grid-4">
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:#0ea5e9;">💰</div>
-            <div>
-                <div class="kpi-lbl">Tổng Doanh Thu</div>
-                <div class="kpi-val" id="kpiRevenue">0 đ</div>
-            </div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:#10b981;">📝</div>
-            <div>
-                <div class="kpi-lbl">Tổng Đơn Đặt Chỗ</div>
-                <div class="kpi-val" id="kpiBookings">0</div>
-            </div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:#8b5cf6;">🗺️</div>
-            <div>
-                <div class="kpi-lbl">Tổng Số Tour Trợ Năng</div>
-                <div class="kpi-val" id="kpiTours">0</div>
-            </div>
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-icon" style="background:#f59e0b;">🔥</div>
-            <div>
-                <div class="kpi-lbl">Tỷ Lệ Lấp Đầy</div>
-                <div class="kpi-val" id="kpiOcc">0%</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="grid-2">
-        <div class="chart-card">
-            <h3>📊 Trạng Thái Thanh Toán Đơn Hàng</h3>
-            <div style="height:300px; display:flex; justify-content:center;">
-                <canvas id="statusChart"></canvas>
-            </div>
-        </div>
-        <div class="chart-card">
-            <h3>🏆 Top 5 Điểm Đến Được Yêu Thích Nhất</h3>
-            <div style="height:300px;">
-                <canvas id="topChart"></canvas>
+                <div class="chart-card">
+                    <h3><i class="fa fa-trophy" style="color:#f59e0b;"></i> Top 5 Điểm Đến Được Yêu Thích Nhất</h3>
+                    <canvas id="barChart" style="max-height: 280px;"></canvas>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        async function loadDashboard() {
-            try {
-                const res = await fetch('../api/admin/dashboard.php');
-                const data = await res.json();
-                
-                document.getElementById('kpiRevenue').innerText = Number(data.metrics.total_revenue).toLocaleString('vi-VN') + ' đ';
-                document.getElementById('kpiBookings').innerText = data.metrics.total_bookings;
-                document.getElementById('kpiTours').innerText = data.metrics.total_tours;
-                document.getElementById('kpiOcc').innerText = data.metrics.occupancy_rate;
-
-                new Chart(document.getElementById('statusChart').getContext('2d'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['⏳ Chờ thanh toán', '✅ Đã thanh toán', '❌ Đã hủy'],
-                        datasets: [{
-                            data: [data.charts.status_distribution.pending, data.charts.status_distribution.paid, data.charts.status_distribution.cancelled],
-                            backgroundColor: ['#f59e0b', '#10b981', '#ef4444']
-                        }]
-                    }
-                });
-
-                const topLabels = data.charts.top_destinations.map(d => d.title.substring(0, 15) + '...');
-                const topVals = data.charts.top_destinations.map(d => d.total_orders);
-                new Chart(document.getElementById('topChart').getContext('2d'), {
-                    type: 'bar',
-                    data: {
-                        labels: topLabels,
-                        datasets: [{ label: 'Số lượng đơn', data: topVals, backgroundColor: '#0ea5e9', borderRadius: 6 }]
-                    },
-                    options: { maintainAspectRatio: false }
-                });
-            } catch (err) { console.error('Lỗi tải Admin Dashboard:', err); }
-        }
-        loadDashboard();
-    </script>
-<script>
-function toggleTheme() {
-    var currentTheme = document.documentElement.getAttribute('data-theme');
-    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    var btns = document.querySelectorAll('#themeToggleBtn');
-    btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
-}
-// Khoi phuc theme khi F5
-var savedTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
-window.addEventListener("DOMContentLoaded", function() {
-    var btns = document.querySelectorAll('#themeToggleBtn');
-    btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
-});
-</script>
-
-
-
-<script id="modern-sidebar-js">
-document.addEventListener("DOMContentLoaded", function() {
-    var header = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
-    if(!header) return;
-
-    if(!document.querySelector('.hamburger-btn')) {
-        var btn = document.createElement('button');
-        btn.className = 'hamburger-btn';
-        btn.innerHTML = '☰';
-        header.appendChild(btn);
-    }
-
-    var overlay = document.querySelector('.menu-overlay');
-    if(!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'menu-overlay';
-        document.body.appendChild(overlay);
-    }
-
-    var sidebar = document.querySelector('.mobile-sidebar');
-    if(!sidebar) {
-        sidebar = document.createElement('div');
-        sidebar.className = 'mobile-sidebar';
-        
-        var closeBtn = document.createElement('button');
-        closeBtn.className = 'close-sidebar-btn';
-        closeBtn.innerHTML = '✕';
-        sidebar.appendChild(closeBtn);
-
-        var links = header.querySelectorAll('a, button');
-        links.forEach(function(el) {
-            if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
-            var clone = el.cloneNode(true);
-            clone.removeAttribute('style');
-            sidebar.appendChild(clone);
+        // Khởi tạo Biểu đồ Tròn
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ['Chờ thanh toán', 'Đã thanh toán', 'Đã hủy'],
+                datasets: [{
+                    data: [20, 60, 20],
+                    backgroundColor: ['#f59e0b', '#10b981', '#ef4444'],
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
         });
-        document.body.appendChild(sidebar);
+
+        // Khởi tạo Biểu đồ Cột
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Chùa Bái Đính', 'Công viên Thống...', 'Du thuyền Trợ N...', 'Khách sạn Trợ N...'],
+                datasets: [{
+                    label: 'Số lượng đơn',
+                    data: [3, 1, 1, 1],
+                    backgroundColor: '#0ea5e9'
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } 
+            }
+        });
+    </script>
+<!-- ACCESSIBILITY MODULE -->
+<style>
+    /* Nút Trợ năng lơ lửng */
+    #access-widget-btn {
+        position: fixed; bottom: 30px; left: 30px; width: 56px; height: 56px;
+        background: #0f766e; color: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(15,118,110,0.4);
+        display: flex; align-items: center; justify-content: center; font-size: 28px;
+        cursor: pointer; z-index: 99999; transition: 0.3s;
+    }
+    #access-widget-btn:hover { transform: scale(1.1); background: #0d9488; }
+    
+    /* Bảng điều khiển */
+    #access-panel {
+        position: fixed; bottom: 100px; left: 30px; width: 280px; background: #fff;
+        border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid #0f766e;
+        padding: 20px; z-index: 99998; opacity: 0; visibility: hidden; transform: translateY(20px);
+        transition: 0.3s; font-family: system-ui, sans-serif;
+    }
+    #access-panel.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    #access-panel h4 { margin: 0 0 15px 0; color: #0f172a; font-size: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+    
+    .access-row { display: flex; gap: 10px; margin-bottom: 15px; }
+    .access-btn { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 700; color: #0f172a; cursor: pointer; transition: 0.2s; }
+    .access-btn:hover, .access-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
+    
+    .access-toggle { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .access-toggle:hover { background: #e2e8f0; }
+
+    /* CSS Chế độ Tương phản cao */
+    body.high-contrast { background: #000 !important; color: #ffff00 !important; }
+    body.high-contrast * { background-color: #000 !important; color: #ffff00 !important; border-color: #ffff00 !important; box-shadow: none !important; }
+    body.high-contrast img { filter: contrast(120%) grayscale(20%); }
+
+    /* Nút Đọc văn bản mọc ra khi bôi đen */
+    #tts-popup {
+        position: absolute; background: #0f766e; color: #fff; padding: 8px 16px;
+        border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100000; display: none; align-items: center; gap: 8px;
+    }
+    #tts-popup:hover { background: #0d9488; }
+</style>
+
+<!-- Nút nổi -->
+<div id="access-widget-btn" onclick="toggleAccessPanel()">
+    <i class="fa fa-wheelchair-alt"></i>
+</div>
+
+<!-- Bảng Trợ năng -->
+<div id="access-panel">
+    <h4><i class="fa fa-cogs"></i> Tùy chỉnh Trợ năng</h4>
+    <div style="font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Kích thước chữ:</div>
+    <div class="access-row">
+        <button class="access-btn active" id="btn-font-1" onclick="setFontSize(1)">A</button>
+        <button class="access-btn" id="btn-font-2" onclick="setFontSize(2)">A+</button>
+        <button class="access-btn" id="btn-font-3" onclick="setFontSize(3)">A++</button>
+    </div>
+    
+    <button class="access-toggle" onclick="toggleHighContrast()">
+        <span><i class="fa fa-adjust"></i> Tương phản cao</span>
+        <span id="contrast-status">TẮT</span>
+    </button>
+    
+    <button class="access-toggle" id="btn-tts-mode" onclick="toggleTTSMode()">
+        <span><i class="fa fa-volume-up"></i> Chế độ Đọc (Chạm)</span>
+        <span id="tts-status">TẮT</span>
+    </button>
+</div>
+
+<!-- Nút Đọc Văn Bản Ẩn -->
+<div id="tts-popup" onclick="speakSelectedText()"><i class="fa fa-play-circle"></i> Đọc chữ</div>
+
+<script>
+    // 1. Mở bảng công cụ
+    function toggleAccessPanel() {
+        document.getElementById('access-panel').classList.toggle('show');
     }
 
-    var hamburger = document.querySelector('.hamburger-btn');
-    sidebar = document.querySelector('.mobile-sidebar');
-    overlay = document.querySelector('.menu-overlay');
-    var closeSidebar = document.querySelector('.close-sidebar-btn');
-
-    function toggleMenu() {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show');
+    // 2. Chỉnh cỡ chữ
+    function setFontSize(level) {
+        document.querySelectorAll('.access-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-font-' + level).classList.add('active');
+        
+        let root = document.documentElement;
+        if(level === 1) root.style.fontSize = '100%'; // Mặc định
+        if(level === 2) root.style.fontSize = '110%'; // To vừa
+        if(level === 3) root.style.fontSize = '125%'; // To đại
     }
 
-    if(hamburger) hamburger.addEventListener('click', toggleMenu);
-    if(closeSidebar) closeSidebar.addEventListener('click', toggleMenu);
-    if(overlay) overlay.addEventListener('click', toggleMenu);
-});
+    // 3. Chế độ tương phản cao (Mù màu / Mắt kém)
+    let isHighContrast = false;
+    function toggleHighContrast() {
+        isHighContrast = !isHighContrast;
+        if(isHighContrast) {
+            document.body.classList.add('high-contrast');
+            document.getElementById('contrast-status').innerText = 'BẬT';
+        } else {
+            document.body.classList.remove('high-contrast');
+            document.getElementById('contrast-status').innerText = 'TẮT';
+        }
+    }
+
+    // 4. Trợ lý Đọc văn bản (Bôi đen là đọc)
+    let isTTSMode = false;
+    function toggleTTSMode() {
+        isTTSMode = !isTTSMode;
+        const status = document.getElementById('tts-status');
+        const btn = document.getElementById('btn-tts-mode');
+        if(isTTSMode) {
+            status.innerText = 'BẬT';
+            btn.style.borderColor = '#10b981';
+            alert('Đã BẬT Trợ lý đọc! Hãy dùng chuột bôi đen một đoạn văn bản trên web để nghe hệ thống đọc.');
+        } else {
+            status.innerText = 'TẮT';
+            btn.style.borderColor = '#cbd5e1';
+            window.speechSynthesis.cancel(); // Tắt đọc ngay
+        }
+    }
+
+    // Hiện nút loa khi bôi đen chữ
+    document.addEventListener('mouseup', function(e) {
+        if(!isTTSMode) return;
+        const text = window.getSelection().toString().trim();
+        const popup = document.getElementById('tts-popup');
+        
+        if(text.length > 0) {
+            popup.style.display = 'flex';
+            popup.style.top = (e.pageY - 40) + 'px';
+            popup.style.left = e.pageX + 'px';
+        } else {
+            popup.style.display = 'none';
+        }
+    });
+
+    // Phát âm thanh
+    function speakSelectedText() {
+        const text = window.getSelection().toString().trim();
+        if(text.length > 0) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'vi-VN'; // Chuẩn giọng tiếng Việt
+            utterance.rate = 0.9;     // Đọc hơi chậm lại cho người già dễ nghe
+            window.speechSynthesis.speak(utterance);
+        }
+        document.getElementById('tts-popup').style.display = 'none';
+    }
+
+    // Tích hợp với 3 nút A A+ A++ có sẵn trên thanh Menu của bro
+    document.addEventListener('DOMContentLoaded', () => {
+        const existingA = document.querySelectorAll('span, button, a');
+        existingA.forEach(el => {
+            if(el.innerText === 'A') el.onclick = (e) => { e.preventDefault(); setFontSize(1); };
+            if(el.innerText === 'A+') el.onclick = (e) => { e.preventDefault(); setFontSize(2); };
+            if(el.innerText === 'A++') el.onclick = (e) => { e.preventDefault(); setFontSize(3); };
+        });
+    });
 </script>
-
-
+<!-- END ACCESSIBILITY MODULE -->
 </body>
 </html>
