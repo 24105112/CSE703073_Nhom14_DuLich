@@ -1339,7 +1339,19 @@ window.addEventListener('DOMContentLoaded', function() {
     </footer>
 
     <script src="js/app.js" defer></script>
+<<<<<<< HEAD
     
+=======
+    <script>
+        const SAMPLE_IMAGES = [
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80'
+        ];
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
 
 
 
@@ -1704,9 +1716,125 @@ setInterval(() => {
             if(el.innerText === 'A+') el.onclick = (e) => { e.preventDefault(); setFontSize(2); };
             if(el.innerText === 'A++') el.onclick = (e) => { e.preventDefault(); setFontSize(3); };
         });
+<<<<<<< HEAD
     });
 </script>
 <!-- END ACCESSIBILITY MODULE -->
+=======
+
+        function filterReviews() {
+            const checkedStars = Array.from(document.querySelectorAll('.tp-star-check:checked')).map(cb => cb.value);
+            const kw = (document.getElementById('reviewSearchInput')?.value || '').toLowerCase().trim();
+            const items = document.querySelectorAll('#reviewsListContainer .tp-review-item');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                const star = item.getAttribute('data-stars');
+                const text = item.innerText.toLowerCase();
+                const matchStar = (checkedStars.length === 0) || checkedStars.includes(star);
+                const matchKw = (kw === '') || text.includes(kw);
+
+                if (matchStar && matchKw) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            const statusEl = document.getElementById('starFilterStatus');
+            if (statusEl) {
+                if (checkedStars.length === 0 && kw === '') {
+                    statusEl.innerText = '✔ Đang hiển thị tất cả mức sao (5 đánh giá tiêu biểu)';
+                } else {
+                    statusEl.innerText = '🔍 Đang lọc: ' + (checkedStars.length ? checkedStars.join(', ') + ' sao' : 'Tất cả sao') + ' — Tìm thấy ' + visibleCount + ' đánh giá';
+                }
+            }
+        }
+
+        function resetStarFilters() {
+            document.querySelectorAll('.tp-star-check').forEach(cb => cb.checked = false);
+            const inp = document.getElementById('reviewSearchInput');
+            if (inp) inp.value = '';
+            filterReviews();
+        }
+        document.addEventListener('DOMContentLoaded', () => loadDestinations(1));
+    </script>
+<script>
+function toggleTheme() {
+    var currentTheme = document.documentElement.getAttribute('data-theme');
+    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+}
+// Khoi phuc theme khi F5
+var savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+window.addEventListener("DOMContentLoaded", function() {
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+});
+</script>
+
+
+
+<script id="modern-sidebar-js">
+document.addEventListener("DOMContentLoaded", function() {
+    var header = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
+    if(!header) return;
+
+    if(!document.querySelector('.hamburger-btn')) {
+        var btn = document.createElement('button');
+        btn.className = 'hamburger-btn';
+        btn.innerHTML = '☰';
+        header.appendChild(btn);
+    }
+
+    var overlay = document.querySelector('.menu-overlay');
+    if(!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        document.body.appendChild(overlay);
+    }
+
+    var sidebar = document.querySelector('.mobile-sidebar');
+    if(!sidebar) {
+        sidebar = document.createElement('div');
+        sidebar.className = 'mobile-sidebar';
+        
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'close-sidebar-btn';
+        closeBtn.innerHTML = '✕';
+        sidebar.appendChild(closeBtn);
+
+        var links = header.querySelectorAll('a, button');
+        links.forEach(function(el) {
+            if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
+            var clone = el.cloneNode(true);
+            clone.removeAttribute('style');
+            sidebar.appendChild(clone);
+        });
+        document.body.appendChild(sidebar);
+    }
+
+    var hamburger = document.querySelector('.hamburger-btn');
+    sidebar = document.querySelector('.mobile-sidebar');
+    overlay = document.querySelector('.menu-overlay');
+    var closeSidebar = document.querySelector('.close-sidebar-btn');
+
+    function toggleMenu() {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+    }
+
+    if(hamburger) hamburger.addEventListener('click', toggleMenu);
+    if(closeSidebar) closeSidebar.addEventListener('click', toggleMenu);
+    if(overlay) overlay.addEventListener('click', toggleMenu);
+});
+</script>
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
 </body>
 </html>
 

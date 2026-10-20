@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 ﻿<!DOCTYPE html>
+=======
+<!DOCTYPE html>
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Tổng quan | AccessTravel Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -103,11 +108,298 @@
                     <h3><i class="fa fa-trophy" style="color:#f59e0b;"></i> Top 5 Điểm Đến Được Yêu Thích Nhất</h3>
                     <canvas id="barChart" style="max-height: 280px;"></canvas>
                 </div>
+=======
+    <title>Admin Dashboard | AccessTravel M3</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <style>
+        body { background: #f1f5f9; padding: 24px; font-family: system-ui, sans-serif; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 24px; }
+        .kpi-card {  border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 16px; }
+        .kpi-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; }
+        .kpi-val { font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 4px; }
+        .kpi-lbl { font-size: 14px; color: #64748b; font-weight: 600; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .chart-card {  border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .chart-card h3 { font-size: 16px; color: #334155; margin-bottom: 20px; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+    </style>
+
+
+<style id="super-dark-mode">
+    /* Cưỡng chế toàn bộ thân trang web thành màu tối */
+    html[data-theme="dark"] body, html[data-theme="dark"] header, html[data-theme="dark"] .navbar { 
+        background-color: #0f172a !important; color: #f8fafc !important; border-bottom-color: #334155 !important;
+    }
+    
+    /* Bắt mọi thẻ div mặc định trong suốt để không bị đè màu */
+    html[data-theme="dark"] div, html[data-theme="dark"] section, html[data-theme="dark"] article {
+        background-color: transparent !important; 
+        color: #f8fafc !important;
+        border-color: #334155 !important;
+    }
+    
+    /* TUYỆT CHIÊU: Tự động nhận diện các khối thẻ (card) thông qua class, viền hoặc shadow để tô nền xám đen */
+    html[data-theme="dark"] .tour-card, html[data-theme="dark"] .card, html[data-theme="dark"] .booking-card, 
+    html[data-theme="dark"] .spec-card, html[data-theme="dark"] .ai-card, html[data-theme="dark"] .metric-card, 
+    html[data-theme="dark"] .review-item, html[data-theme="dark"] .review-dashboard,
+    html[data-theme="dark"] .content-section, html[data-theme="dark"] [style*="border"], 
+    html[data-theme="dark"] [style*="box-shadow"], html[data-theme="dark"] [style*="padding: 24px"] {
+        background-color: #1e293b !important;
+    }
+
+    /* Ép tất cả các loại chữ (tiêu đề, thẻ p, span, nhãn) phát sáng */
+    html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3, 
+    html[data-theme="dark"] h4, html[data-theme="dark"] p, html[data-theme="dark"] span,
+    html[data-theme="dark"] strong, html[data-theme="dark"] label, html[data-theme="dark"] input { 
+        color: #f8fafc !important; 
+    }
+
+    /* Bảo vệ các nút bấm, icon và badge trợ năng không bị hỏng màu */
+    html[data-theme="dark"] button, html[data-theme="dark"] .btn, html[data-theme="dark"] .btn-primary { 
+        background-color: #0284c7 !important; color: #fff !important; border:none !important; 
+    }
+    html[data-theme="dark"] img, html[data-theme="dark"] i, html[data-theme="dark"] svg {
+        background-color: transparent !important;
+    }
+    html[data-theme="dark"] .verify-badge-large, html[data-theme="dark"] .ai-badge {
+        background-color: #a21caf !important; color: #fdf4ff !important;
+    }
+</style>
+
+
+
+<style id="ultimate-responsive-grid">
+    /* 1. CHỐNG VỠ GIAO DIỆN TOÀN TẬP */
+    html, body {
+        max-width: 100vw !important; /* Cấm web phình to hơn màn hình */
+        overflow-x: hidden !important; /* Cấm kéo ngang tạo khoảng trắng */
+        box-sizing: border-box !important;
+    }
+    *, *:before, *:after {
+        box-sizing: inherit !important;
+    }
+
+    /* 2. CẤU TRÚC LƯỚI (GRID) LINH HOẠT CHO TẤT CẢ THIẾT BỊ */
+    .tour-grid, .metrics-grid, .grid-container {
+        display: grid !important;
+        width: 100% !important;
+    }
+
+    /* --- GIAO DIỆN DESKTOP & LAPTOP (Màn hình lớn > 1024px) --- */
+    @media (min-width: 1024px) {
+        .tour-grid { 
+            grid-template-columns: repeat(3, 1fr) !important; /* 3 Cột rộng rãi */
+            gap: 24px !important; 
+        }
+    }
+
+    /* --- GIAO DIỆN TABLET (iPad từ 768px đến 1023px) --- */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .tour-grid, .metrics-grid { 
+            grid-template-columns: repeat(2, 1fr) !important; /* 2 Cột cân đối */
+            gap: 16px !important; 
+        }
+    }
+
+    /* --- GIAO DIỆN MOBILE & THIẾT BỊ CẦM TAY (Màn hình < 768px) --- */
+    @media (max-width: 767px) {
+        .tour-grid { 
+            grid-template-columns: repeat(2, 1fr) !important; /* HIỂN THỊ 2 CỘT SONG SONG GỌN GÀNG */
+            gap: 8px !important; /* Giảm khoảng cách để đỡ tốn diện tích */
+            padding: 8px !important;
+        }
+        
+        .metrics-grid {
+            grid-template-columns: repeat(2, 1fr) !important; /* Bảng admin cũng chia 2 ô/hàng */
+            gap: 8px !important;
+        }
+
+        /* Ép thẻ tour trên mobile phải nhỏ gọn, xinh xắn */
+        .tour-card, .card {
+            padding: 8px !important;
+            border-radius: 12px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+        }
+
+        /* Thu nhỏ ảnh bìa để chừa chỗ cho chữ */
+        .tour-card img, .card-img { 
+            height: 100px !important; 
+            width: 100% !important;
+            object-fit: cover !important; 
+            border-radius: 8px !important; 
+            margin-bottom: 8px !important;
+        }
+
+        /* Chữ bên trong thẻ phải nhỏ lại cho vừa khung 2 cột */
+        .tour-card h3, .tour-card h4 { 
+            font-size: 13px !important; 
+            line-height: 1.3 !important; 
+            margin: 0 0 4px 0 !important; 
+            overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; /* Chống chữ dài tràn dòng */
+        }
+        
+        .tour-card p, .tour-card span { 
+            font-size: 11px !important; 
+            line-height: 1.2 !important; 
+            margin-bottom: 4px !important;
+        }
+
+        /* Nút bấm trong thẻ tự động dàn ngang hoặc xếp gọn */
+        .tour-card .btn, .tour-card button { 
+            padding: 6px !important; 
+            font-size: 11px !important; 
+            width: 100% !important; /* Nút trải dài hết thẻ */
+            margin-top: 4px !important;
+        }
+        
+        /* Ẩn bớt đoạn mô tả dài thòng lọng trên thẻ mobile */
+        .tour-card .description-preview, .card-desc { 
+            display: none !important; 
+        }
+        
+        /* Đảm bảo trang chi tiết (Detail) không bị bóp nghẹt */
+        .detail-layout {
+            grid-template-columns: 1fr !important;
+        }
+    }
+</style>
+
+
+
+
+<style id="modern-sidebar-fix">
+    /* 1. HEADER GỌN GÀNG NHƯ CŨ */
+    body { padding-top: 60px !important; }
+    header, .header, .navbar {
+        position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important;
+        height: 60px !important; background-color: var(--color-bg-card, #ffffff) !important;
+        z-index: 9999 !important; display: flex !important; align-items: center !important;
+        justify-content: space-between !important; padding: 0 16px !important;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important; border: none !important;
+    }
+    html[data-theme="dark"] header { background-color: #0f172a !important; border-bottom: 1px solid #334155 !important; }
+    
+    header > *:not(.logo):not(img):not(.hamburger-btn):not(#themeToggleBtn) { display: none !important; }
+    #themeToggleBtn { margin-left: auto !important; margin-right: 16px !important; }
+    
+    .hamburger-btn {
+        background: transparent !important; border: none !important; font-size: 24px !important;
+        cursor: pointer !important; display: block !important; color: var(--color-text-main, #0f172a) !important;
+        padding: 4px !important; margin: 0 !important;
+    }
+    html[data-theme="dark"] .hamburger-btn { color: #f8fafc !important; }
+
+    /* 2. LỚP PHỦ ĐEN (OVERLAY) */
+    .menu-overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(15, 23, 42, 0.6); z-index: 99998;
+        opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+    }
+    .menu-overlay.show { opacity: 1; visibility: visible; }
+
+    /* 3. MENU TRƯỢT TỪ BÊN PHẢI (SIDEBAR DRAWER) */
+    .mobile-sidebar {
+        position: fixed !important; top: 0 !important; right: -320px !important;
+        width: 280px !important; height: 100vh !important;
+        background-color: var(--color-bg-card, #ffffff) !important;
+        box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
+        z-index: 99999 !important; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        display: flex !important; flex-direction: column !important;
+        padding: 20px 16px !important; overflow-y: auto !important;
+    }
+    html[data-theme="dark"] .mobile-sidebar { background-color: #1e293b !important; border-left: 1px solid #334155 !important; }
+    .mobile-sidebar.show { right: 0 !important; }
+
+    /* 4. STYLE CÁC NÚT BÊN TRONG SIDEBAR */
+    .close-sidebar-btn {
+        align-self: flex-end !important; background: transparent !important;
+        border: none !important; font-size: 24px !important; cursor: pointer !important;
+        color: #64748b !important; margin-bottom: 24px !important; padding: 8px !important;
+        border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important;
+    }
+    .close-sidebar-btn:active { background: #f1f5f9 !important; }
+    
+    .mobile-sidebar a, .mobile-sidebar button:not(.close-sidebar-btn) {
+        display: block !important; width: 100% !important; text-align: left !important;
+        padding: 14px 16px !important; margin-bottom: 8px !important;
+        font-size: 15px !important; font-weight: 500 !important;
+        border-radius: 12px !important; text-decoration: none !important;
+        color: var(--color-text-main, #0f172a) !important;
+        background: transparent !important; border: 1px solid transparent !important;
+        transition: all 0.2s ease !important;
+    }
+    html[data-theme="dark"] .mobile-sidebar a, html[data-theme="dark"] .mobile-sidebar button:not(.close-sidebar-btn) { color: #f8fafc !important; }
+    
+    .mobile-sidebar a:active, .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #f1f5f9 !important; }
+    html[data-theme="dark"] .mobile-sidebar a:active, html[data-theme="dark"] .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #334155 !important; }
+    
+    /* Làm nổi bật nút Đăng nhập / Đăng ký */
+    .mobile-sidebar .btn-primary { 
+        background: #0284c7 !important; color: #fff !important; 
+        font-weight: 600 !important; text-align: center !important; margin-top: 16px !important;
+    }
+</style>
+</head>
+<body>
+    <div class="header"><button id="themeToggleBtn" onclick="toggleTheme()" type="button" style="background:var(--color-bg-card, #fff); color:var(--color-text-main, #0f172a); border:1px solid var(--color-border, #cbd5e1); border-radius:99px; padding:6px 13px; font-size:13.5px; font-weight:800; cursor:pointer; min-height:38px; margin-right:8px; display:inline-flex; align-items:center; transition: all 0.3s;">🌙 Chế độ Tối</button>
+        <h1 style="color:#0f766e; font-size:24px; font-weight:900;">📈 Bảng Điều Khiển Quản Trị</h1>
+        <a href="index.html" style="color:#334155; text-decoration:none; font-weight:700;  padding:10px 20px; border-radius:10px; box-shadow:0 2px 4px rgba(0,0,0,0.05);">🏠 Về Trang Chủ</a>
+    </div>
+
+    <div class="grid-4">
+        <div class="kpi-card">
+            <div class="kpi-icon" style="background:#0ea5e9;">💰</div>
+            <div>
+                <div class="kpi-lbl">Tổng Doanh Thu</div>
+                <div class="kpi-val" id="kpiRevenue">0 đ</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon" style="background:#10b981;">📝</div>
+            <div>
+                <div class="kpi-lbl">Tổng Đơn Đặt Chỗ</div>
+                <div class="kpi-val" id="kpiBookings">0</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon" style="background:#8b5cf6;">🗺️</div>
+            <div>
+                <div class="kpi-lbl">Tổng Số Tour Trợ Năng</div>
+                <div class="kpi-val" id="kpiTours">0</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-icon" style="background:#f59e0b;">🔥</div>
+            <div>
+                <div class="kpi-lbl">Tỷ Lệ Lấp Đầy</div>
+                <div class="kpi-val" id="kpiOcc">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="chart-card">
+            <h3>📊 Trạng Thái Thanh Toán Đơn Hàng</h3>
+            <div style="height:300px; display:flex; justify-content:center;">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>🏆 Top 5 Điểm Đến Được Yêu Thích Nhất</h3>
+            <div style="height:300px;">
+                <canvas id="topChart"></canvas>
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
             </div>
         </div>
     </div>
 
     <script>
+<<<<<<< HEAD
         // Khởi tạo Biểu đồ Tròn
         const ctxPie = document.getElementById('pieChart').getContext('2d');
         new Chart(ctxPie, {
@@ -301,3 +593,116 @@
 <!-- END ACCESSIBILITY MODULE -->
 </body>
 </html>
+=======
+        async function loadDashboard() {
+            try {
+                const res = await fetch('../api/admin/dashboard.php');
+                const data = await res.json();
+                
+                document.getElementById('kpiRevenue').innerText = Number(data.metrics.total_revenue).toLocaleString('vi-VN') + ' đ';
+                document.getElementById('kpiBookings').innerText = data.metrics.total_bookings;
+                document.getElementById('kpiTours').innerText = data.metrics.total_tours;
+                document.getElementById('kpiOcc').innerText = data.metrics.occupancy_rate;
+
+                new Chart(document.getElementById('statusChart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['⏳ Chờ thanh toán', '✅ Đã thanh toán', '❌ Đã hủy'],
+                        datasets: [{
+                            data: [data.charts.status_distribution.pending, data.charts.status_distribution.paid, data.charts.status_distribution.cancelled],
+                            backgroundColor: ['#f59e0b', '#10b981', '#ef4444']
+                        }]
+                    }
+                });
+
+                const topLabels = data.charts.top_destinations.map(d => d.title.substring(0, 15) + '...');
+                const topVals = data.charts.top_destinations.map(d => d.total_orders);
+                new Chart(document.getElementById('topChart').getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: topLabels,
+                        datasets: [{ label: 'Số lượng đơn', data: topVals, backgroundColor: '#0ea5e9', borderRadius: 6 }]
+                    },
+                    options: { maintainAspectRatio: false }
+                });
+            } catch (err) { console.error('Lỗi tải Admin Dashboard:', err); }
+        }
+        loadDashboard();
+    </script>
+<script>
+function toggleTheme() {
+    var currentTheme = document.documentElement.getAttribute('data-theme');
+    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+}
+// Khoi phuc theme khi F5
+var savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+window.addEventListener("DOMContentLoaded", function() {
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+});
+</script>
+
+
+
+<script id="modern-sidebar-js">
+document.addEventListener("DOMContentLoaded", function() {
+    var header = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
+    if(!header) return;
+
+    if(!document.querySelector('.hamburger-btn')) {
+        var btn = document.createElement('button');
+        btn.className = 'hamburger-btn';
+        btn.innerHTML = '☰';
+        header.appendChild(btn);
+    }
+
+    var overlay = document.querySelector('.menu-overlay');
+    if(!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        document.body.appendChild(overlay);
+    }
+
+    var sidebar = document.querySelector('.mobile-sidebar');
+    if(!sidebar) {
+        sidebar = document.createElement('div');
+        sidebar.className = 'mobile-sidebar';
+        
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'close-sidebar-btn';
+        closeBtn.innerHTML = '✕';
+        sidebar.appendChild(closeBtn);
+
+        var links = header.querySelectorAll('a, button');
+        links.forEach(function(el) {
+            if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
+            var clone = el.cloneNode(true);
+            clone.removeAttribute('style');
+            sidebar.appendChild(clone);
+        });
+        document.body.appendChild(sidebar);
+    }
+
+    var hamburger = document.querySelector('.hamburger-btn');
+    sidebar = document.querySelector('.mobile-sidebar');
+    overlay = document.querySelector('.menu-overlay');
+    var closeSidebar = document.querySelector('.close-sidebar-btn');
+
+    function toggleMenu() {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+    }
+
+    if(hamburger) hamburger.addEventListener('click', toggleMenu);
+    if(closeSidebar) closeSidebar.addEventListener('click', toggleMenu);
+    if(overlay) overlay.addEventListener('click', toggleMenu);
+});
+</script>
+</body>
+</html>
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d

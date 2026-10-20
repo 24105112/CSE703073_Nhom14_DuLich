@@ -1339,6 +1339,7 @@ window.addEventListener('DOMContentLoaded', function() {
     </footer>
 
     <script src="js/app.js" defer></script>
+<<<<<<< HEAD
     
 <script>
 function toggleTheme() {
@@ -1357,6 +1358,17 @@ window.addEventListener("DOMContentLoaded", function() {
     btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
 });
 </script>
+=======
+    <script>
+        const SAMPLE_IMAGES = [
+            'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80'
+        ];
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
 
 
 
@@ -1389,12 +1401,145 @@ document.addEventListener("DOMContentLoaded", function() {
         closeBtn.innerHTML = '✕';
         sidebar.appendChild(closeBtn);
 
+<<<<<<< HEAD
         var links = header.querySelectorAll('a, button');
         links.forEach(function(el) {
             if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
             var clone = el.cloneNode(true);
             clone.removeAttribute('style');
             sidebar.appendChild(clone);
+=======
+            try {
+                const res = await fetch(url);
+                const result = await res.json();
+                const items = result.data || [];
+                const total = result.total_records !== undefined ? result.total_records : items.length;
+                const totalPages = result.total_pages || 1;
+
+                counter.innerText = 'Trang ' + page + '/' + totalPages + ' • ' + total + ' địa điểm đã kiểm định';
+
+                if (items.length === 0) {
+                    listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">Không tìm thấy địa điểm phù hợp với tiêu chí cơ thể hiện tại. Hãy nới lỏng bộ lọc.</p>';
+                    document.getElementById('paginationControls').innerHTML = '';
+                    return;
+                }
+
+                listContainer.innerHTML = items.map((item, idx) => {
+                    const imgUrl = SAMPLE_IMAGES[(item.id || idx) % SAMPLE_IMAGES.length];
+                    const slots = Number(item.available_slots);
+                    const slope = Number(item.ramp_slope || 5.5).toFixed(1);
+                    const door = item.door_width || 85;
+                    const fitScore = item.fit_score || 95;
+
+                    let slotBadge = '<span class="slot-pill">Còn ' + slots + ' suất hỗ trợ</span>';
+                    if (slots === 1) {
+                        slotBadge = '<span class="slot-pill last-one">🔥 Chỉ còn 1 suất cuối!</span>';
+                    } else if (slots <= 0) {
+                        slotBadge = '<span class="slot-pill" style="background:#64748b;">Đã kín chỗ (0 suất)</span>';
+                    }
+
+                    return '<article class="dest-card">' +
+                        '<div class="dest-img-box">' +
+                            '<img src="' + imgUrl + '" alt="' + item.title + '" loading="lazy">' +
+                            '<div class="fit-match-badge" style="background:' + (item.verify_bg || "#dcfce7") + '; color:' + (item.verify_color || "#166534") + ';">✔ ' + (item.verify_label || "Đã xác minh tại chỗ") + '</div>' +
+                            slotBadge +
+                            '<span class="updated-stamp">🔄 Cập nhật: ' + (item.last_verified_date || '10/10/2026') + '</span>' +
+                        '</div>' +
+                        '<div class="dest-body">' +
+                            '<div class="dest-header-row">' +
+                                '<h3>' + item.title + '</h3>' +
+                                '<div class="tp-mini-rating" title="Điểm đánh giá thực tế từ khách đã trải nghiệm">' +
+                                    '<span class="tp-star-box">★ ' + (item.review_rating || '4.7') + '</span>' +
+                                    '<span style="color:var(--color-text-muted); font-size:12.5px;">(' + (item.review_count || 32) + ')</span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<p class="dest-address">📍 ' + (item.address || 'Việt Nam') + '</p>' +
+
+                            /* KHỐI ƯU TIÊN SỐ 1 THEO Ý TƯỞNG CỦA BẠN: NGƯỜI CAO TUỔI, CHỖ NGHỈ & NHÂN VIÊN */
+                            '<div class="care-checklist">' +
+                                '<div class="care-item"><span>👴</span><div><span class="care-label">Hỗ trợ người cao tuổi:</span> ' + (item.senior_support || 'Có ghế nghỉ mỗi 50m & xe điện') + '</div></div>' +
+                                '<div class="care-item"><span>🛋️</span><div><span class="care-label">Chỗ nghỉ chân:</span> ' + (item.rest_area || 'Khu nghỉ yên tĩnh, ghế tựa lưng') + '</div></div>' +
+                                '<div class="care-item"><span>🧑‍⚕️</span><div><span class="care-label">Nhân viên hỗ trợ:</span> ' + (item.staff_support || 'Hỗ trợ dìu khách & đẩy xe lăn 24/7') + '</div></div>' +
+                            '</div>' +
+
+                            /* KHỐI ƯU TIÊN SỐ 2: ĐÁNH GIÁ THẬT & NGÀY TRẢI NGHIỆM */
+                            '<div class="card-review-snippet">' +
+                                '“' + (item.review_quote || 'Đưa ông bà đi rất an tâm, có chỗ nghỉ chân liên tục và nhân viên chu đáo.') + '”' +
+                                '<div class="card-review-meta">' +
+                                    '<span>— ' + (item.review_author || 'Khách đã trải nghiệm') + '</span>' +
+                                    '<span>Đi ngày: ' + (item.review_date || '10/2026') + '</span>' +
+                                '</div>' +
+                            '</div>' +
+
+                            '<div style="font-size:12.5px; color:#b45309; background:#fffbeb; border:1px solid #fde68a; padding:6px 10px; border-radius:8px; margin-bottom:10px;">⚠ <strong>Lưu ý thực tế:</strong> ' + (item.limitation_note || "Nên đi cổng chính có đường dốc thoải.") + '</div><div class="tech-specs-row">' +
+                                '<span class="tech-chip">♿ Xe lăn: Có</span>' +
+                                '<span class="tech-chip">📐 Độ dốc: ' + slope + '%</span>' +
+                                '<span class="tech-chip">🚪 Cửa rộng: ' + door + 'cm</span>' +
+                            '</div>' +
+
+                            '<div class="dest-footer">' +
+                                '<div>' +
+                                    '<small style="color:var(--color-text-muted); display:block;">Chi phí trọn gói hỗ trợ / khách</small>' +
+                                    '<span class="price-text">' + Number(item.price || 0).toLocaleString('vi-VN') + ' đ</span>' +
+                                '</div>' +
+                                '<div style="display:flex; gap:8px;">' +
+                                    '<button onclick="window.location.href='detail.html?id=' + (typeof item !== 'undefined' ? item.id : (typeof tour !== 'undefined' ? tour.id : 1))"  href="detail.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&address=' + encodeURIComponent(item.address || '') + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-outline" style="padding:8px 12px; font-size:14.5px;" style="cursor:pointer;">Xem thẩm định</button>' +
+                                    '<a href="booking.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-primary" style="padding:8px 14px; font-size:14.5px;">Đặt giữ chỗ</a>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</article>';
+                }).join('');
+
+                renderPagination(totalPages, page);
+            } catch (err) {
+                counter.innerText = 'Lỗi kết nối API search.php';
+            }
+        }
+
+        function renderPagination(totalPages, activePage) {
+            const container = document.getElementById('paginationControls');
+            container.innerHTML = '';
+            const maxButtons = Math.min(totalPages, 10);
+            for (let i = 1; i <= maxButtons; i++) {
+                const btn = document.createElement('button');
+                btn.className = (i === activePage) ? 'btn btn-primary' : 'btn btn-outline';
+                btn.innerText = 'Trang ' + i;
+                btn.onclick = () => loadDestinations(i);
+                container.appendChild(btn);
+            }
+            if (totalPages > 10) {
+                const span = document.createElement('span');
+                span.style.alignSelf = 'center';
+                span.style.fontWeight = '700';
+                span.innerText = '... / Tổng ' + totalPages + ' trang';
+                container.appendChild(span);
+            }
+        }
+
+                function toggleMainVideo(e) {
+            const v = document.getElementById('introVideo');
+            const btn = document.getElementById('bigPlayBtn');
+            if (!v) return;
+            // Nếu người dùng bấm trực tiếp vào thanh điều khiển của video thì để trình duyệt tự xử lý
+            if (e.target.tagName === 'VIDEO' && e.offsetY > v.clientHeight - 50) return;
+            if (v.paused) {
+                v.play();
+                if (btn) btn.style.opacity = '0';
+            } else {
+                v.pause();
+                if (btn) btn.style.opacity = '1';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const v = document.getElementById('introVideo');
+            const btn = document.getElementById('bigPlayBtn');
+            if (v && btn) {
+                v.addEventListener('play', () => btn.style.opacity = '0');
+                v.addEventListener('pause', () => btn.style.opacity = '1');
+            }
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
         });
         document.body.appendChild(sidebar);
     }
@@ -1750,6 +1895,7 @@ setInterval(() => {
             document.body.classList.remove('high-contrast');
             document.getElementById('contrast-status').innerText = 'TẮT';
         }
+<<<<<<< HEAD
     }
 
     // 4. Trợ lý Đọc văn bản (Bôi đen là đọc)
@@ -1904,6 +2050,114 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <!-- END VOICE SEARCH MODULE -->
+=======
+        document.addEventListener('DOMContentLoaded', () => loadDestinations(1));
+    </script>
+<script>
+function toggleTheme() {
+    var currentTheme = document.documentElement.getAttribute('data-theme');
+    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+}
+// Khoi phuc theme khi F5
+var savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+window.addEventListener("DOMContentLoaded", function() {
+    var btns = document.querySelectorAll('#themeToggleBtn');
+    btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+});
+</script>
+
+
+
+<script id="modern-sidebar-js">
+document.addEventListener("DOMContentLoaded", function() {
+    var header = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
+    if(!header) return;
+
+    if(!document.querySelector('.hamburger-btn')) {
+        var btn = document.createElement('button');
+        btn.className = 'hamburger-btn';
+        btn.innerHTML = '☰';
+        header.appendChild(btn);
+    }
+
+    var overlay = document.querySelector('.menu-overlay');
+    if(!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        document.body.appendChild(overlay);
+    }
+
+    var sidebar = document.querySelector('.mobile-sidebar');
+    if(!sidebar) {
+        sidebar = document.createElement('div');
+        sidebar.className = 'mobile-sidebar';
+        
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'close-sidebar-btn';
+        closeBtn.innerHTML = '✕';
+        sidebar.appendChild(closeBtn);
+
+        var links = header.querySelectorAll('a, button');
+        links.forEach(function(el) {
+            if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
+            var clone = el.cloneNode(true);
+            clone.removeAttribute('style');
+            sidebar.appendChild(clone);
+        });
+        document.body.appendChild(sidebar);
+    }
+
+    var hamburger = document.querySelector('.hamburger-btn');
+    sidebar = document.querySelector('.mobile-sidebar');
+    overlay = document.querySelector('.menu-overlay');
+    var closeSidebar = document.querySelector('.close-sidebar-btn');
+
+    function toggleMenu() {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+    }
+
+    if(hamburger) hamburger.addEventListener('click', toggleMenu);
+    if(closeSidebar) closeSidebar.addEventListener('click', toggleMenu);
+    if(overlay) overlay.addEventListener('click', toggleMenu);
+});
+</script>
+<script id="smart-filter-js">
+document.addEventListener("DOMContentLoaded", function() {
+    const filterBtn = document.querySelector('button:contains("Lọc kết quả"), .btn-filter, button[type="button"]'); // Tìm nút lọc
+    if (!filterBtn) return;
+
+    filterBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Thu thập toàn bộ dữ liệu từ các ô input/select/checkbox
+        const q = document.querySelector('input[placeholder*="Tên địa điểm"], input[type="text"]').value;
+        const sort = document.querySelector('select:last-of-type').value; // Ô select sắp xếp
+        const wheelchair = document.querySelector('input[type="checkbox"]:nth-of-type(1)').checked;
+        const elevator = document.querySelector('input[type="checkbox"]:nth-of-type(2)').checked;
+
+        // Dựng URL kèm tham số truy vấn (Query String)
+        const apiUrl = `../api/search.php?q=${encodeURIComponent(q)}&sort=${sort}&wheelchair=${wheelchair}&elevator=${elevator}`;
+        
+        // Gọi API và render lại danh sách tour
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(res => {
+                if(res.status === 'success') {
+                    // Chèn hàm render danh sách của bro ở đây (gọi lại hàm hiển thị UI)
+                    if(typeof renderTours === 'function') renderTours(res.data);
+                    else console.log("Da lay duoc data loc:", res.data); // Báo log nếu chưa có hàm render
+                }
+            });
+    });
+});
+</script>
+>>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
 </body>
 </html>
 
