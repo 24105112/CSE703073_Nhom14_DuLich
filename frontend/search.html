@@ -158,7 +158,7 @@
         .dest-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; }
         .price-text { font-size: 21px; font-weight: 800; color: var(--color-primary); }
 
-        /* KHU VỰC TRUSTPILOT CHÂN THỰC (GIỐNG ẢNH MẪU) */
+        /* KHU VỰC TRUSTPILOT CHÂN THỰC */
         .tp-section {
             margin: 48px 0 28px;
             background: var(--color-bg-card);
@@ -182,7 +182,7 @@
         .tp-avatar { width: 40px; height: 40px; border-radius: 50%; background: #d1fae5; color: #065f46; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; }
         .tp-tag-pill { display: inline-block; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; margin-right: 6px; margin-top: 8px; }
 
-                /* KHUNG VIDEO THỰC TẾ TRANG CHỦ */
+        /* KHUNG VIDEO THỰC TẾ TRANG CHỦ */
         .video-showcase {
             margin: 32px 0;
             background: var(--color-bg-card);
@@ -253,558 +253,204 @@
         }
     </style>
 
-
-<style id="super-dark-mode">
-    /* Cưỡng chế toàn bộ thân trang web thành màu tối */
-    html[data-theme="dark"] body, html[data-theme="dark"] header, html[data-theme="dark"] .navbar { 
-        background-color: #0f172a !important; color: #f8fafc !important; border-bottom-color: #334155 !important;
-    }
-    
-    /* Bắt mọi thẻ div mặc định trong suốt để không bị đè màu */
-    html[data-theme="dark"] div, html[data-theme="dark"] section, html[data-theme="dark"] article {
-        background-color: transparent !important; 
-        color: #f8fafc !important;
-        border-color: #334155 !important;
-    }
-    
-    /* TUYỆT CHIÊU: Tự động nhận diện các khối thẻ (card) thông qua class, viền hoặc shadow để tô nền xám đen */
-    html[data-theme="dark"] .tour-card, html[data-theme="dark"] .card, html[data-theme="dark"] .booking-card, 
-    html[data-theme="dark"] .spec-card, html[data-theme="dark"] .ai-card, html[data-theme="dark"] .metric-card, 
-    html[data-theme="dark"] .review-item, html[data-theme="dark"] .review-dashboard,
-    html[data-theme="dark"] .content-section, html[data-theme="dark"] [style*="border"], 
-    html[data-theme="dark"] [style*="box-shadow"], html[data-theme="dark"] [style*="padding: 24px"] {
-        background-color: #1e293b !important;
-    }
-
-    /* Ép tất cả các loại chữ (tiêu đề, thẻ p, span, nhãn) phát sáng */
-    html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3, 
-    html[data-theme="dark"] h4, html[data-theme="dark"] p, html[data-theme="dark"] span,
-    html[data-theme="dark"] strong, html[data-theme="dark"] label, html[data-theme="dark"] input { 
-        color: #f8fafc !important; 
-    }
-
-    /* Bảo vệ các nút bấm, icon và badge trợ năng không bị hỏng màu */
-    html[data-theme="dark"] button, html[data-theme="dark"] .btn, html[data-theme="dark"] .btn-primary { 
-        background-color: #0284c7 !important; color: #fff !important; border:none !important; 
-    }
-    html[data-theme="dark"] img, html[data-theme="dark"] i, html[data-theme="dark"] svg {
-        background-color: transparent !important;
-    }
-    html[data-theme="dark"] .verify-badge-large, html[data-theme="dark"] .ai-badge {
-        background-color: #a21caf !important; color: #fdf4ff !important;
-    }
-</style>
-
-
-
-<style id="ultimate-responsive-grid">
-    /* 1. CHỐNG VỠ GIAO DIỆN TOÀN TẬP */
-    html, body {
-        max-width: 100vw !important; /* Cấm web phình to hơn màn hình */
-        overflow-x: hidden !important; /* Cấm kéo ngang tạo khoảng trắng */
-        box-sizing: border-box !important;
-    }
-    *, *:before, *:after {
-        box-sizing: inherit !important;
-    }
-
-    /* 2. CẤU TRÚC LƯỚI (GRID) LINH HOẠT CHO TẤT CẢ THIẾT BỊ */
-    .tour-grid, .metrics-grid, .grid-container {
-        display: grid !important;
-        width: 100% !important;
-    }
-
-    /* --- GIAO DIỆN DESKTOP & LAPTOP (Màn hình lớn > 1024px) --- */
-    @media (min-width: 1024px) {
-        .tour-grid { 
-            grid-template-columns: repeat(3, 1fr) !important; /* 3 Cột rộng rãi */
-            gap: 24px !important; 
+    <style id="super-dark-mode">
+        /* Cưỡng chế toàn bộ thân trang web thành màu tối */
+        html[data-theme="dark"] body, html[data-theme="dark"] header, html[data-theme="dark"] .navbar { 
+            background-color: #0f172a !important; color: #f8fafc !important; border-bottom-color: #334155 !important;
         }
-    }
-
-    /* --- GIAO DIỆN TABLET (iPad từ 768px đến 1023px) --- */
-    @media (min-width: 768px) and (max-width: 1023px) {
-        .tour-grid, .metrics-grid { 
-            grid-template-columns: repeat(2, 1fr) !important; /* 2 Cột cân đối */
-            gap: 16px !important; 
+        /* Bắt mọi thẻ div mặc định trong suốt để không bị đè màu */
+        html[data-theme="dark"] div, html[data-theme="dark"] section, html[data-theme="dark"] article {
+            background-color: transparent !important; 
+            color: #f8fafc !important;
+            border-color: #334155 !important;
         }
-    }
-
-    /* --- GIAO DIỆN MOBILE & THIẾT BỊ CẦM TAY (Màn hình < 768px) --- */
-    @media (max-width: 767px) {
-        .tour-grid { 
-            grid-template-columns: repeat(2, 1fr) !important; /* HIỂN THỊ 2 CỘT SONG SONG GỌN GÀNG */
-            gap: 8px !important; /* Giảm khoảng cách để đỡ tốn diện tích */
-            padding: 8px !important;
+        html[data-theme="dark"] .tour-card, html[data-theme="dark"] .card, html[data-theme="dark"] .booking-card, 
+        html[data-theme="dark"] .spec-card, html[data-theme="dark"] .ai-card, html[data-theme="dark"] .metric-card, 
+        html[data-theme="dark"] .review-item, html[data-theme="dark"] .review-dashboard,
+        html[data-theme="dark"] .content-section, html[data-theme="dark"] [style*="border"], 
+        html[data-theme="dark"] [style*="box-shadow"], html[data-theme="dark"] [style*="padding: 24px"] {
+            background-color: #1e293b !important;
         }
+        html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3, 
+        html[data-theme="dark"] h4, html[data-theme="dark"] p, html[data-theme="dark"] span,
+        html[data-theme="dark"] strong, html[data-theme="dark"] label, html[data-theme="dark"] input { 
+            color: #f8fafc !important; 
+        }
+        html[data-theme="dark"] button, html[data-theme="dark"] .btn, html[data-theme="dark"] .btn-primary { 
+            background-color: #0284c7 !important; color: #fff !important; border:none !important; 
+        }
+        html[data-theme="dark"] img, html[data-theme="dark"] i, html[data-theme="dark"] svg {
+            background-color: transparent !important;
+        }
+        html[data-theme="dark"] .verify-badge-large, html[data-theme="dark"] .ai-badge {
+            background-color: #a21caf !important; color: #fdf4ff !important;
+        }
+    </style>
+
+    <style id="ultimate-responsive-grid">
+        html, body {
+            max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important;
+        }
+        *, *:before, *:after { box-sizing: inherit !important; }
+        .tour-grid, .metrics-grid, .grid-container { display: grid !important; width: 100% !important; }
+        @media (min-width: 1024px) {
+            .tour-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .tour-grid, .metrics-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+        }
+        @media (max-width: 767px) {
+            .tour-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; padding: 8px !important; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+            .tour-card, .card {
+                padding: 8px !important; border-radius: 12px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important;
+            }
+            .tour-card img, .card-img { 
+                height: 100px !important; width: 100% !important; object-fit: cover !important; border-radius: 8px !important; margin-bottom: 8px !important;
+            }
+            .tour-card h3, .tour-card h4 { 
+                font-size: 13px !important; line-height: 1.3 !important; margin: 0 0 4px 0 !important; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; 
+            }
+            .tour-card p, .tour-card span { font-size: 11px !important; line-height: 1.2 !important; margin-bottom: 4px !important; }
+            .tour-card .btn, .tour-card button { padding: 6px !important; font-size: 11px !important; width: 100% !important; margin-top: 4px !important; }
+            .tour-card .description-preview, .card-desc { display: none !important; }
+            .detail-layout { grid-template-columns: 1fr !important; }
+        }
+    </style>
+
+    <style id="modern-sidebar-fix">
+        body { padding-top: 60px !important; }
+        header, .header, .navbar {
+            position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important;
+            height: 60px !important; background-color: var(--color-bg-card, #ffffff) !important;
+            z-index: 9999 !important; display: flex !important; align-items: center !important;
+            justify-content: space-between !important; padding: 0 16px !important;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important; border: none !important;
+        }
+        html[data-theme="dark"] header { background-color: #0f172a !important; border-bottom: 1px solid #334155 !important; }
+        header > *:not(.logo):not(img):not(.hamburger-btn):not(#themeToggleBtn) { display: none !important; }
+        #themeToggleBtn { margin-left: auto !important; margin-right: 16px !important; }
         
-        .metrics-grid {
-            grid-template-columns: repeat(2, 1fr) !important; /* Bảng admin cũng chia 2 ô/hàng */
-            gap: 8px !important;
+        .hamburger-btn {
+            background: transparent !important; border: none !important; font-size: 24px !important;
+            cursor: pointer !important; display: block !important; color: var(--color-text-main, #0f172a) !important;
+            padding: 4px !important; margin: 0 !important;
         }
+        html[data-theme="dark"] .hamburger-btn { color: #f8fafc !important; }
 
-        /* Ép thẻ tour trên mobile phải nhỏ gọn, xinh xắn */
-        .tour-card, .card {
-            padding: 8px !important;
-            border-radius: 12px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: space-between !important;
+        .menu-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6); z-index: 99998;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
         }
+        .menu-overlay.show { opacity: 1; visibility: visible; }
 
-        /* Thu nhỏ ảnh bìa để chừa chỗ cho chữ */
-        .tour-card img, .card-img { 
-            height: 100px !important; 
-            width: 100% !important;
-            object-fit: cover !important; 
-            border-radius: 8px !important; 
-            margin-bottom: 8px !important;
+        .mobile-sidebar {
+            position: fixed !important; top: 0 !important; right: -320px !important;
+            width: 280px !important; height: 100vh !important;
+            background-color: var(--color-bg-card, #ffffff) !important;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
+            z-index: 99999 !important; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            display: flex !important; flex-direction: column !important;
+            padding: 20px 16px !important; overflow-y: auto !important;
         }
+        html[data-theme="dark"] .mobile-sidebar { background-color: #1e293b !important; border-left: 1px solid #334155 !important; }
+        .mobile-sidebar.show { right: 0 !important; }
 
-        /* Chữ bên trong thẻ phải nhỏ lại cho vừa khung 2 cột */
-        .tour-card h3, .tour-card h4 { 
-            font-size: 13px !important; 
-            line-height: 1.3 !important; 
-            margin: 0 0 4px 0 !important; 
-            overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; /* Chống chữ dài tràn dòng */
+        .close-sidebar-btn {
+            align-self: flex-end !important; background: transparent !important;
+            border: none !important; font-size: 24px !important; cursor: pointer !important;
+            color: #64748b !important; margin-bottom: 24px !important; padding: 8px !important;
+            border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important;
         }
+        .close-sidebar-btn:active { background: #f1f5f9 !important; }
         
-        .tour-card p, .tour-card span { 
-            font-size: 11px !important; 
-            line-height: 1.2 !important; 
-            margin-bottom: 4px !important;
+        .mobile-sidebar a, .mobile-sidebar button:not(.close-sidebar-btn) {
+            display: block !important; width: 100% !important; text-align: left !important;
+            padding: 14px 16px !important; margin-bottom: 8px !important;
+            font-size: 15px !important; font-weight: 500 !important;
+            border-radius: 12px !important; text-decoration: none !important;
+            color: var(--color-text-main, #0f172a) !important;
+            background: transparent !important; border: 1px solid transparent !important;
+            transition: all 0.2s ease !important;
         }
-
-        /* Nút bấm trong thẻ tự động dàn ngang hoặc xếp gọn */
-        .tour-card .btn, .tour-card button { 
-            padding: 6px !important; 
-            font-size: 11px !important; 
-            width: 100% !important; /* Nút trải dài hết thẻ */
-            margin-top: 4px !important;
+        html[data-theme="dark"] .mobile-sidebar a, html[data-theme="dark"] .mobile-sidebar button:not(.close-sidebar-btn) { color: #f8fafc !important; }
+        .mobile-sidebar a:active, .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #f1f5f9 !important; }
+        html[data-theme="dark"] .mobile-sidebar a:active, html[data-theme="dark"] .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #334155 !important; }
+        .mobile-sidebar .btn-primary { 
+            background: #0284c7 !important; color: #fff !important; 
+            font-weight: 600 !important; text-align: center !important; margin-top: 16px !important;
         }
-        
-        /* Ẩn bớt đoạn mô tả dài thòng lọng trên thẻ mobile */
-        .tour-card .description-preview, .card-desc { 
-            display: none !important; 
-        }
-        
-        /* Đảm bảo trang chi tiết (Detail) không bị bóp nghẹt */
-        .detail-layout {
-            grid-template-columns: 1fr !important;
-        }
-    }
-</style>
-
-
-
-
-<style id="modern-sidebar-fix">
-    /* 1. HEADER GỌN GÀNG NHƯ CŨ */
-    body { padding-top: 60px !important; }
-    header, .header, .navbar {
-        position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important;
-        height: 60px !important; background-color: var(--color-bg-card, #ffffff) !important;
-        z-index: 9999 !important; display: flex !important; align-items: center !important;
-        justify-content: space-between !important; padding: 0 16px !important;
-        box-shadow: 0 1px 8px rgba(0,0,0,0.06) !important; border: none !important;
-    }
-    html[data-theme="dark"] header { background-color: #0f172a !important; border-bottom: 1px solid #334155 !important; }
-    
-    header > *:not(.logo):not(img):not(.hamburger-btn):not(#themeToggleBtn) { display: none !important; }
-    #themeToggleBtn { margin-left: auto !important; margin-right: 16px !important; }
-    
-    .hamburger-btn {
-        background: transparent !important; border: none !important; font-size: 24px !important;
-        cursor: pointer !important; display: block !important; color: var(--color-text-main, #0f172a) !important;
-        padding: 4px !important; margin: 0 !important;
-    }
-    html[data-theme="dark"] .hamburger-btn { color: #f8fafc !important; }
-
-    /* 2. LỚP PHỦ ĐEN (OVERLAY) */
-    .menu-overlay {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(15, 23, 42, 0.6); z-index: 99998;
-        opacity: 0; visibility: hidden; transition: all 0.3s ease;
-        backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
-    }
-    .menu-overlay.show { opacity: 1; visibility: visible; }
-
-    /* 3. MENU TRƯỢT TỪ BÊN PHẢI (SIDEBAR DRAWER) */
-    .mobile-sidebar {
-        position: fixed !important; top: 0 !important; right: -320px !important;
-        width: 280px !important; height: 100vh !important;
-        background-color: var(--color-bg-card, #ffffff) !important;
-        box-shadow: -5px 0 25px rgba(0,0,0,0.15) !important;
-        z-index: 99999 !important; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        display: flex !important; flex-direction: column !important;
-        padding: 20px 16px !important; overflow-y: auto !important;
-    }
-    html[data-theme="dark"] .mobile-sidebar { background-color: #1e293b !important; border-left: 1px solid #334155 !important; }
-    .mobile-sidebar.show { right: 0 !important; }
-
-    /* 4. STYLE CÁC NÚT BÊN TRONG SIDEBAR */
-    .close-sidebar-btn {
-        align-self: flex-end !important; background: transparent !important;
-        border: none !important; font-size: 24px !important; cursor: pointer !important;
-        color: #64748b !important; margin-bottom: 24px !important; padding: 8px !important;
-        border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important;
-    }
-    .close-sidebar-btn:active { background: #f1f5f9 !important; }
-    
-    .mobile-sidebar a, .mobile-sidebar button:not(.close-sidebar-btn) {
-        display: block !important; width: 100% !important; text-align: left !important;
-        padding: 14px 16px !important; margin-bottom: 8px !important;
-        font-size: 15px !important; font-weight: 500 !important;
-        border-radius: 12px !important; text-decoration: none !important;
-        color: var(--color-text-main, #0f172a) !important;
-        background: transparent !important; border: 1px solid transparent !important;
-        transition: all 0.2s ease !important;
-    }
-    html[data-theme="dark"] .mobile-sidebar a, html[data-theme="dark"] .mobile-sidebar button:not(.close-sidebar-btn) { color: #f8fafc !important; }
-    
-    .mobile-sidebar a:active, .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #f1f5f9 !important; }
-    html[data-theme="dark"] .mobile-sidebar a:active, html[data-theme="dark"] .mobile-sidebar button:active:not(.close-sidebar-btn) { background: #334155 !important; }
-    
-    /* Làm nổi bật nút Đăng nhập / Đăng ký */
-    .mobile-sidebar .btn-primary { 
-        background: #0284c7 !important; color: #fff !important; 
-        font-weight: 600 !important; text-align: center !important; margin-top: 16px !important;
-    }
-</style>
+    </style>
 </head>
 <body>
 <!-- STATIC JAPANESE BARRIER-FREE HEADER V2 -->
 <style id="jp-static-header-css">
-    /* 1. Triệt tiêu hoàn toàn các thanh header trắng rỗng cũ của dự án */
-    header:not(.jp-master-nav), 
-    .header:not(.jp-master-nav), 
-    .navbar:not(.jp-master-nav),
-    .topbar, .top-nav, #header, .site-header,
-    .hamburger-btn, .mobile-sidebar, .menu-overlay {
-        display: none !important;
-        height: 0 !important;
-        overflow: hidden !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border: none !important;
+    header:not(.jp-master-nav), .header:not(.jp-master-nav), .navbar:not(.jp-master-nav),
+    .topbar, .top-nav, #header, .site-header, .hamburger-btn, .mobile-sidebar, .menu-overlay {
+        display: none !important; height: 0 !important; overflow: hidden !important;
+        margin: 0 !important; padding: 0 !important; border: none !important;
     }
+    body { padding-top: 0 !important; margin-top: 0 !important; }
 
-    /* Reset khoảng đệm đầu trang nếu CSS cũ có cài padding-top cho body */
-    body {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-    }
-
-    /* 2. Khung Header Nhật Bản (Dùng thẻ div để không bị CSS cũ của thẻ header đè) */
     .jp-master-nav {
-        position: sticky !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        z-index: 2147483640 !important;
-        background: #ffffff !important;
-        border-bottom: 2px solid #cbd5e1 !important;
-        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
-        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
+        position: sticky !important; top: 0 !important; left: 0 !important; right: 0 !important;
+        width: 100% !important; z-index: 2147483640 !important; background: #ffffff !important;
+        border-bottom: 2px solid #cbd5e1 !important; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+        font-family: system-ui, -apple-system, sans-serif !important; display: block !important;
+        visibility: visible !important; opacity: 1 !important;
     }
+    [data-theme="dark"] .jp-master-nav { background: #0f172a !important; border-bottom-color: #334155 !important; }
 
-    [data-theme="dark"] .jp-master-nav {
-        background: #0f172a !important;
-        border-bottom-color: #334155 !important;
-    }
+    .jp-strip-top { background: #0f766e !important; color: #ffffff !important; font-size: 12.5px !important; padding: 6px 20px !important; display: block !important; }
+    .jp-strip-inner { max-width: 1200px !important; margin: 0 auto !important; display: flex !important; justify-content: space-between !important; align-items: center !important; flex-wrap: wrap !important; gap: 8px !important; }
+    .jp-wcag-pill { background: rgba(255, 255, 255, 0.2) !important; padding: 2px 10px !important; border-radius: 99px !important; font-weight: 700 !important; color: #ffffff !important; }
 
-    /* Dải thông tin trợ năng trên cùng */
-    .jp-strip-top {
-        background: #0f766e !important;
-        color: #ffffff !important;
-        font-size: 12.5px !important;
-        padding: 6px 20px !important;
-        display: block !important;
-    }
-    .jp-strip-inner {
-        max-width: 1200px !important;
-        margin: 0 auto !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-    }
-    .jp-wcag-pill {
-        background: rgba(255, 255, 255, 0.2) !important;
-        padding: 2px 10px !important;
-        border-radius: 99px !important;
-        font-weight: 700 !important;
-        color: #ffffff !important;
-    }
+    .jp-nav-container { max-width: 1200px !important; margin: 0 auto !important; padding: 12px 20px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 16px !important; background: transparent !important; }
+    .jp-logo-box { display: flex !important; align-items: center !important; gap: 12px !important; text-decoration: none !important; }
+    .jp-logo-icon { width: 44px !important; height: 44px !important; border-radius: 12px !important; background: linear-gradient(135deg, #0f766e, #0d9488) !important; color: #ffffff !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 22px !important; font-weight: bold !important; box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25) !important; }
+    .jp-logo-title { font-size: 19px !important; font-weight: 800 !important; color: #0f766e !important; line-height: 1.15 !important; display: block !important; }
+    [data-theme="dark"] .jp-logo-title { color: #2dd4bf !important; }
+    .jp-logo-sub { font-size: 12px !important; color: #475569 !important; font-weight: 600 !important; display: block !important; margin-top: 2px !important; }
+    [data-theme="dark"] .jp-logo-sub { color: #94a3b8 !important; }
 
-    /* Tầng chính của Header */
-    .jp-nav-container {
-        max-width: 1200px !important;
-        margin: 0 auto !important;
-        padding: 12px 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        gap: 16px !important;
-        background: transparent !important;
-    }
+    .jp-center-links { display: flex !important; align-items: center !important; gap: 6px !important; }
+    .jp-link-item { padding: 8px 14px !important; border-radius: 10px !important; font-size: 14.5px !important; font-weight: 700 !important; color: #0f172a !important; text-decoration: none !important; transition: 0.2s !important; display: inline-flex !important; align-items: center !important; gap: 6px !important; }
+    [data-theme="dark"] .jp-link-item { color: #f8fafc !important; }
+    .jp-link-item:hover { background: #f0fdfa !important; color: #0f766e !important; }
+    [data-theme="dark"] .jp-link-item:hover { background: #1e293b !important; color: #2dd4bf !important; }
 
-    /* Logo thương hiệu */
-    .jp-logo-box {
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
-        text-decoration: none !important;
-    }
-    .jp-logo-icon {
-        width: 44px !important;
-        height: 44px !important;
-        border-radius: 12px !important;
-        background: linear-gradient(135deg, #0f766e, #0d9488) !important;
-        color: #ffffff !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 22px !important;
-        font-weight: bold !important;
-        box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25) !important;
-    }
-    .jp-logo-title {
-        font-size: 19px !important;
-        font-weight: 800 !important;
-        color: #0f766e !important;
-        line-height: 1.15 !important;
-        display: block !important;
-    }
-    [data-theme="dark"] .jp-logo-title {
-        color: #2dd4bf !important;
-    }
-    .jp-logo-sub {
-        font-size: 12px !important;
-        color: #475569 !important;
-        font-weight: 600 !important;
-        display: block !important;
-        margin-top: 2px !important;
-    }
-    [data-theme="dark"] .jp-logo-sub {
-        color: #94a3b8 !important;
-    }
+    .jp-right-tools { display: flex !important; align-items: center !important; gap: 10px !important; }
+    .jp-a11y-font { display: flex !important; align-items: center !important; background: #f1f5f9 !important; border: 1px solid #cbd5e1 !important; border-radius: 10px !important; padding: 3px !important; }
+    [data-theme="dark"] .jp-a11y-font { background: #1e293b !important; border-color: #334155 !important; }
+    .jp-f-btn { border: none !important; background: transparent !important; padding: 5px 9px !important; border-radius: 7px !important; font-weight: 800 !important; font-size: 13px !important; cursor: pointer !important; color: #0f172a !important; }
+    [data-theme="dark"] .jp-f-btn { color: #f8fafc !important; }
+    .jp-f-btn.active { background: #0f766e !important; color: #ffffff !important; }
 
-    /* Menu ngang ở giữa */
-    .jp-center-links {
-        display: flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-    }
-    .jp-link-item {
-        padding: 8px 14px !important;
-        border-radius: 10px !important;
-        font-size: 14.5px !important;
-        font-weight: 700 !important;
-        color: #0f172a !important;
-        text-decoration: none !important;
-        transition: 0.2s !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-    }
-    [data-theme="dark"] .jp-link-item {
-        color: #f8fafc !important;
-    }
-    .jp-link-item:hover {
-        background: #f0fdfa !important;
-        color: #0f766e !important;
-    }
-    [data-theme="dark"] .jp-link-item:hover {
-        background: #1e293b !important;
-        color: #2dd4bf !important;
-    }
+    .jp-ham-btn { display: inline-flex !important; align-items: center !important; gap: 10px !important; background: #ffffff !important; color: #0f172a !important; border: 2px solid #0f766e !important; border-radius: 12px !important; padding: 8px 16px !important; font-size: 14px !important; font-weight: 800 !important; cursor: pointer !important; box-shadow: 0 2px 8px rgba(15, 118, 110, 0.15) !important; transition: all 0.2s ease !important; }
+    [data-theme="dark"] .jp-ham-btn { background: #1e293b !important; color: #f8fafc !important; border-color: #2dd4bf !important; }
+    .jp-ham-btn:hover { background: #0f766e !important; color: #ffffff !important; }
+    .jp-ham-btn:hover .jp-ham-bars span { background: #ffffff !important; }
+    .jp-ham-bars { width: 20px !important; height: 14px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; }
+    .jp-ham-bars span { display: block !important; height: 2.5px !important; width: 100% !important; background: #0f766e !important; border-radius: 3px !important; transition: 0.25s !important; }
+    [data-theme="dark"] .jp-ham-bars span { background: #2dd4bf !important; }
+    .jp-ham-bars span:nth-child(2) { width: 70% !important; }
+    .jp-ham-btn:hover .jp-ham-bars span:nth-child(2) { width: 100% !important; }
 
-    /* Cụm công cụ bên phải */
-    .jp-right-tools {
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-    }
+    .jp-overlay-bg { position: fixed !important; inset: 0 !important; background: rgba(15, 23, 42, 0.6) !important; backdrop-filter: blur(4px) !important; z-index: 2147483645 !important; opacity: 0 !important; visibility: hidden !important; transition: 0.3s ease !important; }
+    .jp-overlay-bg.open { opacity: 1 !important; visibility: visible !important; }
+    .jp-side-drawer { position: fixed !important; top: 0 !important; right: -420px !important; width: 100% !important; max-width: 390px !important; height: 100vh !important; background: #ffffff !important; z-index: 2147483647 !important; box-shadow: -10px 0 35px rgba(15, 23, 42, 0.25) !important; transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important; display: flex !important; flex-direction: column !important; overflow-y: auto !important; }
+    [data-theme="dark"] .jp-side-drawer { background: #0f172a !important; color: #f8fafc !important; }
+    .jp-side-drawer.open { right: 0 !important; }
+    .jp-drawer-top { padding: 20px 24px !important; background: linear-gradient(135deg, #0f766e, #115e59) !important; color: #ffffff !important; display: flex !important; justify-content: space-between !important; align-items: center !important; }
+    .jp-close-btn { background: rgba(255,255,255,0.2) !important; border: 1px solid rgba(255,255,255,0.4) !important; color: #ffffff !important; border-radius: 10px !important; padding: 6px 12px !important; font-weight: 700 !important; cursor: pointer !important; }
+    .jp-drawer-content { padding: 20px 24px !important; display: flex !important; flex-direction: column !important; gap: 18px !important; }
+    .jp-bento-card { display: flex !important; align-items: center !important; gap: 14px !important; padding: 12px 14px !important; border-radius: 12px !important; border: 1px solid #e2e8f0 !important; background: #f8fafc !important; text-decoration: none !important; color: #0f172a !important; margin-bottom: 8px !important; transition: 0.2s !important; }
+    [data-theme="dark"] .jp-bento-card { background: #1e293b !important; border-color: #334155 !important; color: #f8fafc !important; }
+    .jp-bento-card:hover { border-color: #0f766e !important; background: #f0fdfa !important; transform: translateX(4px) !important; }
 
-    /* Cụm nút phóng to chữ A / A+ / A++ */
-    .jp-a11y-font {
-        display: flex !important;
-        align-items: center !important;
-        background: #f1f5f9 !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 10px !important;
-        padding: 3px !important;
-    }
-    [data-theme="dark"] .jp-a11y-font {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-    }
-    .jp-f-btn {
-        border: none !important;
-        background: transparent !important;
-        padding: 5px 9px !important;
-        border-radius: 7px !important;
-        font-weight: 800 !important;
-        font-size: 13px !important;
-        cursor: pointer !important;
-        color: #0f172a !important;
-    }
-    [data-theme="dark"] .jp-f-btn {
-        color: #f8fafc !important;
-    }
-    .jp-f-btn.active {
-        background: #0f766e !important;
-        color: #ffffff !important;
-    }
-
-    /* NÚT HAMBURGER 3 GẠCH ĐÓNG KHUNG CHUẨN NHẬT */
-    .jp-ham-btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-        background: #ffffff !important;
-        color: #0f172a !important;
-        border: 2px solid #0f766e !important;
-        border-radius: 12px !important;
-        padding: 8px 16px !important;
-        font-size: 14px !important;
-        font-weight: 800 !important;
-        cursor: pointer !important;
-        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.15) !important;
-        transition: all 0.2s ease !important;
-    }
-    [data-theme="dark"] .jp-ham-btn {
-        background: #1e293b !important;
-        color: #f8fafc !important;
-        border-color: #2dd4bf !important;
-    }
-    .jp-ham-btn:hover {
-        background: #0f766e !important;
-        color: #ffffff !important;
-    }
-    .jp-ham-btn:hover .jp-ham-bars span {
-        background: #ffffff !important;
-    }
-    .jp-ham-bars {
-        width: 20px !important;
-        height: 14px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-    }
-    .jp-ham-bars span {
-        display: block !important;
-        height: 2.5px !important;
-        width: 100% !important;
-        background: #0f766e !important;
-        border-radius: 3px !important;
-        transition: 0.25s !important;
-    }
-    [data-theme="dark"] .jp-ham-bars span {
-        background: #2dd4bf !important;
-    }
-    .jp-ham-bars span:nth-child(2) {
-        width: 70% !important;
-    }
-    .jp-ham-btn:hover .jp-ham-bars span:nth-child(2) {
-        width: 100% !important;
-    }
-
-    /* DRAWER TRƯỢT BÊN PHẢI */
-    .jp-overlay-bg {
-        position: fixed !important;
-        inset: 0 !important;
-        background: rgba(15, 23, 42, 0.6) !important;
-        backdrop-filter: blur(4px) !important;
-        z-index: 2147483645 !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        transition: 0.3s ease !important;
-    }
-    .jp-overlay-bg.open {
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-    .jp-side-drawer {
-        position: fixed !important;
-        top: 0 !important;
-        right: -420px !important;
-        width: 100% !important;
-        max-width: 390px !important;
-        height: 100vh !important;
-        background: #ffffff !important;
-        z-index: 2147483647 !important;
-        box-shadow: -10px 0 35px rgba(15, 23, 42, 0.25) !important;
-        transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        display: flex !important;
-        flex-direction: column !important;
-        overflow-y: auto !important;
-    }
-    [data-theme="dark"] .jp-side-drawer {
-        background: #0f172a !important;
-        color: #f8fafc !important;
-    }
-    .jp-side-drawer.open {
-        right: 0 !important;
-    }
-    .jp-drawer-top {
-        padding: 20px 24px !important;
-        background: linear-gradient(135deg, #0f766e, #115e59) !important;
-        color: #ffffff !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-    }
-    .jp-close-btn {
-        background: rgba(255,255,255,0.2) !important;
-        border: 1px solid rgba(255,255,255,0.4) !important;
-        color: #ffffff !important;
-        border-radius: 10px !important;
-        padding: 6px 12px !important;
-        font-weight: 700 !important;
-        cursor: pointer !important;
-    }
-    .jp-drawer-content {
-        padding: 20px 24px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 18px !important;
-    }
-    .jp-bento-card {
-        display: flex !important;
-        align-items: center !important;
-        gap: 14px !important;
-        padding: 12px 14px !important;
-        border-radius: 12px !important;
-        border: 1px solid #e2e8f0 !important;
-        background: #f8fafc !important;
-        text-decoration: none !important;
-        color: #0f172a !important;
-        margin-bottom: 8px !important;
-        transition: 0.2s !important;
-    }
-    [data-theme="dark"] .jp-bento-card {
-        background: #1e293b !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-    }
-    .jp-bento-card:hover {
-        border-color: #0f766e !important;
-        background: #f0fdfa !important;
-        transform: translateX(4px) !important;
-    }
-
-    @media (max-width: 900px) {
-        .jp-center-links, .jp-strip-top {
-            display: none !important;
-        }
-    }
+    @media (max-width: 900px) { .jp-center-links, .jp-strip-top { display: none !important; } }
 </style>
 
 <div class="jp-master-nav" role="banner">
@@ -845,9 +491,7 @@
 
             <button type="button" class="jp-ham-btn" onclick="jpToggleMenu(true)">
                 <div class="jp-ham-bars">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </div>
                 <span>DANH MỤC</span>
             </button>
@@ -940,11 +584,8 @@ function jpToggleMenu(show) {
 }
 function jpResizeFont(percent, btn) {
     var scale = percent / 100;
-    
-    // 1. Luu muc phong to vao bo nho de giu nguyen khi chuyen trang
     localStorage.setItem('jp_a11y_scale', percent);
 
-    // 2. Tao hoac cap nhat the Style cuong che phong to bat chap don vi px
     var styleEl = document.getElementById('jp-a11y-zoom-style');
     if (!styleEl) {
         styleEl = document.createElement('style');
@@ -955,23 +596,15 @@ function jpResizeFont(percent, btn) {
     if (percent === 100) {
         styleEl.innerHTML = '';
     } else {
-        // Phong to toan bo noi dung trang (tru thanh Header de khong bi vo khung menu)
         styleEl.innerHTML = `
-            body > *:not(.jp-master-nav):not(.jp-overlay-bg):not(.jp-side-drawer):not(#jp-a11y-toast) {
-                zoom: ${scale} !important;
-            }
-            p, span, a, li, label, input, select, button, td, th, .care-item, .card-review-snippet {
-                line-height: 1.65 !important;
-            }
+            body > *:not(.jp-master-nav):not(.jp-overlay-bg):not(.jp-side-drawer):not(#jp-a11y-toast) { zoom: ${scale} !important; }
+            p, span, a, li, label, input, select, button, td, th, .care-item, .card-review-snippet { line-height: 1.65 !important; }
         `;
     }
 
-    // 3. Cap nhat trang thai sang den (Active) tren thanh Header
     document.querySelectorAll('.jp-f-btn').forEach(function(b) {
         b.classList.remove('active');
-        if ((percent === 100 && b.innerText === 'A') ||
-            (percent === 112 && b.innerText === 'A+') ||
-            (percent >= 120 && b.innerText === 'A++')) {
+        if ((percent === 100 && b.innerText === 'A') || (percent === 112 && b.innerText === 'A+') || (percent >= 120 && b.innerText === 'A++')) {
             b.classList.add('active');
         }
     });
@@ -980,7 +613,6 @@ function jpResizeFont(percent, btn) {
         btn.classList.add('active');
     }
 
-    // 4. Hien thi Toast thong bao Tro nang chuan Nhat Ban
     var toast = document.getElementById('jp-a11y-toast');
     if (!toast) {
         toast = document.createElement('div');
@@ -999,20 +631,13 @@ function jpResizeFont(percent, btn) {
     }, 2200);
 }
 
-// Tu dong khoi phuc co chu khi tai trang
 window.addEventListener('DOMContentLoaded', function() {
     var savedScale = parseInt(localStorage.getItem('jp_a11y_scale') || '100', 10);
-    if (savedScale !== 100) {
-        jpResizeFont(savedScale);
-    }
-});
-// Tự động vá lỗi chữ "★ undefined" ở trang chi tiết thành "★ 4.8"
-window.addEventListener('DOMContentLoaded', function() {
+    if (savedScale !== 100) jpResizeFont(savedScale);
     document.body.innerHTML = document.body.innerHTML.replace(/★\s*undefined/g, '★ 4.8');
 });
 </script>
 <!-- END STATIC JAPANESE HEADER V2 -->
-
 
     <header class="navbar">
         <a href="index.html" class="brand-logo">
@@ -1087,7 +712,7 @@ window.addEventListener('DOMContentLoaded', function() {
             </div>
         </section>
 
-                        <!-- VIDEO THỰC TẾ KHẢO SÁT HẠ TẦNG & HỖ TRỢ NGƯỜI CAO TUỔI -->
+        <!-- VIDEO THỰC TẾ KHẢO SÁT HẠ TẦNG -->
         <section class="video-showcase" aria-label="Video thực tế trải nghiệm trợ năng">
             <div class="video-header-flex">
                 <div>
@@ -1125,12 +750,11 @@ window.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <span id="recordCounter" style="font-weight:700; color:var(--color-primary); background:var(--color-primary-light); padding:6px 14px; border-radius:99px;">Đang tải dữ liệu...</span>
             </div>
-
             <div id="destinationList" class="dest-grid"></div>
             <div id="paginationControls" class="pagination"></div>
         </section>
 
-                <!-- KHU VỰC ĐÁNH GIÁ MINH BẠCH CHUẨN TRUSTPILOT (CÓ Ô VUÔNG LỌC THEO SAO) -->
+        <!-- KHU VỰC ĐÁNH GIÁ MINH BẠCH CHUẨN TRUSTPILOT -->
         <section class="tp-section" aria-label="Đánh giá cộng đồng theo chuẩn Trustpilot">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
                 <div>
@@ -1139,16 +763,13 @@ window.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <button type="button" onclick="resetStarFilters()" class="btn btn-outline" style="min-height:40px; padding:8px 16px; font-size:14px;">🔄 Hiện tất cả đánh giá</button>
             </div>
-
             <div class="tp-transparency-notice">
                 <span style="font-size:22px;">🛡️</span>
                 <div>
                     <strong>Cam kết minh bạch (Unprompted & Verified Reviews):</strong> Các đơn vị điểm đến không được phép trả tiền để ẩn đánh giá thấp sao. Tích vào các <strong>ô vuông số sao bên trái</strong> để lọc xem phản hồi thực tế.
                 </div>
             </div>
-
             <div class="tp-grid">
-                <!-- Cột trái: Điểm trung bình & Ô vuông Checkbox lọc 5 sao -> 1 sao chuẩn Trustpilot -->
                 <div class="tp-score-card">
                     <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:8px;">
                         <span style="font-size:44px; font-weight:900; line-height:1;">4.4</span>
@@ -1160,61 +781,45 @@ window.addEventListener('DOMContentLoaded', function() {
                     <p style="font-size:13px; color:var(--color-text-muted); margin-bottom:16px;">Cập nhật kiểm định gần nhất: <strong>12/10/2026</strong></p>
 
                     <style>
-                        .tp-filter-row {
-                            display: grid;
-                            grid-template-columns: 78px 1fr 42px;
-                            align-items: center;
-                            gap: 10px;
-                            font-size: 14px;
-                            padding: 6px 8px;
-                            margin-bottom: 4px;
-                            border-radius: 8px;
-                            font-weight: 600;
-                            cursor: pointer;
-                            transition: background 0.15s;
-                        }
+                        .tp-filter-row { display: grid; grid-template-columns: 78px 1fr 42px; align-items: center; gap: 10px; font-size: 14px; padding: 6px 8px; margin-bottom: 4px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
                         .tp-filter-row:hover { background: rgba(15, 118, 110, 0.08); }
                         .tp-filter-label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
                         .tp-star-check { width: 18px; height: 18px; accent-color: #0f172a; cursor: pointer; border-radius: 4px; }
                     </style>
-
                     <label class="tp-filter-row">
-                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="5" onchange="filterReviews()"> 5 sao</span>
+                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="5"> 5 sao</span>
                         <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:68%; background:#00b67a;"></div></div>
                         <span style="text-align:right;">68%</span>
                     </label>
                     <label class="tp-filter-row">
-                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="4" onchange="filterReviews()"> 4 sao</span>
+                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="4"> 4 sao</span>
                         <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:18%; background:#73cf11;"></div></div>
                         <span style="text-align:right;">18%</span>
                     </label>
                     <label class="tp-filter-row">
-                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="3" onchange="filterReviews()"> 3 sao</span>
+                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="3"> 3 sao</span>
                         <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:6%; background:#ffce00;"></div></div>
                         <span style="text-align:right;">6%</span>
                     </label>
                     <label class="tp-filter-row">
-                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="2" onchange="filterReviews()"> 2 sao</span>
+                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="2"> 2 sao</span>
                         <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:3%; background:#ff8622;"></div></div>
                         <span style="text-align:right;">3%</span>
                     </label>
                     <label class="tp-filter-row">
-                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="1" onchange="filterReviews()"> 1 sao</span>
+                        <span class="tp-filter-label"><input type="checkbox" class="tp-star-check" value="1"> 1 sao</span>
                         <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:5%; background:#ff3722;"></div></div>
                         <span style="text-align:right;">5%</span>
                     </label>
-
                     <div id="starFilterStatus" style="margin-top:12px; font-size:13px; color:#0f766e; font-weight:700;">
                         ✔ Đang hiển thị tất cả mức sao
                     </div>
                 </div>
 
-                <!-- Cột phải: Thanh tìm kiếm từ khóa trong review & Danh sách bình luận lọc động -->
                 <div>
                     <div style="display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
-                        <input type="text" id="reviewSearchInput" oninput="filterReviews()" placeholder="🔍 Tìm trong đánh giá (VD: xe lăn, nhân viên, ghế nghỉ, ca trưa)..." style="flex:1; min-height:42px; padding:8px 16px; border-radius:99px; border:1.5px solid var(--color-border); font-size:14.5px; background:var(--color-bg-main); color:var(--color-text-main);">
+                        <input type="text" id="reviewSearchInput" placeholder="🔍 Tìm trong đánh giá (VD: xe lăn, nhân viên, ghế nghỉ)..." style="flex:1; min-height:42px; padding:8px 16px; border-radius:99px; border:1.5px solid var(--color-border); font-size:14.5px; background:var(--color-bg-main); color:var(--color-text-main);">
                     </div>
-
                     <div id="reviewsListContainer">
                         <!-- 5 SAO -->
                         <div class="tp-review-item" data-stars="5">
@@ -1257,69 +862,6 @@ window.addEventListener('DOMContentLoaded', function() {
                                 <span class="tp-tag-pill">👍 Hữu ích (14)</span>
                             </div>
                         </div>
-
-                        <!-- 3 SAO -->
-                        <div class="tp-review-item" data-stars="3">
-                            <div class="tp-user-header">
-                                <div style="display:flex; align-items:center;">
-                                    <span class="tp-avatar" style="background:#fef3c7; color:#92400e;">TH</span>
-                                    <div>
-                                        <strong>Chị Trần Thu Hà (Con gái khách dùng xe lăn)</strong>
-                                        <div style="font-size:12.5px; color:var(--color-text-muted);">Đã xác minh chuyến đi • Hải Phòng • 7 đánh giá</div>
-                                    </div>
-                                </div>
-                                <span style="font-size:13px; color:var(--color-text-muted);">29 Tháng 09, 2026</span>
-                            </div>
-                            <div style="color:#eab308; font-weight:900; margin-bottom:6px;">★★★☆☆ (3 sao) — Hạ tầng đường dốc chuẩn, nhưng nhân viên ca trưa cần nhanh hơn</div>
-                            <p style="font-size:15px;">Độ dốc 5.5% và chiều rộng cửa phòng nghỉ 85cm đúng y như thông số trên web, xe lăn của mẹ mình vào phòng vệ sinh rất dễ. Tuy nhiên lúc 12h trưa khu nhà hàng hơi đông, mình phải đợi khoảng 10 phút mới có nhân viên ra kê thêm ghế nghỉ cho mẹ.</p>
-                            <div>
-                                <span class="tp-tag-pill">Ngày trải nghiệm: 27/09/2026</span>
-                                <span class="tp-tag-pill">✔ Đã kiểm chứng thực tế</span>
-                                <span class="tp-tag-pill">👍 Hữu ích (11)</span>
-                            </div>
-                        </div>
-
-                        <!-- 2 SAO -->
-                        <div class="tp-review-item" data-stars="2">
-                            <div class="tp-user-header">
-                                <div style="display:flex; align-items:center;">
-                                    <span class="tp-avatar" style="background:#ffedd5; color:#9a3412;">ĐK</span>
-                                    <div>
-                                        <strong>Anh Đỗ Trung Kiên (Đi cùng ông nội 80 tuổi)</strong>
-                                        <div style="font-size:12.5px; color:var(--color-text-muted);">Đã xác minh chuyến đi • Đà Nẵng • 2 đánh giá</div>
-                                    </div>
-                                </div>
-                                <span style="font-size:13px; color:var(--color-text-muted);">18 Tháng 09, 2026</span>
-                            </div>
-                            <div style="color:#ff8622; font-weight:900; margin-bottom:6px;">★★☆☆☆ (2 sao) — Thang máy khu B bảo trì đột xuất chưa báo trước trên web</div>
-                            <p style="font-size:15px;">Hôm gia đình mình đến thì thang máy khu B bảo trì mất 2 tiếng buổi sáng, nhân viên có ra khiêng xe lăn giúp ông mình qua cầu thang bộ nhưng khá vất vả. Mong đơn vị cập nhật trạng thái bảo trì thang máy theo thời gian thực.</p>
-                            <div>
-                                <span class="tp-tag-pill">Ngày trải nghiệm: 16/09/2026</span>
-                                <span class="tp-tag-pill">✔ Đánh giá tự nguyện (Unprompted review)</span>
-                                <span class="tp-tag-pill">👍 Hữu ích (8)</span>
-                            </div>
-                        </div>
-
-                        <!-- 1 SAO -->
-                        <div class="tp-review-item" data-stars="1">
-                            <div class="tp-user-header">
-                                <div style="display:flex; align-items:center;">
-                                    <span class="tp-avatar" style="background:#fee2e2; color:#991b1b;">LP</span>
-                                    <div>
-                                        <strong>Cô Lê Phương (Khách hàng sử dụng khung tập đi)</strong>
-                                        <div style="font-size:12.5px; color:var(--color-text-muted);">Đã xác minh chuyến đi • TP.HCM • 4 đánh giá</div>
-                                    </div>
-                                </div>
-                                <span style="font-size:13px; color:var(--color-text-muted);">05 Tháng 09, 2026</span>
-                            </div>
-                            <div style="color:#ff3722; font-weight:900; margin-bottom:6px;">★☆☆☆☆ (1 sao) — Phản ánh thái độ nhân viên bảo vệ bãi xe cổng phụ</div>
-                            <p style="font-size:15px;">Nhân viên y tế và lễ tân bên trong thì rất tốt, nhưng bảo vệ ở cổng phụ hướng dẫn xe gia đình tôi đỗ khá xa lối dốc dành cho người khuyết tật khiến tôi đi bộ vào rất mỏi chân. Cần chấn chỉnh ngay khâu đón tiếp từ bãi đỗ xe.</p>
-                            <div>
-                                <span class="tp-tag-pill">Ngày trải nghiệm: 04/09/2026</span>
-                                <span class="tp-tag-pill">✔ Đã xác minh phản ánh</span>
-                                <span class="tp-tag-pill">👍 Hữu ích (23)</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1338,190 +880,260 @@ window.addEventListener('DOMContentLoaded', function() {
         </div>
     </footer>
 
+    <!-- TẤT CẢ JAVASCRIPT ĐƯỢC GỘP CHUẨN XÁC DƯỚI ĐÂY -->
     <script src="js/app.js" defer></script>
-<<<<<<< HEAD
     
-<script>
-function toggleTheme() {
-    var currentTheme = document.documentElement.getAttribute('data-theme');
-    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    var btns = document.querySelectorAll('#themeToggleBtn');
-    btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
-}
-// Khoi phuc theme khi F5
-var savedTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
-window.addEventListener("DOMContentLoaded", function() {
-    var btns = document.querySelectorAll('#themeToggleBtn');
-    btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
-});
-</script>
-=======
     <script>
+        function toggleTheme() {
+            var currentTheme = document.documentElement.getAttribute('data-theme');
+            var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            var btns = document.querySelectorAll('#themeToggleBtn');
+            btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+        }
+        var savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        window.addEventListener("DOMContentLoaded", function() {
+            var btns = document.querySelectorAll('#themeToggleBtn');
+            btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
+        });
+    </script>
+
+    <script id="modern-sidebar-js">
+        document.addEventListener("DOMContentLoaded", function() {
+            var header = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
+            if(!header) return;
+
+            if(!document.querySelector('.hamburger-btn')) {
+                var btn = document.createElement('button');
+                btn.className = 'hamburger-btn';
+                btn.innerHTML = '☰';
+                header.appendChild(btn);
+            }
+
+            var overlay = document.querySelector('.menu-overlay');
+            if(!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'menu-overlay';
+                document.body.appendChild(overlay);
+            }
+
+            var sidebar = document.querySelector('.mobile-sidebar');
+            if(!sidebar) {
+                sidebar = document.createElement('div');
+                sidebar.className = 'mobile-sidebar';
+                
+                var closeBtn = document.createElement('button');
+                closeBtn.className = 'close-sidebar-btn';
+                closeBtn.innerHTML = '✕';
+                sidebar.appendChild(closeBtn);
+
+                var links = header.querySelectorAll('a, button');
+                links.forEach(function(el) {
+                    if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
+                    var clone = el.cloneNode(true);
+                    clone.removeAttribute('style');
+                    sidebar.appendChild(clone);
+                });
+                document.body.appendChild(sidebar);
+            }
+
+            var hamburger = document.querySelector('.hamburger-btn');
+            sidebar = document.querySelector('.mobile-sidebar');
+            overlay = document.querySelector('.menu-overlay');
+            var closeSidebar = document.querySelector('.close-sidebar-btn');
+
+            function toggleMenu() {
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('show');
+            }
+
+            if(hamburger) hamburger.addEventListener('click', toggleMenu);
+            if(closeSidebar) closeSidebar.addEventListener('click', toggleMenu);
+            if(overlay) overlay.addEventListener('click', toggleMenu);
+        });
+    </script>
+
+    <script id="core-app-js">
         const SAMPLE_IMAGES = [
             'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80'
+            'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80'
         ];
->>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
 
+        const MOCK_DATA = [
+            { id: 1, title: 'Du thuyền Trợ Năng 304', address: 'Phú Quốc, Việt Nam', price: 4150000, available_slots: 2, ramp_slope: 4.5, review_rating: 4.8, senior_support: 'Ghế nghỉ mỗi 50m & xe điện', rest_area: 'Khu nghỉ yên tĩnh', staff_support: 'Nhân viên y tế 24/7', verify_label: 'Đã xác minh thực tế' },
+            { id: 2, title: 'Khu nghỉ dưỡng Cao Tuổi Hội An', address: 'Hội An, Quảng Nam', price: 1710000, available_slots: 5, ramp_slope: 5.0, review_rating: 4.9, senior_support: 'Lối đi xe lăn phủ khắp', rest_area: 'Phòng tầng trệt', staff_support: 'Hỗ trợ dìu khách', verify_label: 'Chuẩn Barrier-Free' },
+            { id: 3, title: 'Chùa Bái Đính - Lối riêng', address: 'Ninh Bình, Việt Nam', price: 850000, available_slots: 0, ramp_slope: 6.0, review_rating: 4.6, senior_support: 'Xe điện đưa đón tận nơi', rest_area: 'Trạm nghỉ chân liên tục', staff_support: 'Có người đẩy xe lăn', verify_label: 'Đã xác minh thực tế' },
+            { id: 4, title: 'Resort Trợ Năng 305', address: 'Huế, Việt Nam', price: 1370000, available_slots: 14, ramp_slope: 3.5, review_rating: 4.8, senior_support: 'Hỗ trợ y tế khẩn cấp', rest_area: 'Khu vực yên tĩnh', staff_support: 'Trực 24/7', verify_label: 'Đã xác minh' }
+        ];
 
-
-<script id="modern-sidebar-js">
-document.addEventListener("DOMContentLoaded", function() {
-    var header = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
-    if(!header) return;
-
-    if(!document.querySelector('.hamburger-btn')) {
-        var btn = document.createElement('button');
-        btn.className = 'hamburger-btn';
-        btn.innerHTML = '☰';
-        header.appendChild(btn);
-    }
-
-    var overlay = document.querySelector('.menu-overlay');
-    if(!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'menu-overlay';
-        document.body.appendChild(overlay);
-    }
-
-    var sidebar = document.querySelector('.mobile-sidebar');
-    if(!sidebar) {
-        sidebar = document.createElement('div');
-        sidebar.className = 'mobile-sidebar';
-        
-        var closeBtn = document.createElement('button');
-        closeBtn.className = 'close-sidebar-btn';
-        closeBtn.innerHTML = '✕';
-        sidebar.appendChild(closeBtn);
-
-<<<<<<< HEAD
-        var links = header.querySelectorAll('a, button');
-        links.forEach(function(el) {
-            if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
-            var clone = el.cloneNode(true);
-            clone.removeAttribute('style');
-            sidebar.appendChild(clone);
-=======
-            try {
-                const res = await fetch(url);
-                const result = await res.json();
-                const items = result.data || [];
-                const total = result.total_records !== undefined ? result.total_records : items.length;
-                const totalPages = result.total_pages || 1;
-
-                counter.innerText = 'Trang ' + page + '/' + totalPages + ' • ' + total + ' địa điểm đã kiểm định';
-
-                if (items.length === 0) {
-                    listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">Không tìm thấy địa điểm phù hợp với tiêu chí cơ thể hiện tại. Hãy nới lỏng bộ lọc.</p>';
-                    document.getElementById('paginationControls').innerHTML = '';
-                    return;
-                }
-
-                listContainer.innerHTML = items.map((item, idx) => {
-                    const imgUrl = SAMPLE_IMAGES[(item.id || idx) % SAMPLE_IMAGES.length];
-                    const slots = Number(item.available_slots);
-                    const slope = Number(item.ramp_slope || 5.5).toFixed(1);
-                    const door = item.door_width || 85;
-                    const fitScore = item.fit_score || 95;
-
-                    let slotBadge = '<span class="slot-pill">Còn ' + slots + ' suất hỗ trợ</span>';
-                    if (slots === 1) {
-                        slotBadge = '<span class="slot-pill last-one">🔥 Chỉ còn 1 suất cuối!</span>';
-                    } else if (slots <= 0) {
-                        slotBadge = '<span class="slot-pill" style="background:#64748b;">Đã kín chỗ (0 suất)</span>';
-                    }
-
-                    return '<article class="dest-card">' +
-                        '<div class="dest-img-box">' +
-                            '<img src="' + imgUrl + '" alt="' + item.title + '" loading="lazy">' +
-                            '<div class="fit-match-badge" style="background:' + (item.verify_bg || "#dcfce7") + '; color:' + (item.verify_color || "#166534") + ';">✔ ' + (item.verify_label || "Đã xác minh tại chỗ") + '</div>' +
-                            slotBadge +
-                            '<span class="updated-stamp">🔄 Cập nhật: ' + (item.last_verified_date || '10/10/2026') + '</span>' +
-                        '</div>' +
-                        '<div class="dest-body">' +
-                            '<div class="dest-header-row">' +
-                                '<h3>' + item.title + '</h3>' +
-                                '<div class="tp-mini-rating" title="Điểm đánh giá thực tế từ khách đã trải nghiệm">' +
-                                    '<span class="tp-star-box">★ ' + (item.review_rating || '4.7') + '</span>' +
-                                    '<span style="color:var(--color-text-muted); font-size:12.5px;">(' + (item.review_count || 32) + ')</span>' +
-                                '</div>' +
-                            '</div>' +
-                            '<p class="dest-address">📍 ' + (item.address || 'Việt Nam') + '</p>' +
-
-                            /* KHỐI ƯU TIÊN SỐ 1 THEO Ý TƯỞNG CỦA BẠN: NGƯỜI CAO TUỔI, CHỖ NGHỈ & NHÂN VIÊN */
-                            '<div class="care-checklist">' +
-                                '<div class="care-item"><span>👴</span><div><span class="care-label">Hỗ trợ người cao tuổi:</span> ' + (item.senior_support || 'Có ghế nghỉ mỗi 50m & xe điện') + '</div></div>' +
-                                '<div class="care-item"><span>🛋️</span><div><span class="care-label">Chỗ nghỉ chân:</span> ' + (item.rest_area || 'Khu nghỉ yên tĩnh, ghế tựa lưng') + '</div></div>' +
-                                '<div class="care-item"><span>🧑‍⚕️</span><div><span class="care-label">Nhân viên hỗ trợ:</span> ' + (item.staff_support || 'Hỗ trợ dìu khách & đẩy xe lăn 24/7') + '</div></div>' +
-                            '</div>' +
-
-                            /* KHỐI ƯU TIÊN SỐ 2: ĐÁNH GIÁ THẬT & NGÀY TRẢI NGHIỆM */
-                            '<div class="card-review-snippet">' +
-                                '“' + (item.review_quote || 'Đưa ông bà đi rất an tâm, có chỗ nghỉ chân liên tục và nhân viên chu đáo.') + '”' +
-                                '<div class="card-review-meta">' +
-                                    '<span>— ' + (item.review_author || 'Khách đã trải nghiệm') + '</span>' +
-                                    '<span>Đi ngày: ' + (item.review_date || '10/2026') + '</span>' +
-                                '</div>' +
-                            '</div>' +
-
-                            '<div style="font-size:12.5px; color:#b45309; background:#fffbeb; border:1px solid #fde68a; padding:6px 10px; border-radius:8px; margin-bottom:10px;">⚠ <strong>Lưu ý thực tế:</strong> ' + (item.limitation_note || "Nên đi cổng chính có đường dốc thoải.") + '</div><div class="tech-specs-row">' +
-                                '<span class="tech-chip">♿ Xe lăn: Có</span>' +
-                                '<span class="tech-chip">📐 Độ dốc: ' + slope + '%</span>' +
-                                '<span class="tech-chip">🚪 Cửa rộng: ' + door + 'cm</span>' +
-                            '</div>' +
-
-                            '<div class="dest-footer">' +
-                                '<div>' +
-                                    '<small style="color:var(--color-text-muted); display:block;">Chi phí trọn gói hỗ trợ / khách</small>' +
-                                    '<span class="price-text">' + Number(item.price || 0).toLocaleString('vi-VN') + ' đ</span>' +
-                                '</div>' +
-                                '<div style="display:flex; gap:8px;">' +
-                                    '<button onclick="window.location.href='detail.html?id=' + (typeof item !== 'undefined' ? item.id : (typeof tour !== 'undefined' ? tour.id : 1))"  href="detail.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&address=' + encodeURIComponent(item.address || '') + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-outline" style="padding:8px 12px; font-size:14.5px;" style="cursor:pointer;">Xem thẩm định</button>' +
-                                    '<a href="booking.html?id=' + item.id + '&title=' + encodeURIComponent(item.title) + '&price=' + item.price + '&slots=' + slots + '" class="btn btn-primary" style="padding:8px 14px; font-size:14.5px;">Đặt giữ chỗ</a>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</article>';
-                }).join('');
-
-                renderPagination(totalPages, page);
-            } catch (err) {
-                counter.innerText = 'Lỗi kết nối API search.php';
+        function selectBodyProfile(mode, btn) {
+            document.querySelectorAll('.fit-pill').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            
+            if (mode === 'senior') {
+                if(document.getElementById('slopeSelect')) document.getElementById('slopeSelect').value = '8';
+                if(document.getElementById('wheelchairCheck')) document.getElementById('wheelchairCheck').checked = false;
+            } else if (mode === 'wheelchair') {
+                if(document.getElementById('slopeSelect')) document.getElementById('slopeSelect').value = '6';
+                if(document.getElementById('wheelchairCheck')) document.getElementById('wheelchairCheck').checked = true;
+            } else {
+                if(document.getElementById('slopeSelect')) document.getElementById('slopeSelect').value = '';
+                if(document.getElementById('wheelchairCheck')) document.getElementById('wheelchairCheck').checked = false;
             }
+            loadDestinations(1);
+        }
+
+        async function loadDestinations(page = 1) {
+            const listContainer = document.getElementById('destinationList');
+            const counter = document.getElementById('recordCounter');
+            
+            const loadingBadges = document.querySelectorAll('span, div');
+            let loadingBadge = null;
+            loadingBadges.forEach(el => {
+                if(el.innerText && el.innerText.includes('Đang tải dữ liệu...')) {
+                    loadingBadge = el;
+                }
+            });
+
+            if(!listContainer) return;
+
+            const keyword = document.getElementById('keywordInput') ? document.getElementById('keywordInput').value.trim().toLowerCase() : '';
+            const maxSlope = document.getElementById('slopeSelect') ? document.getElementById('slopeSelect').value : '';
+            const sortVal = document.getElementById('sortSelect') ? document.getElementById('sortSelect').value : '';
+            const hasWc = document.getElementById('wheelchairCheck') ? document.getElementById('wheelchairCheck').checked : false;
+
+            listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; font-weight:bold; color:#0f766e;">⏳ Đang phân tích bộ lọc và tải dữ liệu...</p>';
+            if (loadingBadge) loadingBadge.innerText = 'Đang tải dữ liệu...';
+
+            let items = [];
+            let totalRecords = 0;
+            let isMock = false;
+
+            try {
+                let url = `../api/search.php?page=${page}&limit=6`;
+                if(keyword) url += `&keyword=${encodeURIComponent(keyword)}`;
+                if(maxSlope) url += `&max_slope=${encodeURIComponent(maxSlope)}`;
+                if(sortVal) url += `&sort=${encodeURIComponent(sortVal)}`;
+                if(hasWc) url += `&has_wheelchair=1`;
+
+                const res = await fetch(url, { signal: AbortSignal.timeout(3000) });
+                if (!res.ok) throw new Error('API Error');
+                const result = await res.json();
+                
+                if(result.data && Array.isArray(result.data)) {
+                    items = result.data;
+                    totalRecords = result.total_records !== undefined ? result.total_records : items.length;
+                } else {
+                    throw new Error('Lỗi JSON');
+                }
+            } catch (err) {
+                isMock = true;
+                let filteredMock = [...MOCK_DATA, ...MOCK_DATA, ...MOCK_DATA].map((m, i) => ({...m, id: i+1})); 
+                
+                if(keyword) filteredMock = filteredMock.filter(m => m.title.toLowerCase().includes(keyword) || m.address.toLowerCase().includes(keyword));
+                if(maxSlope) filteredMock = filteredMock.filter(m => m.ramp_slope <= parseFloat(maxSlope));
+                if(sortVal && sortVal.includes('asc')) filteredMock.sort((a,b) => a.price - b.price);
+                if(sortVal && sortVal.includes('desc')) filteredMock.sort((a,b) => b.price - a.price);
+
+                items = filteredMock;
+                totalRecords = items.length;
+            }
+
+            let itemsPerPage = 6;
+            let totalPages = Math.ceil(totalRecords / itemsPerPage) || 1;
+            let displayItems = isMock ? items.slice((page - 1) * itemsPerPage, page * itemsPerPage) : items;
+            
+            if(!isMock && items.length > itemsPerPage) {
+                displayItems = items.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+                totalPages = Math.ceil(items.length / itemsPerPage);
+            }
+
+            if(counter) {
+                counter.innerHTML = `Trang ${page}/${totalPages} • ${totalRecords} điểm đến ${isMock ? '<span style="color:#dc2626; font-weight:bold;">(MOCK DATA)</span>' : 'phù hợp'}`;
+            }
+            
+            if (loadingBadge) {
+                loadingBadge.innerHTML = '✔ Đã tải xong';
+                loadingBadge.style.background = '#dcfce7'; 
+                loadingBadge.style.color = '#166534';
+            }
+
+            if(displayItems.length === 0) {
+                listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; font-size:16px;">Không tìm thấy địa điểm phù hợp. Hãy thử chọn mức dốc thoải hơn hoặc bỏ bớt từ khóa.</p>';
+                renderPagination(1, 1);
+                return;
+            }
+
+            listContainer.innerHTML = displayItems.map((item, idx) => {
+                const imgUrl = SAMPLE_IMAGES[item.id % SAMPLE_IMAGES.length];
+                const slots = Number(item.available_slots || 0);
+                let badge = `<span style="background:#0f766e; color:#fff; padding:4px 10px; border-radius:8px; font-size:12.5px; font-weight:700;">Còn ${slots} suất</span>`;
+                if(slots===0) badge = `<span style="background:#64748b; color:#fff; padding:4px 10px; border-radius:8px; font-size:12.5px; font-weight:700;">Đã kín chỗ</span>`;
+                
+                return `
+                <article style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#fff; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05); display:flex; flex-direction:column;">
+                    <div style="position:relative; height:200px;">
+                        <img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
+                        <div style="position:absolute; top:12px; left:12px; background:#dcfce7; color:#166534; padding:4px 10px; border-radius:8px; font-size:12px; font-weight:bold;">✔ ${item.verify_label || 'Đã xác minh'}</div>
+                        <div style="position:absolute; bottom:12px; right:12px;">${badge}</div>
+                    </div>
+                    <div style="padding:16px; display:flex; flex-direction:column; flex:1;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                            <h3 style="margin:0; font-size:18px; color:#0f172a; flex:1;">${item.title}</h3>
+                            <span style="font-weight:700; color:#d97706; font-size:14px; white-space:nowrap; margin-left:8px;">★ ${item.review_rating || '4.8'}</span>
+                        </div>
+                        <p style="margin:0 0 12px; color:#64748b; font-size:13.5px;">📍 ${item.address}</p>
+                        <div style="background:#f8fafc; border:1px solid #f1f5f9; border-radius:8px; padding:10px; margin-bottom:16px; font-size:13px; line-height:1.6; flex:1;">
+                            <div style="display:flex; gap:8px;"><span style="width:20px;">👴</span> <span><strong>Hỗ trợ:</strong> ${item.senior_support || 'Ghế nghỉ & xe điện'}</span></div>
+                            <div style="display:flex; gap:8px; margin:1px 0;"><span style="width:20px;">🛋️</span> <span><strong>Nghỉ chân:</strong> ${item.rest_area || 'Khu vực yên tĩnh'}</span></div>
+                            <div style="display:flex; gap:8px;"><span style="width:20px;">🧑‍⚕️</span> <span><strong>Nhân viên:</strong> ${item.staff_support || 'Trực 24/7'}</span></div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+                            <div style="color:#0f766e; font-weight:800; font-size:17px;">${Number(item.price || 0).toLocaleString('vi-VN')} đ</div>
+                            <a href="booking.html?id=${item.id}" style="background:#0f766e; color:#fff; padding:8px 16px; border-radius:8px; text-decoration:none; font-size:14.5px; font-weight:700; transition:0.2s;">Đặt chỗ</a>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('');
+
+            renderPagination(totalPages, page);
         }
 
         function renderPagination(totalPages, activePage) {
             const container = document.getElementById('paginationControls');
+            if(!container) return;
             container.innerHTML = '';
-            const maxButtons = Math.min(totalPages, 10);
-            for (let i = 1; i <= maxButtons; i++) {
+            if(totalPages <= 1) return;
+            
+            for (let i = 1; i <= Math.min(totalPages, 5); i++) {
                 const btn = document.createElement('button');
-                btn.className = (i === activePage) ? 'btn btn-primary' : 'btn btn-outline';
                 btn.innerText = 'Trang ' + i;
+                btn.style.cssText = `margin:0 4px; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:700; font-size:14px; border:2px solid #0f766e; transition:0.2s; ${i === activePage ? 'background:#0f766e; color:#fff;' : 'background:#fff; color:#0f766e;'}`;
                 btn.onclick = () => loadDestinations(i);
                 container.appendChild(btn);
             }
-            if (totalPages > 10) {
-                const span = document.createElement('span');
-                span.style.alignSelf = 'center';
-                span.style.fontWeight = '700';
-                span.innerText = '... / Tổng ' + totalPages + ' trang';
-                container.appendChild(span);
-            }
         }
 
-                function toggleMainVideo(e) {
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDestinations(1);
+            
+            const filterBtns = document.querySelectorAll('button');
+            filterBtns.forEach(btn => {
+                if(btn.innerText.includes('Lọc kết quả') || btn.innerText.includes('Lọc Kết Quả')) {
+                    btn.onclick = (e) => { e.preventDefault(); loadDestinations(1); };
+                }
+            });
+        });
+
+        // Toggle Video Script
+        function toggleMainVideo(e) {
             const v = document.getElementById('introVideo');
             const btn = document.getElementById('bigPlayBtn');
             if (!v) return;
-            // Nếu người dùng bấm trực tiếp vào thanh điều khiển của video thì để trình duyệt tự xử lý
             if (e.target.tagName === 'VIDEO' && e.offsetY > v.clientHeight - 50) return;
             if (v.paused) {
                 v.play();
@@ -1531,7 +1143,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (btn) btn.style.opacity = '1';
             }
         }
-
         document.addEventListener('DOMContentLoaded', () => {
             const v = document.getElementById('introVideo');
             const btn = document.getElementById('bigPlayBtn');
@@ -1539,628 +1150,201 @@ document.addEventListener("DOMContentLoaded", function() {
                 v.addEventListener('play', () => btn.style.opacity = '0');
                 v.addEventListener('pause', () => btn.style.opacity = '1');
             }
->>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
         });
-        document.body.appendChild(sidebar);
-    }
-
-    var hamburger = document.querySelector('.hamburger-btn');
-    sidebar = document.querySelector('.mobile-sidebar');
-    overlay = document.querySelector('.menu-overlay');
-    var closeSidebar = document.querySelector('.close-sidebar-btn');
-
-    function toggleMenu() {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show');
-    }
-
-    if(hamburger) hamburger.addEventListener('click', toggleMenu);
-    if(closeSidebar) closeSidebar.addEventListener('click', toggleMenu);
-    if(overlay) overlay.addEventListener('click', toggleMenu);
-});
-</script>
-<script id="smart-filter-js">
-document.addEventListener("DOMContentLoaded", function() {
-    const filterBtn = document.querySelector('button:contains("Lọc kết quả"), .btn-filter, button[type="button"]'); // Tìm nút lọc
-    if (!filterBtn) return;
-
-    filterBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Thu thập toàn bộ dữ liệu từ các ô input/select/checkbox
-        const q = document.querySelector('input[placeholder*="Tên địa điểm"], input[type="text"]').value;
-        const sort = document.querySelector('select:last-of-type').value; // Ô select sắp xếp
-        const wheelchair = document.querySelector('input[type="checkbox"]:nth-of-type(1)').checked;
-        const elevator = document.querySelector('input[type="checkbox"]:nth-of-type(2)').checked;
-
-        // Dựng URL kèm tham số truy vấn (Query String)
-        const apiUrl = `../api/search.php?q=${encodeURIComponent(q)}&sort=${sort}&wheelchair=${wheelchair}&elevator=${elevator}`;
-        
-        // Gọi API và render lại danh sách tour
-        fetch(apiUrl)
-            .then(res => res.json())
-            .then(res => {
-                if(res.status === 'success') {
-                    // Chèn hàm render danh sách của bro ở đây (gọi lại hàm hiển thị UI)
-                    if(typeof renderTours === 'function') renderTours(res.data);
-                    else console.log("Da lay duoc data loc:", res.data); // Báo log nếu chưa có hàm render
-                }
-            });
-    });
-});
-</script>
-
-
-<script id="core-app-js">
-const SAMPLE_IMAGES = [
-    'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
-    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80'
-];
-
-const MOCK_DATA = [
-    { id: 1, title: 'Du thuyền Trợ Năng 304', address: 'Phú Quốc, Việt Nam', price: 4150000, available_slots: 2, ramp_slope: 4.5, review_rating: 4.8, senior_support: 'Ghế nghỉ mỗi 50m & xe điện', rest_area: 'Khu nghỉ yên tĩnh', staff_support: 'Nhân viên y tế 24/7', verify_label: 'Đã xác minh thực tế' },
-    { id: 2, title: 'Khu nghỉ dưỡng Cao Tuổi Hội An', address: 'Hội An, Quảng Nam', price: 1710000, available_slots: 5, ramp_slope: 5.0, review_rating: 4.9, senior_support: 'Lối đi xe lăn phủ khắp', rest_area: 'Phòng tầng trệt', staff_support: 'Hỗ trợ dìu khách', verify_label: 'Chuẩn Barrier-Free' },
-    { id: 3, title: 'Chùa Bái Đính - Lối riêng', address: 'Ninh Bình, Việt Nam', price: 850000, available_slots: 0, ramp_slope: 6.0, review_rating: 4.6, senior_support: 'Xe điện đưa đón tận nơi', rest_area: 'Trạm nghỉ chân liên tục', staff_support: 'Có người đẩy xe lăn', verify_label: 'Đã xác minh thực tế' },
-    { id: 4, title: 'Resort Trợ Năng 305', address: 'Huế, Việt Nam', price: 1370000, available_slots: 14, ramp_slope: 3.5, review_rating: 4.8, senior_support: 'Hỗ trợ y tế khẩn cấp', rest_area: 'Khu vực yên tĩnh', staff_support: 'Trực 24/7', verify_label: 'Đã xác minh' }
-];
-
-function selectBodyProfile(mode, btn) {
-    document.querySelectorAll('.fit-pill').forEach(b => b.classList.remove('active'));
-    if(btn) btn.classList.add('active');
-    
-    if (mode === 'senior') {
-        if(document.getElementById('slopeSelect')) document.getElementById('slopeSelect').value = '8';
-        if(document.getElementById('wheelchairCheck')) document.getElementById('wheelchairCheck').checked = false;
-    } else if (mode === 'wheelchair') {
-        if(document.getElementById('slopeSelect')) document.getElementById('slopeSelect').value = '6';
-        if(document.getElementById('wheelchairCheck')) document.getElementById('wheelchairCheck').checked = true;
-    } else {
-        if(document.getElementById('slopeSelect')) document.getElementById('slopeSelect').value = '';
-        if(document.getElementById('wheelchairCheck')) document.getElementById('wheelchairCheck').checked = false;
-    }
-    
-    loadDestinations(1);
-}
-
-async function loadDestinations(page = 1) {
-    const listContainer = document.getElementById('destinationList');
-    const counter = document.getElementById('recordCounter');
-    
-    // Bắt đúng cái cục "Đang tải dữ liệu..." để xử lý
-    const loadingBadges = document.querySelectorAll('span, div');
-    let loadingBadge = null;
-    loadingBadges.forEach(el => {
-        if(el.innerText && el.innerText.includes('Đang tải dữ liệu...')) {
-            loadingBadge = el;
-        }
-    });
-
-    if(!listContainer) return;
-
-    const keyword = document.getElementById('keywordInput') ? document.getElementById('keywordInput').value.trim().toLowerCase() : '';
-    const maxSlope = document.getElementById('slopeSelect') ? document.getElementById('slopeSelect').value : '';
-    const sortVal = document.getElementById('sortSelect') ? document.getElementById('sortSelect').value : '';
-    const hasWc = document.getElementById('wheelchairCheck') ? document.getElementById('wheelchairCheck').checked : false;
-
-    listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; font-weight:bold; color:#0f766e;">⏳ Đang phân tích bộ lọc và tải dữ liệu...</p>';
-    if (loadingBadge) loadingBadge.innerText = 'Đang tải dữ liệu...';
-
-    let items = [];
-    let totalRecords = 0;
-    let isMock = false;
-
-    try {
-        let url = `../api/search.php?page=${page}&limit=6`;
-        if(keyword) url += `&keyword=${encodeURIComponent(keyword)}`;
-        if(maxSlope) url += `&max_slope=${encodeURIComponent(maxSlope)}`;
-        if(sortVal) url += `&sort=${encodeURIComponent(sortVal)}`;
-        if(hasWc) url += `&has_wheelchair=1`;
-
-        const res = await fetch(url, { signal: AbortSignal.timeout(3000) });
-        if (!res.ok) throw new Error('API Error');
-        const result = await res.json();
-        
-        if(result.data && Array.isArray(result.data)) {
-            items = result.data;
-            totalRecords = result.total_records !== undefined ? result.total_records : items.length;
-        } else {
-            throw new Error('Lỗi JSON');
-        }
-    } catch (err) {
-        isMock = true;
-        let filteredMock = [...MOCK_DATA, ...MOCK_DATA, ...MOCK_DATA].map((m, i) => ({...m, id: i+1})); 
-        
-        if(keyword) filteredMock = filteredMock.filter(m => m.title.toLowerCase().includes(keyword) || m.address.toLowerCase().includes(keyword));
-        if(maxSlope) filteredMock = filteredMock.filter(m => m.ramp_slope <= parseFloat(maxSlope));
-        if(sortVal && sortVal.includes('asc')) filteredMock.sort((a,b) => a.price - b.price);
-        if(sortVal && sortVal.includes('desc')) filteredMock.sort((a,b) => b.price - a.price);
-
-        items = filteredMock;
-        totalRecords = items.length;
-    }
-
-    let itemsPerPage = 6;
-    let totalPages = Math.ceil(totalRecords / itemsPerPage) || 1;
-    let displayItems = isMock ? items.slice((page - 1) * itemsPerPage, page * itemsPerPage) : items;
-    
-    if(!isMock && items.length > itemsPerPage) {
-        displayItems = items.slice((page - 1) * itemsPerPage, page * itemsPerPage);
-        totalPages = Math.ceil(items.length / itemsPerPage);
-    }
-
-    if(counter) {
-        counter.innerHTML = `Trang ${page}/${totalPages} • ${totalRecords} điểm đến ${isMock ? '<span style="color:#dc2626; font-weight:bold;">(MOCK DATA)</span>' : 'phù hợp'}`;
-    }
-    
-    // Tải xong -> Đổi Badge thành màu xanh mướt
-    if (loadingBadge) {
-        loadingBadge.innerHTML = '✔ Đã tải xong';
-        loadingBadge.style.background = '#dcfce7'; 
-        loadingBadge.style.color = '#166534';
-    }
-
-    if(displayItems.length === 0) {
-        listContainer.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; font-size:16px;">Không tìm thấy địa điểm phù hợp. Hãy thử chọn mức dốc thoải hơn hoặc bỏ bớt từ khóa.</p>';
-        renderPagination(1, 1);
-        return;
-    }
-
-    listContainer.innerHTML = displayItems.map((item, idx) => {
-        const imgUrl = SAMPLE_IMAGES[item.id % SAMPLE_IMAGES.length];
-        const slots = Number(item.available_slots || 0);
-        let badge = `<span style="background:#0f766e; color:#fff; padding:4px 10px; border-radius:8px; font-size:12.5px; font-weight:700;">Còn ${slots} suất</span>`;
-        if(slots===0) badge = `<span style="background:#64748b; color:#fff; padding:4px 10px; border-radius:8px; font-size:12.5px; font-weight:700;">Đã kín chỗ</span>`;
-        
-        return `
-        <article style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#fff; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05); display:flex; flex-direction:column;">
-            <div style="position:relative; height:200px;">
-                <img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
-                <div style="position:absolute; top:12px; left:12px; background:#dcfce7; color:#166534; padding:4px 10px; border-radius:8px; font-size:12px; font-weight:bold;">✔ ${item.verify_label || 'Đã xác minh'}</div>
-                <div style="position:absolute; bottom:12px; right:12px;">${badge}</div>
-            </div>
-            <div style="padding:16px; display:flex; flex-direction:column; flex:1;">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-                    <h3 style="margin:0; font-size:18px; color:#0f172a; flex:1;">${item.title}</h3>
-                    <span style="font-weight:700; color:#d97706; font-size:14px; white-space:nowrap; margin-left:8px;">★ ${item.review_rating || '4.8'}</span>
-                </div>
-                <p style="margin:0 0 12px; color:#64748b; font-size:13.5px;">📍 ${item.address}</p>
-                <div style="background:#f8fafc; border:1px solid #f1f5f9; border-radius:8px; padding:10px; margin-bottom:16px; font-size:13px; line-height:1.6; flex:1;">
-                    <div style="display:flex; gap:8px;"><span style="width:20px;">👴</span> <span><strong>Hỗ trợ:</strong> ${item.senior_support || 'Ghế nghỉ & xe điện'}</span></div>
-                    <div style="display:flex; gap:8px; margin:1px 0;"><span style="width:20px;">🛋️</span> <span><strong>Nghỉ chân:</strong> ${item.rest_area || 'Khu vực yên tĩnh'}</span></div>
-                    <div style="display:flex; gap:8px;"><span style="width:20px;">🧑‍⚕️</span> <span><strong>Nhân viên:</strong> ${item.staff_support || 'Trực 24/7'}</span></div>
-                </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
-                    <div style="color:#0f766e; font-weight:800; font-size:17px;">${Number(item.price || 0).toLocaleString('vi-VN')} đ</div>
-                    <a href="booking.html?id=${item.id}" style="background:#0f766e; color:#fff; padding:8px 16px; border-radius:8px; text-decoration:none; font-size:14.5px; font-weight:700; transition:0.2s;">Đặt chỗ</a>
-                </div>
-            </div>
-        </article>`;
-    }).join('');
-
-    renderPagination(totalPages, page);
-}
-
-function renderPagination(totalPages, activePage) {
-    const container = document.getElementById('paginationControls');
-    if(!container) return;
-    container.innerHTML = '';
-    if(totalPages <= 1) return;
-    
-    for (let i = 1; i <= Math.min(totalPages, 5); i++) {
-        const btn = document.createElement('button');
-        btn.innerText = 'Trang ' + i;
-        btn.style.cssText = `margin:0 4px; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:700; font-size:14px; border:2px solid #0f766e; transition:0.2s; ${i === activePage ? 'background:#0f766e; color:#fff;' : 'background:#fff; color:#0f766e;'}`;
-        btn.onclick = () => loadDestinations(i);
-        container.appendChild(btn);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    loadDestinations(1);
-    
-    const filterBtns = document.querySelectorAll('button');
-    filterBtns.forEach(btn => {
-        if(btn.innerText.includes('Lọc kết quả') || btn.innerText.includes('Lọc Kết Quả')) {
-            btn.onclick = (e) => { e.preventDefault(); loadDestinations(1); };
-        }
-    });
-});
-</script>
-<script>
-// Watcher: Tự động khóa các điểm đến bị Admin đánh dấu bảo trì (Demo: Chùa Bái Đính)
-setInterval(() => {
-    document.querySelectorAll('article').forEach(art => {
-        if(art.innerText.includes('Bái Đính') && !art.classList.contains('locked')) {
-            art.classList.add('locked');
-            // Làm xám ảnh
-            const img = art.querySelector('img');
-            if(img) { img.style.filter = 'grayscale(100%)'; img.style.opacity = '0.6'; }
-            
-            // Đổi huy hiệu còn chỗ thành Đang bảo trì
-            const badgeBox = art.querySelector('div[style*="bottom:12px; right:12px;"]');
-            if(badgeBox) badgeBox.innerHTML = '<span style="background:#ef4444; color:#fff; padding:4px 10px; border-radius:8px; font-size:12.5px; font-weight:700;"><i class="fa fa-wrench"></i> Đang sửa chữa</span>';
-            
-            // Khóa nút Đặt chỗ
-            const btn = art.querySelector('a[href*="booking.html"]');
-            if(btn) btn.outerHTML = '<button style="background:#94a3b8; color:#fff; padding:8px 16px; border-radius:8px; border:none; font-size:14.5px; font-weight:700; cursor:not-allowed;">Tạm ngưng</button>';
-            
-            // Đổi nhãn xanh xác minh thành nhãn đỏ cảnh báo
-            const verifyBadge = art.querySelector('div[style*="top:12px; left:12px;"]');
-            if(verifyBadge) {
-                verifyBadge.style.background = '#fee2e2'; verifyBadge.style.color = '#991b1b';
-                verifyBadge.innerHTML = '⚠ Cảnh báo an toàn';
-            }
-        }
-    });
-}, 500);
-</script>
-<!-- ACCESSIBILITY MODULE -->
-<style>
-    /* Nút Trợ năng lơ lửng */
-    #access-widget-btn {
-        position: fixed; bottom: 30px; left: 30px; width: 56px; height: 56px;
-        background: #0f766e; color: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(15,118,110,0.4);
-        display: flex; align-items: center; justify-content: center; font-size: 28px;
-        cursor: pointer; z-index: 99999; transition: 0.3s;
-    }
-    #access-widget-btn:hover { transform: scale(1.1); background: #0d9488; }
-    
-    /* Bảng điều khiển */
-    #access-panel {
-        position: fixed; bottom: 100px; left: 30px; width: 280px; background: #fff;
-        border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid #0f766e;
-        padding: 20px; z-index: 99998; opacity: 0; visibility: hidden; transform: translateY(20px);
-        transition: 0.3s; font-family: system-ui, sans-serif;
-    }
-    #access-panel.show { opacity: 1; visibility: visible; transform: translateY(0); }
-    #access-panel h4 { margin: 0 0 15px 0; color: #0f172a; font-size: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
-    
-    .access-row { display: flex; gap: 10px; margin-bottom: 15px; }
-    .access-btn { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 700; color: #0f172a; cursor: pointer; transition: 0.2s; }
-    .access-btn:hover, .access-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
-    
-    .access-toggle { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .access-toggle:hover { background: #e2e8f0; }
-
-    /* CSS Chế độ Tương phản cao */
-    body.high-contrast { background: #000 !important; color: #ffff00 !important; }
-    body.high-contrast * { background-color: #000 !important; color: #ffff00 !important; border-color: #ffff00 !important; box-shadow: none !important; }
-    body.high-contrast img { filter: contrast(120%) grayscale(20%); }
-
-    /* Nút Đọc văn bản mọc ra khi bôi đen */
-    #tts-popup {
-        position: absolute; background: #0f766e; color: #fff; padding: 8px 16px;
-        border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100000; display: none; align-items: center; gap: 8px;
-    }
-    #tts-popup:hover { background: #0d9488; }
-</style>
-
-<!-- Nút nổi -->
-<div id="access-widget-btn" onclick="toggleAccessPanel()">
-    <i class="fa fa-wheelchair-alt"></i>
-</div>
-
-<!-- Bảng Trợ năng -->
-<div id="access-panel">
-    <h4><i class="fa fa-cogs"></i> Tùy chỉnh Trợ năng</h4>
-    <div style="font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Kích thước chữ:</div>
-    <div class="access-row">
-        <button class="access-btn active" id="btn-font-1" onclick="setFontSize(1)">A</button>
-        <button class="access-btn" id="btn-font-2" onclick="setFontSize(2)">A+</button>
-        <button class="access-btn" id="btn-font-3" onclick="setFontSize(3)">A++</button>
-    </div>
-    
-    <button class="access-toggle" onclick="toggleHighContrast()">
-        <span><i class="fa fa-adjust"></i> Tương phản cao</span>
-        <span id="contrast-status">TẮT</span>
-    </button>
-    
-    <button class="access-toggle" id="btn-tts-mode" onclick="toggleTTSMode()">
-        <span><i class="fa fa-volume-up"></i> Chế độ Đọc (Chạm)</span>
-        <span id="tts-status">TẮT</span>
-    </button>
-</div>
-
-<!-- Nút Đọc Văn Bản Ẩn -->
-<div id="tts-popup" onclick="speakSelectedText()"><i class="fa fa-play-circle"></i> Đọc chữ</div>
-
-<script>
-    // 1. Mở bảng công cụ
-    function toggleAccessPanel() {
-        document.getElementById('access-panel').classList.toggle('show');
-    }
-
-    // 2. Chỉnh cỡ chữ
-    function setFontSize(level) {
-        document.querySelectorAll('.access-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-font-' + level).classList.add('active');
-        
-        let root = document.documentElement;
-        if(level === 1) root.style.fontSize = '100%'; // Mặc định
-        if(level === 2) root.style.fontSize = '110%'; // To vừa
-        if(level === 3) root.style.fontSize = '125%'; // To đại
-    }
-
-    // 3. Chế độ tương phản cao (Mù màu / Mắt kém)
-    let isHighContrast = false;
-    function toggleHighContrast() {
-        isHighContrast = !isHighContrast;
-        if(isHighContrast) {
-            document.body.classList.add('high-contrast');
-            document.getElementById('contrast-status').innerText = 'BẬT';
-        } else {
-            document.body.classList.remove('high-contrast');
-            document.getElementById('contrast-status').innerText = 'TẮT';
-        }
-<<<<<<< HEAD
-    }
-
-    // 4. Trợ lý Đọc văn bản (Bôi đen là đọc)
-    let isTTSMode = false;
-    function toggleTTSMode() {
-        isTTSMode = !isTTSMode;
-        const status = document.getElementById('tts-status');
-        const btn = document.getElementById('btn-tts-mode');
-        if(isTTSMode) {
-            status.innerText = 'BẬT';
-            btn.style.borderColor = '#10b981';
-            alert('Đã BẬT Trợ lý đọc! Hãy dùng chuột bôi đen một đoạn văn bản trên web để nghe hệ thống đọc.');
-        } else {
-            status.innerText = 'TẮT';
-            btn.style.borderColor = '#cbd5e1';
-            window.speechSynthesis.cancel(); // Tắt đọc ngay
-        }
-    }
-
-    // Hiện nút loa khi bôi đen chữ
-    document.addEventListener('mouseup', function(e) {
-        if(!isTTSMode) return;
-        const text = window.getSelection().toString().trim();
-        const popup = document.getElementById('tts-popup');
-        
-        if(text.length > 0) {
-            popup.style.display = 'flex';
-            popup.style.top = (e.pageY - 40) + 'px';
-            popup.style.left = e.pageX + 'px';
-        } else {
-            popup.style.display = 'none';
-        }
-    });
-
-    // Phát âm thanh
-    function speakSelectedText() {
-        const text = window.getSelection().toString().trim();
-        if(text.length > 0) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'vi-VN'; // Chuẩn giọng tiếng Việt
-            utterance.rate = 0.9;     // Đọc hơi chậm lại cho người già dễ nghe
-            window.speechSynthesis.speak(utterance);
-        }
-        document.getElementById('tts-popup').style.display = 'none';
-    }
-
-    // Tích hợp với 3 nút A A+ A++ có sẵn trên thanh Menu của bro
-    document.addEventListener('DOMContentLoaded', () => {
-        const existingA = document.querySelectorAll('span, button, a');
-        existingA.forEach(el => {
-            if(el.innerText === 'A') el.onclick = (e) => { e.preventDefault(); setFontSize(1); };
-            if(el.innerText === 'A+') el.onclick = (e) => { e.preventDefault(); setFontSize(2); };
-            if(el.innerText === 'A++') el.onclick = (e) => { e.preventDefault(); setFontSize(3); };
-        });
-    });
-</script>
-<!-- END ACCESSIBILITY MODULE -->
-
-
-<!-- VOICE SEARCH MODULE -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('keywordInput');
-    
-    if (searchInput && !document.getElementById('btn-voice-search')) {
-        const wrapper = document.createElement('div');
-        wrapper.style.position = 'relative';
-        wrapper.style.display = 'flex';
-        wrapper.style.alignItems = 'center';
-        wrapper.style.width = '100%';
-        
-        searchInput.parentNode.insertBefore(wrapper, searchInput);
-        wrapper.appendChild(searchInput);
-        searchInput.style.paddingRight = '45px';
-
-        const micBtn = document.createElement('button');
-        micBtn.id = 'btn-voice-search';
-        micBtn.title = 'Tìm kiếm bằng giọng nói';
-        micBtn.type = 'button'; // Ngăn việc tự submit form
-        micBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>`;
-        
-        micBtn.style.cssText = `
-            position: absolute; right: 8px; background: #f0fdfa; border: 1px solid #ccfbf1;
-            color: #0f766e; cursor: pointer; padding: 8px; display: flex; align-items: center;
-            justify-content: center; border-radius: 50%; transition: all 0.3s ease; outline: none; z-index: 10;
-        `;
-        wrapper.appendChild(micBtn);
-
-        const style = document.createElement('style');
-        style.innerHTML = `
-            #btn-voice-search:hover { color: #fff; background: #0f766e; }
-            #btn-voice-search.listening { color: #fff; background: #ef4444; border-color: #ef4444; animation: mic-pulse 1.2s infinite; }
-            @keyframes mic-pulse {
-                0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-                70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-                100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        
-        micBtn.onclick = function(e) {
-            e.preventDefault();
-            
-            if (!SpeechRecognition) {
-                alert("⚠ Trình duyệt của bạn không hỗ trợ tính năng Giọng nói! Hãy sử dụng Google Chrome hoặc Microsoft Edge.");
-                return;
-            }
-
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'vi-VN';
-            recognition.continuous = false;
-            recognition.interimResults = false;
-
-            recognition.onstart = () => {
-                micBtn.classList.add('listening');
-                searchInput.placeholder = 'Đang nghe...';
-            };
-
-            recognition.onspeechend = () => {
-                recognition.stop();
-                micBtn.classList.remove('listening');
-                searchInput.placeholder = 'VD: Bái Đính, Ninh Bình...';
-            };
-
-            recognition.onresult = (event) => {
-                let transcript = event.results[0][0].transcript;
-                if(transcript.endsWith('.')) transcript = transcript.slice(0, -1);
-                searchInput.value = transcript;
-                if(typeof loadDestinations === 'function') loadDestinations(1);
-            };
-
-            recognition.onerror = (event) => {
-                micBtn.classList.remove('listening');
-                searchInput.placeholder = 'VD: Bái Đính, Ninh Bình...';
-                if(event.error === 'not-allowed') {
-                    alert('⚠ BẠN CHƯA CẤP QUYỀN MICRO!\n\nHãy nhìn lên thanh địa chỉ (chỗ chứa chữ localhost), bấm vào biểu tượng Ổ KHÓA hoặc CÀI ĐẶT TRANG, chọn "Cho phép Micro" rồi tải lại trang nhé!');
-                } else if(event.error !== 'no-speech') {
-                    alert('⚠ Lỗi micro: ' + event.error);
-                }
-            };
-
-            try {
-                recognition.start();
-            } catch(err) {
-                console.log('Đang nghe rồi...');
-            }
-        };
-    }
-});
-</script>
-<!-- END VOICE SEARCH MODULE -->
-=======
-        document.addEventListener('DOMContentLoaded', () => loadDestinations(1));
     </script>
-<script>
-function toggleTheme() {
-    var currentTheme = document.documentElement.getAttribute('data-theme');
-    var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    var btns = document.querySelectorAll('#themeToggleBtn');
-    btns.forEach(btn => btn.innerHTML = newTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
-}
-// Khoi phuc theme khi F5
-var savedTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
-window.addEventListener("DOMContentLoaded", function() {
-    var btns = document.querySelectorAll('#themeToggleBtn');
-    btns.forEach(btn => btn.innerHTML = savedTheme === 'dark' ? '☀️ Chế độ Sáng' : '🌙 Chế độ Tối');
-});
-</script>
 
+    <script id="smart-filter-js">
+        document.addEventListener("DOMContentLoaded", function() {
+            const filterBtn = document.querySelector('button:contains("Lọc kết quả"), .btn-filter, button[type="button"]');
+            if (!filterBtn) return;
 
+            filterBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const q = document.querySelector('input[placeholder*="Tên địa điểm"], input[type="text"]').value;
+                const sort = document.querySelector('select:last-of-type').value; 
+                const wheelchair = document.querySelector('input[type="checkbox"]:nth-of-type(1)').checked;
+                const elevator = document.querySelector('input[type="checkbox"]:nth-of-type(2)').checked;
 
-<script id="modern-sidebar-js">
-document.addEventListener("DOMContentLoaded", function() {
-    var header = document.querySelector('header') || document.querySelector('.header') || document.querySelector('.navbar');
-    if(!header) return;
-
-    if(!document.querySelector('.hamburger-btn')) {
-        var btn = document.createElement('button');
-        btn.className = 'hamburger-btn';
-        btn.innerHTML = '☰';
-        header.appendChild(btn);
-    }
-
-    var overlay = document.querySelector('.menu-overlay');
-    if(!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'menu-overlay';
-        document.body.appendChild(overlay);
-    }
-
-    var sidebar = document.querySelector('.mobile-sidebar');
-    if(!sidebar) {
-        sidebar = document.createElement('div');
-        sidebar.className = 'mobile-sidebar';
-        
-        var closeBtn = document.createElement('button');
-        closeBtn.className = 'close-sidebar-btn';
-        closeBtn.innerHTML = '✕';
-        sidebar.appendChild(closeBtn);
-
-        var links = header.querySelectorAll('a, button');
-        links.forEach(function(el) {
-            if(el.classList.contains('logo') || el.classList.contains('hamburger-btn') || el.id === 'themeToggleBtn' || el.querySelector('img')) return;
-            var clone = el.cloneNode(true);
-            clone.removeAttribute('style');
-            sidebar.appendChild(clone);
-        });
-        document.body.appendChild(sidebar);
-    }
-
-    var hamburger = document.querySelector('.hamburger-btn');
-    sidebar = document.querySelector('.mobile-sidebar');
-    overlay = document.querySelector('.menu-overlay');
-    var closeSidebar = document.querySelector('.close-sidebar-btn');
-
-    function toggleMenu() {
-        sidebar.classList.toggle('show');
-        overlay.classList.toggle('show');
-    }
-
-    if(hamburger) hamburger.addEventListener('click', toggleMenu);
-    if(closeSidebar) closeSidebar.addEventListener('click', toggleMenu);
-    if(overlay) overlay.addEventListener('click', toggleMenu);
-});
-</script>
-<script id="smart-filter-js">
-document.addEventListener("DOMContentLoaded", function() {
-    const filterBtn = document.querySelector('button:contains("Lọc kết quả"), .btn-filter, button[type="button"]'); // Tìm nút lọc
-    if (!filterBtn) return;
-
-    filterBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Thu thập toàn bộ dữ liệu từ các ô input/select/checkbox
-        const q = document.querySelector('input[placeholder*="Tên địa điểm"], input[type="text"]').value;
-        const sort = document.querySelector('select:last-of-type').value; // Ô select sắp xếp
-        const wheelchair = document.querySelector('input[type="checkbox"]:nth-of-type(1)').checked;
-        const elevator = document.querySelector('input[type="checkbox"]:nth-of-type(2)').checked;
-
-        // Dựng URL kèm tham số truy vấn (Query String)
-        const apiUrl = `../api/search.php?q=${encodeURIComponent(q)}&sort=${sort}&wheelchair=${wheelchair}&elevator=${elevator}`;
-        
-        // Gọi API và render lại danh sách tour
-        fetch(apiUrl)
-            .then(res => res.json())
-            .then(res => {
-                if(res.status === 'success') {
-                    // Chèn hàm render danh sách của bro ở đây (gọi lại hàm hiển thị UI)
-                    if(typeof renderTours === 'function') renderTours(res.data);
-                    else console.log("Da lay duoc data loc:", res.data); // Báo log nếu chưa có hàm render
-                }
+                const apiUrl = `../api/search.php?q=${encodeURIComponent(q)}&sort=${sort}&wheelchair=${wheelchair}&elevator=${elevator}`;
+                
+                fetch(apiUrl)
+                    .then(res => res.json())
+                    .then(res => {
+                        if(res.status === 'success') {
+                            if(typeof renderTours === 'function') renderTours(res.data);
+                            else console.log("Da lay duoc data loc:", res.data);
+                        }
+                    });
             });
+        });
+    </script>
+
+    <script>
+    // Watcher: Tự động khóa các điểm đến bị Admin đánh dấu bảo trì (Demo: Chùa Bái Đính)
+    setInterval(() => {
+        document.querySelectorAll('article').forEach(art => {
+            if(art.innerText.includes('Bái Đính') && !art.classList.contains('locked')) {
+                art.classList.add('locked');
+                const img = art.querySelector('img');
+                if(img) { img.style.filter = 'grayscale(100%)'; img.style.opacity = '0.6'; }
+                
+                const badgeBox = art.querySelector('div[style*="bottom:12px; right:12px;"]');
+                if(badgeBox) badgeBox.innerHTML = '<span style="background:#ef4444; color:#fff; padding:4px 10px; border-radius:8px; font-size:12.5px; font-weight:700;"><i class="fa fa-wrench"></i> Đang sửa chữa</span>';
+                
+                const btn = art.querySelector('a[href*="booking.html"]');
+                if(btn) btn.outerHTML = '<button style="background:#94a3b8; color:#fff; padding:8px 16px; border-radius:8px; border:none; font-size:14.5px; font-weight:700; cursor:not-allowed;">Tạm ngưng</button>';
+                
+                const verifyBadge = art.querySelector('div[style*="top:12px; left:12px;"]');
+                if(verifyBadge) {
+                    verifyBadge.style.background = '#fee2e2'; verifyBadge.style.color = '#991b1b';
+                    verifyBadge.innerHTML = '⚠ Cảnh báo an toàn';
+                }
+            }
+        });
+    }, 500);
+    </script>
+
+    <!-- ACCESSIBILITY MODULE -->
+    <style>
+        #access-widget-btn { position: fixed; bottom: 30px; left: 30px; width: 56px; height: 56px; background: #0f766e; color: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(15,118,110,0.4); display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; z-index: 99999; transition: 0.3s; }
+        #access-widget-btn:hover { transform: scale(1.1); background: #0d9488; }
+        #access-panel { position: fixed; bottom: 100px; left: 30px; width: 280px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid #0f766e; padding: 20px; z-index: 99998; opacity: 0; visibility: hidden; transform: translateY(20px); transition: 0.3s; font-family: system-ui, sans-serif; }
+        #access-panel.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #access-panel h4 { margin: 0 0 15px 0; color: #0f172a; font-size: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+        .access-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .access-btn { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 700; color: #0f172a; cursor: pointer; transition: 0.2s; }
+        .access-btn:hover, .access-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
+        .access-toggle { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .access-toggle:hover { background: #e2e8f0; }
+        body.high-contrast { background: #000 !important; color: #ffff00 !important; }
+        body.high-contrast * { background-color: #000 !important; color: #ffff00 !important; border-color: #ffff00 !important; box-shadow: none !important; }
+        body.high-contrast img { filter: contrast(120%) grayscale(20%); }
+        #tts-popup { position: absolute; background: #0f766e; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100000; display: none; align-items: center; gap: 8px; }
+        #tts-popup:hover { background: #0d9488; }
+    </style>
+    <div id="access-widget-btn" onclick="toggleAccessPanel()">
+        <i class="fa fa-wheelchair-alt"></i>
+    </div>
+    <div id="access-panel">
+        <h4><i class="fa fa-cogs"></i> Tùy chỉnh Trợ năng</h4>
+        <div style="font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Kích thước chữ:</div>
+        <div class="access-row">
+            <button class="access-btn active" id="btn-font-1" onclick="setFontSize(1)">A</button>
+            <button class="access-btn" id="btn-font-2" onclick="setFontSize(2)">A+</button>
+            <button class="access-btn" id="btn-font-3" onclick="setFontSize(3)">A++</button>
+        </div>
+        <button class="access-toggle" onclick="toggleHighContrast()">
+            <span><i class="fa fa-adjust"></i> Tương phản cao</span>
+            <span id="contrast-status">TẮT</span>
+        </button>
+        <button class="access-toggle" id="btn-tts-mode" onclick="toggleTTSMode()">
+            <span><i class="fa fa-volume-up"></i> Chế độ Đọc (Chạm)</span>
+            <span id="tts-status">TẮT</span>
+        </button>
+    </div>
+    <div id="tts-popup" onclick="speakSelectedText()"><i class="fa fa-play-circle"></i> Đọc chữ</div>
+    <script>
+        function toggleAccessPanel() { document.getElementById('access-panel').classList.toggle('show'); }
+        function setFontSize(level) {
+            document.querySelectorAll('.access-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-font-' + level).classList.add('active');
+            let root = document.documentElement;
+            if(level === 1) root.style.fontSize = '100%';
+            if(level === 2) root.style.fontSize = '110%';
+            if(level === 3) root.style.fontSize = '125%';
+        }
+        let isHighContrast = false;
+        function toggleHighContrast() {
+            isHighContrast = !isHighContrast;
+            if(isHighContrast) {
+                document.body.classList.add('high-contrast');
+                document.getElementById('contrast-status').innerText = 'BẬT';
+            } else {
+                document.body.classList.remove('high-contrast');
+                document.getElementById('contrast-status').innerText = 'TẮT';
+            }
+        }
+        let isTTSMode = false;
+        function toggleTTSMode() {
+            isTTSMode = !isTTSMode;
+            const status = document.getElementById('tts-status');
+            const btn = document.getElementById('btn-tts-mode');
+            if(isTTSMode) {
+                status.innerText = 'BẬT'; btn.style.borderColor = '#10b981';
+                alert('Đã BẬT Trợ lý đọc! Hãy dùng chuột bôi đen một đoạn văn bản trên web để nghe hệ thống đọc.');
+            } else {
+                status.innerText = 'TẮT'; btn.style.borderColor = '#cbd5e1'; window.speechSynthesis.cancel();
+            }
+        }
+        document.addEventListener('mouseup', function(e) {
+            if(!isTTSMode) return;
+            const text = window.getSelection().toString().trim();
+            const popup = document.getElementById('tts-popup');
+            if(text.length > 0) {
+                popup.style.display = 'flex'; popup.style.top = (e.pageY - 40) + 'px'; popup.style.left = e.pageX + 'px';
+            } else { popup.style.display = 'none'; }
+        });
+        function speakSelectedText() {
+            const text = window.getSelection().toString().trim();
+            if(text.length > 0) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'vi-VN'; utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+            document.getElementById('tts-popup').style.display = 'none';
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const existingA = document.querySelectorAll('span, button, a');
+            existingA.forEach(el => {
+                if(el.innerText === 'A') el.onclick = (e) => { e.preventDefault(); setFontSize(1); };
+                if(el.innerText === 'A+') el.onclick = (e) => { e.preventDefault(); setFontSize(2); };
+                if(el.innerText === 'A++') el.onclick = (e) => { e.preventDefault(); setFontSize(3); };
+            });
+        });
+    </script>
+    
+    <!-- VOICE SEARCH MODULE -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('keywordInput');
+        if (searchInput && !document.getElementById('btn-voice-search')) {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative'; wrapper.style.display = 'flex'; wrapper.style.alignItems = 'center'; wrapper.style.width = '100%';
+            searchInput.parentNode.insertBefore(wrapper, searchInput);
+            wrapper.appendChild(searchInput);
+            searchInput.style.paddingRight = '45px';
+            const micBtn = document.createElement('button');
+            micBtn.id = 'btn-voice-search'; micBtn.title = 'Tìm kiếm bằng giọng nói'; micBtn.type = 'button';
+            micBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>`;
+            micBtn.style.cssText = `position: absolute; right: 8px; background: #f0fdfa; border: 1px solid #ccfbf1; color: #0f766e; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease; outline: none; z-index: 10;`;
+            wrapper.appendChild(micBtn);
+            const style = document.createElement('style');
+            style.innerHTML = `#btn-voice-search:hover { color: #fff; background: #0f766e; } #btn-voice-search.listening { color: #fff; background: #ef4444; border-color: #ef4444; animation: mic-pulse 1.2s infinite; } @keyframes mic-pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }`;
+            document.head.appendChild(style);
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            micBtn.onclick = function(e) {
+                e.preventDefault();
+                if (!SpeechRecognition) { alert("⚠ Trình duyệt của bạn không hỗ trợ tính năng Giọng nói! Hãy sử dụng Google Chrome hoặc Microsoft Edge."); return; }
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'vi-VN'; recognition.continuous = false; recognition.interimResults = false;
+                recognition.onstart = () => { micBtn.classList.add('listening'); searchInput.placeholder = 'Đang nghe...'; };
+                recognition.onspeechend = () => { recognition.stop(); micBtn.classList.remove('listening'); searchInput.placeholder = 'VD: Bái Đính, Ninh Bình...'; };
+                recognition.onresult = (event) => {
+                    let transcript = event.results[0][0].transcript;
+                    if(transcript.endsWith('.')) transcript = transcript.slice(0, -1);
+                    searchInput.value = transcript;
+                    if(typeof loadDestinations === 'function') loadDestinations(1);
+                };
+                recognition.onerror = (event) => {
+                    micBtn.classList.remove('listening'); searchInput.placeholder = 'VD: Bái Đính, Ninh Bình...';
+                    if(event.error === 'not-allowed') alert('⚠ BẠN CHƯA CẤP QUYỀN MICRO!');
+                    else if(event.error !== 'no-speech') alert('⚠ Lỗi micro: ' + event.error);
+                };
+                try { recognition.start(); } catch(err) { console.log('Đang nghe rồi...'); }
+            };
+        }
     });
-});
-</script>
->>>>>>> e06d07317f2fcec47018c9066f14770f4ee6d19d
+    </script>
 </body>
 </html>
-
-
-
-

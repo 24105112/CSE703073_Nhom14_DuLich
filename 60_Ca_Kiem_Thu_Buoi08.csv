@@ -1,0 +1,61 @@
+﻿STT;Mã Test Case;Mô-đun;Tên kịch bản kiểm thử;Loại kịch bản;Kết quả mong đợi;Kết quả thực tế;Trạng thái
+1;TC_01;Đăng nhập;Đăng nhập tài khoản Admin đúng;Luồng thuận;Vào Dashboard;Thành công;PASS
+2;TC_02;Đăng nhập;Đăng nhập sai mật khẩu;Ngoại lệ;Báo lỗi;Báo lỗi chính xác;PASS
+3;TC_08;Tìm kiếm;Tìm từ khóa Đà Nẵng;Luồng thuận;Ra 6 tour;Đúng 6 tour;PASS
+4;TC_11;Lọc trợ năng;Tích chọn Có Xe lăn;Luồng thuận;Chỉ hiện tour xe lăn;Đúng cờ has_wheelchair;PASS
+5;TC_19;Đặt chỗ;Chọn 2 vé;Luồng thuận;Giữ chỗ 15 phút;Đếm ngược 15p;PASS
+6;TC_21;Đặt chỗ;Đặt lố số chỗ trống;Giá trị biên;Báo lỗi hết chỗ;Từ chối đặt;PASS
+7;TC_23;Thanh toán;Thanh toán Sandbox MoMo;Luồng thuận;Trạng thái paid;Chuyển paid;PASS
+8;TC_35;Theme;Bật Dark Mode;Luồng thuận;Nền đen;Đổi màu toàn trang;PASS
+9;TC_42;Bảo mật;Nhập mã XSS vào tìm kiếm;Ngoại lệ;Không chạy JS;An toàn;PASS
+10;TC_57;Hiệu năng;Load 300 bản ghi;Luồng thuận;Dưới 1s;Load cực nhanh;PASS
+11;TC_11;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 11;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+12;TC_12;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 12;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+13;TC_13;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 13;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+14;TC_14;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 14;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+15;TC_15;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 15;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+16;TC_16;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 16;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+17;TC_17;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 17;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+18;TC_18;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 18;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+19;TC_19;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 19;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+20;TC_20;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 20;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+21;TC_21;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 21;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+22;TC_22;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 22;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+23;TC_23;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 23;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+24;TC_24;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 24;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+25;TC_25;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 25;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+26;TC_26;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 26;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+27;TC_27;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 27;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+28;TC_28;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 28;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+29;TC_29;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 29;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+30;TC_30;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 30;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+31;TC_31;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 31;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+32;TC_32;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 32;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+33;TC_33;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 33;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+34;TC_34;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 34;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+35;TC_35;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 35;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+36;TC_36;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 36;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+37;TC_37;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 37;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+38;TC_38;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 38;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+39;TC_39;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 39;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+40;TC_40;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 40;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+41;TC_41;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 41;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+42;TC_42;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 42;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+43;TC_43;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 43;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+44;TC_44;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 44;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+45;TC_45;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 45;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+46;TC_46;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 46;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+47;TC_47;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 47;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+48;TC_48;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 48;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+49;TC_49;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 49;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+50;TC_50;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 50;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+51;TC_51;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 51;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+52;TC_52;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 52;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+53;TC_53;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 53;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+54;TC_54;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 54;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+55;TC_55;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 55;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+56;TC_56;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 56;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+57;TC_57;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 57;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+58;TC_58;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 58;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+59;TC_59;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 59;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS
+60;TC_60;Giao diện & Chức năng;Kiểm tra UI/UX luồng số 60;Luồng thuận;Giao diện mượt;Đạt chuẩn;PASS

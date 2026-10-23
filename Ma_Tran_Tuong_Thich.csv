@@ -1,0 +1,4 @@
+﻿Nhân Trình duyệt / Khổ màn hình;Desktop (≥1024px);Tablet (768-1023px);Mobile (<768px)
+Chromium (Chrome, Edge);PASS (3 cột mượt mà);PASS (2 cột chuẩn);PASS (1 cột dọc)
+Firefox;PASS (Theme hoạt động tốt);PASS (Bố cục responsive);PASS (Nút bấm to rõ)
+WebKit (Safari);PASS (Font sắc nét);PASS (Vuốt mượt mà);PASS (Hoàn hảo)
