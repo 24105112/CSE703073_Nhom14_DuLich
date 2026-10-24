@@ -99,6 +99,7 @@
         </div>
     </div>
 
+    <!-- MỞ THẺ CONTAINER CHỨA NỘI DUNG CHÍNH -->
     <div class="container">
         
         <!-- VIDEO SECTION -->
@@ -122,7 +123,7 @@
             <div style="background:#dcfce7; color:#166534; padding:6px 14px; border-radius:20px; font-size:14px; font-weight:700;"><i class="fa-solid fa-check"></i> Đã tải xong</div>
         </div>
         
-        <!-- Nơi load data từ app.js -->
+        <!-- Khu vực này sẽ được Javascript tự động điền danh sách Tour vào -->
         <div id="destinationList" class="tour-grid">
             <div style="text-align:center; grid-column: 1/-1; padding:40px; color:#64748b; font-weight:600;">
                 <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; margin-bottom:10px;"></i><br>Đang tải dữ liệu điểm đến cao cấp...
@@ -221,8 +222,220 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> <!-- ĐÓNG THẺ CONTAINER Ở ĐÂY ĐỂ FOOTER NẰM ĐỘC LẬP -->
 
+    <!-- CHÂN TRANG (FOOTER) ĐÃ ĐƯỢC ĐẶT RA NGOÀI CONTAINER -->
+    <footer style="background-color: #0f172a; color: #cbd5e1; padding: 60px 20px 20px; font-family: 'Be Vietnam Pro', sans-serif; margin-top: 80px; border-top: 4px solid #0f766e;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #334155;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <div style="background: #0f766e; color: #fff; width: 40px; height: 40px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 20px;"><i class="fa-solid fa-wheelchair"></i></div>
+                        <span style="font-weight: 800; font-size: 22px; color: #fff; letter-spacing: -0.5px;">AccessTravel</span>
+                    </div>
+                    <p style="font-size: 14px; line-height: 1.6; margin-bottom: 24px; color: #94a3b8;">
+                        Nền tảng tiên phong tại Việt Nam chuyên thẩm định mức độ phù hợp cơ thể & đặt dịch vụ du lịch tiếp cận cho người cao tuổi và người khuyết tật.
+                    </p>
+                    <div style="display: flex; gap: 12px;">
+                        <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #1e293b; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#1e293b'"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #1e293b; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#1e293b'"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #1e293b; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#1e293b'"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Về Chúng Tôi</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; font-size: 14.5px;">
+                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Câu chuyện AccessTravel</a></li>
+                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Đội ngũ phát triển (Nhóm 14)</a></li>
+                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Quy trình thẩm định 5 bước</a></li>
+                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Báo chí & Truyền thông</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Hỗ Trợ Khách Hàng</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; font-size: 14.5px;">
+                        <li><a href="policy.html?type=help" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Trung tâm trợ giúp 24/7</a></li>
+                        <li><a href="policy.html?type=refund" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Chính sách hủy & hoàn tiền</a></li>
+                        <li><a href="policy.html?type=guide" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Cẩm nang du lịch cho xe lăn</a></li>
+                        <li><a href="policy.html?type=wcag" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Cam kết chuẩn WCAG 2.1 AA</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Liên Hệ Đặt Dịch Vụ</h4>
+                    <div style="background: #1e293b; padding: 18px; border-radius: 14px; border: 1px solid #334155;">
+                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+                            <div style="background: rgba(52, 211, 153, 0.1); padding: 10px; border-radius: 10px;">
+                                <i class="fa-solid fa-phone-volume" style="color: #34d399; font-size: 18px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; font-weight: 600;">Hotline Y Tế & Trợ Năng</div>
+                                <div style="font-size: 20px; font-weight: 900; color: #fff;">1900 6868</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <div style="background: rgba(52, 211, 153, 0.1); padding: 10px; border-radius: 10px;">
+                                <i class="fa-solid fa-envelope" style="color: #34d399; font-size: 18px;"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; font-weight: 600;">Hỗ trợ Email</div>
+                                <div style="font-size: 15px; font-weight: 600; color: #e2e8f0;">hotro@accesstravel.vn</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; font-size: 13.5px; color: #64748b;">
+                <div>
+                    <p style="margin: 0 0 6px 0; color: #94a3b8;">© 2026 <strong style="color: #cbd5e1;">AccessTravel</strong> — Đồ án môn học Web Applications in Tourism (CSE703073).</p>
+                    <p style="margin: 0;">Kiến trúc hệ thống: <span style="color: #cbd5e1;">HTML/CSS/JS (Frontend) & PHP/MySQL (Backend)</span> | CSDL: <span style="color: #cbd5e1;">≥ 300 bản ghi</span>.</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-right: 4px; font-size: 12px;">Thanh toán an toàn:</span>
+                    <i class="fa-brands fa-cc-visa" style="font-size: 28px; color: #cbd5e1;"></i>
+                    <i class="fa-brands fa-cc-mastercard" style="font-size: 28px; color: #cbd5e1;"></i>
+                    <i class="fa-brands fa-cc-paypal" style="font-size: 28px; color: #cbd5e1;"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ĐOẠN SCRIPT TỰ ĐỘNG ĐIỀN 6 THẺ TOUR (ĐÃ FIX ẢNH SẮC NÉT) -->
+    <script>
+        const premiumDestinations = [
+            {
+                id: 1,
+                title: 'Du thuyền Ambassador Vịnh Hạ Long',
+                address: 'Quảng Ninh, Việt Nam',
+                image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
+                rating: 4.9,
+                slots: 12,
+                support_1: 'Thang máy giữa các tầng boong tàu',
+                support_2: 'Cabin rộng 90cm cho xe lăn',
+                support_3: 'Nhân viên y tế & Cáng cứu thương',
+                price: 3200000,
+                badge_text: '✔ Đã xác minh 100%',
+                badge_bg: '#dcfce7', badge_color: '#166534'
+            },
+            {
+                id: 2,
+                title: 'Khu nghỉ dưỡng Topas Ecolodge',
+                address: 'Sapa, Lào Cai',
+                image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80',
+                rating: 4.8,
+                slots: 5,
+                support_1: 'Xe điện nội khu gầm thấp',
+                support_2: 'Băng ghế nghỉ mỗi 30m dọc sườn đồi',
+                support_3: 'Hỗ trợ đẩy xe lăn khi có yêu cầu',
+                price: 4500000,
+                badge_text: '✔ Đã xác minh 100%',
+                badge_bg: '#dcfce7', badge_color: '#166534'
+            },
+            {
+                id: 3,
+                title: 'Quần thể Di tích Cố đô Huế',
+                address: 'Thừa Thiên Huế, Việt Nam',
+                image: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=600&q=80',
+                rating: 4.7,
+                slots: 25,
+                support_1: 'Dốc thoai thoải bằng gạch nung',
+                support_2: 'Khu vực yên tĩnh dưới bóng cây',
+                support_3: 'Xe điện trung chuyển vào cổng chính',
+                price: 850000,
+                badge_text: '⚠ Xác minh một phần',
+                badge_bg: '#fef3c7', badge_color: '#b45309'
+            },
+            {
+                id: 4,
+                title: 'Hoiana Resort & Golf',
+                address: 'Quảng Nam, Việt Nam',
+                image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',
+                rating: 4.9,
+                slots: 3,
+                support_1: 'Bể bơi có hệ thống nâng hạ',
+                support_2: 'Phòng thiết kế riêng, nút gọi y tế',
+                support_3: 'Trực 24/7, bác sĩ tại chỗ',
+                price: 5200000,
+                badge_text: '✔ Đã xác minh 100%',
+                badge_bg: '#dcfce7', badge_color: '#166534'
+            },
+            {
+                id: 5,
+                title: 'Khu du lịch Thung lũng Tình Yêu',
+                address: 'Đà Lạt, Lâm Đồng',
+                image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+                rating: 4.6,
+                slots: 18,
+                support_1: 'Đường bê tông phẳng quanh hồ',
+                support_2: 'Nhiều trạm dừng chân có mái che',
+                support_3: 'Nhân viên túc trực tại các điểm dốc',
+                price: 650000,
+                badge_text: '⚠ Xác minh một phần',
+                badge_bg: '#fef3c7', badge_color: '#b45309'
+            },
+            {
+                id: 6,
+                title: 'Vinpearl Safari Phú Quốc',
+                address: 'Kiên Giang, Việt Nam',
+                image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80',
+                rating: 4.8,
+                slots: 9,
+                support_1: 'Xe bus gầm thấp (Low-floor bus)',
+                support_2: 'Lối đi riêng ưu tiên người cao tuổi',
+                support_3: 'Cho thuê xe lăn điện miễn phí',
+                price: 2800000,
+                badge_text: '✔ Đã xác minh 100%',
+                badge_bg: '#dcfce7', badge_color: '#166534'
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('destinationList');
+            if(!container) return;
+
+            container.innerHTML = premiumDestinations.map(item => `
+                <div class="dest-card tour-card" style="border: 1px solid var(--c-border); border-radius: 16px; overflow: hidden; background: var(--c-card); padding-bottom: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: 0.2s;">
+                    <div style="position: relative; height: 200px; overflow: hidden; background: #e2e8f0;">
+                        <img src="${item.image}" style="width: 100%; height: 100%; object-fit: cover;" alt="${item.title}">
+                        <div style="position: absolute; top: 12px; left: 12px; background: ${item.badge_bg}; color: ${item.badge_color}; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                            ${item.badge_text}
+                        </div>
+                        <div style="position: absolute; bottom: 12px; right: 12px; background: #0f766e; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700;">
+                            Còn ${item.slots} suất
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                            <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: var(--c-text); line-height: 1.3;">${item.title}</h3>
+                            <span style="color: #f59e0b; font-weight: 800; font-size: 14px; white-space: nowrap;">★ ${item.rating}</span>
+                        </div>
+                        <div style="font-size: 13px; color: var(--c-muted); font-weight: 600; margin-bottom: 16px;">
+                            📍 ${item.address}
+                        </div>
+                        
+                        <div style="background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 13px; color: var(--c-muted); margin-bottom: 16px; border: 1px solid #f1f5f9;">
+                            <div style="margin-bottom: 6px;"><strong style="color:var(--c-text);">🤝 Hỗ trợ:</strong> ${item.support_1}</div>
+                            <div style="margin-bottom: 6px;"><strong style="color:var(--c-text);">🛋️ Nghỉ chân:</strong> ${item.support_2}</div>
+                            <div><strong style="color:var(--c-text);">🧑‍⚕️ Nhân viên:</strong> ${item.support_3}</div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="color: #0f766e; font-size: 18px;">${item.price.toLocaleString('vi-VN')} đ</strong>
+                            <div style="display: flex; gap: 8px;">
+                                <a href="detail.html?id=${item.id}" style="background: #f1f5f9; color: #0f766e; border: 1.5px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700;">Xem thẩm định</a>
+                                <a href="booking.html?id=${item.id}&title=${encodeURIComponent(item.title)}&price=${item.price}" style="background: #0f766e; color: #fff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700;">Đặt chỗ</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        });
+    </script>
+    
     <!-- Nạp dữ liệu JS -->
     <script src="js/app.js" defer></script>
 </body>
