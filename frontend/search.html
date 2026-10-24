@@ -1094,7 +1094,7 @@ window.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
                             <div style="color:#0f766e; font-weight:800; font-size:17px;">${Number(item.price || 0).toLocaleString('vi-VN')} đ</div>
-                            <a href="booking.html?id=${item.id}" style="background:#0f766e; color:#fff; padding:8px 16px; border-radius:8px; text-decoration:none; font-size:14.5px; font-weight:700; transition:0.2s;">Đặt chỗ</a>
+                            <div style="display:flex; gap:8px;"><a href="detail.html?id=${item.id}" style="background:#f1f5f9; color:#0f766e; border:1.5px solid #cbd5e1; padding:8px 12px; border-radius:8px; text-decoration:none; font-size:14.5px; font-weight:700; transition:0.2s;">Xem thẩm định</a><a href="booking.html?id=${item.id}" style="background:#0f766e; color:#fff; padding:8px 16px; border-radius:8px; text-decoration:none; font-size:14.5px; font-weight:700; transition:0.2s;">Đặt chỗ</a></div>
                         </div>
                     </div>
                 </article>`;

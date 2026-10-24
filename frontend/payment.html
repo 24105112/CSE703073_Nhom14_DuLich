@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán | AccessTravel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #fafafa; margin: 0; padding: 0; color: #333; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Thanh tiến trình */
+        .stepper { display: flex; justify-content: center; align-items: center; margin-bottom: 50px; gap: 15px; position: relative; }
+        .stepper::before { content: ''; position: absolute; top: 15px; left: 35%; right: 35%; height: 2px; background: #e2e8f0; z-index: 1; }
+        .step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; background: #fafafa; padding: 0 10px; }
+        .step-circle { width: 32px; height: 32px; border-radius: 50%; background: #e2e8f0; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+        .step.active .step-circle { background: #0f766e; color: #fff; }
+        .step-text { font-size: 13px; font-weight: 700; color: #94a3b8; }
+        .step.active .step-text { color: #0f766e; }
+        
+        /* Bố cục 2 cột */
+        .layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; }
+        
+        .back-link { display: inline-flex; align-items: center; gap: 5px; color: #64748b; text-decoration: none; font-size: 14px; font-weight: 700; margin-bottom: 20px; transition: 0.2s; }
+        .back-link:hover { color: #0f766e; }
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 30px; color: #1e293b; }
+        
+        /* NÚT CHỌN PHƯƠNG THỨC THANH TOÁN */
+        .payment-methods { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .pm-option { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: 0.2s; background: #fff; }
+        .pm-option:hover { border-color: #94a3b8; }
+        .pm-option input { display: none; }
+        .pm-option.selected { border-color: #0f766e; background: #f0fdfa; }
+        .pm-label { font-size: 15px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 12px; }
+        .pm-label i { font-size: 20px; }
+        
+        /* FORM NHẬP THẺ */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 13.5px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+        label span { color: #dc2626; }
+        .input-wrap { position: relative; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 14px 16px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: inherit; font-size: 15px; transition: 0.2s; outline: none; background: #fff; font-weight: 600; color: #1e293b; }
+        input[type="text"]:focus, input[type="password"]:focus { border-color: #0f766e; box-shadow: 0 0 0 3px rgba(15,118,110,0.1); }
+        .input-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 18px; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        /* GIAO DIỆN QUÉT MÃ QR (VIETQR/MOMO) */
+        .qr-container { background: #fff; border: 2px solid #e2e8f0; border-radius: 16px; padding: 30px; text-align: center; }
+        .qr-container h3 { margin: 0 0 10px 0; font-size: 18px; color: #1e293b; }
+        .qr-container p.sub { font-size: 14px; color: #64748b; margin: 0 0 24px 0; font-weight: 500; }
+        .qr-image-wrapper { background: #f8fafc; padding: 20px; border-radius: 16px; display: inline-block; margin-bottom: 24px; border: 2px dashed #cbd5e1; position: relative; }
+        .qr-image-wrapper img { width: 220px; height: 220px; border-radius: 8px; }
+        .qr-logo { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px !important; height: 40px !important; border-radius: 8px; border: 2px solid #fff; }
+        
+        .qr-info-table { width: 100%; text-align: left; font-size: 14.5px; border-collapse: collapse; margin-bottom: 24px; }
+        .qr-info-table td { padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+        .qr-info-table td:first-child { color: #64748b; font-weight: 600; width: 40%; }
+        .qr-info-table td:last-child { color: #1e293b; font-weight: 800; text-align: right; }
+        .qr-copy { color: #0f766e; cursor: pointer; margin-left: 8px; font-size: 16px; }
+        
+        .qr-timer { background: #fef2f2; color: #dc2626; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+        .btn-pay { background: #0f766e; color: #fff; border: none; padding: 16px 32px; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; width: 100%; box-shadow: 0 4px 15px rgba(15,118,110,0.25); }
+        .btn-pay:hover { background: #0d9488; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15,118,110,0.3); }
+        .btn-pay.btn-qr { background: #16a34a; box-shadow: 0 4px 15px rgba(22,163,74,0.25); margin-top: 15px; }
+        .btn-pay.btn-qr:hover { background: #15803d; }
+        
+        .terms { font-size: 12.5px; color: #64748b; margin-top: 24px; line-height: 1.5; font-weight: 500; text-align: center; }
+        .terms a { color: #0f766e; text-decoration: none; font-weight: 700; }
+
+        /* Cột Phải: Hóa đơn tóm tắt */
+        .summary-card { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 24px; position: sticky; top: 30px; height: fit-content; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .tour-preview { display: flex; gap: 16px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1.5px dashed #cbd5e1; }
+        .tour-preview img { width: 100px; height: 80px; object-fit: cover; border-radius: 10px; }
+        .tour-info h3 { margin: 0 0 6px 0; font-size: 16px; color: #1e293b; line-height: 1.3; }
+        .tour-info .location { font-size: 13px; color: #64748b; font-weight: 600; display:flex; align-items:center; gap:5px;}
+        
+        .details-list { margin-bottom: 24px; font-size: 14px; color: #475569; }
+        .details-list p { margin: 0 0 12px 0; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+        .amenities { display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: #64748b; }
+        .amenities span { display: flex; align-items: center; gap: 8px; }
+        .amenities span i { color: #10b981; }
+        
+        .bill-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14.5px; font-weight: 600; color: #475569; }
+        .bill-total { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding-top: 20px; border-top: 1.5px dashed #cbd5e1; font-size: 16px; font-weight: 800; color: #1e293b; }
+        .bill-total .total-price { font-size: 24px; color: #0f766e; }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; gap: 40px; }
+            .summary-card { order: -1; position: static; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Thanh tiến trình -->
+        <div class="stepper">
+            <div class="step"><div class="step-circle"><i class="fa-solid fa-check"></i></div><div class="step-text">Thông tin Đặt chỗ</div></div>
+            <div class="step active"><div class="step-circle">2</div><div class="step-text">Thanh toán</div></div>
+            <div class="step"><div class="step-circle">3</div><div class="step-text">Xác nhận</div></div>
+        </div>
+
+        <div class="layout">
+            <!-- Cột Trái: Các Phương Thức Thanh Toán -->
+            <div>
+                <a href="javascript:history.back()" class="back-link"><i class="fa-solid fa-arrow-left"></i> Trở về trang trước</a>
+                <h1>Phương thức thanh toán</h1>
+                
+                <!-- Khối chọn phương thức -->
+                <div class="payment-methods">
+                    <label class="pm-option" id="optQR" onclick="selectMethod('qr')">
+                        <div class="pm-label"><i class="fa-solid fa-qrcode" style="color:#10b981;"></i> Thanh toán mã QR (Momo / VNPay / Bank)</div>
+                        <input type="radio" name="payMethod" value="qr">
+                        <i class="fa-solid fa-circle-check check-icon" style="color:#0f766e; font-size:20px; display:none;"></i>
+                    </label>
+                    
+                    <label class="pm-option" id="optCard" onclick="selectMethod('card')">
+                        <div class="pm-label"><i class="fa-solid fa-credit-card" style="color:#3b82f6;"></i> Thẻ Tín dụng / Ghi nợ Quốc tế</div>
+                        <input type="radio" name="payMethod" value="card">
+                        <i class="fa-solid fa-circle-check check-icon" style="color:#0f766e; font-size:20px; display:none;"></i>
+                    </label>
+                </div>
+                
+                <!-- GIAO DIỆN 1: QUÉT MÃ QR (Mặc định ẩn, hiện khi chọn QR) -->
+                <div id="qrForm" class="qr-container" style="display:none;">
+                    <h3>Quét mã QR để thanh toán</h3>
+                    <p class="sub">Sử dụng ứng dụng Ngân hàng hoặc Ví điện tử (MoMo, VNPay) để quét mã.</p>
+                    
+                    <div class="qr-image-wrapper">
+                        <!-- Ảnh QR Demo tạo bằng API tự động -->
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://accesstravel.vn/pay/AT8888&color=0f172a" alt="VietQR">
+                        <!-- Icon ngân hàng nhỏ ở giữa QR -->
+                        <img src="https://img.mservice.io/momo_app_v2/img/APP_LOGO.png" class="qr-logo" alt="MoMo">
+                    </div>
+                    
+                    <div class="qr-timer">
+                        <i class="fa-solid fa-clock"></i> Mã QR sẽ hết hạn sau: <span id="qrTimer">15:00</span>
+                    </div>
+
+                    <table class="qr-info-table">
+                        <tr><td>Ngân hàng:</td><td>Vietcombank (VCB)</td></tr>
+                        <tr><td>Chủ tài khoản:</td><td>ACCESS TRAVEL VIETNAM</td></tr>
+                        <tr><td>Số tài khoản:</td><td>1900100868 <i class="fa-regular fa-copy qr-copy" title="Copy"></i></td></tr>
+                        <tr><td>Số tiền:</td><td style="color:#0f766e; font-size:18px;" id="qrAmountDisplay">0 đ <i class="fa-regular fa-copy qr-copy" title="Copy"></i></td></tr>
+                        <tr><td>Nội dung chuyển khoản:</td><td><span style="background:#f1f5f9; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e1;">AT8888</span> <i class="fa-regular fa-copy qr-copy" title="Copy"></i></td></tr>
+                    </table>
+                    
+                    <button type="button" class="btn-pay btn-qr" id="confirmQrBtn" onclick="processPayment(event)"><i class="fa-solid fa-check"></i> Tôi đã chuyển khoản thành công</button>
+                </div>
+                
+                <!-- GIAO DIỆN 2: FORM THẺ TÍN DỤNG -->
+                <form id="cardForm" onsubmit="processPayment(event)" style="display:none;">
+                    <div class="form-group">
+                        <label>Tên in trên thẻ <span>*</span></label>
+                        <input type="text" placeholder="VD: NGUYEN VAN A" required style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label>Số thẻ <span>*</span></label>
+                        <div class="input-wrap">
+                            <input type="text" placeholder="**** **** **** 1234" maxlength="19" required>
+                            <i class="fa-brands fa-cc-visa input-icon" style="color:#1e40af;"></i>
+                        </div>
+                    </div>
+                    <div class="row-2">
+                        <div class="form-group">
+                            <label>Ngày hết hạn <span>*</span></label>
+                            <input type="text" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mã CVC/CVV <span>*</span></label>
+                            <div class="input-wrap">
+                                <input type="password" placeholder="***" maxlength="3" required>
+                                <i class="fa-solid fa-lock input-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-pay" id="payBtn"><i class="fa-solid fa-lock"></i> Thanh toán An toàn</button>
+                </form>
+
+                <div class="terms">
+                    Bằng việc tiến hành thanh toán, bạn đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a> của AccessTravel. Thông tin thẻ được mã hóa bảo mật chuẩn PCI-DSS.
+                </div>
+            </div>
+
+            <!-- Cột Phải: Hóa Đơn Tóm Tắt (Dính chặt trên màn hình) -->
+            <div>
+                <div class="summary-card">
+                    <div class="tour-preview">
+                        <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=300&q=80" id="tourImg">
+                        <div class="tour-info">
+                            <div class="location"><i class="fa-solid fa-location-dot" style="color:#0f766e;"></i> <span id="tourLoc">Việt Nam</span></div>
+                            <h3 id="tourName">Đang tải tên Tour...</h3>
+                        </div>
+                    </div>
+
+                    <div class="details-list">
+                        <p><i class="fa-solid fa-user-group" style="color:#0f766e;"></i> Thông tin đoàn: <span id="guestCount" style="color:#1e293b; margin-left:5px;">2 người</span></p>
+                        <div class="amenities">
+                            <span><i class="fa-solid fa-check"></i> Đón tiễn tận nơi bằng xe gầm thấp</span>
+                            <span><i class="fa-solid fa-check"></i> Xe lăn dự phòng tại điểm đến</span>
+                            <span><i class="fa-solid fa-check"></i> Nhân viên y tế & Người dìu trực 24/7</span>
+                        </div>
+                    </div>
+
+                    <div style="font-size:12px; font-weight:800; color:#94a3b8; letter-spacing:1px; margin-bottom:15px; text-transform:uppercase;">Chi tiết thanh toán</div>
+                    <div class="bill-row">
+                        <span>Giá Tour cơ bản</span>
+                        <span id="basePrice">0 đ</span>
+                    </div>
+                    <div class="bill-row">
+                        <span>Phí dịch vụ Trợ năng đặc biệt</span>
+                        <span>150.000 đ</span>
+                    </div>
+                    <div class="bill-row">
+                        <span>Thuế VAT (8%)</span>
+                        <span id="taxPrice">0 đ</span>
+                    </div>
+                    
+                    <div class="bill-total">
+                        <span>Tổng thanh toán</span>
+                        <span class="total-price" id="totalPrice">0 đ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. LẤY DỮ LIỆU TỪ TRANG TRƯỚC ---
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('title') || 'Chùa Bái Đính Trợ Năng Tiêu Chuẩn';
+        const price = parseInt(params.get('price')) || 850000;
+        const guests = params.get('guests') || 1;
+        
+        document.getElementById('tourName').innerText = title;
+        document.getElementById('guestCount').innerText = `${guests} hành khách`;
+        
+        const tax = Math.round(price * 0.08);
+        const total = price + 150000 + tax;
+        const formattedTotal = total.toLocaleString('vi-VN') + ' đ';
+        
+        document.getElementById('basePrice').innerText = price.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('taxPrice').innerText = tax.toLocaleString('vi-VN') + ' đ';
+        document.getElementById('totalPrice').innerText = formattedTotal;
+        document.getElementById('qrAmountDisplay').innerHTML = formattedTotal + ' <i class="fa-regular fa-copy qr-copy" title="Copy"></i>';
+
+        // --- 2. LÔ-GIC CHUYỂN ĐỔI TAB (QR vs THẺ) ---
+        function selectMethod(method) {
+            // Reset style
+            document.getElementById('optQR').classList.remove('selected');
+            document.getElementById('optCard').classList.remove('selected');
+            document.querySelectorAll('.check-icon').forEach(icon => icon.style.display = 'none');
+            
+            // Ẩn/Hiện form
+            document.getElementById('qrForm').style.display = 'none';
+            document.getElementById('cardForm').style.display = 'none';
+
+            // Kích hoạt tab được chọn
+            if(method === 'qr') {
+                document.getElementById('optQR').classList.add('selected');
+                document.querySelector('#optQR .check-icon').style.display = 'block';
+                document.getElementById('qrForm').style.display = 'block';
+                startQrTimer(); // Chạy đồng hồ 15 phút
+            } else {
+                document.getElementById('optCard').classList.add('selected');
+                document.querySelector('#optCard .check-icon').style.display = 'block';
+                document.getElementById('cardForm').style.display = 'block';
+            }
+        }
+        
+        // Mặc định chọn mã QR khi vừa vào trang
+        window.onload = () => selectMethod('qr');
+
+        // --- 3. ĐỒNG HỒ ĐẾM NGƯỢC QR CODE ---
+        let qrInterval = null;
+        function startQrTimer() {
+            if(qrInterval) clearInterval(qrInterval);
+            let time = 15 * 60; // 15 phút
+            const display = document.getElementById('qrTimer');
+            
+            qrInterval = setInterval(() => {
+                let minutes = parseInt(time / 60, 10);
+                let seconds = parseInt(time % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                
+                display.textContent = minutes + ":" + seconds;
+                if (--time < 0) {
+                    clearInterval(qrInterval);
+                    display.textContent = "HẾT HẠN";
+                    document.getElementById('confirmQrBtn').disabled = true;
+                    document.getElementById('confirmQrBtn').style.background = '#94a3b8';
+                }
+            }, 1000);
+        }
+
+        // --- 4. GIẢ LẬP XỬ LÝ THANH TOÁN ---
+        function processPayment(e) {
+            e.preventDefault();
+            const btn = e.target.tagName === 'FORM' ? document.getElementById('payBtn') : document.getElementById('confirmQrBtn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Hệ thống đang kiểm tra giao dịch...';
+            btn.style.opacity = '0.8';
+            btn.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                alert('🎉 THANH TOÁN THÀNH CÔNG! Mã giao dịch của bạn là: AT8888.\nHệ thống sẽ chuyển bạn về trang chủ.');
+                window.location.href = 'index.html';
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
