@@ -20,7 +20,7 @@ function toggleAccessibilityTheme() {
 
 function getLang() { return localStorage.getItem('at_lang') || 'vi'; }
 
-// TỪ ĐIỂN SIÊU TO KHỔNG LỒ (Bao trọn Trang chủ, Booking, Detail, Register, Login)
+// TỪ ĐIỂN SIÊU TO KHỔNG LỒ
 const EXACT_PAIRS = [
     // Menu & Chung
     ["Khám phá điểm đến", "Explore Destinations"], ["Đánh giá cộng đồng", "Verified Reviews"], ["Kiểm tra & Đặt lịch", "Check & Book Slot"], ["← Quay lại Khám phá điểm đến", "← Back to Explore Destinations"], ["🎧 Hỗ trợ", "🎧 Support & Guide"], ["Aa Chế độ Chữ lớn", "Aa Large Text Mode"], ["Aa Chế độ Chữ lớn (Trợ năng)", "Aa Large Text Mode"], ["Đăng nhập", "Log in"], ["Đăng ký", "Sign up"], ["Đăng xuất", "Log out"], ["Tỉnh/Thành hoặc Tên cơ sở", "Province/City or Facility Name"],
@@ -82,6 +82,8 @@ const EXACT_PAIRS = [
 ];
 
 const DYNAMIC_REPLACEMENTS_VI_TO_EN = [
+    ["✔ Đã xác minh 100%", "✔ 100% Verified"],
+    ["⚠ Xác minh một phần", "⚠ Partially Verified"],
     ["✔ Đã xác minh tại chỗ", "✔ Verified On-Site"],
     ["✔ Được cơ sở cung cấp thông tin", "✔ Provided by Facility"],
     ["✔ Chưa xác minh (Cần gọi trước)", "✔ Unverified (Call Ahead)"],
@@ -91,20 +93,16 @@ const DYNAMIC_REPLACEMENTS_VI_TO_EN = [
     ["Hỗ trợ người cao tuổi:", "Senior Support:"],
     ["Chỗ nghỉ chân:", "Rest Areas:"],
     ["Nhân viên hỗ trợ:", "Support Staff:"],
-    ["Có ghế nghỉ mỗi 50m & Xe điện nội khu", "Rest benches every 50m & Electric buggy"],
-    ["Phòng nghỉ tầng trệt & Nhân viên y tế trực", "Ground-floor room & 24/7 medical standby"],
-    ["Đường bằng phẳng, hạn chế đi bộ xa", "Flat pathways, limited walking distance"],
-    ["Có nhân viên hỗ trợ đẩy xe lăn & dìu khách", "Staff available to push wheelchairs & assist walking"],
+    ["🤝 Hỗ trợ:", "🤝 Assist:"],
+    ["🛋️ Nghỉ chân:", "🛋️ Rest Area:"],
+    ["🧑‍⚕️ Nhân viên:", "🧑‍⚕️ Staff:"],
     ["Lưu ý thực tế:", "Field Note:"],
-    ["Hạn chế nhỏ: Lối vào cổng phụ có 2 bậc tam cấp, xe lăn nên đi cổng chính phía Đông.", "Minor note: Side gate has 2 steps; wheelchair users should use the East main gate."],
-    ["Lưu ý: Thang máy khu B bảo trì từ 12h-13h thứ Hai hàng tuần, có nhân viên hỗ trợ.", "Note: Block B elevator under maintenance Mon 12-1PM; staff assist via secondary ramp."],
-    ["Chưa xác minh độ rộng cửa phòng tắm ở khu nhà cổ, nên yêu cầu phòng tầng 1 khu mới.", "Bathroom door width in heritage wing unverified; request a 1st-floor room in the new wing."],
-    ["Hạn chế nhỏ: Quãng đường từ bãi xe vào sảnh dài 80m, người cao tuổi nên đăng ký xe điện.", "Minor note: Parking to lobby is 80m; seniors should request the free electric buggy pickup."],
     ["♿ Xe lăn: Có", "♿ Wheelchair: Yes"],
     ["📐 Độ dốc:", "📐 Slope:"],
     ["🚪 Cửa rộng:", "🚪 Door:"],
     ["Chi phí trọn gói hỗ trợ / khách", "All-inclusive care package / guest"],
     ["Xem thẩm định", "View Audit"],
+    ["Đặt chỗ", "Book Now"],
     ["Đặt giữ chỗ", "Book Slot"],
     ["Tiện nghi: Dốc", "Amenities: Slope"],
     ["• Cửa", "• Door"],
@@ -113,7 +111,27 @@ const DYNAMIC_REPLACEMENTS_VI_TO_EN = [
     ["⚠ Lưu ý:", "⚠ Note:"],
     ["⚠ Hạn chế nhỏ:", "⚠ Minor note:"],
     ["⚠ Chưa xác minh", "⚠ Unverified"],
-    ["Chọn dịch vụ này ↓", "Select this service ↓"]
+    ["Chọn dịch vụ này ↓", "Select this service ↓"],
+    
+    // Dịch riêng cho các Tour cao cấp
+    ["Thang máy giữa các tầng boong tàu", "Elevators between cruise decks"],
+    ["Cabin rộng 90cm cho xe lăn", "90cm wide cabin for wheelchairs"],
+    ["Nhân viên y tế & Cáng cứu thương", "Medical staff & Stretcher on board"],
+    ["Xe điện nội khu gầm thấp", "Low-floor internal electric buggy"],
+    ["Băng ghế nghỉ mỗi 30m dọc sườn đồi", "Rest benches every 30m along hills"],
+    ["Hỗ trợ đẩy xe lăn khi có yêu cầu", "Wheelchair pushing assist upon request"],
+    ["Dốc thoai thoải bằng gạch nung", "Gentle ramps paved with baked bricks"],
+    ["Khu vực yên tĩnh dưới bóng cây", "Quiet areas shaded by trees"],
+    ["Xe điện trung chuyển vào cổng chính", "Electric buggy transfer to main gate"],
+    ["Bể bơi có hệ thống nâng hạ", "Swimming pool with lift system"],
+    ["Phòng thiết kế riêng, nút gọi y tế", "Custom room, medical call button"],
+    ["Trực 24/7, bác sĩ tại chỗ", "24/7 on-duty on-site doctor"],
+    ["Đường bê tông phẳng quanh hồ", "Flat concrete paths around the lake"],
+    ["Nhiều trạm dừng chân có mái che", "Multiple covered rest stops"],
+    ["Nhân viên túc trực tại các điểm dốc", "Staff stationed at steep points"],
+    ["Xe bus gầm thấp (Low-floor bus)", "Low-floor safari bus"],
+    ["Lối đi riêng ưu tiên người cao tuổi", "Priority lane for seniors"],
+    ["Cho thuê xe lăn điện miễn phí", "Free electric wheelchair rental"]
 ];
 
 function translatePlaceholders(lang) {
@@ -164,7 +182,7 @@ function translateDOMNodes(lang) {
     });
 
     // Dịch các khối động lấy từ API (Thẻ địa điểm ở trang chủ & Kết quả search ở Booking)
-    const dynamicContainers = document.querySelectorAll('#destinationList .dest-card, #matchingResultsBox .mini-result-item');
+    const dynamicContainers = document.querySelectorAll('#destinationList .dest-card, #tourContainer .tour-card, #matchingResultsBox .mini-result-item');
     dynamicContainers.forEach(card => {
         if (!card.dataset.viHtml) card.dataset.viHtml = card.innerHTML;
         if (lang === 'vi') {
@@ -172,7 +190,8 @@ function translateDOMNodes(lang) {
         } else {
             let html = card.dataset.viHtml;
             DYNAMIC_REPLACEMENTS_VI_TO_EN.forEach(([vi, en]) => { html = html.split(vi).join(en); });
-            html = html.replace(/Còn (\d+) suất hỗ trợ/g, '$1 care slots left');
+            // Regex siêu mạnh bắt mọi trường hợp "Còn X suất"
+            html = html.replace(/Còn (\d+) suất( hỗ trợ)?/g, '$1 slots left');
             html = html.replace(/Còn <strong>(\d+)<\/strong> chỗ trống/g, '<strong>$1</strong> slots left');
             card.innerHTML = html;
         }
@@ -225,7 +244,7 @@ function openSupportModal() {
                 <strong>🚨 ${isEn ? '24/7 Medical & Accessibility Hotline:' : 'Tổng đài Hỗ trợ Y tế & Trợ năng (24/7):'} 1900 6868</strong> — Email: hotro@accesstravel.vn
             </div>
             <div style="text-align:right;">
-                <button onclick="document.getElementById('atSupportModal').style.display='none'" class="btn btn-primary" style="padding:10px 22px; border-radius:10px;">${isEn ? 'Close' : 'Đóng cửa sổ'}</button>
+                <button onclick="document.getElementById('atSupportModal').style.display='none'" class="btn btn-primary" style="padding:10px 22px; border-radius:10px; background:#0f766e; color:#fff; border:none; cursor:pointer;">${isEn ? 'Close' : 'Đóng cửa sổ'}</button>
             </div>
         </div>
     `;
@@ -277,7 +296,7 @@ function enhanceNavbarControls() {
         supBtn.id = 'btnSupportModal';
         supBtn.type = 'button';
         supBtn.onclick = openSupportModal;
-        supBtn.style.cssText = 'background:transparent; border:none; font-size:15px; font-weight:600; color:#334155; cursor:pointer; padding:4px 6px;';
+        supBtn.style.cssText = 'background:transparent; border:none; font-size:15px; font-weight:600; color:var(--color-text-main); cursor:pointer; padding:4px 6px;';
         supBtn.innerText = '🎧 Hỗ trợ';
         navLinks.insertBefore(supBtn, themeBtn);
     }
@@ -292,21 +311,158 @@ function enhanceNavbarControls() {
     }
 }
 
+// === TẠO VÀ RENDER DANH SÁCH ĐIỂM ĐẾN THỰC TẾ CAO CẤP ===
+const premiumDestinations = [
+    {
+        id: 1,
+        title: 'Du thuyền Ambassador Vịnh Hạ Long',
+        address: 'Quảng Ninh, Việt Nam',
+        image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80',
+        rating: 4.9,
+        slots: 12,
+        support_1: 'Thang máy giữa các tầng boong tàu',
+        support_2: 'Cabin rộng 90cm cho xe lăn',
+        support_3: 'Nhân viên y tế & Cáng cứu thương',
+        price: 3200000,
+        badge_text: '✔ Đã xác minh 100%',
+        badge_bg: '#dcfce7', badge_color: '#166534'
+    },
+    {
+        id: 2,
+        title: 'Khu nghỉ dưỡng Topas Ecolodge',
+        address: 'Sapa, Lào Cai',
+        image: 'https://images.unsplash.com/photo-1540201584985-8025281ea6ff?auto=format&fit=crop&w=600&q=80',
+        rating: 4.8,
+        slots: 5,
+        support_1: 'Xe điện nội khu gầm thấp',
+        support_2: 'Băng ghế nghỉ mỗi 30m dọc sườn đồi',
+        support_3: 'Hỗ trợ đẩy xe lăn khi có yêu cầu',
+        price: 4500000,
+        badge_text: '✔ Đã xác minh 100%',
+        badge_bg: '#dcfce7', badge_color: '#166534'
+    },
+    {
+        id: 3,
+        title: 'Quần thể Di tích Cố đô Huế',
+        address: 'Thừa Thiên Huế, Việt Nam',
+        image: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=600&q=80',
+        rating: 4.7,
+        slots: 25,
+        support_1: 'Dốc thoai thoải bằng gạch nung',
+        support_2: 'Khu vực yên tĩnh dưới bóng cây',
+        support_3: 'Xe điện trung chuyển vào cổng chính',
+        price: 850000,
+        badge_text: '⚠ Xác minh một phần',
+        badge_bg: '#fef3c7', badge_color: '#b45309'
+    },
+    {
+        id: 4,
+        title: 'Hoiana Resort & Golf',
+        address: 'Quảng Nam, Việt Nam',
+        image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80',
+        rating: 4.9,
+        slots: 3,
+        support_1: 'Bể bơi có hệ thống nâng hạ',
+        support_2: 'Phòng thiết kế riêng, nút gọi y tế',
+        support_3: 'Trực 24/7, bác sĩ tại chỗ',
+        price: 5200000,
+        badge_text: '✔ Đã xác minh 100%',
+        badge_bg: '#dcfce7', badge_color: '#166534'
+    },
+    {
+        id: 5,
+        title: 'Khu du lịch Thung lũng Tình Yêu',
+        address: 'Đà Lạt, Lâm Đồng',
+        image: 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=600&q=80',
+        rating: 4.6,
+        slots: 18,
+        support_1: 'Đường bê tông phẳng quanh hồ',
+        support_2: 'Nhiều trạm dừng chân có mái che',
+        support_3: 'Nhân viên túc trực tại các điểm dốc',
+        price: 650000,
+        badge_text: '⚠ Xác minh một phần',
+        badge_bg: '#fef3c7', badge_color: '#b45309'
+    },
+    {
+        id: 6,
+        title: 'Vinpearl Safari Phú Quốc',
+        address: 'Kiên Giang, Việt Nam',
+        image: 'https://images.unsplash.com/photo-1550650215-64d5eb65d70e?auto=format&fit=crop&w=600&q=80',
+        rating: 4.8,
+        slots: 9,
+        support_1: 'Xe bus gầm thấp (Low-floor bus)',
+        support_2: 'Lối đi riêng ưu tiên người cao tuổi',
+        support_3: 'Cho thuê xe lăn điện miễn phí',
+        price: 2800000,
+        badge_text: '✔ Đã xác minh 100%',
+        badge_bg: '#dcfce7', badge_color: '#166534'
+    }
+];
+
+function renderPremiumDestinations() {
+    // Chèn dữ liệu vào phần tử mang ID "destinationList" (ở file index.html) hoặc "tourContainer"
+    const container = document.getElementById('destinationList') || document.getElementById('tourContainer'); 
+    if(!container) return;
+
+    container.innerHTML = premiumDestinations.map(item => `
+        <div class="dest-card tour-card" style="border: 1px solid var(--color-border); border-radius: 12px; overflow: hidden; background: var(--color-bg-card); padding-bottom: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: 0.2s;">
+            <div style="position: relative;">
+                <img src="${item.image}" style="width: 100%; height: 200px; object-fit: cover;" alt="${item.title}">
+                <div style="position: absolute; top: 12px; left: 12px; background: ${item.badge_bg}; color: ${item.badge_color}; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                    ${item.badge_text}
+                </div>
+                <div style="position: absolute; bottom: 12px; right: 12px; background: #0f766e; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700;">
+                    Còn ${item.slots} suất
+                </div>
+            </div>
+            
+            <div style="padding: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: var(--color-text-main); line-height: 1.3;">${item.title}</h3>
+                    <span style="color: #f59e0b; font-weight: 800; font-size: 14px; white-space: nowrap;">★ ${item.rating}</span>
+                </div>
+                <div style="font-size: 13px; color: var(--color-text-muted); font-weight: 600; margin-bottom: 16px;">
+                    📍 ${item.address}
+                </div>
+                
+                <div style="background: var(--color-bg-main); padding: 12px; border-radius: 8px; font-size: 13px; color: var(--color-text-muted); margin-bottom: 16px;">
+                    <div style="margin-bottom: 6px;"><strong style="color:var(--color-text-main);">🤝 Hỗ trợ:</strong> ${item.support_1}</div>
+                    <div style="margin-bottom: 6px;"><strong style="color:var(--color-text-main);">🛋️ Nghỉ chân:</strong> ${item.support_2}</div>
+                    <div><strong style="color:var(--color-text-main);">🧑‍⚕️ Nhân viên:</strong> ${item.support_3}</div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="color: #0f766e; font-size: 18px;">${item.price.toLocaleString('vi-VN')} đ</strong>
+                    <div style="display: flex; gap: 8px;">
+                        <a href="detail.html?id=${item.id}" style="background: var(--color-bg-main); color: #0f766e; border: 1.5px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700; transition:0.2s;">Xem thẩm định</a>
+                        <a href="booking.html?id=${item.id}&title=${encodeURIComponent(item.title)}&price=${item.price}" style="background: #0f766e; color: #fff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700; transition:0.2s;">Đặt chỗ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     applySavedTheme();
     enhanceNavbarControls();
+    
+    // Gọi hàm render danh sách địa điểm mới nhất
+    renderPremiumDestinations();
+    
     applyLanguage(getLang());
 
     // Quan sát sự thay đổi DOM ở cả 2 khu vực (Trang chủ và Trang Booking) để dịch ngay
     const obsConfig = { childList: true };
-    const listEl = document.getElementById('destinationList');
+    const listEl = document.getElementById('destinationList') || document.getElementById('tourContainer');
     const matchBox = document.getElementById('matchingResultsBox');
     const obs = new MutationObserver(() => { if (getLang() === 'en') translateDOMNodes('en'); });
     if (listEl) obs.observe(listEl, obsConfig);
     if (matchBox) obs.observe(matchBox, obsConfig);
 });
 
-// === BUOI 8: THEME SWITCHER ===
+// === THEME SWITCHER ===
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';

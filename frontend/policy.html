@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trung Tâm Trợ Giúp & Chính Sách | AccessTravel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --c-main: #0f766e; --c-hover: #0d9488; --c-text: #0f172a; --c-muted: #64748b; --c-bg: #f8fafc; --c-border: #e2e8f0; }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); margin: 0; color: var(--c-text); line-height: 1.6; }
+        
+        /* HEADER OTA CHUẨN */
+        header { background: #fff; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 999; }
+        .logo-box { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon { background: var(--c-main); color: #fff; width: 38px; height: 38px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 18px; font-weight: bold; }
+        .logo-text { font-weight: 800; font-size: 20px; color: var(--c-main); letter-spacing: -0.5px; }
+        .btn-back { background: #f1f5f9; color: #334155; padding: 8px 16px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 14px; transition: 0.2s; }
+        .btn-back:hover { background: #e2e8f0; }
+
+        /* BỐ CỤC TRANG CHÍNH TRUNG TÂM TRỢ GIÚP */
+        .help-hero { background: linear-gradient(135deg, #0f172a, #1e293b); padding: 60px 20px; text-align: center; color: #fff; margin-bottom: 40px; }
+        .help-hero h1 { font-size: 36px; font-weight: 900; margin: 0 0 10px 0; }
+        .help-hero p { font-size: 16px; color: #94a3b8; margin: 0; }
+
+        .layout-container { max-width: 1200px; margin: 0 auto 80px; padding: 0 20px; display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+        
+        /* SIDEBAR ĐIỀU HƯỚNG */
+        .sidebar { background: #fff; border-radius: 16px; border: 1px solid var(--c-border); padding: 12px; position: sticky; top: 90px; }
+        .menu-label { font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding: 12px 16px 8px; }
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: #475569; text-decoration: none; font-weight: 600; font-size: 14.5px; border-radius: 10px; transition: 0.2s; margin-bottom: 4px; }
+        .menu-item i { font-size: 16px; width: 20px; text-align: center; color: #94a3b8; }
+        .menu-item:hover { background: #f1f5f9; color: var(--c-main); }
+        .menu-item:hover i { color: var(--c-main); }
+        .menu-item.active { background: #f0fdf4; color: #0f766e; font-weight: 700; border-left: 4px solid #0f766e; }
+        .menu-item.active i { color: #0f766e; }
+
+        /* KHU VỰC NỘI DUNG */
+        .content-box { background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); border: 1px solid var(--c-border); }
+        .page-title { font-size: 32px; font-weight: 900; color: var(--c-text); margin: 0 0 10px 0; letter-spacing: -0.5px; }
+        .last-updated { font-size: 13.5px; color: var(--c-muted); font-weight: 500; margin-bottom: 30px; display: flex; align-items: center; gap: 6px; padding-bottom: 20px; border-bottom: 1px solid var(--c-border); }
+        
+        /* ĐỊNH DẠNG BÀI VIẾT CAO CẤP */
+        .pro-content h3 { font-size: 20px; font-weight: 800; color: var(--c-text); margin: 32px 0 16px 0; display: flex; align-items: center; gap: 10px; }
+        .pro-content h3::before { content: ""; display: block; width: 6px; height: 20px; background: var(--c-main); border-radius: 4px; }
+        .pro-content p { font-size: 15.5px; color: #475569; margin-bottom: 16px; }
+        .pro-content ul { padding-left: 20px; color: #475569; margin-bottom: 20px; }
+        .pro-content li { margin-bottom: 8px; font-size: 15.5px; }
+        
+        .alert-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 18px 20px; border-radius: 12px; color: #166534; font-weight: 600; display: flex; gap: 12px; align-items: flex-start; margin-bottom: 24px; font-size: 15px; box-shadow: 0 4px 15px rgba(22, 101, 52, 0.05); }
+        .alert-box i { font-size: 20px; color: #10b981; margin-top: 2px; }
+        
+        .data-table { width: 100%; border-collapse: collapse; margin: 24px 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--c-border); }
+        .data-table th { background: #f8fafc; padding: 16px; text-align: left; font-size: 14px; font-weight: 800; color: var(--c-text); border-bottom: 2px solid #e2e8f0; }
+        .data-table td { padding: 16px; border-bottom: 1px solid var(--c-border); font-size: 15px; color: #475569; }
+        .data-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 900px) {
+            .layout-container { grid-template-columns: 1fr; }
+            .sidebar { position: relative; top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-box">
+            <div class="logo-icon"><i class="fa-solid fa-wheelchair"></i></div>
+            <div class="logo-text">AccessTravel</div>
+        </a>
+        <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Về Trang Chủ</a>
+    </header>
+
+    <div class="help-hero">
+        <h1>Trung Tâm Trợ Giúp</h1>
+        <p>Kiến thức, hướng dẫn & chính sách hỗ trợ khách hàng của AccessTravel</p>
+    </div>
+
+    <div class="layout-container">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebarMenu">
+            <div class="menu-label">Chăm sóc khách hàng</div>
+            <a href="?type=help" class="menu-item" data-id="help"><i class="fa-solid fa-headset"></i> Trung tâm hỗ trợ 24/7</a>
+            <a href="?type=refund" class="menu-item" data-id="refund"><i class="fa-solid fa-money-bill-transfer"></i> Chính sách hoàn hủy</a>
+            
+            <div class="menu-label" style="margin-top: 10px;">Hướng dẫn & Cẩm nang</div>
+            <a href="?type=guide" class="menu-item" data-id="guide"><i class="fa-solid fa-book-open"></i> Du lịch cho người đi xe lăn</a>
+            
+            <div class="menu-label" style="margin-top: 10px;">Pháp lý & Tiêu chuẩn</div>
+            <a href="?type=wcag" class="menu-item" data-id="wcag"><i class="fa-solid fa-universal-access"></i> Cam kết chuẩn tiếp cận số</a>
+            <a href="?type=terms" class="menu-item" data-id="terms"><i class="fa-solid fa-file-contract"></i> Điều khoản dịch vụ chung</a>
+        </aside>
+
+        <!-- CONTENT -->
+        <main class="content-box">
+            <h1 class="page-title" id="titleObj">Đang tải dữ liệu...</h1>
+            <div class="last-updated"><i class="fa-regular fa-clock"></i> Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
+            
+            <div class="pro-content" id="contentObj">
+                <div style="text-align:center; padding: 40px; color: #64748b;"><i class="fa-solid fa-spinner fa-spin fa-2x"></i></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // BỘ DỮ LIỆU ĐỘNG (CHUẨN TỪNG CHỮ NHƯ VĂN BẢN PHÁP LÝ)
+        const pageData = {
+            'help': {
+                title: '🎧 Trung Tâm Hỗ Trợ & Giải Quyết Sự Cố 24/7',
+                content: `
+                    <div class="alert-box">
+                        <i class="fa-solid fa-phone-volume"></i>
+                        <div>
+                            <strong style="display:block; font-size:16px;">Hotline Hỗ Trợ Khẩn Cấp (Phục vụ 24/7): 1900 6868</strong>
+                            Đội ngũ trực ban của chúng tôi được đào tạo chuyên sâu về sơ cứu y tế cơ bản và quy chuẩn giao tiếp với người khuyết tật.
+                        </div>
+                    </div>
+                    <p>Tại AccessTravel, sự an toàn và thoải mái của hành khách đặc biệt (người cao tuổi, người sử dụng xe lăn, người có bệnh lý nền) được đặt lên hàng đầu. Nếu quý khách gặp bất kỳ trở ngại nào trong chuyến đi, hệ thống của chúng tôi sẽ kích hoạt quy trình ứng phó đa lớp.</p>
+                    
+                    <h3>Quy trình tiếp nhận và xử lý sự cố (SLA)</h3>
+                    <p>Khác với các đại lý du lịch truyền thống, AccessTravel thiết lập đường dây nóng kết nối trực tiếp với ban quản lý của các khu nghỉ dưỡng/điểm tham quan. Quy trình xử lý cam kết như sau:</p>
+                    <ul>
+                        <li><strong>Mức độ 1 (Yêu cầu thông thường):</strong> Cần mượn thêm ghế tắm, cần thay đổi khẩu phần ăn riêng. Thời gian xử lý: <strong>< 30 phút</strong>.</li>
+                        <li><strong>Mức độ 2 (Sai lệch hạ tầng):</strong> Thang máy hoặc đường dốc không đúng kích thước như AccessTravel đã kiểm định trên website. Thời gian xử lý: Đội ngũ của chúng tôi sẽ yêu cầu cơ sở bố trí xe điện/cáp treo thay thế ngay lập tức, hoặc đền bù chi phí di chuyển. Thời gian xử lý: <strong>< 1 giờ</strong>.</li>
+                        <li><strong>Mức độ 3 (Khẩn cấp y tế):</strong> Cần liên hệ trạm y tế gần nhất hoặc điều xe cấp cứu. Tổng đài viên sẽ kết nối trực tiếp với đội y tế địa phương và giữ máy đồng hành cùng người nhà. Thời gian phản hồi: <strong>Tức thì</strong>.</li>
+                    </ul>
+                `
+            },
+            'refund': {
+                title: '💸 Chính Sách Hủy Dịch Vụ & Hoàn Tiền',
+                content: `
+                    <p>Chúng tôi thấu hiểu rằng khi đi du lịch cùng người cao tuổi hoặc người có vấn đề sức khỏe, lịch trình có thể bị thay đổi đột xuất. Do đó, AccessTravel áp dụng chính sách hoàn hủy nhân văn và linh hoạt nhất trong ngành OTA tại Việt Nam.</p>
+                    
+                    <div class="alert-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <strong style="display:block; font-size:16px;">Bảo vệ quyền lợi khách hàng (Sai lệch kiểm định)</strong>
+                            Nếu đến nơi phát hiện hạ tầng (độ dốc, chiều rộng cửa, thang máy) sai lệch so với tem "Đã kiểm định" trên website khiến quý khách không thể sử dụng dịch vụ, AccessTravel hoàn 100% tiền vé/phòng ngay trong ngày.
+                        </div>
+                    </div>
+
+                    <h3>Bảng Tỷ Lệ Hoàn Phí Tiêu Chuẩn</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Thời điểm thông báo hủy</th>
+                                <th>Lý do sức khỏe (Có giấy xác nhận)</th>
+                                <th>Lý do cá nhân khác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Trước 48 giờ khởi hành</td>
+                                <td><span style="color:#10b981; font-weight:700;">Hoàn 100%</span></td>
+                                <td>Hoàn 100% (Thu phí xử lý 50.000đ)</td>
+                            </tr>
+                            <tr>
+                                <td>Trước 24 giờ khởi hành</td>
+                                <td><span style="color:#10b981; font-weight:700;">Hoàn 100%</span></td>
+                                <td>Hoàn 50% tổng giá trị</td>
+                            </tr>
+                            <tr>
+                                <td>Trong vòng 24 giờ / No-show</td>
+                                <td>Hoàn 50% (Hoặc dời lịch miễn phí)</td>
+                                <td>Không hoàn tiền</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Quy trình nhận tiền hoàn</h3>
+                    <p>Tiền hoàn sẽ được tự động chuyển trả về phương thức thanh toán ban đầu (Thẻ tín dụng, Thẻ ghi nợ, VietQR, hoặc ví điện tử) trong thời gian từ <strong>1 đến 3 ngày làm việc</strong>. Một email biên lai hoàn tiền sẽ được gửi để quý khách theo dõi.</p>
+                `
+            },
+            'guide': {
+                title: '🦽 Cẩm Nang Du Lịch Cho Người Sử Dụng Xe Lăn',
+                content: `
+                    <p>Du lịch bằng xe lăn hoàn toàn có thể mang lại những trải nghiệm tuyệt vời nếu được chuẩn bị đúng cách. Đội ngũ chuyên gia trợ năng của AccessTravel xin gửi đến bạn bộ tài liệu bỏ túi này.</p>
+                    
+                    <h3>1. Phân loại xe lăn trước chuyến đi</h3>
+                    <p>Khi đặt vé máy bay hoặc phòng khách sạn, việc hiểu rõ thông số xe của mình là vô cùng quan trọng:</p>
+                    <ul>
+                        <li><strong>Xe lăn cơ tự đẩy:</strong> Trọng lượng nhẹ, dễ gấp gọn. Phù hợp với đường dốc <strong>≤ 8%</strong> (theo tiêu chuẩn Việt Nam). Bạn có thể dễ dàng đi lại ở hầu hết các điểm đến đã kiểm định trên nền tảng của chúng tôi.</li>
+                        <li><strong>Xe lăn điện:</strong> Trọng lượng nặng (30-50kg), cần chú ý kiểm tra chuẩn pin LFP hoặc Lithium có được phép mang lên máy bay hay không. Yêu cầu đường dốc có độ bám cao (nhám) và thang máy phải rộng tối thiểu <strong>80cm</strong>.</li>
+                    </ul>
+
+                    <h3>2. Lưu ý khi làm thủ tục tại Sân bay / Ga tàu</h3>
+                    <p>Các hãng hàng không nội địa (Vietnam Airlines, Vietjet, Bamboo) đều có dịch vụ hỗ trợ xe lăn (Wheelchair Assistance). Bạn cần lưu ý 3 mã quốc tế sau:</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Mã Hỗ Trợ</th>
+                                <th>Định nghĩa tình trạng di chuyển</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>WCHR</strong> (Ramp)</td>
+                                <td>Khách tự đi lên/xuống cầu thang tàu bay và đi lại trong khoang khách được. Cần xe lăn từ nhà ga ra máy bay.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WCHS</strong> (Steps)</td>
+                                <td>Khách không tự bước lên cầu thang được. Cần xe nâng và nhân viên dìu vào ghế ngồi.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WCHC</strong> (Cabin)</td>
+                                <td>Khách hoàn toàn không tự di chuyển được. Cần xe lăn chuyên dụng hẹp đi lọt khe giữa các hàng ghế trong cabin.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            'wcag': {
+                title: '👁️ Cam Kết Chuẩn Tiếp Cận Số (WCAG 2.1 AA)',
+                content: `
+                    <div class="alert-box">
+                        <i class="fa-brands fa-w3c"></i>
+                        <div>
+                            <strong style="display:block; font-size:16px;">Tự hào đạt chuẩn W3C Accessibility</strong>
+                            Giao diện web của AccessTravel được tối ưu hóa bằng code HTML Semantic và ARIA Labels, đảm bảo mọi công cụ hỗ trợ người khiếm thị đều đọc được dễ dàng.
+                        </div>
+                    </div>
+                    <p>Tiếp cận (Accessibility) không chỉ nằm ở hạ tầng vật lý tại điểm du lịch, mà phải bắt đầu ngay từ thao tác đặt tour trên website. Chúng tôi tuân thủ nghiêm ngặt <strong>Web Content Accessibility Guidelines (WCAG) phiên bản 2.1 mức độ AA</strong>.</p>
+                    
+                    <h3>Các tính năng trợ năng trên hệ thống của chúng tôi:</h3>
+                    <ul>
+                        <li><strong>Tương phản màu sắc:</strong> Toàn bộ văn bản và nút bấm đều đạt tỷ lệ tương phản tối thiểu 4.5:1, giúp người lớn tuổi và người thị lực yếu dễ dàng đọc mà không bị mỏi mắt.</li>
+                        <li><strong>Điều hướng bằng Bàn phím (Keyboard Navigation):</strong> Bạn có thể hoàn tất việc đặt lịch từ trang chủ đến lúc thanh toán chỉ bằng phím <code>Tab</code> và <code>Enter</code> mà không cần dùng chuột.</li>
+                        <li><strong>Tương thích Screen Reader:</strong> Các phần tử giao diện đều được gắn nhãn <code>aria-label</code> và văn bản thay thế (<code>alt text</code>) cho hình ảnh, hỗ trợ hoàn hảo cho NVDA, JAWS và VoiceOver.</li>
+                        <li><strong>Chế độ tùy chỉnh phông chữ (Tối ưu hóa):</strong> Nút "Chế độ Chữ Lớn" (Large Text Mode) trên thanh công cụ cho phép tăng 150% kích thước chữ mà không làm vỡ bố cục website.</li>
+                    </ul>
+                `
+            },
+            'terms': {
+                title: '⚖️ Điều Khoản Sử Dụng Dịch Vụ Chung',
+                content: `
+                    <p>Chào mừng bạn đến với AccessTravel. Bằng việc truy cập nền tảng và thực hiện đặt chỗ, bạn đồng ý với các điều khoản pháp lý dưới đây.</p>
+                    <h3>1. Tính minh bạch của dữ liệu</h3>
+                    <p>Các chỉ số về độ dốc, kích thước cửa, và tiện ích hỗ trợ được công bố trên AccessTravel là kết quả đo đạc thực tế tại thời điểm thẩm định (ghi rõ ngày tháng trên từng thẻ). Mặc dù chúng tôi liên tục tái thẩm định định kỳ, các cơ sở lưu trú có thể tự ý thay đổi kiến trúc. Chúng tôi khuyến nghị khách hàng luôn chú ý đến nhãn "Lưu ý hạn chế" trước khi đặt.</p>
+                    <h3>2. Miễn trừ trách nhiệm y tế</h3>
+                    <p>AccessTravel là nền tảng trung gian hỗ trợ thông tin hạ tầng du lịch. Chúng tôi không cung cấp dịch vụ điều trị y tế, vật lý trị liệu hay thay thế bác sĩ chuyên khoa trong suốt chuyến đi. Khách hàng phải tự chịu trách nhiệm về việc mang đủ thuốc men cá nhân và đánh giá khả năng sức khỏe của bản thân trước khi khởi hành.</p>
+                `
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Lấy tham số 'type' từ URL, mặc định là 'help' nếu không có
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type') || 'help';
+
+            // 2. Render nội dung
+            if (pageData[type]) {
+                document.getElementById('titleObj').innerHTML = pageData[type].title;
+                document.getElementById('contentObj').innerHTML = pageData[type].content;
+            } else {
+                document.getElementById('titleObj').innerHTML = '⚠️ Không tìm thấy nội dung';
+                document.getElementById('contentObj').innerHTML = '<p>Trang chính sách bạn tìm kiếm không tồn tại hoặc đã bị gỡ. Vui lòng chọn một mục khác từ menu bên trái.</p>';
+            }
+
+            // 3. Highlight menu hiện tại ở thanh Sidebar bên trái
+            const activeMenu = document.querySelector(`.menu-item[data-id="${type}"]`);
+            if (activeMenu) {
+                activeMenu.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,327 +1,270 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Y tế | AccessTravel Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <title>Quản lý Y tế & Hỗ trợ | AccessTravel Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { font-family: system-ui, sans-serif; background: #f8fafc; margin: 0; color: #0f172a; overflow-x: hidden; }
-        .admin-layout { display: flex; min-height: 100vh; width: 100vw; }
-        .sidebar { width: 260px; background: #0f766e; color: #fff; padding: 20px 0; flex-shrink: 0; display: flex; flex-direction: column; }
-        .sidebar-logo { font-size: 20px; font-weight: 800; padding: 0 20px 20px; border-bottom: 1px solid #115e59; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .menu-item { padding: 15px 20px; display: block; color: #ccfbf1; text-decoration: none; font-weight: 600; transition: 0.2s; }
-        .menu-item:hover, .menu-item.active { background: #0d9488; color: #fff; border-left: 4px solid #5eead4; }
-        .btn-logout { margin-top: auto; padding: 15px 20px; color: #fca5a5; text-decoration: none; font-weight: 600; display: block; border-top: 1px solid #115e59; transition: 0.2s;} 
-        .btn-logout:hover { color: #fff; background: #0f766e; }
-        .content { flex: 1; padding: 30px; overflow-y: auto; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f1f5f9; display: flex; min-height: 100vh; color: #0f172a; overflow-x: hidden; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        /* Cột Menu bên trái (Sidebar) */
+        .sidebar { width: 260px; background-color: #0f766e; color: #fff; display: flex; flex-direction: column; padding: 20px 0; flex-shrink: 0; }
+        .sidebar-logo { font-size: 20px; font-weight: 800; padding: 0 24px 30px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        .nav-item { padding: 16px 24px; color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; display: block; border-left: 4px solid transparent; transition: 0.2s; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(255,255,255,0.1); color: #fff; border-left-color: #34d399; }
         
-        /* Table Styles */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #f1f5f9; color: #475569; font-weight: 700; text-align: left; padding: 14px 16px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
-        td { padding: 16px; border-bottom: 1px solid #e2e8f0; font-size: 14px; vertical-align: middle; }
-        tr:hover { background: #f8fafc; }
+        /* Khu vực nội dung chính */
+        .main-content { flex: 1; padding: 32px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 15px; }
+        .header h1 { font-size: 24px; font-weight: 800; margin: 0; color: #1e293b; display: flex; align-items: center; gap: 10px; }
+        .admin-badge { background: #fff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.05); color: #0f766e; }
         
-        .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
-        .badge-warning { background: #fef3c7; color: #d97706; }
-        .badge-success { background: #dcfce7; color: #166534; }
+        /* Toolbar */
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .filter-tabs { display: flex; gap: 10px; }
+        .filter-btn { padding: 8px 16px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #fff; color: #475569; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .filter-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
+        .filter-btn:hover:not(.active) { background: #f8fafc; }
         
-        .req-tag { background: #e0e7ff; color: #4f46e5; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; margin-right: 5px; margin-bottom: 5px;}
+        .search-box { position: relative; width: 300px; }
+        .search-box input { width: 100%; padding: 10px 16px 10px 40px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: inherit; font-size: 14px; outline: none; }
+        .search-box input:focus { border-color: #0f766e; }
+        .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
         
-        .btn-action { background: #0ea5e9; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; transition: 0.2s; }
-        .btn-action:hover { background: #0284c7; }
-        .btn-done { background: #e2e8f0; color: #64748b; cursor: not-allowed; }
+        /* Bảng dữ liệu */
+        .table-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f8fafc; padding: 16px 20px; font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 16px 20px; border-bottom: 1px solid #f1f5f9; font-size: 14.5px; vertical-align: middle; }
+        tr:hover td { background-color: #f8fafc; }
+        
+        .id-badge { background: #f1f5f9; padding: 4px 8px; border-radius: 6px; color: #475569; font-size: 13px; font-weight: 800; }
+        .customer-name { font-weight: 800; color: #1e293b; margin-bottom: 4px; display: block; }
+        .dest-info { font-size: 13px; color: #64748b; font-weight: 500; }
+        
+        /* Tags Yêu cầu hỗ trợ */
+        .tags-container { display: flex; flex-wrap: wrap; gap: 8px; }
+        .req-tag { padding: 4px 10px; border-radius: 6px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border: 1px solid transparent; }
+        .tag-blue { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+        .tag-red { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+        .tag-green { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+        .tag-purple { background: #faf5ff; color: #7e22ce; border-color: #e9d5ff; }
+        
+        /* Status Badges */
+        .status { padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 800; text-align: center; display: inline-block; min-width: 110px; }
+        .status.pending { background: #fef3c7; color: #b45309; }
+        .status.done { background: #dcfce7; color: #166534; }
+        
+        /* Action Buttons */
+        .btn-action { padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 13.5px; border: none; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-assign { background: #0ea5e9; color: #fff; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3); }
+        .btn-assign:hover { background: #0284c7; transform: translateY(-1px); }
+        .btn-done { background: #f1f5f9; color: #94a3b8; cursor: not-allowed; }
+        
+        /* Toast Notification */
+        #toast { position: fixed; bottom: 30px; right: 30px; background: #1e293b; color: #fff; padding: 16px 24px; border-radius: 12px; font-weight: 600; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translateY(100px); opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; border-left: 4px solid #10b981; }
+        #toast.show { transform: translateY(0); opacity: 1; }
 
-        /* Modal Styles */
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.6); display:none; align-items:center; justify-content:center; z-index:9999; }
-        .modal.show { display:flex; }
-        .modal-content { background:#fff; width:450px; border-radius:12px; padding:25px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1); }
-        .modal select { width:100%; padding:10px; margin:15px 0; border:1px solid #cbd5e1; border-radius:8px; font-size:14px; }
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .table-card { overflow-x: auto; }
+        }
     </style>
 </head>
 <body>
-    <div class="admin-layout">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-logo">
-                <i class="fa fa-wheelchair"></i> AccessTravel
-            </div>
-            <a href="admin_dashboard.html" class="menu-item"><i class="fa fa-pie-chart fa-fw"></i> Tổng quan (Dashboard)</a>
-            <a href="admin_auditor.html" class="menu-item"><i class="fa fa-check-square-o fa-fw"></i> Trạm Kiểm Định</a>
-            <a href="admin_medical.html" class="menu-item active"><i class="fa fa-heartbeat fa-fw"></i> Quản lý Y tế & Hỗ trợ</a>
-            <a href="admin_maintenance.html" class="menu-item"><i class="fa fa-exclamation-triangle fa-fw"></i> Cảnh báo Bảo trì</a>
-            <a href="#" class="menu-item"><i class="fa fa-cog fa-fw"></i> Cài đặt</a>
-            <a href="index.html" class="btn-logout"><i class="fa fa-sign-out fa-fw"></i> Thoát về Trang chủ</a>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo"><i class="fa-solid fa-wheelchair"></i> AccessTravel</div>
+        <a href="admin_dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie fa-fw"></i> Tổng quan (Dashboard)</a>
+        <a href="admin_auditor.html" class="nav-item"><i class="fa-solid fa-check-to-slot fa-fw"></i> Trạm Kiểm Định</a>
+        <a href="admin_medical.html" class="nav-item active"><i class="fa-solid fa-heart-pulse fa-fw"></i> Quản lý Y tế & Hỗ trợ</a>
+        <a href="admin_maintenance.html" class="nav-item"><i class="fa-solid fa-triangle-exclamation fa-fw"></i> Cảnh báo Bảo trì</a>
+        <a href="admin_settings.html" class="nav-item"><i class="fa-solid fa-gear fa-fw"></i> Cài đặt Hệ thống</a>
+        <a href="search.html" class="nav-item" style="margin-top:auto; border-top:1px solid rgba(255,255,255,0.1);"><i class="fa-solid fa-arrow-left fa-fw"></i> Về Trang Khách</a>
+    </aside>
+
+    <!-- Nội dung chính -->
+    <main class="main-content">
+        <div class="header">
+            <h1><i class="fa-solid fa-stethoscope" style="color: #6366f1;"></i> Phân Bổ Nhân Sự Y Tế & Xe Lăn</h1>
+            <div class="admin-badge"><i class="fa-solid fa-user-shield"></i> Admin: Nhóm 14</div>
         </div>
 
-        <!-- Content -->
-        <div class="content">
-            <div class="header">
-                <h2 style="margin:0; font-size: 24px;">Phân Bổ Nhân Sự Y Tế & Xe Lăn 🩺</h2>
-                <div style="background:#e2e8f0; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:700;">Admin: spep3233</div>
+        <div class="toolbar">
+            <div class="filter-tabs">
+                <button class="filter-btn active" onclick="filterTable('all', this)">Tất cả</button>
+                <button class="filter-btn" onclick="filterTable('pending', this)">Chờ phân bổ</button>
+                <button class="filter-btn" onclick="filterTable('done', this)">Đã duyệt</button>
             </div>
-
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Mã Đơn</th>
-                            <th>Khách hàng / Điểm đến</th>
-                            <th>Yêu cầu Hỗ trợ (Thể trạng)</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody id="booking-list">
-                        <tr>
-                            <td><strong>#BK-089</strong></td>
-                            <td>
-                                <div style="font-weight:700;">Cô Hoàng Thị Lý</div>
-                                <div style="font-size:12px; color:#64748b; margin-top:4px;">Tới: Du thuyền Trợ Năng 304</div>
-                            </td>
-                            <td>
-                                <span class="req-tag"><i class="fa fa-wheelchair"></i> Cần 1 xe lăn đẩy tay</span>
-                                <span class="req-tag" style="background:#fce7f3; color:#be185d;"><i class="fa fa-user-md"></i> Cần người dìu lên bậc</span>
-                            </td>
-                            <td><span class="badge badge-warning" id="status-089">Chờ phân bổ</span></td>
-                            <td><button class="btn-action" id="btn-089" onclick="openModal('BK-089')"><i class="fa fa-user-plus"></i> Điều phối</button></td>
-                        </tr>
-                        <tr>
-                            <td><strong>#BK-090</strong></td>
-                            <td>
-                                <div style="font-weight:700;">Gia đình Bác An</div>
-                                <div style="font-size:12px; color:#64748b; margin-top:4px;">Tới: Khu nghỉ dưỡng Hội An</div>
-                            </td>
-                            <td>
-                                <span class="req-tag" style="background:#dcfce7; color:#166534;"><i class="fa fa-bed"></i> Yêu cầu phòng tầng trệt</span>
-                                <span class="req-tag"><i class="fa fa-medkit"></i> Lưu ý: Tiền sử cao huyết áp</span>
-                            </td>
-                            <td><span class="badge badge-success">Đã duyệt y tế</span></td>
-                            <td><button class="btn-action btn-done" disabled><i class="fa fa-check"></i> Hoàn tất</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Tìm mã đơn hoặc tên khách...">
             </div>
         </div>
-    </div>
 
-    <!-- Modal Phân Bổ -->
-    <div class="modal" id="assignModal">
-        <div class="modal-content">
-            <h3 style="margin-top:0; color:#0f172a;">Điều phối Hỗ trợ cho đơn <span id="modal-order-id" style="color:#0ea5e9;"></span></h3>
-            <p style="font-size:14px; color:#64748b;">Chọn nhân viên hoặc trang thiết bị y tế phù hợp với thể trạng của khách hàng.</p>
-            
-            <label style="font-weight:700; font-size:13px; display:block; margin-top:15px;">Chọn Nhân viên Hỗ trợ:</label>
-            <select id="staffSelect">
-                <option value="">-- Click để chọn nhân sự --</option>
-                <option value="y-ta-lan">Y tá Nguyễn Thị Lan (Chuyên môn sơ cứu)</option>
-                <option value="nv-tuan">NV Lê Anh Tuấn (Đẩy xe lăn / Khuân vác)</option>
-                <option value="nv-hoa">NV Trần Hoa (Chăm sóc người cao tuổi)</option>
-            </select>
+        <div class="table-card">
+            <table id="medicalTable">
+                <thead>
+                    <tr>
+                        <th width="10%">Mã Đơn</th>
+                        <th width="30%">Khách Hàng / Điểm Đến</th>
+                        <th width="35%">Yêu Cầu Hỗ Trợ (Thể Trạng)</th>
+                        <th width="12%" style="text-align: center;">Trạng Thái</th>
+                        <th width="13%" style="text-align: center;">Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Đơn 1: Chờ xử lý -->
+                    <tr data-status="pending">
+                        <td><span class="id-badge">#BK-089</span></td>
+                        <td>
+                            <span class="customer-name">Cô Hoàng Thị Lý</span>
+                            <span class="dest-info">Tới: Du thuyền Trợ Năng 304</span>
+                        </td>
+                        <td>
+                            <div class="tags-container">
+                                <span class="req-tag tag-blue"><i class="fa-solid fa-wheelchair"></i> Cần 1 xe lăn đẩy tay</span>
+                                <span class="req-tag tag-red"><i class="fa-solid fa-hands-holding-child"></i> Cần người dìu lên bậc</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;"><span class="status pending" id="status-089">Chờ phân bổ</span></td>
+                        <td style="text-align: center;">
+                            <button class="btn-action btn-assign" id="btn-089" onclick="assignStaff('089')">
+                                <i class="fa-solid fa-user-nurse"></i> Điều phối
+                            </button>
+                        </td>
+                    </tr>
 
-            <div style="display:flex; gap:10px; margin-top:20px;">
-                <button onclick="closeModal()" style="flex:1; padding:10px; border-radius:8px; border:1px solid #cbd5e1; background:#fff; font-weight:700; cursor:pointer;">Hủy</button>
-                <button onclick="confirmAssign()" style="flex:1; padding:10px; border-radius:8px; border:none; background:#0f766e; color:#fff; font-weight:700; cursor:pointer;">Xác nhận Phân bổ</button>
-            </div>
+                    <!-- Đơn 2: Đã hoàn tất -->
+                    <tr data-status="done">
+                        <td><span class="id-badge">#BK-090</span></td>
+                        <td>
+                            <span class="customer-name">Gia đình Bác An</span>
+                            <span class="dest-info">Tới: Khu nghỉ dưỡng Hội An</span>
+                        </td>
+                        <td>
+                            <div class="tags-container">
+                                <span class="req-tag tag-green"><i class="fa-solid fa-bed"></i> Yêu cầu phòng tầng trệt</span>
+                                <span class="req-tag tag-purple"><i class="fa-solid fa-notes-medical"></i> Lưu ý: Tiền sử cao huyết áp</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;"><span class="status done">Đã duyệt y tế</span></td>
+                        <td style="text-align: center;">
+                            <button class="btn-action btn-done" disabled><i class="fa-solid fa-check"></i> Hoàn tất</button>
+                        </td>
+                    </tr>
+                    
+                    <!-- Đơn 3: Chờ xử lý -->
+                    <tr data-status="pending">
+                        <td><span class="id-badge">#BK-091</span></td>
+                        <td>
+                            <span class="customer-name">Chú Trần Văn Long</span>
+                            <span class="dest-info">Tới: Vinpearl Safari Phú Quốc</span>
+                        </td>
+                        <td>
+                            <div class="tags-container">
+                                <span class="req-tag tag-blue"><i class="fa-solid fa-truck-medical"></i> Cần xe điện trung chuyển</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;"><span class="status pending" id="status-091">Chờ phân bổ</span></td>
+                        <td style="text-align: center;">
+                            <button class="btn-action btn-assign" id="btn-091" onclick="assignStaff('091')">
+                                <i class="fa-solid fa-user-nurse"></i> Điều phối
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <i class="fa-solid fa-circle-check" style="font-size:20px; color:#10b981;"></i>
+        <span id="toastMessage">Đã điều phối nhân sự thành công!</span>
     </div>
 
     <script>
-        let currentOrder = '';
+        // Xử lý nút Điều phối
+        function assignStaff(id) {
+            const btn = document.getElementById('btn-' + id);
+            const status = document.getElementById('status-' + id);
+            const row = btn.closest('tr');
 
-        function openModal(orderId) {
-            currentOrder = orderId;
-            document.getElementById('modal-order-id').innerText = '#' + orderId;
-            document.getElementById('assignModal').classList.add('show');
-        }
+            // Hiệu ứng loading
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Xử lý...';
+            btn.style.opacity = '0.8';
 
-        function closeModal() {
-            document.getElementById('assignModal').classList.remove('show');
-            document.getElementById('staffSelect').value = '';
-        }
+            setTimeout(() => {
+                // Đổi nút
+                btn.className = 'btn-action btn-done';
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Hoàn tất';
+                btn.disabled = true;
 
-        function confirmAssign() {
-            const staff = document.getElementById('staffSelect').value;
-            if(!staff) {
-                alert("Vui lòng chọn nhân viên hỗ trợ!");
-                return;
-            }
-            
-            // Đổi trạng thái hiển thị
-            const statusBadge = document.getElementById('status-' + currentOrder.split('-')[1]);
-            const actionBtn = document.getElementById('btn-' + currentOrder.split('-')[1]);
-            
-            if(statusBadge && actionBtn) {
-                statusBadge.className = 'badge badge-success';
-                statusBadge.innerText = 'Đã phân bổ NV';
+                // Đổi trạng thái
+                status.className = 'status done';
+                status.innerText = 'Đã duyệt y tế';
                 
-                actionBtn.className = 'btn-action btn-done';
-                actionBtn.innerHTML = '<i class="fa fa-check"></i> Hoàn tất';
-                actionBtn.disabled = true;
+                // Cập nhật data attribute để filter
+                row.setAttribute('data-status', 'done');
+
+                // Hiện thông báo
+                showToast(`Đã điều phối nhân sự y tế cho đơn #BK-${id}`);
+            }, 600);
+        }
+
+        // Hiện Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        // Tìm kiếm
+        function searchTable() {
+            let input = document.getElementById("searchInput").value.toUpperCase();
+            let table = document.getElementById("medicalTable");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                let tdId = tr[i].getElementsByTagName("td")[0];
+                let tdName = tr[i].getElementsByTagName("td")[1];
+                if (tdId || tdName) {
+                    let txtId = tdId.textContent || tdId.innerText;
+                    let txtName = tdName.textContent || tdName.innerText;
+                    if (txtId.toUpperCase().indexOf(input) > -1 || txtName.toUpperCase().indexOf(input) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
+        }
+        
+        // Lọc theo Tab
+        function filterTable(status, btnElement) {
+            // Đổi active tab
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
             
-            closeModal();
+            // Lọc table
+            let table = document.getElementById("medicalTable");
+            let tr = table.getElementsByTagName("tr");
+            
+            for (let i = 1; i < tr.length; i++) {
+                let rowStatus = tr[i].getAttribute('data-status');
+                if (status === 'all' || rowStatus === status) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
         }
     </script>
-<!-- ACCESSIBILITY MODULE -->
-<style>
-    /* Nút Trợ năng lơ lửng */
-    #access-widget-btn {
-        position: fixed; bottom: 30px; left: 30px; width: 56px; height: 56px;
-        background: #0f766e; color: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(15,118,110,0.4);
-        display: flex; align-items: center; justify-content: center; font-size: 28px;
-        cursor: pointer; z-index: 99999; transition: 0.3s;
-    }
-    #access-widget-btn:hover { transform: scale(1.1); background: #0d9488; }
-    
-    /* Bảng điều khiển */
-    #access-panel {
-        position: fixed; bottom: 100px; left: 30px; width: 280px; background: #fff;
-        border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid #0f766e;
-        padding: 20px; z-index: 99998; opacity: 0; visibility: hidden; transform: translateY(20px);
-        transition: 0.3s; font-family: system-ui, sans-serif;
-    }
-    #access-panel.show { opacity: 1; visibility: visible; transform: translateY(0); }
-    #access-panel h4 { margin: 0 0 15px 0; color: #0f172a; font-size: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
-    
-    .access-row { display: flex; gap: 10px; margin-bottom: 15px; }
-    .access-btn { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 700; color: #0f172a; cursor: pointer; transition: 0.2s; }
-    .access-btn:hover, .access-btn.active { background: #0f766e; color: #fff; border-color: #0f766e; }
-    
-    .access-toggle { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; color: #0f172a; cursor: pointer; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .access-toggle:hover { background: #e2e8f0; }
-
-    /* CSS Chế độ Tương phản cao */
-    body.high-contrast { background: #000 !important; color: #ffff00 !important; }
-    body.high-contrast * { background-color: #000 !important; color: #ffff00 !important; border-color: #ffff00 !important; box-shadow: none !important; }
-    body.high-contrast img { filter: contrast(120%) grayscale(20%); }
-
-    /* Nút Đọc văn bản mọc ra khi bôi đen */
-    #tts-popup {
-        position: absolute; background: #0f766e; color: #fff; padding: 8px 16px;
-        border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 100000; display: none; align-items: center; gap: 8px;
-    }
-    #tts-popup:hover { background: #0d9488; }
-</style>
-
-<!-- Nút nổi -->
-<div id="access-widget-btn" onclick="toggleAccessPanel()">
-    <i class="fa fa-wheelchair-alt"></i>
-</div>
-
-<!-- Bảng Trợ năng -->
-<div id="access-panel">
-    <h4><i class="fa fa-cogs"></i> Tùy chỉnh Trợ năng</h4>
-    <div style="font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px;">Kích thước chữ:</div>
-    <div class="access-row">
-        <button class="access-btn active" id="btn-font-1" onclick="setFontSize(1)">A</button>
-        <button class="access-btn" id="btn-font-2" onclick="setFontSize(2)">A+</button>
-        <button class="access-btn" id="btn-font-3" onclick="setFontSize(3)">A++</button>
-    </div>
-    
-    <button class="access-toggle" onclick="toggleHighContrast()">
-        <span><i class="fa fa-adjust"></i> Tương phản cao</span>
-        <span id="contrast-status">TẮT</span>
-    </button>
-    
-    <button class="access-toggle" id="btn-tts-mode" onclick="toggleTTSMode()">
-        <span><i class="fa fa-volume-up"></i> Chế độ Đọc (Chạm)</span>
-        <span id="tts-status">TẮT</span>
-    </button>
-</div>
-
-<!-- Nút Đọc Văn Bản Ẩn -->
-<div id="tts-popup" onclick="speakSelectedText()"><i class="fa fa-play-circle"></i> Đọc chữ</div>
-
-<script>
-    // 1. Mở bảng công cụ
-    function toggleAccessPanel() {
-        document.getElementById('access-panel').classList.toggle('show');
-    }
-
-    // 2. Chỉnh cỡ chữ
-    function setFontSize(level) {
-        document.querySelectorAll('.access-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-font-' + level).classList.add('active');
-        
-        let root = document.documentElement;
-        if(level === 1) root.style.fontSize = '100%'; // Mặc định
-        if(level === 2) root.style.fontSize = '110%'; // To vừa
-        if(level === 3) root.style.fontSize = '125%'; // To đại
-    }
-
-    // 3. Chế độ tương phản cao (Mù màu / Mắt kém)
-    let isHighContrast = false;
-    function toggleHighContrast() {
-        isHighContrast = !isHighContrast;
-        if(isHighContrast) {
-            document.body.classList.add('high-contrast');
-            document.getElementById('contrast-status').innerText = 'BẬT';
-        } else {
-            document.body.classList.remove('high-contrast');
-            document.getElementById('contrast-status').innerText = 'TẮT';
-        }
-    }
-
-    // 4. Trợ lý Đọc văn bản (Bôi đen là đọc)
-    let isTTSMode = false;
-    function toggleTTSMode() {
-        isTTSMode = !isTTSMode;
-        const status = document.getElementById('tts-status');
-        const btn = document.getElementById('btn-tts-mode');
-        if(isTTSMode) {
-            status.innerText = 'BẬT';
-            btn.style.borderColor = '#10b981';
-            alert('Đã BẬT Trợ lý đọc! Hãy dùng chuột bôi đen một đoạn văn bản trên web để nghe hệ thống đọc.');
-        } else {
-            status.innerText = 'TẮT';
-            btn.style.borderColor = '#cbd5e1';
-            window.speechSynthesis.cancel(); // Tắt đọc ngay
-        }
-    }
-
-    // Hiện nút loa khi bôi đen chữ
-    document.addEventListener('mouseup', function(e) {
-        if(!isTTSMode) return;
-        const text = window.getSelection().toString().trim();
-        const popup = document.getElementById('tts-popup');
-        
-        if(text.length > 0) {
-            popup.style.display = 'flex';
-            popup.style.top = (e.pageY - 40) + 'px';
-            popup.style.left = e.pageX + 'px';
-        } else {
-            popup.style.display = 'none';
-        }
-    });
-
-    // Phát âm thanh
-    function speakSelectedText() {
-        const text = window.getSelection().toString().trim();
-        if(text.length > 0) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'vi-VN'; // Chuẩn giọng tiếng Việt
-            utterance.rate = 0.9;     // Đọc hơi chậm lại cho người già dễ nghe
-            window.speechSynthesis.speak(utterance);
-        }
-        document.getElementById('tts-popup').style.display = 'none';
-    }
-
-    // Tích hợp với 3 nút A A+ A++ có sẵn trên thanh Menu của bro
-    document.addEventListener('DOMContentLoaded', () => {
-        const existingA = document.querySelectorAll('span, button, a');
-        existingA.forEach(el => {
-            if(el.innerText === 'A') el.onclick = (e) => { e.preventDefault(); setFontSize(1); };
-            if(el.innerText === 'A+') el.onclick = (e) => { e.preventDefault(); setFontSize(2); };
-            if(el.innerText === 'A++') el.onclick = (e) => { e.preventDefault(); setFontSize(3); };
-        });
-    });
-</script>
-<!-- END ACCESSIBILITY MODULE -->
 </body>
 </html>
