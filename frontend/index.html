@@ -23,54 +23,67 @@
         .nav-links a:hover { color: var(--c-main); }
         .btn-lang { background: #0f172a; color: #fff; border: none; padding: 8px 16px; border-radius: 99px; font-weight: 800; cursor: pointer; display: flex; gap: 6px; align-items: center; }
 
-        /* HERO BANNER */
+        /* HERO BANNER & SEARCH */
         .hero { position: relative; padding: 80px 20px 100px; text-align: center; background: linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(15,23,42,0.6)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1920&q=80') center/cover; margin-bottom: -40px; }
         .hero h1 { font-size: 46px; font-weight: 900; color: #fff; margin: 0 0 16px 0; letter-spacing: -1px; }
         .hero p { font-size: 18px; color: #cbd5e1; font-weight: 500; margin: 0 0 40px 0; max-width: 700px; margin-inline: auto; }
         
-        /* QUICK SEARCH */
-        .search-glass { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 12px; border-radius: 20px; max-width: 860px; margin: 0 auto; display: flex; gap: 10px; }
-        .search-input { flex: 1; padding: 16px 24px; border-radius: 12px; border: none; font-size: 16px; font-family: inherit; outline: none; }
-        .search-btn { background: var(--c-main); color: #fff; border: none; padding: 0 32px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .search-glass { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.4); padding: 18px; border-radius: 24px; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .search-row { display: flex; gap: 12px; width: 100%; }
+        .search-input-wrapper { flex: 1; position: relative; display: flex; align-items: center; background: #fff; border-radius: 14px; padding: 4px 8px; }
+        .location-icon { color: var(--c-main); font-size: 20px; margin-left: 12px; }
+        .search-input { flex: 1; padding: 16px 16px; border: none; font-size: 17px; background: transparent; outline: none; color: var(--c-text); font-weight: 600; }
+        .voice-btn { background: #f1f5f9; color: #475569; border: none; width: 48px; height: 48px; border-radius: 12px; font-size: 20px; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
+        .voice-btn:hover { background: #e2e8f0; color: var(--c-main); }
+        .search-btn { background: var(--c-main); color: #fff; border: none; padding: 0 36px; border-radius: 14px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.2s; white-space: nowrap; }
         .search-btn:hover { background: var(--c-hover); }
+        
+        .quick-filters { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
+        .filter-label { color: #cbd5e1; font-weight: 600; font-size: 15px; margin-right: 8px; }
+        .filter-chip { background: rgba(255,255,255,0.95); color: #334155; border: none; padding: 8px 18px; border-radius: 99px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .filter-chip:hover { background: var(--c-main); color: #fff; transform: translateY(-2px); }
 
         /* KẾT CẤU CHÍNH */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
-        
-        /* VIDEO SECTION */
         .video-wrapper { background: #fff; padding: 30px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin-bottom: 60px; }
         .section-head { margin-bottom: 24px; }
         .section-head h2 { font-size: 26px; font-weight: 900; margin: 0 0 8px 0; color: var(--c-text); display: flex; align-items: center; gap: 10px; }
         .section-head p { margin: 0; color: var(--c-muted); font-size: 15px; font-weight: 500; }
-        
         .video-box { position: relative; border-radius: 16px; overflow: hidden; height: 500px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        .video-box iframe, .video-box video { width: 100%; height: 100%; object-fit: cover; }
+        .video-box video { width: 100%; height: 100%; object-fit: cover; }
         .vid-badge { position: absolute; top: 20px; left: 20px; background: rgba(15,118,110,0.9); backdrop-filter: blur(4px); color: #fff; padding: 8px 16px; border-radius: 12px; font-weight: 800; font-size: 14px; display: flex; gap: 8px; align-items: center; border: 1px solid rgba(255,255,255,0.2); }
 
-        /* TOUR GRID SECTION */
         .tour-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; margin-bottom: 60px; }
-        
-        /* TRUSTPILOT REVIEWS */
-        .trustpilot-box { background: #fff; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); margin-bottom: 80px; }
-        .tp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px dashed var(--c-border); }
-        
-        .tp-grid { display: grid; grid-template-columns: 300px 1fr; gap: 50px; }
-        .tp-stats h3 { font-size: 64px; font-weight: 900; margin: 0; line-height: 1; color: var(--c-text); }
-        .tp-stats .stars { color: #10b981; font-size: 24px; margin: 10px 0; }
-        .tp-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 14px; font-weight: 600; color: var(--c-muted); }
-        .tp-bar-bg { flex: 1; height: 8px; background: var(--c-border); border-radius: 99px; overflow: hidden; }
-        .tp-bar-fill { height: 100%; background: #10b981; border-radius: 99px; }
-        
-        .tp-review-item { padding: 24px; border: 1px solid var(--c-border); border-radius: 16px; margin-bottom: 20px; background: #f8fafc; transition: 0.2s; }
-        .tp-review-item:hover { border-color: #cbd5e1; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .tp-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--c-main); color: #fff; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 16px; }
-        
-        @media (max-width: 900px) {
-            .tp-grid { grid-template-columns: 1fr; gap: 30px; }
-            .hero h1 { font-size: 32px; }
-            .search-glass { flex-direction: column; }
-            .video-box { height: 300px; }
-        }
+
+        /* MODAL ĐĂNG NHẬP */
+        .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
+        .auth-box { background: #fff; width: 100%; max-width: 420px; border-radius: 24px; padding: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); position: relative; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .btn-close { position: absolute; top: 20px; right: 20px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 14px; cursor: pointer; color: #64748b; transition: 0.2s; display: flex; justify-content: center; align-items: center; }
+        .btn-close:hover { background: #fee2e2; color: #ef4444; }
+        .auth-header { text-align: center; margin-bottom: 24px; }
+        .auth-header h3 { font-size: 26px; font-weight: 900; color: #0f172a; margin: 0 0 8px 0; }
+        .auth-header p { font-size: 14.5px; color: #64748b; margin: 0; }
+        .role-switch { display: flex; background: #f1f5f9; padding: 4px; border-radius: 12px; margin-bottom: 24px; }
+        .role-btn { flex: 1; padding: 10px; border: none; background: transparent; border-radius: 8px; font-size: 13.5px; font-weight: 800; color: #64748b; cursor: pointer; transition: 0.2s; }
+        .role-btn.active { background: #fff; color: #0f766e; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .role-btn.admin-active { background: #ef4444; color: #fff; box-shadow: 0 2px 8px rgba(239,68,68,0.3); }
+        .input-group { margin-bottom: 16px; position: relative; }
+        .input-group i.left-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; }
+        .auth-input { width: 100%; padding: 14px 16px 14px 44px; border: 1.5px solid #e2e8f0; border-radius: 12px; font-size: 15px; font-family: inherit; font-weight: 600; outline: none; transition: 0.2s; }
+        .auth-input:focus { border-color: #0f766e; background: #f0fdfa; }
+        .auth-error { color: #ef4444; font-size: 13px; font-weight: 600; margin-top: 6px; display: none; padding-left: 4px; }
+        .auth-action { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-size: 14px; font-weight: 600; color: #64748b; }
+        .btn-submit { width: 100%; background: #0f766e; color: #fff; border: none; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; text-transform: uppercase; }
+        .social-login { margin-top: 24px; text-align: center; }
+        .social-login p { font-size: 12px; color: #94a3b8; font-weight: 700; position: relative; margin-bottom: 16px; text-transform: uppercase; }
+        .social-login p::before, .social-login p::after { content: ''; position: absolute; top: 50%; width: 25%; height: 1px; background: #e2e8f0; }
+        .social-login p::before { left: 0; }
+        .social-login p::after { right: 0; }
+        .social-btn-group { display: flex; gap: 12px; }
+        .btn-social { flex: 1; padding: 12px; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px; font-weight: 700; font-size: 14.5px; color: #334155; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .auth-footer { text-align: center; margin-top: 24px; font-size: 14.5px; font-weight: 600; color: #64748b; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+        .auth-footer a { color: #0f766e; font-weight: 800; }
     </style>
 </head>
 <body>
@@ -84,8 +97,8 @@
             <a href="index.html">Khám phá</a>
             <a href="#reviews">Đánh giá</a>
             <a href="booking.html?id=1">Đặt lịch</a>
-            <button class="btn-lang" id="btnLangSwitch" onclick="if(typeof toggleLanguage==='function') toggleLanguage();"><i class="fa-solid fa-globe"></i> EN</button>
-            <a href="admin_dashboard.html" style="background:#f1f5f9; padding:8px 16px; border-radius:8px;"><i class="fa-solid fa-shield-halved"></i> Admin</a>
+            <button class="btn-lang" id="btnLangSwitch"><i class="fa-solid fa-globe"></i> EN</button>
+            <button onclick="document.getElementById('authModal').style.display='flex'" style="background:var(--c-main); color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;"><i class="fa-regular fa-user"></i> Đăng nhập</button>
         </div>
     </header>
 
@@ -94,15 +107,24 @@
         <p>Nền tảng OTA duy nhất kiểm định thực tế độ dốc xe lăn, thang máy và tiện ích người cao tuổi tại hàng trăm điểm đến trên toàn quốc.</p>
         
         <div class="search-glass">
-            <input type="text" class="search-input" id="keywordInput" placeholder="VD: Khách sạn tầng trệt Đà Nẵng, Tour vịnh Hạ Long...">
-            <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm</button>
+            <div class="search-row">
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-location-dot location-icon"></i>
+                    <input type="text" class="search-input" id="keywordInput" placeholder="Bạn muốn đến đâu? (Đà Nẵng, Hạ Long...)">
+                    <button class="voice-btn" id="voiceBtn" title="Tìm kiếm bằng giọng nói"><i class="fa-solid fa-microphone"></i></button>
+                </div>
+                <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm</button>
+            </div>
+            <div class="quick-filters">
+                <span class="filter-label">Gợi ý nhanh:</span>
+                <button class="filter-chip" onclick="document.getElementById('keywordInput').value='Ưu tiên xe lăn';"><i class="fa-solid fa-wheelchair"></i> Ưu tiên xe lăn</button>
+                <button class="filter-chip" onclick="document.getElementById('keywordInput').value='Thân thiện người cao tuổi';"><i class="fa-solid fa-person-cane"></i> Người cao tuổi</button>
+                <button class="filter-chip" onclick="document.getElementById('keywordInput').value='Gần trạm y tế';"><i class="fa-solid fa-hospital"></i> Gần trạm y tế</button>
+            </div>
         </div>
     </div>
 
-    <!-- MỞ THẺ CONTAINER CHỨA NỘI DUNG CHÍNH -->
     <div class="container">
-        
-        <!-- VIDEO SECTION -->
         <div class="video-wrapper">
             <div class="section-head">
                 <h2><i class="fa-solid fa-video" style="color:var(--c-main);"></i> Trải Nghiệm Thực Tế Khảo Sát</h2>
@@ -114,7 +136,6 @@
             </div>
         </div>
 
-        <!-- DANH SÁCH TOUR -->
         <div class="section-head" style="display:flex; justify-content:space-between; align-items:flex-end;">
             <div>
                 <h2><i class="fa-solid fa-map-location-dot" style="color:var(--c-main);"></i> Điểm Đến Đã Kiểm Định</h2>
@@ -123,108 +144,12 @@
             <div style="background:#dcfce7; color:#166534; padding:6px 14px; border-radius:20px; font-size:14px; font-weight:700;"><i class="fa-solid fa-check"></i> Đã tải xong</div>
         </div>
         
-        <!-- Khu vực này sẽ được Javascript tự động điền danh sách Tour vào -->
-        <div id="destinationList" class="tour-grid">
-            <div style="text-align:center; grid-column: 1/-1; padding:40px; color:#64748b; font-weight:600;">
-                <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; margin-bottom:10px;"></i><br>Đang tải dữ liệu điểm đến cao cấp...
-            </div>
-        </div>
+        <div id="destinationList" class="tour-grid"></div>
 
-        <!-- PHÂN TRANG -->
-        <div style="display:flex; justify-content:center; gap:8px; margin-bottom:60px;">
-            <button style="background:var(--c-main); color:#fff; border:none; width:40px; height:40px; border-radius:8px; font-weight:800; cursor:pointer;">1</button>
-            <button style="background:#fff; border:1px solid #cbd5e1; color:#475569; width:40px; height:40px; border-radius:8px; font-weight:800; cursor:pointer;">2</button>
-            <button style="background:#fff; border:1px solid #cbd5e1; color:#475569; width:40px; height:40px; border-radius:8px; font-weight:800; cursor:pointer;">3</button>
-            <button style="background:#fff; border:1px solid #cbd5e1; color:#475569; width:40px; height:40px; border-radius:8px; font-weight:800; cursor:pointer;">4</button>
-        </div>
+        <div id="paginationContainer" style="display:flex; justify-content:center; gap:8px; margin-bottom:60px;"></div>
+    </div>
 
-        <!-- REVIEWS SECTION -->
-        <div class="trustpilot-box" id="reviews">
-            <div class="tp-header">
-                <div>
-                    <h2><i class="fa-solid fa-star" style="color:#10b981;"></i> Đánh Giá Thực Tế Từ Khách Hàng</h2>
-                    <p style="margin:5px 0 0 0; color:var(--c-muted); font-size:15px; font-weight:500;">
-                        Tất cả đánh giá đều đến từ các gia đình đã trải nghiệm dịch vụ.
-                    </p>
-                </div>
-                <button style="background:#f8fafc; border:1.5px solid #cbd5e1; padding:10px 20px; border-radius:10px; font-weight:700; color:#334155; cursor:pointer;">
-                    <i class="fa-regular fa-comments"></i> Viết đánh giá
-                </button>
-            </div>
-
-            <div class="tp-grid">
-                <div class="tp-stats">
-                    <h3>4.8</h3>
-                    <div class="stars">★★★★★</div>
-                    <p style="color:var(--c-muted); font-weight:600; margin-bottom:24px;">Dựa trên 148 đánh giá</p>
-                    
-                    <div class="tp-bar-row">
-                        <span>5 sao</span>
-                        <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:72%;"></div></div>
-                        <span>72%</span>
-                    </div>
-                    <div class="tp-bar-row">
-                        <span>4 sao</span>
-                        <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:18%; background:#84cc16;"></div></div>
-                        <span>18%</span>
-                    </div>
-                    <div class="tp-bar-row">
-                        <span>3 sao</span>
-                        <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:5%; background:#eab308;"></div></div>
-                        <span>5%</span>
-                    </div>
-                    <div class="tp-bar-row">
-                        <span>2 sao</span>
-                        <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:3%; background:#f59e0b;"></div></div>
-                        <span>3%</span>
-                    </div>
-                    <div class="tp-bar-row">
-                        <span>1 sao</span>
-                        <div class="tp-bar-bg"><div class="tp-bar-fill" style="width:2%; background:#ef4444;"></div></div>
-                        <span>2%</span>
-                    </div>
-                </div>
-
-                <div>
-                    <div style="background:#eff6ff; color:#1d4ed8; padding:12px 16px; border-radius:12px; font-size:14px; font-weight:600; margin-bottom:20px; border:1px solid #bfdbfe;">
-                        <i class="fa-solid fa-shield-check"></i> Cam kết minh bạch: Các đơn vị điểm đến không được phép trả tiền để ẩn đánh giá thấp sao.
-                    </div>
-                    
-                    <div class="tp-review-item">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-                            <div style="display:flex; gap:12px;">
-                                <div class="tp-avatar">NM</div>
-                                <div>
-                                    <div style="font-weight:800; color:#1e293b; font-size:16px;">Gia đình bác Nguyễn Minh</div>
-                                    <div style="font-size:13px; color:var(--c-muted); font-weight:600;">(Đi cùng cụ ông 86 tuổi)</div>
-                                </div>
-                            </div>
-                            <span style="color:#10b981; font-size:12px; font-weight:800; background:#dcfce7; padding:4px 8px; border-radius:6px;"><i class="fa-solid fa-check"></i> Đã xác minh</span>
-                        </div>
-                        <div style="color:#10b981; font-weight:800; font-size:15px; margin-bottom:8px;">★★★★★ Lối đi rất an toàn, không sợ trượt ngã</div>
-                        <p style="margin:0; color:#475569; font-size:15px; line-height:1.6;">"Cứ đi khoảng 50m lại có ghế tựa lưng để nghỉ, nền đường lát gạch nhám chống trượt cực kỳ tốt. Nhân viên dìu rất nhiệt tình."</p>
-                    </div>
-
-                    <div class="tp-review-item">
-                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
-                            <div style="display:flex; gap:12px;">
-                                <div class="tp-avatar" style="background:#3b82f6;">TH</div>
-                                <div>
-                                    <div style="font-weight:800; color:#1e293b; font-size:16px;">Chị Thu Hà</div>
-                                    <div style="font-size:13px; color:var(--c-muted); font-weight:600;">(Người sử dụng xe lăn điện)</div>
-                                </div>
-                            </div>
-                            <span style="color:#10b981; font-size:12px; font-weight:800; background:#dcfce7; padding:4px 8px; border-radius:6px;"><i class="fa-solid fa-check"></i> Đã xác minh</span>
-                        </div>
-                        <div style="color:#84cc16; font-weight:800; font-size:15px; margin-bottom:8px;">★★★★☆ Phòng ốc rộng rãi, chuẩn kích thước</div>
-                        <p style="margin:0; color:#475569; font-size:15px; line-height:1.6;">"Cửa nhà tắm rộng đúng 85cm như mô tả trên web, xe lăn điện của tôi quay đầu thoải mái. Sẽ giới thiệu cho bạn bè."</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- ĐÓNG THẺ CONTAINER Ở ĐÂY ĐỂ FOOTER NẰM ĐỘC LẬP -->
-
-    <!-- CHÂN TRANG (FOOTER) ĐÃ ĐƯỢC ĐẶT RA NGOÀI CONTAINER -->
+    <!-- CHÂN TRANG OTA QUỐC TẾ -->
     <footer style="background-color: #0f172a; color: #cbd5e1; padding: 60px 20px 20px; font-family: 'Be Vietnam Pro', sans-serif; margin-top: 80px; border-top: 4px solid #0f766e;">
         <div style="max-width: 1200px; margin: 0 auto;">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #334155;">
@@ -233,210 +158,233 @@
                         <div style="background: #0f766e; color: #fff; width: 40px; height: 40px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 20px;"><i class="fa-solid fa-wheelchair"></i></div>
                         <span style="font-weight: 800; font-size: 22px; color: #fff; letter-spacing: -0.5px;">AccessTravel</span>
                     </div>
-                    <p style="font-size: 14px; line-height: 1.6; margin-bottom: 24px; color: #94a3b8;">
-                        Nền tảng tiên phong tại Việt Nam chuyên thẩm định mức độ phù hợp cơ thể & đặt dịch vụ du lịch tiếp cận cho người cao tuổi và người khuyết tật.
-                    </p>
-                    <div style="display: flex; gap: 12px;">
-                        <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #1e293b; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#1e293b'"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #1e293b; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#1e293b'"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="#" style="width: 38px; height: 38px; border-radius: 50%; background: #1e293b; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#1e293b'"><i class="fa-brands fa-tiktok"></i></a>
-                    </div>
+                    <p style="font-size: 14px; line-height: 1.6; margin-bottom: 24px; color: #94a3b8;">Nền tảng tiên phong tại Việt Nam chuyên thẩm định mức độ phù hợp cơ thể & đặt dịch vụ du lịch tiếp cận cho người cao tuổi và người khuyết tật.</p>
                 </div>
-
                 <div>
-                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Về Chúng Tôi</h4>
+                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase;">Về Chúng Tôi</h4>
                     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; font-size: 14.5px;">
-                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Câu chuyện AccessTravel</a></li>
-                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Đội ngũ phát triển (Nhóm 14)</a></li>
-                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Quy trình thẩm định 5 bước</a></li>
-                        <li><a href="#" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Báo chí & Truyền thông</a></li>
+                        <li><a href="#" style="color: #94a3b8;">Câu chuyện AccessTravel</a></li>
+                        <li><a href="#" style="color: #94a3b8;">Đội ngũ phát triển (Nhóm 14)</a></li>
+                        <li><a href="#" style="color: #94a3b8;">Quy trình thẩm định 5 bước</a></li>
                     </ul>
                 </div>
-
                 <div>
-                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Hỗ Trợ Khách Hàng</h4>
+                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase;">Hỗ Trợ Khách Hàng</h4>
                     <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; font-size: 14.5px;">
-                        <li><a href="policy.html?type=help" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Trung tâm trợ giúp 24/7</a></li>
-                        <li><a href="policy.html?type=refund" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Chính sách hủy & hoàn tiền</a></li>
-                        <li><a href="policy.html?type=guide" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Cẩm nang du lịch cho xe lăn</a></li>
-                        <li><a href="policy.html?type=wcag" style="color: #94a3b8; text-decoration: none; transition: 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#94a3b8'">Cam kết chuẩn WCAG 2.1 AA</a></li>
+                        <li><a href="policy.html?type=help" style="color: #94a3b8;">Trung tâm trợ giúp 24/7</a></li>
+                        <li><a href="policy.html?type=refund" style="color: #94a3b8;">Chính sách hủy & hoàn tiền</a></li>
+                        <li><a href="policy.html?type=guide" style="color: #94a3b8;">Cẩm nang du lịch cho xe lăn</a></li>
                     </ul>
-                </div>
-
-                <div>
-                    <h4 style="color: #fff; font-size: 15px; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Liên Hệ Đặt Dịch Vụ</h4>
-                    <div style="background: #1e293b; padding: 18px; border-radius: 14px; border: 1px solid #334155;">
-                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-                            <div style="background: rgba(52, 211, 153, 0.1); padding: 10px; border-radius: 10px;">
-                                <i class="fa-solid fa-phone-volume" style="color: #34d399; font-size: 18px;"></i>
-                            </div>
-                            <div>
-                                <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; font-weight: 600;">Hotline Y Tế & Trợ Năng</div>
-                                <div style="font-size: 20px; font-weight: 900; color: #fff;">1900 6868</div>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 14px;">
-                            <div style="background: rgba(52, 211, 153, 0.1); padding: 10px; border-radius: 10px;">
-                                <i class="fa-solid fa-envelope" style="color: #34d399; font-size: 18px;"></i>
-                            </div>
-                            <div>
-                                <div style="font-size: 12px; color: #94a3b8; text-transform: uppercase; font-weight: 600;">Hỗ trợ Email</div>
-                                <div style="font-size: 15px; font-weight: 600; color: #e2e8f0;">hotro@accesstravel.vn</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; font-size: 13.5px; color: #64748b;">
-                <div>
-                    <p style="margin: 0 0 6px 0; color: #94a3b8;">© 2026 <strong style="color: #cbd5e1;">AccessTravel</strong> — Đồ án môn học Web Applications in Tourism (CSE703073).</p>
-                    <p style="margin: 0;">Kiến trúc hệ thống: <span style="color: #cbd5e1;">HTML/CSS/JS (Frontend) & PHP/MySQL (Backend)</span> | CSDL: <span style="color: #cbd5e1;">≥ 300 bản ghi</span>.</p>
-                </div>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-right: 4px; font-size: 12px;">Thanh toán an toàn:</span>
-                    <i class="fa-brands fa-cc-visa" style="font-size: 28px; color: #cbd5e1;"></i>
-                    <i class="fa-brands fa-cc-mastercard" style="font-size: 28px; color: #cbd5e1;"></i>
-                    <i class="fa-brands fa-cc-paypal" style="font-size: 28px; color: #cbd5e1;"></i>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- ĐOẠN SCRIPT TỰ ĐỘNG ĐIỀN 6 THẺ TOUR (ĐÃ FIX ẢNH SẮC NÉT) -->
+    <!-- MODAL ĐĂNG NHẬP NỔI BẬT -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-box">
+            <button class="btn-close" onclick="document.getElementById('authModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+            <div class="auth-header">
+                <h3 id="authTitle">Đăng nhập hệ thống</h3>
+                <p id="authDesc">Để tiếp tục khám phá du lịch không rào cản</p>
+            </div>
+            
+            <div class="role-switch" id="roleSwitch">
+                <button class="role-btn active" id="btnRoleUser" onclick="switchRole('user')">CHẾ ĐỘ KHÁCH</button>
+                <button class="role-btn" id="btnRoleAdmin" onclick="switchRole('admin')">CHẾ ĐỘ ADMIN</button>
+            </div>
+            
+            <form id="loginForm" action="login.php" method="POST" onsubmit="return validateForm(event)">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope left-icon"></i>
+                    <input type="text" name="email" id="emailInput" class="auth-input" placeholder="Email đăng nhập">
+                    <div class="auth-error" id="emailError"><i class="fa-solid fa-circle-exclamation"></i> Vui lòng nhập đúng định dạng @gmail.com</div>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock left-icon"></i>
+                    <input type="password" name="password" id="passInput" class="auth-input" placeholder="Mật khẩu">
+                    <div class="auth-error" id="passError"><i class="fa-solid fa-circle-exclamation"></i> Mật khẩu phải có ít nhất 6 ký tự</div>
+                </div>
+                
+                <div class="auth-action" id="authActionDiv">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="checkbox" checked style="accent-color:#0f766e;"> Ghi nhớ tôi</label>
+                    <span style="color:#0f766e; cursor:pointer; font-weight:700;">Quên mật khẩu?</span>
+                </div>
+                
+                <button type="submit" class="btn-submit" id="btnSubmit"><i class="fa-solid fa-right-to-bracket"></i> ĐĂNG NHẬP</button>
+            </form>
+            
+            <div class="social-login" id="socialLoginDiv">
+                <p>Hoặc đăng nhập nhanh bằng</p>
+                <div class="social-btn-group">
+                    <button class="btn-social" onclick="alert('Tính năng đang bảo trì.')"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="20"> Google</button>
+                    <button class="btn-social" onclick="alert('Tính năng đang bảo trì.')"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" width="20"> Facebook</button>
+                </div>
+            </div>
+            
+            <div class="auth-footer" id="authFooterDiv">
+                Chưa có tài khoản? <a href="register.html" style="color:#0f766e; font-weight:800;">ĐĂNG KÝ HỒ SƠ Y TẾ NGAY</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT TÌM KIẾM GIỌNG NÓI & ĐĂNG NHẬP -->
+    <script>
+        // Modal logic
+        function switchRole(role) {
+            if(role === 'admin') {
+                document.getElementById('btnRoleAdmin').classList.add('admin-active');
+                document.getElementById('btnRoleUser').classList.remove('active');
+                document.getElementById('authActionDiv').style.display = 'none';
+                document.getElementById('socialLoginDiv').style.display = 'none';
+                document.getElementById('authFooterDiv').style.display = 'none';
+                document.getElementById('btnSubmit').innerHTML = '<i class="fa-solid fa-shield-halved"></i> TRUY CẬP ADMIN';
+                document.getElementById('btnSubmit').style.background = '#ef4444';
+            } else {
+                document.getElementById('btnRoleAdmin').classList.remove('admin-active');
+                document.getElementById('btnRoleUser').classList.add('active');
+                document.getElementById('authActionDiv').style.display = 'flex';
+                document.getElementById('socialLoginDiv').style.display = 'block';
+                document.getElementById('authFooterDiv').style.display = 'block';
+                document.getElementById('btnSubmit').innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ĐĂNG NHẬP';
+                document.getElementById('btnSubmit').style.background = '#0f766e';
+            }
+        }
+        function validateForm(e) {
+            const email = document.getElementById('emailInput').value;
+            const pass = document.getElementById('passInput').value;
+            let isValid = true;
+            if(!email.includes('@') || !email.includes('.')) { document.getElementById('emailError').style.display = 'block'; isValid = false; } 
+            else { document.getElementById('emailError').style.display = 'none'; }
+            if(pass.length < 6) { document.getElementById('passError').style.display = 'block'; isValid = false; } 
+            else { document.getElementById('passError').style.display = 'none'; }
+            if(!isValid) e.preventDefault(); 
+            return isValid;
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById('authModal');
+            if (event.target == modal) { modal.style.display = "none"; }
+        }
+
+        // Voice search
+        const voiceBtn = document.getElementById('voiceBtn');
+        const searchInput = document.getElementById('keywordInput');
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'vi-VN';
+            voiceBtn.addEventListener('click', () => {
+                recognition.start();
+                voiceBtn.classList.add('recording');
+                searchInput.placeholder = 'Đang nghe...';
+            });
+            recognition.onresult = (event) => {
+                searchInput.value = event.results[0][0].transcript;
+            };
+            recognition.onend = () => {
+                voiceBtn.classList.remove('recording');
+                searchInput.placeholder = 'Bạn muốn đến đâu? (Đà Nẵng, Hạ Long...)';
+            };
+        } else { voiceBtn.style.display = 'none'; }
+    </script>
+
+    <!-- ĐỘNG CƠ DỮ LIỆU & PHÂN TRANG (PHIÊN BẢN 30 SẢN PHẨM VIP) -->
     <script>
         const premiumDestinations = [
-            {
-                id: 1,
-                title: 'Du thuyền Ambassador Vịnh Hạ Long',
-                address: 'Quảng Ninh, Việt Nam',
-                image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80',
-                rating: 4.9,
-                slots: 12,
-                support_1: 'Thang máy giữa các tầng boong tàu',
-                support_2: 'Cabin rộng 90cm cho xe lăn',
-                support_3: 'Nhân viên y tế & Cáng cứu thương',
-                price: 3200000,
-                badge_text: '✔ Đã xác minh 100%',
-                badge_bg: '#dcfce7', badge_color: '#166534'
-            },
-            {
-                id: 2,
-                title: 'Khu nghỉ dưỡng Topas Ecolodge',
-                address: 'Sapa, Lào Cai',
-                image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80',
-                rating: 4.8,
-                slots: 5,
-                support_1: 'Xe điện nội khu gầm thấp',
-                support_2: 'Băng ghế nghỉ mỗi 30m dọc sườn đồi',
-                support_3: 'Hỗ trợ đẩy xe lăn khi có yêu cầu',
-                price: 4500000,
-                badge_text: '✔ Đã xác minh 100%',
-                badge_bg: '#dcfce7', badge_color: '#166534'
-            },
-            {
-                id: 3,
-                title: 'Quần thể Di tích Cố đô Huế',
-                address: 'Thừa Thiên Huế, Việt Nam',
-                image: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=600&q=80',
-                rating: 4.7,
-                slots: 25,
-                support_1: 'Dốc thoai thoải bằng gạch nung',
-                support_2: 'Khu vực yên tĩnh dưới bóng cây',
-                support_3: 'Xe điện trung chuyển vào cổng chính',
-                price: 850000,
-                badge_text: '⚠ Xác minh một phần',
-                badge_bg: '#fef3c7', badge_color: '#b45309'
-            },
-            {
-                id: 4,
-                title: 'Hoiana Resort & Golf',
-                address: 'Quảng Nam, Việt Nam',
-                image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80',
-                rating: 4.9,
-                slots: 3,
-                support_1: 'Bể bơi có hệ thống nâng hạ',
-                support_2: 'Phòng thiết kế riêng, nút gọi y tế',
-                support_3: 'Trực 24/7, bác sĩ tại chỗ',
-                price: 5200000,
-                badge_text: '✔ Đã xác minh 100%',
-                badge_bg: '#dcfce7', badge_color: '#166534'
-            },
-            {
-                id: 5,
-                title: 'Khu du lịch Thung lũng Tình Yêu',
-                address: 'Đà Lạt, Lâm Đồng',
-                image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
-                rating: 4.6,
-                slots: 18,
-                support_1: 'Đường bê tông phẳng quanh hồ',
-                support_2: 'Nhiều trạm dừng chân có mái che',
-                support_3: 'Nhân viên túc trực tại các điểm dốc',
-                price: 650000,
-                badge_text: '⚠ Xác minh một phần',
-                badge_bg: '#fef3c7', badge_color: '#b45309'
-            },
-            {
-                id: 6,
-                title: 'Vinpearl Safari Phú Quốc',
-                address: 'Kiên Giang, Việt Nam',
-                image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80',
-                rating: 4.8,
-                slots: 9,
-                support_1: 'Xe bus gầm thấp (Low-floor bus)',
-                support_2: 'Lối đi riêng ưu tiên người cao tuổi',
-                support_3: 'Cho thuê xe lăn điện miễn phí',
-                price: 2800000,
-                badge_text: '✔ Đã xác minh 100%',
-                badge_bg: '#dcfce7', badge_color: '#166534'
-            }
+            // MIỀN BẮC
+            { id: 1, title: 'Du thuyền Ambassador Vịnh Hạ Long', address: 'Quảng Ninh', image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80', rating: 4.9, slots: 12, support_1: 'Thang máy giữa các tầng boong', support_2: 'Cabin xe lăn 90cm', support_3: 'Nhân viên y tế & Cáng', price: 3200000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 2, title: 'Khu nghỉ dưỡng Topas Ecolodge', address: 'Sapa, Lào Cai', image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 5, support_1: 'Xe điện nội khu gầm thấp', support_2: 'Băng ghế nghỉ mỗi 30m', support_3: 'Hỗ trợ đẩy xe lăn', price: 4500000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 3, title: 'Khu sinh thái Tràng An', address: 'Ninh Bình', image: 'https://images.unsplash.com/photo-1627914026362-e64dbfecf605?auto=format&fit=crop&w=600&q=80', rating: 4.5, slots: 22, support_1: 'Bến thuyền có bục hỗ trợ', support_2: 'Thuyền trang bị ghế đệm tựa', support_3: 'Nhân viên hỗ trợ người già', price: 250000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 4, title: 'Flamingo Đại Lải Resort', address: 'Vĩnh Phúc', image: 'https://images.unsplash.com/photo-1580977276076-ae4b8c219b8e?auto=format&fit=crop&w=600&q=80', rating: 4.9, slots: 4, support_1: 'Villa tầng trệt, cửa 90cm', support_2: 'Xe buggy điện đón tận cửa', support_3: 'Nút gọi khẩn cấp y tế', price: 3500000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 5, title: 'Cáp treo Fansipan Legend', address: 'Sapa, Lào Cai', image: 'https://images.unsplash.com/photo-1596710646193-470559f3c706?auto=format&fit=crop&w=600&q=80', rating: 4.7, slots: 15, support_1: 'Cabin dừng chậm đón xe lăn', support_2: 'Thang máy lên tận đỉnh', support_3: 'Bình oxy dự phòng y tế', price: 800000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 6, title: 'Lăng Chủ tịch Hồ Chí Minh', address: 'Ba Đình, Hà Nội', image: 'https://images.unsplash.com/photo-1583417311756-3bb1dcb301f2?auto=format&fit=crop&w=600&q=80', rating: 4.9, slots: 50, support_1: 'Lối đi ưu tiên xe lăn', support_2: 'Đường dẫn cao su chống trượt', support_3: 'Cảnh vệ hỗ trợ trực tiếp', price: 0, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 7, title: 'Chùa Bái Đính', address: 'Ninh Bình', image: 'https://images.unsplash.com/photo-1601007204128-4b77f9cbbf1e?auto=format&fit=crop&w=600&q=80', rating: 4.6, slots: 30, support_1: 'Hành lang la hán dốc thoải', support_2: 'Xe điện trung chuyển', support_3: 'Thang máy lên bảo tháp', price: 200000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 8, title: 'Làng gốm Bát Tràng', address: 'Gia Lâm, Hà Nội', image: 'https://images.unsplash.com/photo-1562947116-3e74ff5187e1?auto=format&fit=crop&w=600&q=80', rating: 4.4, slots: 20, support_1: 'Đường làng đã đổ bê tông', support_2: 'Bảo tàng gốm có thang cuốn', support_3: 'Ghế ngồi nghỉ nhiều trạm', price: 150000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 9, title: 'Bảo tàng Phụ nữ Việt Nam', address: 'Hoàn Kiếm, Hà Nội', image: 'https://images.unsplash.com/photo-1582559938554-15f16e10eb9f?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 40, support_1: 'Thang máy hiện đại 3 tầng', support_2: 'Audio guide cho người già', support_3: 'Cửa tự động cảm biến', price: 40000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 10, title: 'Tàu hỏa leo núi Mường Hoa', address: 'Sapa, Lào Cai', image: 'https://images.unsplash.com/photo-1518177583699-2708d7486e42?auto=format&fit=crop&w=600&q=80', rating: 4.7, slots: 10, support_1: 'Ga có hệ thống thang máy', support_2: 'Chỗ cố định xe lăn trên toa', support_3: 'Khoảng nghỉ rộng rãi', price: 150000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            // MIỀN TRUNG
+            { id: 11, title: 'Quần thể Di tích Cố đô Huế', address: 'Thừa Thiên Huế', image: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=600&q=80', rating: 4.7, slots: 25, support_1: 'Dốc thoai thoải gạch nung', support_2: 'Khu vực yên tĩnh nhiều bóng râm', support_3: 'Xe điện trung chuyển', price: 850000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 12, title: 'Hoiana Resort & Golf', address: 'Quảng Nam', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80', rating: 4.9, slots: 3, support_1: 'Bể bơi hệ thống nâng hạ', support_2: 'Phòng vệ sinh tay vịn inox', support_3: 'Trực 24/7, bác sĩ tại chỗ', price: 5200000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 13, title: 'Sun World Ba Na Hills', address: 'Đà Nẵng', image: 'https://images.unsplash.com/photo-1593504381045-891cc773e34b?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 15, support_1: 'Cáp treo lọt vừa xe lăn', support_2: 'Thang máy Cầu Vàng', support_3: 'Trạm sơ cứu khẩn cấp', price: 1150000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 14, title: 'VinWonders Nam Hội An', address: 'Quảng Nam', image: 'https://images.unsplash.com/photo-1542152648-936653246ebc?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 30, support_1: 'Đường nhựa phẳng xuyên suốt', support_2: 'Nhà vệ sinh đạt chuẩn WCAG', support_3: 'Phòng y tế 5 sao', price: 700000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 15, title: 'Khu du lịch Thung lũng Tình Yêu', address: 'Đà Lạt', image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80', rating: 4.6, slots: 18, support_1: 'Đường bê tông quanh hồ', support_2: 'Trạm dừng chân mái che', support_3: 'Nhân viên hỗ trợ đoạn dốc', price: 650000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 16, title: 'InterContinental Danang', address: 'Sơn Trà, Đà Nẵng', image: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=600&q=80', rating: 5.0, slots: 2, support_1: 'Tàu điện Nam Tram đi các tầng', support_2: 'Phòng chuẩn accessible', support_3: 'Quản gia hỗ trợ 1 kèm 1', price: 12000000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 17, title: 'Phố cổ Hội An (Tour xe điện)', address: 'Hội An, Quảng Nam', image: 'https://images.unsplash.com/photo-1574227492706-f65b24c3688a?auto=format&fit=crop&w=600&q=80', rating: 4.5, slots: 20, support_1: 'Lối đi bộ không bậc thang', support_2: 'Xe điện chạy chậm quanh phố', support_3: 'Nhân viên bế lên xuống xe', price: 300000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 18, title: 'Mikazuki Japanese Resorts', address: 'Đà Nẵng', image: 'https://images.unsplash.com/photo-1610641818989-c2051b5e2cfd?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 8, support_1: 'Thang máy mọi khu vực', support_2: 'Ghế tắm onsen chuyên dụng', support_3: 'Đường dốc 5% chuẩn Nhật', price: 2800000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 19, title: 'Tắm bùn Tháp Bà', address: 'Nha Trang', image: 'https://images.unsplash.com/photo-1519449556851-d720047dd38c?auto=format&fit=crop&w=600&q=80', rating: 4.6, slots: 12, support_1: 'Tay vịn thép không gỉ quanh hồ', support_2: 'Bục chuyển vị trí xuống bồn', support_3: 'Cứu hộ quan sát liên tục', price: 450000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 20, title: 'Tháp Ponagar', address: 'Nha Trang', image: 'https://images.unsplash.com/photo-1598284617154-1506509f6e07?auto=format&fit=crop&w=600&q=80', rating: 4.3, slots: 25, support_1: 'Khu vực tầng trệt bằng phẳng', support_2: 'Không gian tĩnh tâm cho ng.già', support_3: 'Đội khiêng kiệu (đặt trước)', price: 30000, badge_text: '⚠ Khó khăn xe lăn', badge_bg: '#fee2e2', badge_color: '#991b1b' },
+            // MIỀN NAM
+            { id: 21, title: 'Vinpearl Safari Phú Quốc', address: 'Kiên Giang', image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 9, support_1: 'Xe bus gầm thấp (Low-floor)', support_2: 'Lối ưu tiên người cao tuổi', support_3: 'Thuê xe lăn điện miễn phí', price: 2800000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 22, title: 'Bảo tàng Chứng tích Chiến tranh', address: 'TP.HCM', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80', rating: 4.6, slots: 50, support_1: 'Đường dốc thoai thoải', support_2: 'Tai nghe cho người khiếm thị', support_3: 'Thang máy rộng các tầng', price: 40000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 23, title: 'Dinh Độc Lập', address: 'Quận 1, TP.HCM', image: 'https://images.unsplash.com/photo-1583417311756-3bb1dcb301f2?auto=format&fit=crop&w=600&q=80', rating: 4.7, slots: 40, support_1: 'Thang máy mặt sau tòa nhà', support_2: 'Đường nhựa phẳng công viên', support_3: 'Xe điện trung chuyển cổng vào', price: 65000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 24, title: 'Cáp treo Hòn Thơm', address: 'Phú Quốc', image: 'https://images.unsplash.com/photo-1596710646193-470559f3c706?auto=format&fit=crop&w=600&q=80', rating: 4.9, slots: 20, support_1: 'Cabin dừng hẵn để xe lăn lên', support_2: 'Nhân viên dìu người cao tuổi', support_3: 'Trạm y tế Hòn Thơm', price: 600000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 25, title: 'Landmark 81 Skyview', address: 'Bình Thạnh, TP.HCM', image: 'https://images.unsplash.com/photo-1557053910-d7a8d46e3a6a?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 15, support_1: 'Thang máy tốc độ cao êm ái', support_2: 'Sàn phẳng không gờ cửa', support_3: 'Ưu tiên xếp hàng đặc biệt', price: 500000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 26, title: 'Victoria Cần Thơ Resort', address: 'Cần Thơ', image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80', rating: 4.8, slots: 6, support_1: 'Lối đi dọc bờ sông bằng gỗ', support_2: 'Phòng Classic Tầng Trệt', support_3: 'Hỗ trợ lên du thuyền êm ái', price: 2500000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 27, title: 'Khu du lịch sinh thái Cần Giờ', address: 'TP.HCM', image: 'https://images.unsplash.com/photo-1627914026362-e64dbfecf605?auto=format&fit=crop&w=600&q=80', rating: 4.4, slots: 20, support_1: 'Cầu phao có lan can thép', support_2: 'Nhà hàng nổi thiết kế không bậc', support_3: 'Xe điện rừng ngập mặn', price: 150000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 28, title: 'Bến du thuyền Vũng Tàu Marina', address: 'Vũng Tàu', image: 'https://images.unsplash.com/photo-1562947116-3e74ff5187e1?auto=format&fit=crop&w=600&q=80', rating: 4.5, slots: 15, support_1: 'Cầu cảng rộng và phẳng', support_2: 'Ghế ngồi nghỉ ven biển nhiều', support_3: 'Hỗ trợ cano người cao tuổi', price: 100000, badge_text: '⚠ Xác minh một phần', badge_bg: '#fef3c7', badge_color: '#b45309' },
+            { id: 29, title: 'JW Marriott Phú Quốc', address: 'Phú Quốc', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80', rating: 5.0, slots: 4, support_1: 'Đường đi xe buggy trải khắp', support_2: 'Phòng thiết kế Accessible Room', support_3: 'Nút chuông báo y tế phòng tắm', price: 8500000, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' },
+            { id: 30, title: 'Khu phố đi bộ Nguyễn Huệ', address: 'Quận 1, TP.HCM', image: 'https://images.unsplash.com/photo-1582559938554-15f16e10eb9f?auto=format&fit=crop&w=600&q=80', rating: 4.7, slots: 100, support_1: 'Mặt đường lát đá siêu phẳng', support_2: 'Có bục vuốt xe lăn lên vỉa hè', support_3: 'Khu vực an ninh trật tự cao', price: 0, badge_text: '✔ Đã xác minh 100%', badge_bg: '#dcfce7', badge_color: '#166534' }
         ];
 
-        document.addEventListener('DOMContentLoaded', () => {
+        let currentPage = 1;
+        const itemsPerPage = 6; 
+        function renderDestinations() {
             const container = document.getElementById('destinationList');
             if(!container) return;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentTours = premiumDestinations.slice(startIndex, endIndex);
 
-            container.innerHTML = premiumDestinations.map(item => `
+            container.innerHTML = currentTours.map(item => `
                 <div class="dest-card tour-card" style="border: 1px solid var(--c-border); border-radius: 16px; overflow: hidden; background: var(--c-card); padding-bottom: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: 0.2s;">
                     <div style="position: relative; height: 200px; overflow: hidden; background: #e2e8f0;">
                         <img src="${item.image}" style="width: 100%; height: 100%; object-fit: cover;" alt="${item.title}">
-                        <div style="position: absolute; top: 12px; left: 12px; background: ${item.badge_bg}; color: ${item.badge_color}; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                        <div style="position: absolute; top: 12px; left: 12px; background: ${item.badge_bg}; color: ${item.badge_color}; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid rgba(0,0,0,0.05);">
                             ${item.badge_text}
                         </div>
-                        <div style="position: absolute; bottom: 12px; right: 12px; background: #0f766e; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700;">
-                            Còn ${item.slots} suất
-                        </div>
+                        <div style="position: absolute; bottom: 12px; right: 12px; background: #0f766e; color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: 700;">Còn ${item.slots} suất</div>
                     </div>
-                    
                     <div style="padding: 16px;">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
                             <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: var(--c-text); line-height: 1.3;">${item.title}</h3>
                             <span style="color: #f59e0b; font-weight: 800; font-size: 14px; white-space: nowrap;">★ ${item.rating}</span>
                         </div>
-                        <div style="font-size: 13px; color: var(--c-muted); font-weight: 600; margin-bottom: 16px;">
-                            📍 ${item.address}
-                        </div>
-                        
+                        <div style="font-size: 13px; color: var(--c-muted); font-weight: 600; margin-bottom: 16px;">📍 ${item.address}</div>
                         <div style="background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 13px; color: var(--c-muted); margin-bottom: 16px; border: 1px solid #f1f5f9;">
                             <div style="margin-bottom: 6px;"><strong style="color:var(--c-text);">🤝 Hỗ trợ:</strong> ${item.support_1}</div>
                             <div style="margin-bottom: 6px;"><strong style="color:var(--c-text);">🛋️ Nghỉ chân:</strong> ${item.support_2}</div>
                             <div><strong style="color:var(--c-text);">🧑‍⚕️ Nhân viên:</strong> ${item.support_3}</div>
                         </div>
-                        
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <strong style="color: #0f766e; font-size: 18px;">${item.price.toLocaleString('vi-VN')} đ</strong>
                             <div style="display: flex; gap: 8px;">
-                                <a href="detail.html?id=${item.id}" style="background: #f1f5f9; color: #0f766e; border: 1.5px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700;">Xem thẩm định</a>
+                                <a href="detail.html?id=${item.id}" style="background: #f1f5f9; color: #0f766e; border: 1.5px solid #cbd5e1; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700;">Thẩm định</a>
                                 <a href="booking.html?id=${item.id}&title=${encodeURIComponent(item.title)}&price=${item.price}" style="background: #0f766e; color: #fff; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 700;">Đặt chỗ</a>
                             </div>
                         </div>
                     </div>
                 </div>
             `).join('');
-        });
+        }
+        function renderPagination() {
+            const container = document.getElementById('paginationContainer');
+            if(!container) return;
+            const totalPages = Math.ceil(premiumDestinations.length / itemsPerPage);
+            let html = '';
+            for(let i = 1; i <= totalPages; i++) {
+                if(i === currentPage) {
+                    html += `<button onclick="goToPage(${i})" style="background:#0f766e; color:#fff; border:none; width:40px; height:40px; border-radius:8px; font-weight:800; cursor:pointer; transition:0.2s;">${i}</button>`;
+                } else {
+                    html += `<button onclick="goToPage(${i})" style="background:#fff; border:1px solid #cbd5e1; color:#475569; width:40px; height:40px; border-radius:8px; font-weight:800; cursor:pointer; transition:0.2s;" onmouseover="this.style.borderColor='#0f766e'; this.style.color='#0f766e'" onmouseout="this.style.borderColor='#cbd5e1'; this.style.color='#475569'">${i}</button>`;
+                }
+            }
+            container.innerHTML = html;
+        }
+        function goToPage(page) {
+            currentPage = page; renderDestinations(); renderPagination(); 
+            document.getElementById('destinationList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        document.addEventListener('DOMContentLoaded', () => { renderDestinations(); renderPagination(); });
     </script>
-    
-    <!-- Nạp dữ liệu JS -->
-    <script src="js/app.js" defer></script>
 </body>
 </html>
