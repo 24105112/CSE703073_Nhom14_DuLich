@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vị Trí & Tiện Ích Lân Cận | AccessTravel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --tvlk-blue: #006ce4; --tvlk-dark: #191e23; --tvlk-bg: #f4f6f8; --tvlk-border: #d0d5dd; }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: vartvlk-bg; margin: 0; color: var(--tvlk-dark); font-size: 15px; background: #f4f6f8; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        header { background: #fff; padding: 14px 40px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 20px; }
+        .logo { font-weight: 900; font-size: 20px; color: #0f766e; }
+
+        .container { max-width: 1000px; margin: 30px auto 60px; padding: 0 20px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--tvlk-blue); margin-bottom: 20px; }
+
+        /* KHUNG BẢN ĐỒ GIẢ LẬP (ẢNH 2) */
+        .map-box { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .map-frame { width: 100%; height: 360px; background: #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; }
+        
+        /* DANH SÁCH ĐỊA ĐIỂM LAN CẬN CHIA CỘT */
+        .nearby-section { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 24px; }
+        .nearby-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 16px; }
+        .nearby-col-title { font-size: 16px; font-weight: 900; margin-bottom: 14px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+        .location-row { display: flex; justify-content: space-between; font-size: 13.5px; color: #475569; margin-bottom: 12px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="detail.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Trở lại trang chi tiết</a>
+        <div class="logo">Bản đồ & Địa điểm lân cận</div>
+    </header>
+
+    <div class="container">
+        
+        <!-- BẢN ĐỒ -->
+        <div class="map-box">
+            <h2 style="margin:0 0 14px 0; font-size:20px; font-weight:900;">Vị trí trên bản đồ</h2>
+            <div style="font-size:14px; color:#64748b; margin-bottom:14px;">
+                <i class="fa-solid fa-location-dot" style="color:var(--tvlk-blue);"></i> Cảng tàu khách quốc tế Hạ Long, Bãi Cháy, Thành phố Hạ Long, Quảng Ninh
+            </div>
+            
+            <div class="map-frame">
+                <!-- Nhúng bản đồ Google Maps minh họa chuẩn tọa độ Hạ Long -->
+                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Ha+Long+International+Cruise+Port&t=&z=14&ie=UTF8&iwloc=&output=embed" style="border:0;"></iframe>
+            </div>
+        </div>
+
+        <!-- DANH SÁCH ĐỊA ĐIỂM LÂN CẬN CHIA 3 CỘT (GIỐNG ẢNH 2) -->
+        <div class="nearby-section">
+            <h2 style="margin:0 0 20px 0; font-size:20px; font-weight:900;">Điểm mốc & Y tế xung quanh</h2>
+            
+            <div class="nearby-grid">
+                <!-- Cột 1 -->
+                <div>
+                    <div class="nearby-col-title"><i class="fa-solid fa-hospital" style="color:#ef4444;"></i> Y tế & Sức khỏe</div>
+                    <div class="location-row"><span>Bệnh viện Đa khoa Hạ Long</span> <strong>1.2 km</strong></div>
+                    <div class="location-row"><span>Nhà thuốc GPP Chuẩn Y Tế</span> <strong>300 m</strong></div>
+                    <div class="location-row"><span>Trạm y tế phường Bãi Cháy</span> <strong>850 m</strong></div>
+                </div>
+
+                <!-- Cột 2 -->
+                <div>
+                    <div class="nearby-col-title"><i class="fa-solid fa-anchor" style="color:var(--tvlk-blue);"></i> Giao thông & Bến bãi</div>
+                    <div class="location-row"><span>Cảng tàu khách quốc tế</span> <strong>0 m</strong></div>
+                    <div class="location-row"><span>Ga cáp treo Nữ Hoàng</span> <strong>2.1 km</strong></div>
+                    <div class="location-row"><span>Bến xe Bãi Cháy</span> <strong>3.5 km</strong></div>
+                </div>
+
+                <!-- Cột 3 -->
+                <div>
+                    <div class="nearby-col-title"><i class="fa-solid fa-bag-shopping" style="color:#10b981;"></i> Tiện ích & Mua sắm</div>
+                    <div class="location-row"><span>Chợ đêm Hạ Long</span> <strong>1.5 km</strong></div>
+                    <div class="location-row"><span>Khu ẩm thực sảnh chờ</span> <strong>50 m</strong></div>
+                    <div class="location-row"><span>Trung tâm thương mại</span> <strong>2.8 km</strong></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

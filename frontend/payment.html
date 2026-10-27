@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán Đơn Hàng | AccessTravel Sandbox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --c-main: #0f766e;
+            --c-main-hover: #0d9488;
+            --c-orange: #ff5e1f;
+            --c-bg: #f4f6f8;
+            --c-card-bg: #ffffff;
+            --c-text: #0f172a;
+            --c-text-muted: #64748b;
+            --c-border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--c-bg);
+            color: var(--c-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        /* HEADER */
+        .payment-header {
+            background: var(--c-card-bg);
+            border-bottom: 1px solid var(--c-border);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .payment-logo {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--c-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .payment-security {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* CONTAINER */
+        .payment-container {
+            max-width: 1140px;
+            margin: 30px auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* BANNER HẸN GIỜ */
+        .countdown-banner {
+            grid-column: span 2;
+            background: #006ce4;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 14.5px;
+            box-shadow: 0 4px 12px rgba(0, 108, 228, 0.15);
+        }
+        .countdown-time {
+            font-size: 19px;
+            font-weight: 900;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 12px;
+            border-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        /* PHƯƠNG THỨC THANH TOÁN */
+        .methods-card {
+            background: var(--c-card-bg);
+            border: 1px solid var(--c-border);
+            border-radius: 16px;
+            padding: 26px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .methods-title {
+            font-size: 19px;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+        }
+
+        .method-item {
+            border: 1.5px solid var(--c-border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .method-item:hover {
+            border-color: #cbd5e1;
+        }
+        .method-item.active {
+            border-color: #006ce4;
+            background: #f0f7ff;
+        }
+        .method-radio {
+            margin-top: 4px;
+            accent-color: #006ce4;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .method-content {
+            flex: 1;
+        }
+        .method-head-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .method-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--c-text);
+        }
+        .method-desc {
+            font-size: 13px;
+            color: var(--c-text-muted);
+            line-height: 1.5;
+            margin: 0;
+            font-weight: 500;
+        }
+        .badge-discount {
+            background: #dcfce7;
+            color: #166534;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        /* CHI TIẾT TỪNG PHƯƠNG THỨC (XỔ XUỐNG KHI CHỌN) */
+        .method-details-panel {
+            display: none;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1.5px dashed var(--c-border);
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        .method-item.active .method-details-panel {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* FORM ĐIỀN THẺ TÍN DỤNG */
+        .card-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .card-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .card-form-group.full {
+            grid-column: span 2;
+        }
+        .card-form-group label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--c-text-muted);
+            text-transform: uppercase;
+        }
+        .card-form-group input {
+            padding: 11px 14px;
+            border: 1.5px solid var(--c-border);
+            border-radius: 8px;
+            font-size: 14.5px;
+            font-family: inherit;
+            outline: none;
+            background: #ffffff;
+            font-weight: 700;
+        }
+        .card-form-group input:focus {
+            border-color: #006ce4;
+        }
+
+        /* KHUNG QR */
+        .qr-box-center {
+            text-align: center;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--c-border);
+        }
+        .qr-box-center img {
+            width: 180px;
+            height: 180px;
+            border-radius: 8px;
+            border: 1px solid var(--c-border);
+            margin-bottom: 10px;
+        }
+
+        /* TÓM TẮT ĐƠN HÀNG (CỘT PHẢI) */
+        .summary-card {
+            background: var(--c-card-bg);
+            border: 1px solid var(--c-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .summary-title {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0 0 16px 0;
+        }
+        .tour-name-summary {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--c-text);
+            margin-bottom: 4px;
+        }
+        .tour-sub-summary {
+            font-size: 13px;
+            color: var(--c-text-muted);
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--c-border);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13.5px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--c-text-muted);
+        }
+        .summary-row.val-bold {
+            color: var(--c-text);
+            font-weight: 800;
+        }
+
+        /* KHU VỰC VOUCHER / MÃ GIẢM GIÁ */
+        .voucher-box {
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 14px;
+            margin: 18px 0;
+        }
+        .voucher-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #0f766e;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .voucher-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--c-border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 700;
+            background: #ffffff;
+            color: var(--c-text);
+            outline: none;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+        .voucher-select:focus {
+            border-color: #0f766e;
+        }
+        .voucher-status {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #166534;
+            display: none;
+        }
+
+        /* TỔNG TIỀN & NÚT */
+        .total-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-top: 1.5px dashed var(--c-border);
+            padding-top: 16px;
+            margin-top: 14px;
+        }
+        .total-label {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--c-text);
+        }
+        .total-amount {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--c-orange);
+            transition: 0.2s;
+        }
+
+        .btn-confirm-pay {
+            width: 100%;
+            background: var(--c-orange);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(255, 94, 31, 0.2);
+        }
+        .btn-confirm-pay:hover {
+            background: #e04b11;
+            transform: translateY(-1px);
+        }
+
+        .policy-note {
+            font-size: 12px;
+            color: var(--c-text-muted);
+            text-align: center;
+            margin-top: 14px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        @media (max-width: 850px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+            .countdown-banner {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER BẢO MẬT -->
+    <header class="payment-header">
+        <a href="index.html" class="payment-logo">
+            <i class="fa-solid fa-wheelchair"></i> AccessTravel
+        </a>
+        <div class="payment-security">
+            <i class="fa-solid fa-shield-halved"></i> Thanh toán bảo mật SSL (Môi trường Sandbox M3)
+        </div>
+    </header>
+
+    <!-- KHUNG CHÍNH -->
+    <div class="payment-container">
+
+        <!-- THANH ĐẾM NGƯỢC GIỮ CHỖ CÓ THỜI HẠN (MỐC M2/M3) -->
+        <div class="countdown-banner">
+            <div>
+                <i class="fa-solid fa-clock"></i> Đừng lo lắng, giá vẫn giữ nguyên. Hoàn tất thanh toán trong:
+            </div>
+            <div class="countdown-time" id="countdownTimer">14:54</div>
+        </div>
+
+        <!-- CỘT TRÁI: BẠN MUỐN THANH TOÁN THẾ NÀO? -->
+        <div class="methods-card">
+            <h2 class="methods-title">Bạn muốn thanh toán thế nào?</h2>
+
+            <!-- PHƯƠNG THỨC 1: VIETQR (MẶC ĐỊNH) -->
+            <div class="method-item active" id="itemVietQR" onclick="selectPaymentMethod('vietqr')">
+                <input type="radio" name="payMethod" class="method-radio" id="rdVietQR" checked>
+                <div class="method-content">
+                    <div class="method-head-row">
+                        <div class="method-name">
+                            VietQR / Quét mã QR ngân hàng
+                            <span class="badge-discount">Ưu đãi giảm giá</span>
+                        </div>
+                        <i class="fa-solid fa-qrcode" style="font-size: 22px; color: #006ce4;"></i>
+                    </div>
+                    <p class="method-desc">Thanh toán dễ dàng bằng ứng dụng ngân hàng di động bằng cách lưu hoặc quét mã QR. Đảm bảo giữ chỗ ngay lập tức.</p>
+
+                    <!-- KHUNG HIỂN THỊ MÃ QR THỰC TẾ KHI CHỌN VIETQR -->
+                    <div class="method-details-panel">
+                        <div class="qr-box-center">
+                            <img id="vietqrImage" src="" alt="Mã VietQR Sandbox">
+                            <div style="font-size: 13.5px; font-weight: 800; color: #006ce4; margin-bottom: 4px;">Quét mã qua App Ngân hàng (MB, VCB, Techcombank...)</div>
+                            <div style="font-size: 12px; color: var(--c-text-muted); font-weight: 600;">Hệ thống tự động kích hoạt vé sau 5 - 10 giây khi tiền vào tài khoản.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHƯƠNG THỨC 2: VÍ ĐIỆN TỬ -->
+            <div class="method-item" id="itemEwallet" onclick="selectPaymentMethod('ewallet')">
+                <input type="radio" name="payMethod" class="method-radio" id="rdEwallet">
+                <div class="method-content">
+                    <div class="method-head-row">
+                        <div class="method-name">Ví điện tử (MoMo / ZaloPay / ShopeePay)</div>
+                        <i class="fa-solid fa-wallet" style="font-size: 20px; color: #db2777;"></i>
+                    </div>
+                    <p class="method-desc">Liên kết ví để thanh toán một chạm an toàn và nhanh chóng.</p>
+
+                    <!-- KHUNG VÍ ĐIỆN TỬ -->
+                    <div class="method-details-panel">
+                        <div style="background: #ffffff; border: 1px solid var(--c-border); border-radius: 10px; padding: 14px; font-size: 13.5px; font-weight: 700; color: #475569;">
+                            <i class="fa-solid fa-mobile-screen" style="color: #0f766e;"></i> Hệ thống sẽ chuyển hướng sang ứng dụng Ví đã chọn để xác thực vân tay / FaceID.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHƯƠNG THỨC 3: THẺ TÍN DỤNG / GHI NỢ (ĐÃ BỔ SUNG FORM ĐIỀN THÔNG TIN THẺ CHUẨN) -->
+            <div class="method-item" id="itemCreditCard" onclick="selectPaymentMethod('credit')">
+                <input type="radio" name="payMethod" class="method-radio" id="rdCredit">
+                <div class="method-content">
+                    <div class="method-head-row">
+                        <div class="method-name">Thẻ Tín dụng / Ghi nợ (Visa, Master, JCB)</div>
+                        <i class="fa-solid fa-credit-card" style="font-size: 20px; color: #0284c7;"></i>
+                    </div>
+                    <p class="method-desc">Hỗ trợ tất cả các thẻ phát hành trong và ngoài nước.</p>
+
+                    <!-- FORM ĐIỀN THẺ CHI TIẾT KHI BẤM CHỌN -->
+                    <div class="method-details-panel">
+                        <div class="card-form-grid">
+                            <div class="card-form-group full">
+                                <label>Số thẻ tín dụng / ghi nợ</label>
+                                <input type="text" id="cardNumberInput" placeholder="4123 4567 8901 2345" maxlength="19" oninput="formatCardNumber(this)">
+                            </div>
+                            <div class="card-form-group full">
+                                <label>Tên in trên thẻ (Không dấu)</label>
+                                <input type="text" id="cardHolderInput" placeholder="NGUYEN TRUNG ANH" style="text-transform: uppercase;">
+                            </div>
+                            <div class="card-form-group">
+                                <label>Ngày hết hạn (MM/YY)</label>
+                                <input type="text" id="cardExpiryInput" placeholder="MM/YY" maxlength="5" oninput="formatExpiry(this)">
+                            </div>
+                            <div class="card-form-group">
+                                <label>Mã bảo mật CVV / CVC</label>
+                                <input type="password" id="cardCvvInput" placeholder="•••" maxlength="4">
+                            </div>
+                        </div>
+                        <div style="font-size: 12px; color: #166534; font-weight: 700; margin-top: 10px;">
+                            <i class="fa-solid fa-lock"></i> Dữ liệu thẻ được mã hóa 256-bit chuẩn PCI-DSS an toàn tuyệt đối.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CỘT PHẢI: TÓM TẮT ĐƠN HÀNG + VOUCHER TRỪ TIỀN TỰ ĐỘNG -->
+        <div class="summary-card">
+            <h3 class="summary-title">Tóm tắt đơn hàng</h3>
+
+            <div class="tour-name-summary" id="sumTourName">Du thuyền Ambassador Vịnh Hạ Long</div>
+            <div class="tour-sub-summary" id="sumTourPackage">1 Khách · Gói tiêu chuẩn xe lăn</div>
+
+            <div class="summary-row">
+                <span>Mã đặt chỗ</span>
+                <span class="val-bold" id="sumOrderCode" style="color: #006ce4;">#AT-88291</span>
+            </div>
+            <div class="summary-row">
+                <span>Thời gian khởi hành</span>
+                <span class="val-bold" id="sumDepDate">24 Thg 11, 2026</span>
+            </div>
+            <div class="summary-row">
+                <span>Phụ phí thiết bị trợ năng</span>
+                <span style="color: #166534; font-weight: 800;">Miễn phí</span>
+            </div>
+            <div class="summary-row">
+                <span>Giá gốc chuyến đi</span>
+                <span class="val-bold" id="sumOriginalPrice">3.200.000 đ</span>
+            </div>
+
+            <!-- KHỐI MÃ GIẢM GIÁ (VOUCHER) ĐỘNG -->
+            <div class="voucher-box">
+                <div class="voucher-title">
+                    <i class="fa-solid fa-ticket"></i> Mã giảm giá / Ưu đãi trợ năng
+                </div>
+                <select class="voucher-select" id="voucherSelect" onchange="applyVoucherDiscount()">
+                    <option value="0">-- Chọn mã giảm giá --</option>
+                    <option value="100000">ACCESSTRAVEL100 (Giảm ngay 100.000 đ)</option>
+                    <option value="200000">SENIORCARE (Ưu đãi Người cao tuổi - Giảm 200.000 đ)</option>
+                    <option value="0.1">WHEELCHAIR10 (Hỗ trợ xe lăn - Giảm 10% tổng đơn)</option>
+                </select>
+                <div class="summary-row" id="discountRow" style="display: none; color: #dc2626; margin-bottom: 4px;">
+                    <span>Giảm giá khuyến mãi:</span>
+                    <span id="discountValueText" style="font-weight: 800;">- 0 đ</span>
+                </div>
+                <div class="voucher-status" id="voucherStatusMsg">✔ Đã áp dụng mã ưu đãi thành công!</div>
+            </div>
+
+            <!-- TỔNG TIỀN THANH TOÁN -->
+            <div class="total-price-row">
+                <div class="total-label">Tổng giá tiền</div>
+                <div class="total-amount" id="sumFinalPrice">3.200.000 đ</div>
+            </div>
+
+            <!-- NÚT XÁC NHẬN THANH TOÁN (TỰ ĐỔI TEXT VÀ HÀNH ĐỘNG THEO PHƯƠNG THỨC ĐƯỢC CHỌN) -->
+            <button type="button" class="btn-confirm-pay" id="btnMainPay" onclick="handleExecutePayment()">
+                <i class="fa-solid fa-bolt"></i> <span id="btnPayText">Thanh toán & Hiển thị mã QR</span>
+            </button>
+
+            <div class="policy-note">
+                Bằng cách tiếp tục, bạn đồng ý với <a href="#" style="color:#006ce4; font-weight:700;">Điều khoản & Điều kiện</a> của AccessTravel.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT XỬ LÝ CHUYỂN PHƯƠNG THỨC & TÍNH TIỀN VOUCHER ĐỘNG -->
+    <script>
+        let currentMethod = 'vietqr';
+        let rawBasePrice = 3200000;
+        let currentFinalPrice = 3200000;
+        let discountAmount = 0;
+
+        // Đọc tham số URL khi chuyển từ detail.html sang (ma_don & tong_tien)
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramMaDon = urlParams.get('ma_don');
+        const paramTongTien = urlParams.get('tong_tien');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initOrderDetails();
+            updateVietQRImage();
+            startCountdown(14, 54);
+        });
+
+        // 1. Khởi tạo thông tin đơn hàng
+        function initOrderDetails() {
+            if (paramMaDon) {
+                document.getElementById('sumOrderCode').innerText = '#' + paramMaDon;
+            }
+            if (paramTongTien) {
+                // Tách số tiền thô
+                const cleaned = paramTongTien.replace(/[^\d]/g, '');
+                if (cleaned) {
+                    rawBasePrice = parseInt(cleaned);
+                    currentFinalPrice = rawBasePrice;
+                }
+            }
+            renderPriceUI();
+        }
+
+        // 2. Chọn phương thức thanh toán
+        function selectPaymentMethod(method) {
+            currentMethod = method;
+
+            document.querySelectorAll('.method-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.method-radio').forEach(r => r.checked = false);
+
+            const btnText = document.getElementById('btnPayText');
+
+            if (method === 'vietqr') {
+                document.getElementById('itemVietQR').classList.add('active');
+                document.getElementById('rdVietQR').checked = true;
+                btnText.innerText = "Thanh toán & Đã quét mã QR";
+            } else if (method === 'ewallet') {
+                document.getElementById('itemEwallet').classList.add('active');
+                document.getElementById('rdEwallet').checked = true;
+                btnText.innerText = "Mở Ví điện tử thanh toán";
+            } else if (method === 'credit') {
+                document.getElementById('itemCreditCard').classList.add('active');
+                document.getElementById('rdCredit').checked = true;
+                btnText.innerText = "Xác nhận thanh toán qua Thẻ";
+            }
+        }
+
+        // 3. Xử lý giảm giá khi chọn Voucher
+        function applyVoucherDiscount() {
+            const select = document.getElementById('voucherSelect');
+            const val = parseFloat(select.value);
+            const discountRow = document.getElementById('discountRow');
+            const statusMsg = document.getElementById('voucherStatusMsg');
+            const discountText = document.getElementById('discountValueText');
+
+            if (val === 0) {
+                discountAmount = 0;
+                discountRow.style.display = 'none';
+                statusMsg.style.display = 'none';
+            } else if (val < 1) {
+                // Giảm theo % (0.1 = 10%)
+                discountAmount = Math.round(rawBasePrice * val);
+                discountRow.style.display = 'flex';
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = `✔ Đã giảm 10% (-${discountAmount.toLocaleString('vi-VN')} đ)!`;
+            } else {
+                // Giảm theo số tiền cố định (100k, 200k)
+                discountAmount = val;
+                discountRow.style.display = 'flex';
+                statusMsg.style.display = 'block';
+                statusMsg.innerText = `✔ Đã áp dụng giảm -${discountAmount.toLocaleString('vi-VN')} đ!`;
+            }
+
+            currentFinalPrice = Math.max(0, rawBasePrice - discountAmount);
+            discountText.innerText = `-${discountAmount.toLocaleString('vi-VN')} đ`;
+            renderPriceUI();
+            updateVietQRImage();
+        }
+
+        function renderPriceUI() {
+            document.getElementById('sumOriginalPrice').innerText = rawBasePrice.toLocaleString('vi-VN') + ' đ';
+            document.getElementById('sumFinalPrice').innerText = currentFinalPrice.toLocaleString('vi-VN') + ' đ';
+        }
+
+        // 4. Sinh mã VietQR động theo số tiền thực sau giảm
+        function updateVietQRImage() {
+            const orderCode = document.getElementById('sumOrderCode').innerText.replace('#', '');
+            const qrUrl = `https://img.vietqr.io/image/MB-0348889999-compact2.png?amount=${currentFinalPrice}&addInfo=${encodeURIComponent(orderCode + ' ACCESSTRAVEL')}&accountName=ACCESSTRAVEL%20VIETNAM`;
+            document.getElementById('vietqrImage').src = qrUrl;
+        }
+
+        // 5. Định dạng số thẻ và ngày hết hạn
+        function formatCardNumber(input) {
+            let val = input.value.replace(/\D/g, '');
+            let formatted = val.match(/.{1,4}/g)?.join(' ') || val;
+            input.value = formatted.substring(0, 19);
+        }
+
+        function formatExpiry(input) {
+            let val = input.value.replace(/\D/g, '');
+            if (val.length >= 2) {
+                input.value = val.substring(0, 2) + '/' + val.substring(2, 4);
+            } else {
+                input.value = val;
+            }
+        }
+
+        // 6. Xử lý bấm nút thanh toán (Chuyển trạng thái đơn sang đã thanh toán)
+        async function handleExecutePayment() {
+            const orderCode = document.getElementById('sumOrderCode').innerText.replace('#', '');
+
+            // Nếu chọn thẻ, kiểm tra thông tin thẻ cơ bản
+            if (currentMethod === 'credit') {
+                const cardNum = document.getElementById('cardNumberInput').value.trim();
+                const cardHolder = document.getElementById('cardHolderInput').value.trim();
+                const cardExp = document.getElementById('cardExpiryInput').value.trim();
+                const cardCvv = document.getElementById('cardCvvInput').value.trim();
+
+                if (!cardNum || !cardHolder || !cardExp || !cardCvv) {
+                    alert('Vui lòng điền đầy đủ các thông tin: Số thẻ, Tên in trên thẻ, Ngày hết hạn và CVV!');
+                    return;
+                }
+            }
+
+            // Gọi API thanh toán thử nghiệm cập nhật CSDL
+            try {
+                const res = await fetch('../api/bookings/pay.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ma_don: orderCode,
+                        phuong_thuc: currentMethod,
+                        tong_tien: currentFinalPrice,
+                        tien_giam: discountAmount
+                    })
+                });
+            } catch (err) {
+                console.log('Chế độ sandbox cục bộ.');
+            }
+
+            alert(`🎉 THANH TOÁN THÀNH CÔNG (SANDBOX)!\n---------------------------------\n• Mã đơn: ${orderCode}\n• Phương thức: ${currentMethod.toUpperCase()}\n• Tổng tiền đã thanh toán: ${currentFinalPrice.toLocaleString('vi-VN')} đ\n• Đã giảm trừ Voucher: ${discountAmount.toLocaleString('vi-VN')} đ\n---------------------------------\nVé điện tử trợ năng và hóa đơn đã được gửi qua email của bạn!`);
+            
+            // Chuyển về trang chủ hoặc đơn hàng
+            window.location.href = 'index.html';
+        }
+
+        // 7. Đồng hồ đếm ngược giữ chỗ
+        function startCountdown(minutes, seconds) {
+            let totalSec = minutes * 60 + seconds;
+            const timerEl = document.getElementById('countdownTimer');
+            const interval = setInterval(() => {
+                totalSec--;
+                if (totalSec <= 0) {
+                    clearInterval(interval);
+                    timerEl.innerText = "00:00";
+                    alert("Thời hạn giữ chỗ đã hết! Vui lòng chọn lại suất khởi hành.");
+                    window.location.href = 'detail.html';
+                    return;
+                }
+                const m = Math.floor(totalSec / 60).toString().padStart(2, '0');
+                const s = (totalSec % 60).toString().padStart(2, '0');
+                timerEl.innerText = `${m}:${s}`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

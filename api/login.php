@@ -1,13 +1,15 @@
 ﻿<?php
+// api/login.php
 session_start();
-error_reporting(0); // Tắt hiển thị cảnh báo PHP rác
+error_reporting(0);
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
 try {
     $input = json_decode(file_get_contents('php://input'), true);
-    $username = trim($input['username'] ?? '');
-    $password = trim($input['password'] ?? '');
+    // Nhận username hoặc email
+    $username = trim($input['username'] ?? $input['email'] ?? '');
+    $password = trim($input['password'] ?? $input['mat_khau'] ?? '');
 
     if ($username === '' || $password === '') {
         @ob_clean();
@@ -16,31 +18,28 @@ try {
         exit;
     }
 
-    $pdo = new PDO("mysql:host=127.0.0.1;dbname=cse703073_nhom14_dulich;charset=utf8mb4", "root", "", [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]);
+    // Kết nối CSDL thông qua db.php hoặc PDO trực tiếp
+    require_once __DIR__ . '/db.php';
 
-    // Tìm user theo username
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    // Tìm kiếm trong bảng nguoi_dung theo email
+    $stmt = $pdo->prepare("SELECT * FROM nguoi_dung WHERE email = ? LIMIT 1");
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password_hash'])) {
+    if ($user && password_verify($password, $user['mat_khau'])) {
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['role'] = $user['role'] ?? 'user';
-        $_SESSION['full_name'] = $user['full_name'] ?? $user['username'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['role'] = $user['vai_tro'];
+        $_SESSION['full_name'] = $user['ho_ten'];
 
-        @ob_clean(); // Xóa rác BOM ẩn
+        @ob_clean();
         echo json_encode([
             'status' => 'success',
             'user' => [
                 'id' => $user['id'],
-                'username' => $user['username'],
-                'full_name' => $user['full_name'] ?? $user['username'],
-                'role' => $user['role'] ?? 'user',
-                'mobility_profile' => $user['mobility_profile'] ?? 'Người cao tuổi'
+                'full_name' => $user['ho_ten'],
+                'email' => $user['email'],
+                'role' => $user['vai_tro']
             ]
         ], JSON_UNESCAPED_UNICODE);
     } else {
@@ -53,3 +52,4 @@ try {
     http_response_code(500);
     echo json_encode(['status' => 'error', 'error' => 'Lỗi máy chủ CSDL: ' . $e->getMessage()], JSON_UNESCAPED_UNICODE);
 }
+?>

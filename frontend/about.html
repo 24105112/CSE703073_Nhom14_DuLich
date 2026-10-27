@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Về Chúng Tôi | AccessTravel Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --c-main: #0f766e; --c-hover: #0d9488; --c-bg: #f8fafc;
+            --c-card: #ffffff; --c-text: #0f172a; --c-muted: #64748b; --c-border: #e2e8f0;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); color: var(--c-text); margin: 0; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        header { background: var(--c-card); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 24px; font-weight: 700; font-size: 15px; }
+        .nav-links a:hover, .nav-links a.active { color: var(--c-main); }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+        /* MISSION BANNER */
+        .mission-banner { background: #0f766e; color: #fff; padding: 44px 36px; border-radius: 18px; margin-bottom: 40px; box-shadow: 0 10px 25px rgba(15,118,110,0.15); }
+        .mission-tag { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #99f6e4; margin-bottom: 8px; }
+        .mission-banner h1 { font-size: 32px; font-weight: 900; margin: 0 0 12px 0; line-height: 1.3; }
+        .mission-banner p { font-size: 16px; margin: 0; opacity: 0.95; line-height: 1.6; }
+
+        .content-card { background: var(--c-card); border: 1.5px solid var(--c-border); border-radius: 16px; padding: 32px; margin-bottom: 30px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+        .card-title { font-size: 20px; font-weight: 900; color: var(--c-text); margin: 0 0 14px 0; display: flex; align-items: center; gap: 10px; }
+
+        /* GIÁ TRỊ CỐT LÕI */
+        .values-list { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+        .value-item { display: flex; gap: 18px; align-items: flex-start; }
+        .val-icon { width: 44px; height: 44px; border-radius: 10px; background: #ccfbf1; color: #0f766e; display: flex; justify-content: center; align-items: center; font-size: 20px; flex-shrink: 0; }
+        .val-title { font-size: 16px; font-weight: 900; margin: 0 0 4px 0; color: var(--c-text); }
+        .val-desc { font-size: 14px; color: var(--c-muted); line-height: 1.5; margin: 0; }
+
+        /* ĐỘI NGŨ SINH VIÊN */
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+        .team-box { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 12px; padding: 18px; text-align: center; }
+        .team-avatar { width: 64px; height: 64px; border-radius: 50%; background: #0f766e; color: #fff; display: flex; justify-content: center; align-items: center; margin: 0 auto 12px; font-size: 24px; font-weight: 900; }
+        .team-name { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+        .team-role { font-size: 12.5px; color: var(--c-main); font-weight: 700; }
+
+        footer { background: var(--c-card); border-top: 1px solid var(--c-border); padding: 30px; text-align: center; font-size: 13px; color: var(--c-muted); }
+
+        @media(max-width: 768px) {
+            header { padding: 12px 20px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo"><i class="fa-solid fa-wheelchair"></i> AccessTravel</a>
+        <nav class="nav-links">
+            <a href="services.html">Dịch vụ</a>
+            <a href="news.html">Bản tin</a>
+            <a href="about.html" class="active">Về chúng tôi</a>
+            <a href="support.html">Hỗ trợ</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- BANNER SỨ MỆNH -->
+        <div class="mission-banner">
+            <div class="mission-tag">Về dự án AccessTravel</div>
+            <h1>Du lịch nên là cơ hội dành cho tất cả mọi người.</h1>
+            <p>Chúng tôi hướng tới việc giúp người khuyết tật và người cao tuổi tiếp cận thông tin du lịch rõ ràng hơn, chủ động lựa chọn những hành trình phù hợp với thể trạng của mình.</p>
+        </div>
+
+        <!-- CÂU CHUYỆN HÌNH THÀNH (ĐỒ ÁN HỌC PHẦN) -->
+        <div class="content-card">
+            <h2 class="card-title"><i class="fa-solid fa-graduation-cap" style="color:var(--c-main);"></i> Dự án nghiên cứu & phát triển học thuật</h2>
+            <p style="font-size:14.5px; line-height:1.7; color:var(--c-muted); margin:0;">
+                AccessTravel là đồ án thực hành trong khuôn khổ học phần <strong>CSE703073 (Lập trình ứng dụng Web trong Du lịch)</strong> dưới sự hướng dẫn của <strong>TS. Nguyễn Văn Tánh</strong> tại Khoa Hệ thống Thông tin – Trường Đại học Phenikaa[cite: 20]. Hệ thống được xây dựng nhằm chứng minh tính khả thi của việc số hóa các chỉ số trợ năng thực tế (độ dốc ram < 8%, chiều rộng cửa thang máy, khoảng cách trạm y tế cấp cứu) thay vì các quảng cáo tiếp thị chung chung[cite: 15, 17, 32].
+            </p>
+        </div>
+
+        <!-- 3 GIÁ TRỊ CỐT LÕI -->
+        <div class="content-card">
+            <h2 class="card-title"><i class="fa-solid fa-shield-heart" style="color:var(--c-main);"></i> Ba giá trị cốt lõi</h2>
+            <div class="values-list">
+                <div class="value-item">
+                    <div class="val-icon"><i class="fa-solid fa-check-double"></i></div>
+                    <div>
+                        <h4 class="val-title">Minh bạch thông số</h4>
+                        <p class="val-desc">Công khai dữ liệu đo đạc thực tế về độ dốc, bậc thềm và cảnh báo rõ ràng các khu vực hạn chế để du khách tự tin ra quyết định[cite: 14, 15].</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="val-icon"><i class="fa-solid fa-person-shelter"></i></div>
+                    <div>
+                        <h4 class="val-title">Lấy người dùng làm trung tâm</h4>
+                        <p class="val-desc">Thiết kế đáp ứng tiêu chuẩn tiếp cận WCAG 2.2: chế độ phóng to chữ cho người cao tuổi, đọc to văn bản, phím bấm lớn ≥ 44px tránh bấm nhầm[cite: 16].</p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="val-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <div>
+                        <h4 class="val-title">Kết nối cộng đồng trợ năng</h4>
+                        <p class="val-desc">Khuyến khích du khách chia sẻ các trải nghiệm thực tế và đóng góp cập nhật dữ liệu để hoàn thiện bản đồ du lịch tiếp cận trên toàn quốc[cite: 17].</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ĐỘI NGŨ THỰC HIỆN DỰ ÁN -->
+        <div class="content-card">
+            <h2 class="card-title"><i class="fa-solid fa-users" style="color:var(--c-main);"></i> Đội ngũ phát triển (Nhóm 14)</h2>
+            <div class="team-grid">
+                <div class="team-box">
+                    <div class="team-avatar">A</div>
+                    <div class="team-name">Nguyễn Trung Anh</div>
+                    <div class="team-role">Trưởng nhóm / Backend & AI</div>
+                </div>
+                <div class="team-box">
+                    <div class="team-avatar">L</div>
+                    <div class="team-name">Đỗ Linh</div>
+                    <div class="team-role">Kiến trúc sư CSDL</div>
+                </div>
+                <div class="team-box">
+                    <div class="team-avatar">P</div>
+                    <div class="team-name">Lê Đức Phong</div>
+                    <div class="team-role">Phát triển Giao diện</div>
+                </div>
+                <div class="team-box">
+                    <div class="team-avatar">T</div>
+                    <div class="team-name">Phạm Hồng Thắm</div>
+                    <div class="team-role">Kiểm thử & Tài liệu</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AccessTravel - Đồ án học phần CSE703073 | Trường Đại học Phenikaa[cite: 20].</p>
+    </footer>
+</body>
+</html>

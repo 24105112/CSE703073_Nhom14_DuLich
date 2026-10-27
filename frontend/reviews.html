@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh Giá Chi Tiết | AccessTravel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --tvlk-blue: #006ce4; --tvlk-dark: #191e23; --tvlk-bg: #f4f6f8; --tvlk-border: #d0d5dd; }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--tvlk-bg); margin: 0; color: var(--tvlk-dark); font-size: 15px; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        header { background: #fff; padding: 14px 40px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 20px; }
+        .logo { font-weight: 900; font-size: 20px; color: #0f766e; }
+
+        .container { max-width: 900px; margin: 30px auto 60px; padding: 0 20px; }
+        
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--tvlk-blue); margin-bottom: 20px; }
+
+        /* KHỐI TỔNG QUAN ĐÁNH GIÁ (ẢNH 3) */
+        .review-overview-box { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 30px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .score-big { font-size: 48px; font-weight: 900; color: #0f172a; line-height: 1; margin-bottom: 6px; }
+        .score-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: #475569; }
+        .score-bar-bg { flex: 1; height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+        .score-bar-fill { height: 100%; background: var(--tvlk-blue); border-radius: 99px; }
+
+        /* DANH SÁCH BÌNH LUẬN (ẢNH 8 & 9) */
+        .review-card { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+        .user-row { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+        .user-avatar { width: 44px; height: 44px; background: var(--tvlk-blue); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 16px; }
+        
+        .reply-box { background: #f8fafc; border-left: 3px solid var(--tvlk-blue); padding: 14px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 13.5px; color: #334155; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="detail.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Trở lại trang chi tiết</a>
+        <div class="logo">Du thuyền Ambassador Hạ Long — Đánh giá từ khách hàng</div>
+    </header>
+
+    <div class="container">
+        
+        <!-- TỔNG QUAN ĐIỂM SỐ -->
+        <div class="review-overview-box">
+            <h2 style="margin:0 0 20px 0; font-size:20px; font-weight:900;">Xếp hạng và đánh giá tổng thể</h2>
+            <div style="display:grid; grid-template-columns: 240px 1fr; gap: 40px; align-items: center;">
+                <div>
+                    <div class="score-big">8.9 <span style="font-size:18px; color:#64748b; font-weight:normal;">/ 10</span></div>
+                    <div style="font-weight:800; font-size:18px; color:var(--tvlk-blue);">Tuyệt vời</div>
+                    <div style="font-size:13px; color:#64748b; margin-top:4px;">Dựa trên 124 đánh giá thực tế</div>
+                </div>
+                <div>
+                    <div class="score-bar-row"><span>Độ dốc & Lối xe lăn</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:95%;"></div></div> <strong style="color:#0f172a;">9.5</strong></div>
+                    <div class="score-bar-row"><span>Thang máy & Tiện nghi</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;"></div></div> <strong style="color:#0f172a;">9.0</strong></div>
+                    <div class="score-bar-row"><span>Nhân viên hỗ trợ y tế</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:98%;"></div></div> <strong style="color:#0f172a;">9.8</strong></div>
+                    <div class="score-bar-row"><span>Vệ sinh & An toàn</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:88%;"></div></div> <strong style="color:#0f172a;">8.8</strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DANH SÁCH BÌNH LUẬN CHI TIẾT -->
+        <h3 style="font-size:18px; font-weight:900; margin-bottom:16px;">Đánh giá của khách hàng</h3>
+
+        <!-- Review 1 -->
+        <div class="review-card">
+            <div class="user-row">
+                <div class="user-avatar" style="background:#0f766e;">NM</div>
+                <div>
+                    <strong style="font-size:16px; color:#0f172a; display:block;">Gia đình bác Nguyễn Minh</strong>
+                    <span style="font-size:12.5px; color:#64748b;">Đánh giá cách đây 1 tuần · <span style="color:#166534; font-weight:700;">✔ Khách đã xác minh</span></span>
+                </div>
+                <div style="margin-left:auto; background:#dcfce7; color:#166534; padding:4px 10px; border-radius:6px; font-weight:800;">10.0 / 10</div>
+            </div>
+            <p style="margin:0; line-height:1.6; color:#334155;">"Thang máy cực kỳ êm. Cứ 50m lại có ghế tựa lưng nghỉ chân, nền đường boong chống trượt rất tốt cho người già yếu chân."</p>
+            
+            <div class="reply-box">
+                <strong style="display:block; color:var(--tvlk-blue); margin-bottom:4px;">Phản hồi từ Quản lý Du thuyền Ambassador (18 Oct 2026):</strong>
+                Chào bác Minh, cảm ơn gia đình đã tin tưởng lựa chọn du thuyền. Chúc bác luôn có nhiều sức khỏe và niềm vui trong các chuyến đi tiếp theo!
+            </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-card">
+            <div class="user-row">
+                <div class="user-avatar">TH</div>
+                <div>
+                    <strong style="font-size:16px; color:#0f172a; display:block;">Chị Thu Hà (Xe lăn điện)</strong>
+                    <span style="font-size:12.5px; color:#64748b;">Đánh giá cách đây 3 tuần · <span style="color:#166534; font-weight:700;">✔ Khách đã xác minh</span></span>
+                </div>
+                <div style="margin-left:auto; background:#dcfce7; color:#166534; padding:4px 10px; border-radius:6px; font-weight:800;">9.8 / 10</div>
+            </div>
+            <p style="margin:0; line-height:1.6; color:#334155;">"Cửa nhà tắm rộng đúng 85cm, xe lăn điện quay đầu thoải mái. Nhân viên hỗ trợ đẩy xe rất chu đáo khi thủy triều xuống."</p>
+        </div>
+
+    </div>
+</body>
+</html>

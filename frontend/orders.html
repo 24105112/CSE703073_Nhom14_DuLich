@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn Đặt Hàng | AccessTravel Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #f8fafc; --sidebar-bg: #ffffff; --card-bg: #ffffff;
+            --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
+            --primary: #0f766e; --primary-hover: #0d9488;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; }
+        .sidebar-brand { font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .sidebar-menu { display: flex; flex-direction: column; gap: 6px; }
+        .menu-item { padding: 12px 16px; border-radius: 8px; font-size: 14.5px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .menu-item:hover, .menu-item.active { background: rgba(15, 118, 110, 0.1); color: var(--primary); }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .admin-header { height: 70px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 30px; display: flex; justify-content: space-between; align-items: center; }
+        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+        .breadcrumb span { color: var(--text-main); font-weight: 700; }
+
+        .content-body { padding: 30px; }
+        .page-title { font-size: 24px; font-weight: 900; margin: 0 0 6px 0; }
+        .page-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+
+        .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+        .filter-tab.active { background: var(--text-main); color: var(--card-bg); border-color: var(--text-main); }
+
+        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: visible; }
+        .product-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .product-table th, .product-table td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); }
+        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12.5px; text-transform: uppercase; }
+        
+        .badge-completed { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .badge-processing { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+
+        /* MENU THẢ DÙNG CHUNG */
+        .action-dropdown { position: relative; display: inline-block; }
+        .btn-action-dots { background: transparent; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); padding: 6px 10px; border-radius: 6px; }
+        .btn-action-dots:hover { background: var(--bg-main); color: var(--text-main); }
+        
+        .action-menu-popup {
+            display: none; position: absolute; right: 0; top: 36px; background: var(--card-bg);
+            border: 1px solid var(--border-color); border-radius: 10px; width: 150px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 100; padding: 6px;
+        }
+        .action-menu-popup.show { display: block; }
+        .action-item {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13.5px;
+            font-weight: 700; color: var(--text-main); border-radius: 6px; cursor: pointer;
+        }
+        .action-item:hover { background: var(--bg-main); }
+        .action-item.delete { color: #dc2626; }
+        .action-item.delete:hover { background: #fee2e2; }
+
+        /* MODAL */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-card { background: var(--card-bg); color: var(--text-main); width: 100%; max-width: 600px; border-radius: 16px; padding: 30px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+        .modal-close { position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
+        .form-input { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 14px; color: var(--text-main); margin-bottom: 16px; outline: none; font-family: inherit; }
+        .form-label { font-size: 12.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .btn-modal-save { background: #000; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; }
+        .btn-modal-save:hover { background: #333; }
+    </style>
+</head>
+<body data-theme="light">
+
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-wheelchair"></i> AccessTravel</div>
+        <div class="sidebar-menu">
+            <a href="admin.html" class="menu-item"><i class="fa-solid fa-chart-pie"></i> Bảng điều khiển</a>
+            <a href="products.html" class="menu-item"><i class="fa-solid fa-box"></i> Các sản phẩm</a>
+            <a href="orders.html" class="menu-item active"><i class="fa-solid fa-cart-shopping"></i> Đơn đặt hàng</a>
+            <a href="customers.html" class="menu-item"><i class="fa-solid fa-users"></i> Khách hàng</a>
+            <a href="index.html" class="menu-item"><i class="fa-solid fa-globe"></i> Xem trang chủ</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header class="admin-header">
+            <div class="breadcrumb">Bảng điều khiển &nbsp;>&nbsp; <span>Đơn đặt hàng</span></div>
+            <div style="font-weight: 800; font-size: 14px;">Quản trị viên Aigars S.</div>
+        </header>
+
+        <div class="content-body">
+            <h1 class="page-title">Đơn đặt hàng</h1>
+            <p class="page-desc">Quản lý và theo dõi tất cả đơn đặt hàng tour trợ năng của khách hàng.</p>
+
+            <div class="filter-tabs">
+                <div class="filter-tab active">Tất cả</div>
+                <div class="filter-tab">Hoàn thành</div>
+                <div class="filter-tab">Xử lý</div>
+            </div>
+
+            <div class="table-container">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>ĐẶT HÀNG</th>
+                            <th>KHÁCH HÀNG</th>
+                            <th>SẢN PHẨM / TOUR</th>
+                            <th>TRẠNG THÁI</th>
+                            <th>TỔNG TIỀN</th>
+                            <th style="text-align: right;">HÀNH ĐỘNG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-id="ORD-7891" data-customer="Emma Wilson (emma@example.com)" data-product="Du thuyền Ambassador Vịnh Hạ Long" data-status="Hoàn thành" data-price="3.200.000 đ">
+                            <td style="font-weight:800;">ORD-7891</td>
+                            <td>Emma Wilson<br><span style="font-size:12px; color:var(--text-muted);">emma@example.com</span></td>
+                            <td>Du thuyền Ambassador Vịnh Hạ Long</td>
+                            <td><span class="badge-completed">Hoàn thành</span></td>
+                            <td style="font-weight:800; color:var(--primary);">3.200.000 đ</td>
+                            <td style="text-align: right;">
+                                <div class="action-dropdown">
+                                    <button class="btn-action-dots" onclick="toggleMenu(event, 'ord1')"><i class="fa-solid fa-ellipsis"></i></button>
+                                    <div class="action-menu-popup" id="ord1">
+                                        <div class="action-item" onclick="openViewModal(this)"><i class="fa-regular fa-eye"></i> Xem</div>
+                                        <div class="action-item" onclick="openEditModal(this)"><i class="fa-regular fa-pen-to-square"></i> Biên tập</div>
+                                        <div class="action-item delete" onclick="deleteRow(this)"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL XEM CHI TIẾT ĐƠN HÀNG -->
+    <div id="viewModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card">
+            <button class="modal-close" onclick="document.getElementById('viewModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0;">Chi tiết đơn hàng</h2>
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <p><strong>Mã đơn hàng:</strong> <span id="viewId" style="font-weight:800;"></span></p>
+            <p><strong>Khách hàng:</strong> <span id="viewCustomer"></span></p>
+            <p><strong>Sản phẩm:</strong> <span id="viewProduct"></span></p>
+            <p><strong>Trạng thái:</strong> <span id="viewStatus"></span></p>
+            <p><strong>Tổng tiền:</strong> <span id="viewPrice" style="color:var(--primary); font-weight:800;"></span></p>
+        </div>
+    </div>
+
+    <!-- MODAL BIÊN TẬP ĐƠN HÀNG -->
+    <div id="editModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card">
+            <button class="modal-close" onclick="document.getElementById('editModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0;">Chỉnh sửa đơn hàng</h2>
+            <label class="form-label">Mã đơn hàng</label>
+            <input type="text" id="editIdInput" class="form-input" disabled style="opacity:0.7;">
+            <label class="form-label">Tổng tiền</label>
+            <input type="text" id="editPriceInput" class="form-input">
+            <button class="btn-modal-save" onclick="saveEdit()">Lưu thay đổi</button>
+        </div>
+    </div>
+
+    <script>
+        let currentRow = null;
+
+        function toggleMenu(e, menuId) {
+            e.stopPropagation();
+            document.querySelectorAll('.action-menu-popup').forEach(m => {
+                if(m.id !== menuId) m.classList.remove('show');
+            });
+            document.getElementById(menuId).classList.toggle('show');
+        }
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.action-menu-popup').forEach(m => m.classList.remove('show'));
+        });
+
+        function deleteRow(el) {
+            if(confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')) {
+                el.closest('tr').remove();
+            }
+        }
+
+        function openViewModal(el) {
+            const tr = el.closest('tr');
+            document.getElementById('viewId').innerText = tr.dataset.id;
+            document.getElementById('viewCustomer').innerText = tr.dataset.customer;
+            document.getElementById('viewProduct').innerText = tr.dataset.product;
+            document.getElementById('viewStatus').innerText = tr.dataset.status;
+            document.getElementById('viewPrice').innerText = tr.dataset.price;
+            document.getElementById('viewModal').style.display = 'flex';
+        }
+
+        function openEditModal(el) {
+            currentRow = el.closest('tr');
+            document.getElementById('editIdInput').value = currentRow.dataset.id;
+            document.getElementById('editPriceInput').value = currentRow.dataset.price;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function saveEdit() {
+            if(currentRow) {
+                currentRow.dataset.price = document.getElementById('editPriceInput').value;
+                alert('Cập nhật đơn hàng thành công!');
+                document.getElementById('editModal').style.display = 'none';
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khách hàng | AccessTravel Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #f8fafc; --sidebar-bg: #ffffff; --card-bg: #ffffff;
+            --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
+            --primary: #0f766e; --primary-hover: #0d9488;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; }
+        .sidebar-brand { font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .sidebar-menu { display: flex; flex-direction: column; gap: 6px; }
+        .menu-item { padding: 12px 16px; border-radius: 8px; font-size: 14.5px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .menu-item:hover, .menu-item.active { background: rgba(15, 118, 110, 0.1); color: var(--primary); }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .admin-header { height: 70px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 30px; display: flex; justify-content: space-between; align-items: center; }
+        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+        .breadcrumb span { color: var(--text-main); font-weight: 700; }
+        .btn-add { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+
+        .content-body { padding: 30px; }
+        .page-title { font-size: 24px; font-weight: 900; margin: 0 0 6px 0; }
+        .page-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+
+        .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+        .filter-tab.active { background: var(--text-main); color: var(--card-bg); border-color: var(--text-main); }
+
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 16px; }
+        .search-box { position: relative; flex: 1; max-width: 360px; }
+        .search-box input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 16px 10px 40px; border-radius: 8px; font-size: 14px; color: var(--text-main); outline: none; }
+        .search-box i { position: absolute; left: 14px; top: 13px; color: var(--text-muted); }
+        .btn-tool { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+
+        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+        .product-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .product-table th, .product-table td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); }
+        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12.5px; text-transform: uppercase; }
+        .customer-avatar { width: 36px; height: 36px; background: #e0f2fe; color: #0369a1; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 13px; }
+        .customer-cell { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+        
+        .badge-active { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .badge-inactive { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+    </style>
+</head>
+<body data-theme="light">
+
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-wheelchair"></i> AccessTravel</div>
+        <div class="sidebar-menu">
+            <a href="admin.html" class="menu-item"><i class="fa-solid fa-chart-pie"></i> Bảng điều khiển</a>
+            <a href="products.html" class="menu-item"><i class="fa-solid fa-box"></i> Các sản phẩm</a>
+            <a href="orders.html" class="menu-item"><i class="fa-solid fa-cart-shopping"></i> Đơn đặt hàng</a>
+            <a href="customers.html" class="menu-item active"><i class="fa-solid fa-users"></i> Khách hàng</a>
+            <a href="index.html" class="menu-item"><i class="fa-solid fa-globe"></i> Xem trang chủ</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header class="admin-header">
+            <div class="breadcrumb">Bảng điều khiển &nbsp;>&nbsp; <span>Khách hàng</span></div>
+            <button class="btn-add" onclick="alert('Thêm khách hàng mới!')"><i class="fa-solid fa-plus"></i> Thêm khách hàng</button>
+        </header>
+
+        <div class="content-body">
+            <h1 class="page-title">Khách hàng</h1>
+            <p class="page-desc">Xem và quản lý cơ sở khách hàng của bạn.</p>
+
+            <div class="filter-tabs">
+                <div class="filter-tab active" onclick="filterTable('all', this)">Tất cả</div>
+                <div class="filter-tab" onclick="filterTable('active', this)">Tích cực</div>
+                <div class="filter-tab" onclick="filterTable('inactive', this)">Không hoạt động</div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm khách hàng..." onkeyup="searchTable()">
+                </div>
+                <button class="btn-tool" onclick="exportTable()"><i class="fa-solid fa-download"></i> Xuất khẩu</button>
+            </div>
+
+            <div class="table-container">
+                <table class="product-table" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Khách hàng</th>
+                            <th>Trạng thái</th>
+                            <th>Đã tham gia</th>
+                            <th>Đơn đặt hàng</th>
+                            <th>Tổng số tiền đã chi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr data-status="active">
+                            <td>
+                                <div class="customer-cell">
+                                    <div class="customer-avatar">EW</div>
+                                    <div>Emma Wilson<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">emma@example.com</span></div>
+                                </div>
+                            </td>
+                            <td><span class="badge-active">Tích cực</span></td>
+                            <td>Ngày 5 tháng 1 năm 2026</td>
+                            <td>3</td>
+                            <td style="font-weight:800; color:var(--primary);">898,00 đ</td>
+                        </tr>
+                        <tr data-status="active">
+                            <td>
+                                <div class="customer-cell">
+                                    <div class="customer-avatar">JC</div>
+                                    <div>James Chen<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">james@company.io</span></div>
+                                </div>
+                            </td>
+                            <td><span class="badge-active">Tích cực</span></td>
+                            <td>Ngày 12 tháng 1 năm 2026</td>
+                            <td>1</td>
+                            <td style="font-weight:800; color:var(--primary);">599,00 đ</td>
+                        </tr>
+                        <tr data-status="inactive">
+                            <td>
+                                <div class="customer-cell">
+                                    <div class="customer-avatar" style="background:#f1f5f9; color:#475569;">DK</div>
+                                    <div>David Kim<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">david@tech.io</span></div>
+                                </div>
+                            </td>
+                            <td><span class="badge-inactive">Không Hoạt Động</span></td>
+                            <td>Ngày 15 tháng 11 năm 2025</td>
+                            <td>1</td>
+                            <td style="font-weight:800; color:var(--text-muted);">0,00 đ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterTable(status, tab) {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelectorAll('#tableBody tr').forEach(row => {
+                row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
+            });
+        }
+        function searchTable() {
+            let val = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('#tableBody tr').forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? '' : 'none';
+            });
+        }
+        function exportTable() {
+            let csv = [];
+            document.querySelectorAll("#dataTable tr").forEach(row => {
+                let r = [];
+                row.querySelectorAll("td, th").forEach(col => r.push('"' + col.innerText.replace(/"/g, '""') + '"'));
+                csv.push(r.join(";"));
+            });
+            let blob = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "danh-sach-khach-hang.csv";
+            link.click();
+        }
+    </script>
+</body>
+</html>

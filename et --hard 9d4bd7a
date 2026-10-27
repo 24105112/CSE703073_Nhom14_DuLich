@@ -1,0 +1,64 @@
+[33m6127791[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mrelease/bao-cao-buoi8-9[m[33m, [m[1;31morigin/release/bao-cao-buoi8-9[m[33m)[m Ket noi detail.html voi Shopee Review
+[33mc25894d[m Fix app.js: Goi 30 tour, i18n, Shopee review
+[33m85e7aac[m Khoi phuc form dang nhap va 30 tour
+[33m01f6e0d[m Hoan thien giao dien trang chu va footer siêu dep
+[33m94df7b3[m Cập nhật chân trang OTA và thêm trang chính sách Policy
+[33m9d4bd7a[m feat: hoan thien trang payment qr, admin settings va sua loi giao dien
+[33m540ec29[m feat(buoi8-9): hoan thien UI, dark mode, toi uu backend va fix bug
+[33m2646da0[m[33m ([m[1;31morigin/feature/m3-trunganh[m[33m, [m[1;32mfeature/m3-trunganh[m[33m)[m fix: tu dong giai quyet xung dot git
+[33m4fff81a[m chore: cap nhat code cac tinh nang tro nang
+[33m83b353b[m feat: Hoàn thiện toàn bộ tính năng Admin và Frontend Trợ năng (Group 14)
+[33m17d6726[m[33m ([m[1;31morigin/dev[m[33m)[m fix(Frontend): them co che auto Mock Data bat tu cho index neu MySQL loi
+[33m68f613e[m feat(B09): hoan thien Header Barrier-Free Nhat Ban, fix phan trang, toi uu Lighthouse & bao cao OWASP
+[33mb8dd891[m feat(B09): tao api healthz kiem tra he thong
+[33mfde27f2[m fix(Search): hoan thien bo loc da tieu chi API va Javascript
+[33m9411262[m fix(DB): tao bang bookings chuan cho api book.php
+[33me71a6ed[m fix(B08): cap nhat sidebar menu xịn, thay video flycam va hoan thien responsive
+[33m86df40c[m fix(B08): sua loi link bam tu search sang detail
+[33m205f31a[m feat(M3): Hoan thanh API Thanh toan, Admin Dashboard va AI Fallback
+[33m3873ba5[m Chinh thuc xoa cac file copy trung lap
+[33me06d073[m feat(B09): tao api healthz kiem tra he thong
+[33mccd9c6e[m Merge pull request #8 from 24105112/feature/v2-minhthu
+[33ma34f02b[m fix(Search): hoan thien bo loc da tieu chi API va Javascript
+[33m409be69[m Revert "Xoa hoan toan file copy va thu muc trung lap"
+[33mc4b6dad[m Xoa hoan toan file copy va thu muc trung lap
+[33madb3af0[m Update code va tai lieu cho v2-minhthu
+[33maca3ebc[m fix(DB): tao bang bookings chuan cho api book.php
+[33macda657[m fix(B08): cap nhat sidebar menu xịn, thay video flycam va hoan thien responsive
+[33mac6a099[m fix(B08): sua loi link bam tu search sang detail
+[33m49a9d39[m feat(M3): Hoan thanh API Thanh toan, Admin Dashboard va AI Fallback
+[33m5951ed8[m[33m ([m[1;32mdev[m[33m)[m feat(B06-Final): hoan thien toan bo 305 ban ghi, form dang ky rieng biet, da ngon ngu va giao dien chuan Trustpilot
+[33m9a4441e[m feat(B06-M2): hoan thien full 305 ban ghi, dat giu cho 15p va khoa hang FOR UPDATE
+[33m8c6328a[m[33m ([m[1;31morigin/feature/v3-v4-accesstravel[m[33m)[m merge(dev): dong bo code V3-V4 moi nhat va xoa giao dien cu
+[33m7c2bfc0[m feat(V3-V4): hoan thien giao dien AccessTravel moi va API Buoi 1 den Buoi 6
+[33mc344ccd[m refactor(V4): xoa bo giao dien cu, cap nhat toan bo UI AccessTravel moi
+[33m02ac0da[m feat(V3-V4): hoan thien toan bo giao dien AccessTravel va API tu Buoi 1 den Buoi 6
+[33m866f3cb[m Merge branch 'dev' of https://github.com/24105112/CSE703073_Nhom14_DuLich into feature/backend-booking
+[33m1092175[m[33m ([m[1;31morigin/feature/backend-booking[m[33m)[m fix(V3): sua duong dan db.php trong search.php
+[33md61098a[m Fix database connection path in search.php
+[33m1aa4c3b[m Fix database connection path in search.php
+[33m2b6d374[m Merge pull request #7 from 24105112/feature/backend-booking
+[33mea0b5e3[m feat(V3): Hoan thanh API search phan trang va booking chong tranh chap
+[33m377341c[m feat(V3): Bo sung API logout.php de test TC05
+[33m1ec11d8[m feat(V3): Hoan thanh API xac thuc Buoi 5
+[33m7e8494f[m Merge branch 'dev' of https://github.com/24105112/CSE703073_Nhom14_DuLich into dev
+[33m9cdd35f[m docs(V3): Cap nhat Tai lieu API v0.2 khop voi ERD cua V2
+[33ma1dc000[m Merge pull request #6 from 24105112/feature/v4-frontend-b04
+[33mfe944cd[m feat(V4): Hoan thanh Design Tokens CSS va Khung UI 3 trang Buoi 4
+[33m8c4fd9a[m Merge pull request #5 from 24105112/feature/v5-qa-b04
+[33mdf00fec[m[33m ([m[1;31morigin/feature/v5-qa-b04[m[33m)[m docs(V5): Hoan thanh Bang phan bo 60 ca kiem thu Buoi 04
+[33mca85a9a[m docs(V3): Hoan thanh Tai lieu Hop dong API v0.1
+[33m56b57dd[m Docs(V1): Them so do kien truc 3 tang SoDoKienTruc_3Tang_Nhom14.png
+[33mc07bb95[m chore(V1): Khoi tao cau truc thu muc 3 tang va file nong cot Buoi 04
+[33m1ad429c[m V1: Merge va hoan thien kich ban CSDL schema.sql va cac san pham Buoi 3
+[33m53856c5[m Merge pull request #4 from 24105112/ops/v5-xuanhoan
+[33m6ac7a3c[m[33m ([m[1;31morigin/ops/v5-xuanhoan[m[33m)[m Chore(V5): tao file 02_MOI_TRUONG va huong dan SETUP_ENVIRONMENT
+[33m452dab5[m Merge pull request #1 from 24105112/feature/v2-minhthu
+[33m4c0b9b5[m Merge pull request #3 from 24105112/qa/v4-nhilinh
+[33mf6aefc0[m Merge pull request #2 from 24105112/feature/v3-backend
+[33m990e6dd[m chore(backend): thiet lap db va khoi tao nhanh v3
+[33m7f2edbc[m[33m ([m[1;31morigin/qa/v4-nhilinh[m[33m)[m Docs(V4): tao quy trinh QA Plan va Checklist kiem soat chat luong
+[33m43957c5[m[33m ([m[1;31morigin/feature/v2-minhthu[m[33m)[m Feat(V2): khoi tao chuc nang auth
+[33m54b9c33[m Feat(V2): cap nhat thong tin du an
+[33m253522b[m Chore(V1): tao tep .env.example
+[33m572231d[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Chore(V1): khoi tao kho ma nguon va .gitignore

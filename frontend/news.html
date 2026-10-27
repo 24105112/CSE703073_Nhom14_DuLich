@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản Tin & Cẩm Nang Tiếp Cận | AccessTravel Journal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --c-main: #0f766e; --c-hover: #0d9488; --c-bg: #f8fafc;
+            --c-card: #ffffff; --c-text: #0f172a; --c-muted: #64748b; --c-border: #e2e8f0;
+        }
+        [data-theme="dark"] {
+            --c-main: #14b8a6; --c-bg: #09090b; --c-card: #18181b; --c-text: #f8fafc; --c-muted: #94a3b8; --c-border: #27272a;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); color: var(--c-text); margin: 0; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        header { background: var(--c-card); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 24px; font-weight: 700; font-size: 15px; }
+        .nav-links a:hover, .nav-links a.active { color: var(--c-main); }
+
+        .container { max-width: 1140px; margin: 40px auto; padding: 0 20px; }
+
+        /* HERO ARTICLE */
+        .journal-hero { background: var(--c-card); border: 1.5px solid var(--c-border); border-radius: 18px; overflow: hidden; margin-bottom: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1.3fr 1fr; cursor: pointer; transition: 0.25s; }
+        .journal-hero:hover { border-color: var(--c-main); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(15,118,110,0.08); }
+        .journal-hero img { width: 100%; height: 100%; min-height: 360px; object-fit: cover; }
+        .journal-hero-content { padding: 36px; display: flex; flex-direction: column; justify-content: center; }
+        .hero-tag { font-size: 12px; font-weight: 800; color: #0f766e; background: #ccfbf1; padding: 4px 10px; border-radius: 6px; width: fit-content; margin-bottom: 12px; }
+        .hero-title { font-size: 24px; font-weight: 900; margin: 0 0 12px 0; line-height: 1.4; color: var(--c-text); }
+        .hero-desc { font-size: 14.5px; color: var(--c-muted); line-height: 1.6; margin-bottom: 20px; font-weight: 500; }
+        .hero-meta { font-size: 13px; font-weight: 700; color: var(--c-muted); display: flex; align-items: center; gap: 14px; }
+
+        /* DANH MỤC CHỦ ĐỀ */
+        .topics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+        .topic-btn { background: var(--c-card); border: 1.5px solid var(--c-border); border-radius: 12px; padding: 18px; text-align: left; cursor: pointer; transition: 0.2s; }
+        .topic-btn:hover, .topic-btn.active { border-color: var(--c-main); background: #f0fdf4; }
+        .topic-icon { font-size: 22px; color: var(--c-main); margin-bottom: 10px; }
+        .topic-name { font-size: 15px; font-weight: 900; color: var(--c-text); margin-bottom: 4px; }
+        .topic-sub { font-size: 12px; color: var(--c-muted); font-weight: 600; margin: 0; }
+
+        /* LƯỚI BÀI VIẾT */
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px; }
+        .article-card { background: var(--c-card); border: 1.5px solid var(--c-border); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: 0.25s; cursor: pointer; }
+        .article-card:hover { border-color: var(--c-main); transform: translateY(-4px); box-shadow: 0 12px 22px rgba(0,0,0,0.06); }
+        .article-card img { width: 100%; height: 200px; object-fit: cover; }
+        .article-body { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .article-cat { font-size: 11.5px; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 6px; }
+        .article-title { font-size: 16px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.4; color: var(--c-text); }
+        .article-summary { font-size: 13.5px; color: var(--c-muted); line-height: 1.5; margin-bottom: 16px; font-weight: 500; }
+        .article-footer { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--c-muted); font-weight: 700; border-top: 1px solid var(--c-border); padding-top: 12px; }
+
+        /* MODAL ĐỌC BÀI VIẾT CHỈN CHU */
+        .read-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .read-modal-container {
+            background: var(--c-card);
+            color: var(--c-text);
+            width: 100%;
+            max-width: 780px;
+            max-height: 90vh;
+            border-radius: 16px;
+            overflow-y: auto;
+            position: relative;
+            padding: 36px 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            animation: modalFadeUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes modalFadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn-close-reader {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: var(--c-bg);
+            border: 1px solid var(--c-border);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: var(--c-text);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-close-reader:hover {
+            background: #ef4444;
+            color: #fff;
+            border-color: #ef4444;
+        }
+        .reader-cat {
+            font-size: 12px;
+            font-weight: 800;
+            color: #0f766e;
+            background: #ccfbf1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .reader-title {
+            font-size: 26px;
+            font-weight: 900;
+            line-height: 1.4;
+            margin: 0 0 16px 0;
+        }
+        .reader-meta-row {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--c-muted);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--c-border);
+        }
+        .reader-cover-img {
+            width: 100%;
+            max-height: 360px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+        .reader-body-content {
+            font-size: 15.5px;
+            line-height: 1.8;
+            color: var(--c-text);
+            font-weight: 500;
+        }
+        .reader-body-content h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin: 24px 0 8px 0;
+            color: var(--c-main);
+        }
+        .reader-body-content p {
+            margin: 0 0 16px 0;
+        }
+        .reader-body-content ul {
+            margin: 0 0 20px 20px;
+            padding: 0;
+        }
+        .reader-body-content li {
+            margin-bottom: 8px;
+        }
+
+        footer { background: var(--c-card); border-top: 1px solid var(--c-border); padding: 30px; text-align: center; font-size: 13px; color: var(--c-muted); }
+
+        @media(max-width: 850px) {
+            .journal-hero { grid-template-columns: 1fr; }
+            .topics-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+            .read-modal-container { padding: 24px 20px; }
+            .reader-title { font-size: 21px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo"><i class="fa-solid fa-wheelchair"></i> AccessTravel</a>
+        <nav class="nav-links">
+            <a href="services.html">Dịch vụ</a>
+            <a href="news.html" class="active">Bản tin</a>
+            <a href="about.html">Về chúng tôi</a>
+            <a href="support.html">Hỗ trợ</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- BÀI VIẾT NỔI BẬT TẠP CHÍ -->
+        <div class="journal-hero" onclick="openArticleReader(0)">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800" alt="Hướng dẫn chọn điểm đến xe lăn">
+            <div class="journal-hero-content">
+                <span class="hero-tag">Cẩm nang đặc biệt</span>
+                <h1 class="hero-title">Làm thế nào để chọn một điểm đến thực sự thân thiện với xe lăn?</h1>
+                <p class="hero-desc">Bộ tiêu chuẩn kiểm tra độ dốc ram dốc, chiều rộng cửa thang máy, độ xoay trở trong nhà vệ sinh và phương tiện di chuyển trợ năng trước khi quyết định đặt chuyến đi.</p>
+                <div class="hero-meta">
+                    <span><i class="fa-regular fa-user"></i> Ban Kiểm Định AccessTravel</span>
+                    <span><i class="fa-regular fa-calendar"></i> 26/10/2026</span>
+                    <span><i class="fa-regular fa-clock"></i> 5 phút đọc</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 CHỦ ĐỀ CHÍNH -->
+        <div class="topics-grid">
+            <div class="topic-btn active" onclick="filterArticles('all', this)">
+                <div class="topic-icon"><i class="fa-solid fa-newspaper"></i></div>
+                <div class="topic-name">Tất cả bài viết</div>
+                <p class="topic-sub">Toàn bộ kho dữ liệu</p>
+            </div>
+            <div class="topic-btn" onclick="filterArticles('standards', this)">
+                <div class="topic-icon"><i class="fa-solid fa-wheelchair"></i></div>
+                <div class="topic-name">Du lịch tiếp cận</div>
+                <p class="topic-sub">Tiêu chuẩn kỹ thuật & Tuyến đường</p>
+            </div>
+            <div class="topic-btn" onclick="filterArticles('guide', this)">
+                <div class="topic-icon"><i class="fa-solid fa-book-open"></i></div>
+                <div class="topic-name">Cẩm nang chuẩn bị</div>
+                <p class="topic-sub">Thuốc men, Thể lực & Trang bị</p>
+            </div>
+            <div class="topic-btn" onclick="filterArticles('stories', this)">
+                <div class="topic-icon"><i class="fa-solid fa-heart"></i></div>
+                <div class="topic-name">Câu chuyện trải nghiệm</div>
+                <p class="topic-sub">Góc nhìn từ du khách thực tế</p>
+            </div>
+        </div>
+
+        <!-- DANH SÁCH CÁC BÀI VIẾT (RENDER TỰ ĐỘNG THEO DỮ LIỆU) -->
+        <div class="articles-grid" id="articlesGridContainer"></div>
+    </div>
+
+    <!-- MODAL ĐỌC BÀI BÁO CHI TIẾT -->
+    <div id="readModalOverlay" class="read-modal-overlay" onclick="if(event.target==this) closeArticleReader()">
+        <div class="read-modal-container">
+            <button type="button" class="btn-close-reader" onclick="closeArticleReader()">&times;</button>
+            <span class="reader-cat" id="modalCat">Du lịch tiếp cận</span>
+            <h2 class="reader-title" id="modalTitle">Tiêu đề bài báo</h2>
+            <div class="reader-meta-row">
+                <span id="modalAuthor"><i class="fa-regular fa-user"></i> Tác giả</span>
+                <span id="modalDate"><i class="fa-regular fa-calendar"></i> Ngày đăng</span>
+                <span id="modalReadTime"><i class="fa-regular fa-clock"></i> Thời gian đọc</span>
+            </div>
+            <img id="modalCover" src="" alt="Ảnh bài báo" class="reader-cover-img">
+            <div class="reader-body-content" id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- SCRIPT CHỨA DỮ LIỆU BÀI BÁO & LOGIC ĐỌC BÀI TƯƠNG TÁC -->
+    <script>
+        const articlesDatabase = [
+            // Bài 0: Hero
+            {
+                id: 0,
+                catKey: 'guide',
+                category: "Cẩm nang đặc biệt",
+                title: "Làm thế nào để chọn một điểm đến thực sự thân thiện với xe lăn?",
+                author: "Ban Kiểm Định AccessTravel",
+                date: "26/10/2026",
+                readTime: "5 phút đọc",
+                img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
+                summary: "Bộ tiêu chuẩn kiểm tra độ dốc ram, chiều rộng cửa thang máy, độ xoay trở trong nhà vệ sinh và phương tiện trợ năng trước khi quyết định đặt tour.",
+                content: `
+                    <p>Khái niệm "thân thiện với người khuyết tật" thường bị nhiều đơn vị du lịch lạm dụng khi chỉ trang bị một tấm ván gỗ dốc 20% bắc qua bậc tam cấp. Đối với người sử dụng xe lăn tay hoặc xe lăn điện, độ dốc này tiềm ẩn nguy cơ lật xe nghiêm trọng.</p>
+                    <h3>1. Tiêu chuẩn độ dốc ram dốc (TCVN 9207)</h3>
+                    <p>Một ram dốc đạt chuẩn quốc tế phải có độ dốc không vượt quá 1:12 (tức dưới 8.3%). Lý tưởng nhất cho người tự lăn tay là 1:16 đến 1:20 (dưới 6%). Ngoài ra, hai bên ram dốc bắt buộc phải có tay vịn tròn đường kính 35-45mm và gờ chống trượt cao ít nhất 5cm.</p>
+                    <h3>2. Chiều rộng lối vào và thang máy</h3>
+                    <p>Khung cửa tối thiểu để xe lăn điện cỡ lớn qua lại thoải mái là 85cm - 90cm. Thang máy cần có bảng điều khiển đặt ở tầm với thấp (dưới 100cm) có chữ nổi Braille và âm thanh báo tầng bằng giọng nói cho người khiếm thị.</p>
+                    <h3>3. Nhà vệ sinh tiếp cận (Accessible Restroom)</h3>
+                    <p>Bên trong phòng vệ sinh phải có khoảng trống quay xe đường kính tối thiểu 150cm x 150cm. Bồn cầu cần được cố định tay vịn gập chữ U và có chuông báo khẩn cấp nối trực tiếp với quầy lễ tân.</p>
+                `
+            },
+            // MỤC 1: DU LỊCH TIẾP CẬN (3 BÀI)
+            {
+                id: 1,
+                catKey: 'standards',
+                category: "Du lịch tiếp cận",
+                title: "Khám phá Quần thể Di tích Cố đô Huế không rào cản",
+                author: "Đỗ Linh (Chuyên viên Khảo sát)",
+                date: "24/10/2026",
+                readTime: "4 phút đọc",
+                img: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=500",
+                summary: "Đo đạc thực tế tuyến đường dẫn lát gạch nhám từ cổng Ngọ Môn đến sân Điện Thái Hòa dành riêng cho du khách dùng xe lăn.",
+                content: `
+                    <p>Quần thể Di tích Cố đô Huế với bề dày lịch sử hàng trăm năm từng là thách thức lớn đối với du khách hạn chế vận động vì các bậc đá cao ngất ngưởng. Tuy nhiên, dự án cải tạo tiếp cận gần đây đã mang lại diện mạo hoàn toàn mới.</p>
+                    <h3>Hệ thống đường dốc ẩn tinh tế</h3>
+                    <p>Trung tâm Bảo tồn Di tích đã khéo léo lát các đường dốc thoải bằng đá bazan tự nhiên bọc bên hông bậc tam cấp tại cổng Ngọ Môn và cung Diên Thọ, vừa giữ nguyên vẹn tính thẩm mỹ cổ kính vừa đảm bảo góc nghiêng chỉ 5.5%.</p>
+                    <h3>Dịch vụ xe điện bửng nâng nội khu</h3>
+                    <p>Đội xe điện nội khu Đại Nội hiện đã bổ sung 4 xe chuyên dụng có bàn nâng thủy lực, giúp du khách chuyển từ bãi đỗ xe vào sâu trong Tử Cấm Thành mà không tốn sức lực.</p>
+                `
+            },
+            {
+                id: 2,
+                catKey: 'standards',
+                category: "Du lịch tiếp cận",
+                title: "Tiêu chuẩn kiểm định cabin du thuyền Hạ Long cho người cao tuổi",
+                author: "Nguyễn Trung Anh (Kỹ thuật hệ thống)",
+                date: "22/10/2026",
+                readTime: "5 phút đọc",
+                img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500",
+                summary: "Tại sao cabin du thuyền cần sàn phẳng hoàn toàn, cửa trượt không bậu và giường ngủ hạ thấp vừa tầm chuyển dịch xe lăn?",
+                content: `
+                    <p>Du lịch du thuyền là hình thức nghỉ dưỡng lý tưởng nhất cho người cao tuổi vì hạn chế tối đa việc phải đi bộ chuyển khách sạn. Tuy nhiên, để đảm bảo an toàn, các tiêu chí nội thất phòng ngủ trên tàu cần được kiểm định khắt khe.</p>
+                    <h3>Loại bỏ bậu cửa phòng tắm (Zero-barrier threshold)</h3>
+                    <p>Trên các tàu truyền thống, bậu cửa phòng tắm thường nhô cao 5-10cm để chắn nước biển. Các du thuyền kiểm định bởi AccessTravel bắt buộc phải thay bằng rãnh thoát nước inox âm sàn, giúp xe lăn lăn thẳng vào vòi tắm không bị khựng bánh.</p>
+                    <h3>Giường ngủ có chiều cao chuẩn 45 - 50cm</h3>
+                    <p>Độ cao của đệm giường tương đương với chiều cao của đệm ngồi xe lăn, giúp người dùng hoặc người thân hỗ trợ chuyển người từ xe sang giường mà không gây tổn thương cột sống.</p>
+                `
+            },
+            {
+                id: 3,
+                catKey: 'standards',
+                category: "Du lịch tiếp cận",
+                title: "Bản đồ số trợ năng: Giải pháp công nghệ xóa nhòa khoảng cách",
+                author: "Lê Đức Phong (Frontend Lead)",
+                date: "20/10/2026",
+                readTime: "4 phút đọc",
+                img: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=500",
+                summary: "Cách AccessTravel tích hợp dữ liệu định vị trạm y tế, nhà vệ sinh tiếp cận và tuyến đường tránh cầu thang bậc lên bản đồ trực quan.",
+                content: `
+                    <p>Người bình thường khi mở bản đồ chỉ quan tâm tuyến đường nào ngắn nhất. Nhưng với người khuyết tật, tuyến đường ngắn nhất có một cây cầu vượt đi bộ hay 3 bậc tam cấp cũng trở thành ngõ cụt.</p>
+                    <h3>Thuật toán định tuyến thân thiện với xe lăn</h3>
+                    <p>Bản đồ của AccessTravel không chỉ tính toán quãng đường mà còn phân tích độ dốc mặt đường, bề rộng vỉa hè và chướng ngại vật tạm thời để đưa ra lộ trình an toàn nhất.</p>
+                    <h3>Hiển thị mạng lưới y tế khẩn cấp 24/7</h3>
+                    <p>Mỗi điểm đến trên bản đồ đều ghim sẵn vị trí trạm y tế hoặc bệnh viện đa khoa gần nhất trong bán kính phản ứng cấp cứu dưới 15 phút, kèm số điện thoại gọi khẩn cấp bằng 1 chạm.</p>
+                `
+            },
+            // MỤC 2: CẨM NANG CHUẨN BỊ (3 BÀI)
+            {
+                id: 4,
+                catKey: 'guide',
+                category: "Cẩm nang chuẩn bị",
+                title: "Những lưu ý vàng về thuốc đặc trị khi đi du lịch biển cho người cao tuổi",
+                author: "Phạm Hồng Thắm (Ban Y Tế)",
+                date: "18/10/2026",
+                readTime: "6 phút đọc",
+                img: "https://images.unsplash.com/photo-1540541338287-41700207dee6?w=500",
+                summary: "Cách bảo quản thuốc tim mạch, insulin tiểu đường và chuẩn bị sổ theo dõi huyết áp lưu động trong suốt chuyến đi.",
+                content: `
+                    <p>Biển xanh và nắng ấm rất tốt cho xương khớp của người lớn tuổi, nhưng áp suất gió và sự thay đổi nhiệt độ đột ngột có thể ảnh hưởng đến huyết áp và tim mạch nếu không chuẩn bị chu đáo.</p>
+                    <h3>Quy tắc 'Hành lý xách tay bất ly thân'</h3>
+                    <p>Toàn bộ thuốc tim mạch, huyết áp, thuốc giãn phế quản hoặc bút tiêm insulin bắt buộc phải mang theo túi xách cá nhân bên mình, không bao giờ để trong hành lý ký gửi hoặc gửi dưới hầm xe khách.</p>
+                    <h3>Túi bảo quản nhiệt độ cho Insulin</h3>
+                    <p>Nhiệt độ ngoài trời khi đi thuyền vịnh có thể lên đến 34°C, làm biến tính thuốc insulin. Gia đình cần trang bị túi giữ nhiệt chuyên dụng có đá gel khô để duy trì nhiệt độ từ 2°C - 8°C cho thuốc.</p>
+                `
+            },
+            {
+                id: 5,
+                catKey: 'guide',
+                category: "Cẩm nang chuẩn bị",
+                title: "Bảo dưỡng và chuẩn bị pin cho xe lăn điện trước chuyến bay",
+                author: "Kỹ sư Trần Anh Tuấn",
+                date: "15/10/2026",
+                readTime: "5 phút đọc",
+                img: "https://images.unsplash.com/photo-1580977276076-ae4b8c219b8e?w=500",
+                summary: "Quy định hàng không về pin Lithium-ion, cách ngắt nguồn an toàn và kiểm tra áp suất lốp trước khi xuất hành.",
+                content: `
+                    <p>Xe lăn điện là đôi chân của người khuyết tật, nhưng mang xe lăn điện lên máy bay đòi hỏi phải tuân thủ nghiêm ngặt quy định an toàn bay quốc tế (IATA).</p>
+                    <h3>Công suất pin dưới 300Wh</h3>
+                    <p>Hầu hết các hãng hàng không nội địa (Vietnam Airlines, Vietjet) yêu cầu pin Lithium tháo rời của xe lăn điện có công suất tối đa không quá 300Wh (hoặc 2 pin không quá 160Wh/pin) và phải xách tay lên khoang hành khách.</p>
+                    <h3>Khóa cơ chế truyền động và ngắt chốt an toàn</h3>
+                    <p>Trước khi bàn giao xe lăn tại cửa máy bay để nhân viên đưa xuống khoang hàng, hãy chắc chắn rằng bạn đã ngắt cầu chì chính hoặc chốt ngắt điện để tránh xe vô tình bị kích hoạt trong quá trình cất cánh.</p>
+                `
+            },
+            {
+                id: 6,
+                catKey: 'guide',
+                category: "Cẩm nang chuẩn bị",
+                title: "Chế độ dinh dưỡng giảm đầy hơi cho người ngồi xe lăn đường dài",
+                author: "Bác sĩ Dinh Dưỡng Mai Lan",
+                date: "12/10/2026",
+                readTime: "4 phút đọc",
+                img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500",
+                summary: "Thực đơn giàu chất xơ, lượng nước uống vừa phải để chuyến di chuyển trên tàu xe luôn nhẹ nhàng và thoải mái.",
+                content: `
+                    <p>Ngồi liên tục trên xe lăn hoặc ghế máy bay nhiều giờ liền khiến nhu động ruột hoạt động chậm lại, rất dễ dẫn đến chướng bụng, khó tiêu và táo bón.</p>
+                    <h3>Ưu tiên thực phẩm dễ tiêu, giảm muối</h3>
+                    <p>Nên chọn các món hấp, luộc nhạt thay vì đồ chiên xào nhiều dầu mỡ. Hạn chế các loại nước ngọt có gas và đồ uống chứa nhiều caffeine vì dễ gây mất nước và tạo cảm giác buồn tiểu liên tục.</p>
+                    <h3>Uống nước theo từng ngụm nhỏ</h3>
+                    <p>Thay vì uống một cốc đầy làm bàng quang căng nhanh trong khi việc tìm nhà vệ sinh tiếp cận trên đường cần thời gian, hãy duy trì uống từng ngụm nước ấm nhỏ đều đặn mỗi 30 phút.</p>
+                `
+            },
+            // MỤC 3: CÂU CHUYỆN THỰC TẾ (3 BÀI)
+            {
+                id: 7,
+                catKey: 'stories',
+                category: "Câu chuyện trải nghiệm",
+                title: "Chuyến hải trình 3 ngày 2 đêm của bác Long (76 tuổi) tại Cát Bà",
+                author: "Gia đình Bác Long (Hà Nội)",
+                date: "10/10/2026",
+                readTime: "7 phút đọc",
+                img: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500",
+                summary: "\"Tôi từng nghĩ bị tai biến phải ngồi xe lăn thì chỉ ở nhà, không ngờ tàu có thang máy đưa tôi lên thẳng boong ngắm hoàng hôn dễ như vậy.\"",
+                content: `
+                    <p>Sau cơn tai biến 2 năm trước làm liệt nửa người bên trái, bố tôi trở nên khép kín và từ chối mọi lời rủ đi chơi xa của con cháu vì sợ làm phiền. Chuyến đi Cát Bà vừa rồi là bước ngoặt lớn của cả gia đình.</p>
+                    <h3>Sự bất ngờ tại bến phà Đồng Bài</h3>
+                    <p>Đoàn đón chúng tôi bằng xe 16 chỗ đã độ bửng nâng tự động. Bố tôi ngồi nguyên trên xe lăn, chỉ cần ấn nút là bệ nâng êm ái đưa cụ lên ngang sàn xe rồi chằng đai bảo hiểm 4 điểm vững vàng.</p>
+                    <h3>Nụ cười rạng rỡ giữa vịnh Lan Hạ</h3>
+                    <p>Khoảnh khắc bố tôi ngồi trên boong tầng 3 của du thuyền ngắm nhìn những dãy núi đá vôi hùng vĩ, thưởng thức trà chiều cùng các cháu là điều mà suốt 2 năm qua chúng tôi không dám mơ tới.</p>
+                `
+            },
+            {
+                id: 8,
+                catKey: 'stories',
+                category: "Câu chuyện trải nghiệm",
+                title: "Hành trình một mình chinh phục Đà Nẵng của một cô gái dùng xe lăn điện",
+                author: "Ngọc Mai (Founder Disabled Travel Club)",
+                date: "06/10/2026",
+                readTime: "6 phút đọc",
+                img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500",
+                summary: "Tự tin khám phá Cầu Vàng Bà Nà Hills, tắm biển Mỹ Khê bằng xe lăn bánh xích chuyên dụng mà không cần người đi kèm.",
+                content: `
+                    <p>Đà Nẵng xứng đáng là thành phố tiên phong về tiếp cận tại Việt Nam. Vỉa hè dọc bờ biển Mỹ Khê hạ dốc xuống mặt đường rất mượt mà, không hề có các gờ đá cao cản trở.</p>
+                    <h3>Trải nghiệm cáp treo Bà Nà Hills</h3>
+                    <p>Nhân viên tại ga cáp treo chủ động giảm tốc độ cabin gần như dừng hẳn, mở cầu dẫn bằng cao su để tôi tự lái xe lăn điện vào cabin rộng rãi. Lối đi từ ga đến Cầu Vàng hoàn toàn bằng phẳng có lan can vững chắc.</p>
+                    <h3>Lăn bánh trên cát biển</h3>
+                    <p>Điểm ấn tượng nhất là bãi biển công cộng Đà Nẵng đã lắp đặt thảm nhựa chống lún trải dài từ bờ kè xuống sát mép nước, giúp người ngồi xe lăn có thể chạm tay vào làn nước biển mát lạnh như mọi người.</p>
+                `
+            },
+            {
+                id: 9,
+                catKey: 'stories',
+                category: "Câu chuyện trải nghiệm",
+                title: "Ấm lòng tình người tại trạm dừng nghỉ Tràng An - Ninh Bình",
+                author: "Vũ Mai Phương (Du khách TP.HCM)",
+                date: "02/10/2026",
+                readTime: "5 phút đọc",
+                img: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500",
+                summary: "Cách ban quản lý và các cô chèo đò bố trí ghế tựa đặc biệt, nhẹ nhàng dìu du khách cao tuổi lên thuyền an toàn.",
+                content: `
+                    <p>Tràng An nổi tiếng với tour chèo đò qua các hang động, nhưng việc bước xuống thuyền tam bản dập dềnh sóng nước vốn là nỗi sợ của những người có khớp gối yếu.</p>
+                    <h3>Sự chu đáo từ chiếc ghế tựa bọc mút</h3>
+                    <p>Ban quản lý đã thiết kế riêng những chiếc ghế tựa có lưng đỡ đặt vừa khít vào lòng đò, có quai cài ngang ngực giúp người già không bị mỏi lưng khi ngồi suốt 2 tiếng tham quan hang động.</p>
+                    <h3>Thái độ nâng niu của người làm du lịch</h3>
+                    <p>Hai nhân viên cứu hộ túc trực dưới bến luôn sẵn sàng chìa đôi tay vững chãi, đỡ nách và dìu từng bước chân của bà ngoại tôi xuống thuyền bằng sự niềm nở, ân cần như đối đãi với chính người thân của mình.</p>
+                `
+            }
+        ];
+
+        // RENDER DANH SÁCH BÀI VIẾT LÊN GIAO DIỆN
+        function renderArticles(list) {
+            const container = document.getElementById('articlesGridContainer');
+            container.innerHTML = '';
+            list.forEach(item => {
+                container.innerHTML += `
+                    <div class="article-card" data-cat="${item.catKey}" onclick="openArticleReader(${item.id})">
+                        <img src="${item.img}" alt="${item.title}" loading="lazy">
+                        <div class="article-body">
+                            <div>
+                                <div class="article-cat">${item.category}</div>
+                                <h3 class="article-title">${item.title}</h3>
+                                <p class="article-summary">${item.summary}</p>
+                            </div>
+                            <div class="article-footer">
+                                <span><i class="fa-regular fa-calendar"></i> ${item.date}</span>
+                                <span><i class="fa-regular fa-clock"></i> ${item.readTime}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // LỌC CHỦ ĐỀ
+        function filterArticles(category, btn) {
+            document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Bài Hero (index 0) không lọc trong danh sách phụ bên dưới
+            const subList = articlesDatabase.slice(1);
+            if (category === 'all') {
+                renderArticles(subList);
+            } else {
+                const filtered = subList.filter(a => a.catKey === category);
+                renderArticles(filtered);
+            }
+        }
+
+        // MỞ GIAO DIỆN ĐỌC BÀI VIẾT
+        function openArticleReader(articleId) {
+            const item = articlesDatabase.find(a => a.id === articleId);
+            if (!item) return;
+
+            document.getElementById('modalCat').innerText = item.category;
+            document.getElementById('modalTitle').innerText = item.title;
+            document.getElementById('modalAuthor').innerHTML = `<i class="fa-regular fa-user"></i> ${item.author}`;
+            document.getElementById('modalDate').innerHTML = `<i class="fa-regular fa-calendar"></i> ${item.date}`;
+            document.getElementById('modalReadTime').innerHTML = `<i class="fa-regular fa-clock"></i> ${item.readTime}`;
+            document.getElementById('modalCover').src = item.img;
+            document.getElementById('modalContent').innerHTML = item.content;
+
+            document.getElementById('readModalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Khóa cuộn trang nền
+        }
+
+        // ĐÓNG GIAO DIỆN ĐỌC BÀI VIẾT
+        function closeArticleReader() {
+            document.getElementById('readModalOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Mở lại cuộn trang
+        }
+
+        // Phím Esc để đóng nhanh
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeArticleReader();
+        });
+
+        // Khởi tạo trang ban đầu
+        document.addEventListener('DOMContentLoaded', () => {
+            renderArticles(articlesDatabase.slice(1));
+        });
+    </script>
+
+    <footer>
+        <p>&copy; 2026 AccessTravel Journal - Đồ án học phần CSE703073 | Trường Đại học Phenikaa[cite: 20].</p>
+    </footer>
+</body>
+</html>

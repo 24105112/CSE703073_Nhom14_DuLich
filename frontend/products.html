@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sản Phẩm | AccessTravel Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #f8fafc; --sidebar-bg: #ffffff; --card-bg: #ffffff;
+            --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
+            --primary: #0f766e; --primary-hover: #0d9488;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; }
+        .sidebar-brand { font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .sidebar-menu { display: flex; flex-direction: column; gap: 6px; }
+        .menu-item { padding: 12px 16px; border-radius: 8px; font-size: 14.5px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .menu-item:hover, .menu-item.active { background: rgba(15, 118, 110, 0.1); color: var(--primary); }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .admin-header { height: 70px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 30px; display: flex; justify-content: space-between; align-items: center; }
+        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+        .breadcrumb span { color: var(--text-main); font-weight: 700; }
+        .btn-add { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+
+        .content-body { padding: 30px; }
+        .page-title { font-size: 24px; font-weight: 900; margin: 0 0 6px 0; }
+        .page-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+
+        .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+        .filter-tab.active { background: var(--text-main); color: var(--card-bg); border-color: var(--text-main); }
+
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 16px; }
+        .search-box { position: relative; flex: 1; max-width: 360px; }
+        .search-box input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 16px 10px 40px; border-radius: 8px; font-size: 14px; color: var(--text-main); outline: none; }
+        .search-box i { position: absolute; left: 14px; top: 13px; color: var(--text-muted); }
+        .btn-tool { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+
+        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: visible; }
+        .product-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .product-table th, .product-table td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); }
+        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12.5px; text-transform: uppercase; }
+        .product-name-cell { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+        .product-icon { width: 36px; height: 36px; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; display: flex; justify-content: center; align-items: center; color: var(--primary); }
+        
+        .badge-active { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .badge-draft { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .badge-archived { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .category-pill { background: var(--bg-main); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+
+        /* MENU THẢ DÙNG CHUNG */
+        .action-dropdown { position: relative; display: inline-block; }
+        .btn-action-dots { background: transparent; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); padding: 6px 10px; border-radius: 6px; }
+        .btn-action-dots:hover { background: var(--bg-main); color: var(--text-main); }
+        
+        .action-menu-popup {
+            display: none; position: absolute; right: 0; top: 36px; background: var(--card-bg);
+            border: 1px solid var(--border-color); border-radius: 10px; width: 150px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 100; padding: 6px;
+        }
+        .action-menu-popup.show { display: block; }
+        .action-item {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13.5px;
+            font-weight: 700; color: var(--text-main); border-radius: 6px; cursor: pointer;
+        }
+        .action-item:hover { background: var(--bg-main); }
+        .action-item.delete { color: #dc2626; }
+        .action-item.delete:hover { background: #fee2e2; }
+
+        /* MODAL DÙNG CHUNG (THÊM & XEM & SỬA) */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-card { background: var(--card-bg); color: var(--text-main); width: 100%; max-width: 560px; border-radius: 16px; padding: 30px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+        .modal-close { position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
+        .form-input, .form-select { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 14px; color: var(--text-main); margin-bottom: 16px; outline: none; font-family: inherit; }
+        .form-label { font-size: 12.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .btn-modal-save { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; font-size: 15px; }
+        .btn-modal-save:hover { background: var(--primary-hover); }
+    </style>
+</head>
+<body data-theme="light">
+
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fa-solid fa-wheelchair"></i> AccessTravel</div>
+        <div class="sidebar-menu">
+            <a href="admin.html" class="menu-item"><i class="fa-solid fa-chart-pie"></i> Bảng điều khiển</a>
+            <a href="products.html" class="menu-item active"><i class="fa-solid fa-box"></i> Các sản phẩm</a>
+            <a href="orders.html" class="menu-item"><i class="fa-solid fa-cart-shopping"></i> Đơn đặt hàng</a>
+            <a href="customers.html" class="menu-item"><i class="fa-solid fa-users"></i> Khách hàng</a>
+            <a href="index.html" class="menu-item"><i class="fa-solid fa-globe"></i> Xem trang chủ</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header class="admin-header">
+            <div class="breadcrumb">Bảng điều khiển &nbsp;>&nbsp; <span>Các sản phẩm</span></div>
+            <!-- NÚT THÊM SẢN PHẨM MỚI (GỌI MODAL) -->
+            <button class="btn-add" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
+        </header>
+
+        <div class="content-body">
+            <h1 class="page-title">Các sản phẩm</h1>
+            <p class="page-desc">Duyệt và quản lý danh mục tour du lịch và dịch vụ trợ năng của bạn.</p>
+
+            <div class="filter-tabs">
+                <div class="filter-tab active" onclick="filterTable('all', this)">Tất cả</div>
+                <div class="filter-tab" onclick="filterTable('active', this)">Tích cực</div>
+                <div class="filter-tab" onclick="filterTable('draft', this)">Bản nháp</div>
+                <div class="filter-tab" onclick="filterTable('archived', this)">Đã lưu trữ</div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchTable()">
+                </div>
+                <button class="btn-tool" onclick="exportTable()"><i class="fa-solid fa-download"></i> Xuất khẩu</button>
+            </div>
+
+            <div class="table-container">
+                <table class="product-table" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Loại dịch vụ</th>
+                            <th>Trạng thái</th>
+                            <th>Cổ phần (Suất)</th>
+                            <th>Giá</th>
+                            <th style="text-align: right;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr data-status="active" data-name="Du thuyền Ambassador Vịnh Hạ Long" data-type="Du thuyền" data-price="3.200.000 đ" data-stock="999" data-desc="Kiểm định thang máy & xe lăn 100%">
+                            <td>
+                                <div class="product-name-cell">
+                                    <div class="product-icon"><i class="fa-solid fa-ship"></i></div>
+                                    <div>Du thuyền Ambassador Vịnh Hạ Long<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">Kiểm định thang máy & xe lăn 100%</span></div>
+                                </div>
+                            </td>
+                            <td><span class="category-pill">Du thuyền</span></td>
+                            <td><span class="badge-active">Tích cực</span></td>
+                            <td>999</td>
+                            <td style="font-weight: 800; color: var(--primary);">3.200.000 đ</td>
+                            <td style="text-align: right;">
+                                <div class="action-dropdown">
+                                    <button class="btn-action-dots" onclick="toggleMenu(event, 'p1')"><i class="fa-solid fa-ellipsis"></i></button>
+                                    <div class="action-menu-popup" id="p1">
+                                        <div class="action-item" onclick="openViewModal(this)"><i class="fa-regular fa-eye"></i> Xem</div>
+                                        <div class="action-item" onclick="openEditModal(this)"><i class="fa-regular fa-pen-to-square"></i> Biên tập</div>
+                                        <div class="action-item delete" onclick="deleteRow(this)"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL THÊM SẢN PHẨM MỚI -->
+    <div id="addModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card">
+            <button class="modal-close" onclick="document.getElementById('addModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0;">Thêm sản phẩm / Tour mới</h2>
+            <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:20px;">Nhập thông tin chi tiết dịch vụ trợ năng vào hệ thống.</p>
+            
+            <form onsubmit="addNewProduct(event)">
+                <label class="form-label">Tên sản phẩm / Tour</label>
+                <input type="text" id="addName" class="form-input" placeholder="Ví dụ: Tour Sapa xe điện..." required>
+                
+                <div style="display: flex; gap: 16px;">
+                    <div style="flex: 1;">
+                        <label class="form-label">Loại dịch vụ</label>
+                        <input type="text" id="addType" class="form-input" placeholder="Ví dụ: Resort, Du thuyền..." required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label class="form-label">Trạng thái</label>
+                        <select id="addStatus" class="form-select">
+                            <option value="active">Tích cực</option>
+                            <option value="draft">Bản nháp</option>
+                            <option value="archived">Đã lưu trữ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 16px;">
+                    <div style="flex: 1;">
+                        <label class="form-label">Giá tiền</label>
+                        <input type="text" id="addPrice" class="form-input" placeholder="Ví dụ: 2.500.000 đ" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label class="form-label">Số suất (Cổ phần)</label>
+                        <input type="number" id="addStock" class="form-input" placeholder="Ví dụ: 100" required>
+                    </div>
+                </div>
+
+                <label class="form-label">Mô tả tiêu chuẩn trợ năng</label>
+                <input type="text" id="addDesc" class="form-input" placeholder="Ví dụ: Có thang máy, dốc < 8%">
+
+                <button type="submit" class="btn-modal-save">Thêm sản phẩm ngay</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL XEM CHI TIẾT -->
+    <div id="viewModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card">
+            <button class="modal-close" onclick="document.getElementById('viewModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0;">Chi tiết sản phẩm</h2>
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <p><strong>Tên sản phẩm:</strong> <span id="viewName"></span></p>
+            <p><strong>Loại dịch vụ:</strong> <span id="viewType"></span></p>
+            <p><strong>Mức giá:</strong> <span id="viewPrice" style="color:var(--primary); font-weight:800;"></span></p>
+            <p><strong>Số suất tồn kho:</strong> <span id="viewStock"></span></p>
+            <p><strong>Tiêu chuẩn trợ năng:</strong> <span id="viewDesc"></span></p>
+        </div>
+    </div>
+
+    <!-- MODAL BIÊN TẬP -->
+    <div id="editModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card">
+            <button class="modal-close" onclick="document.getElementById('editModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0;">Chỉnh sửa sản phẩm</h2>
+            <label class="form-label">Tên sản phẩm</label>
+            <input type="text" id="editNameInput" class="form-input">
+            <label class="form-label">Giá tiền</label>
+            <input type="text" id="editPriceInput" class="form-input">
+            <button class="btn-modal-save" onclick="saveEdit()">Lưu thay đổi</button>
+        </div>
+    </div>
+
+    <script>
+        let currentRow = null;
+        let menuCounter = 2;
+
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+        }
+
+        // Xử lý thêm sản phẩm mới và chèn trực tiếp vào bảng
+        function addNewProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('addName').value;
+            const type = document.getElementById('addType').value;
+            const status = document.getElementById('addStatus').value;
+            const price = document.getElementById('addPrice').value;
+            const stock = document.getElementById('addStock').value;
+            const desc = document.getElementById('addDesc').value;
+
+            let badgeHtml = '<span class="badge-active">Tích cực</span>';
+            let statusText = 'Tích cực';
+            if(status === 'draft') {
+                badgeHtml = '<span class="badge-draft">Bản nháp</span>';
+                statusText = 'Bản nháp';
+            } else if(status === 'archived') {
+                badgeHtml = '<span class="badge-archived">Đã lưu trữ</span>';
+                statusText = 'Đã lưu trữ';
+            }
+
+            menuCounter++;
+            const menuId = 'p' + menuCounter;
+
+            const tbody = document.getElementById('tableBody');
+            const newRow = document.createElement('tr');
+            newRow.setAttribute('data-status', status);
+            newRow.setAttribute('data-name', name);
+            newRow.setAttribute('data-type', type);
+            newRow.setAttribute('data-price', price);
+            newRow.setAttribute('data-stock', stock);
+            newRow.setAttribute('data-desc', desc);
+
+            newRow.innerHTML = `
+                <td>
+                    <div class="product-name-cell">
+                        <div class="product-icon"><i class="fa-solid fa-box-open"></i></div>
+                        <div>${name}<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">${desc}</span></div>
+                    </div>
+                </td>
+                <td><span class="category-pill">${type}</span></td>
+                <td>${badgeHtml}</td>
+                <td>${stock}</td>
+                <td style="font-weight: 800; color: var(--primary);">${price}</td>
+                <td style="text-align: right;">
+                    <div class="action-dropdown">
+                        <button class="btn-action-dots" onclick="toggleMenu(event, '${menuId}')"><i class="fa-solid fa-ellipsis"></i></button>
+                        <div class="action-menu-popup" id="${menuId}">
+                            <div class="action-item" onclick="openViewModal(this)"><i class="fa-regular fa-eye"></i> Xem</div>
+                            <div class="action-item" onclick="openEditModal(this)"><i class="fa-regular fa-pen-to-square"></i> Biên tập</div>
+                            <div class="action-item delete" onclick="deleteRow(this)"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
+                        </div>
+                    </div>
+                </td>
+            `;
+
+            tbody.appendChild(newRow);
+            alert('Thêm sản phẩm mới thành công!');
+            document.getElementById('addModal').style.display = 'none';
+            document.querySelector('form').reset();
+        }
+
+        function toggleMenu(e, menuId) {
+            e.stopPropagation();
+            document.querySelectorAll('.action-menu-popup').forEach(m => {
+                if(m.id !== menuId) m.classList.remove('show');
+            });
+            document.getElementById(menuId).classList.toggle('show');
+        }
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.action-menu-popup').forEach(m => m.classList.remove('show'));
+        });
+
+        function deleteRow(el) {
+            if(confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
+                el.closest('tr').remove();
+            }
+        }
+
+        function openViewModal(el) {
+            const tr = el.closest('tr');
+            document.getElementById('viewName').innerText = tr.dataset.name;
+            document.getElementById('viewType').innerText = tr.dataset.type;
+            document.getElementById('viewPrice').innerText = tr.dataset.price;
+            document.getElementById('viewStock').innerText = tr.dataset.stock;
+            document.getElementById('viewDesc').innerText = tr.dataset.desc;
+            document.getElementById('viewModal').style.display = 'flex';
+        }
+
+        function openEditModal(el) {
+            currentRow = el.closest('tr');
+            document.getElementById('editNameInput').value = currentRow.dataset.name;
+            document.getElementById('editPriceInput').value = currentRow.dataset.price;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function saveEdit() {
+            if(currentRow) {
+                currentRow.dataset.name = document.getElementById('editNameInput').value;
+                currentRow.dataset.price = document.getElementById('editPriceInput').value;
+                alert('Cập nhật sản phẩm thành công!');
+                document.getElementById('editModal').style.display = 'none';
+                location.reload();
+            }
+        }
+
+        function filterTable(status, tab) {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            document.querySelectorAll('#tableBody tr').forEach(row => {
+                row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
+            });
+        }
+        function searchTable() {
+            let val = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('#tableBody tr').forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? '' : 'none';
+            });
+        }
+        function exportTable() {
+            let csv = [];
+            document.querySelectorAll("#dataTable tr").forEach(row => {
+                let r = [];
+                row.querySelectorAll("td, th").forEach(col => r.push('"' + col.innerText.replace(/"/g, '""') + '"'));
+                csv.push(r.join(";"));
+            });
+            let blob = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "danh-sach-san-pham.csv";
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+    "status": "success",
+    "model_version": "v1.2-CosineAccessibilityScore",
+    "summary": {
+        "total_tours_analyzed": 18,
+        "algorithm": "Content-Based Accessibility Filtering (Python 3.12)"
+    },
+    "recommended_tours_for_wheelchair": [
+        {
+            "id": 17,
+            "ten_tour": "Khu Du Lịch Văn Hóa Suối Tiên TP.HCM",
+            "dia_diem": "TP. Hồ Chí Minh, Việt Nam",
+            "gia_tien": 450000.0,
+            "avg_rating": 4.6667,
+            "ai_accessibility_score": 1.043
+        },
+        {
+            "id": 9,
+            "ten_tour": "Bà Nà Hills - Cầu Vàng Tiếp Cận Toàn Diện",
+            "dia_diem": "Đà Nẵng, Việt Nam",
+            "gia_tien": 1250000.0,
+            "avg_rating": 4.6,
+            "ai_accessibility_score": 0.981
+        },
+        {
+            "id": 4,
+            "ten_tour": "Du thuyền Heritage Bình Chuẩn Cát Bà",
+            "dia_diem": "Hải Phòng, Việt Nam",
+            "gia_tien": 3800000.0,
+            "avg_rating": 4.3333,
+            "ai_accessibility_score": 0.834
+        }
+    ]
+}

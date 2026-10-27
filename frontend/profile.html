@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cài đặt & Quyền riêng tư | AccessTravel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --c-main: #0f766e; --c-text: #0f172a; --c-bg: #f8fafc; --c-card-bg: #ffffff; --c-border: #e2e8f0;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); color: var(--c-text); margin: 0; }
+        * { box-sizing: border-box; }
+        a { text-decoration: none; color: inherit; }
+
+        .header-custom { background: var(--c-card-bg); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
+        .btn-back { background: var(--c-bg); border: 1px solid var(--c-border); padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .profile-card { background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 32px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 24px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--c-border); padding-bottom: 16px; }
+        .card-title { font-size: 20px; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 10px; }
+        
+        .info-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--c-border); }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { font-size: 14px; color: #64748b; font-weight: 600; width: 220px; }
+        .info-value { font-size: 15px; font-weight: 700; flex: 1; }
+        .info-actions { display: flex; gap: 8px; }
+        
+        .btn-action { background: var(--c-bg); border: 1px solid var(--c-border); padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .btn-action:hover { background: #e2e8f0; }
+        .btn-action.delete { color: #dc2626; border-color: #fecaca; background: #fef2f2; }
+        .btn-action.delete:hover { background: #fee2e2; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #475569; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid var(--c-border); border-radius: 8px; font-size: 14px; outline: none; }
+        .btn-save { background: var(--c-main); color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header class="header-custom">
+        <a href="index.html" class="logo"><i class="fa-solid fa-wheelchair"></i> AccessTravel</a>
+        <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Quay lại Trang chủ</a>
+    </header>
+
+    <div class="container">
+        <!-- THÔNG TIN TÀI KHOẢN -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fa-solid fa-user-gear" style="color:var(--c-main);"></i> Cài đặt & Quyền riêng tư</h2>
+                <span id="roleBadge" style="background:#e0f2fe; color:#0369a1; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:800;">Khách hàng</span>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Họ và tên</div>
+                <div class="info-value" id="valName">Đang tải...</div>
+                <div class="info-actions">
+                    <button class="btn-action" onclick="editField('valName', 'Họ và tên')"><i class="fa-solid fa-pen"></i> Chỉnh sửa</button>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Địa chỉ Email</div>
+                <div class="info-value" id="valEmail">Đang tải...</div>
+                <div class="info-actions">
+                    <button class="btn-action" onclick="editField('valEmail', 'Email')"><i class="fa-solid fa-pen"></i> Đổi</button>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Số điện thoại</div>
+                <div class="info-value" id="valPhone">Chưa thiết lập</div>
+                <div class="info-actions">
+                    <button class="btn-action" onclick="editField('valPhone', 'Số điện thoại')"><i class="fa-solid fa-pen"></i> Cập nhật</button>
+                    <button class="btn-action delete" onclick="deleteField('valPhone')"><i class="fa-solid fa-trash"></i> Xóa</button>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Địa chỉ cư trú</div>
+                <div class="info-value" id="valAddress">Hà Nội, Việt Nam</div>
+                <div class="info-actions">
+                    <button class="btn-action" onclick="editField('valAddress', 'Địa chỉ')"><i class="fa-solid fa-pen"></i> Sửa</button>
+                    <button class="btn-action delete" onclick="deleteField('valAddress')"><i class="fa-solid fa-trash"></i> Xóa</button>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">Nhu cầu trợ năng ưu tiên</div>
+                <div class="info-value" id="valAccessibility">Lối đi xe lăn, Xe điện hỗ trợ</div>
+                <div class="info-actions">
+                    <button class="btn-action" onclick="editField('valAccessibility', 'Nhu cầu trợ năng')"><i class="fa-solid fa-pen"></i> Đổi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUYỀN RIÊNG TƯ & BẢO MẬT -->
+        <div class="profile-card">
+            <h2 class="card-title" style="margin-bottom:16px;"><i class="fa-solid fa-shield-halved" style="color:var(--c-main);"></i> Tùy chọn quyền riêng tư dữ liệu</h2>
+            <p style="font-size:14px; color:#64748b; margin-bottom:20px;">Quản lý cách nền tảng AccessTravel sử dụng thông tin hành trình của bạn.</p>
+            
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:14px; cursor:pointer; font-weight:600; font-size:14.5px;">
+                <input type="checkbox" checked style="width:18px; height:18px;"> Cho phép hệ thống ghi nhớ tiêu chí trợ năng cá nhân khi tìm tour.
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-weight:600; font-size:14.5px;">
+                <input type="checkbox" checked style="width:18px; height:18px;"> Nhận thông báo tự động khi có tour mới đạt kiểm định xe lăn.
+            </label>
+        </div>
+    </div>
+
+    <script>
+        // Load thông tin từ localStorage khi mở trang
+        document.addEventListener('DOMContentLoaded', () => {
+            const rawUser = localStorage.getItem('currentUser');
+            if (rawUser) {
+                const user = JSON.parse(rawUser);
+                document.getElementById('valName').innerText = user.full_name || 'Khách hàng';
+                document.getElementById('valEmail').innerText = user.email || 'user@accesstravel.vn';
+                if(user.phone) document.getElementById('valPhone').innerText = user.phone;
+                if(user.address) document.getElementById('valAddress').innerText = user.address;
+                if(user.role === 'admin') {
+                    document.getElementById('roleBadge').innerText = 'Quản trị viên (Admin)';
+                    document.getElementById('roleBadge').style.background = '#fef3c7';
+                    document.getElementById('roleBadge').style.color = '#b45309';
+                }
+            } else {
+                alert('Vui lòng đăng nhập trước khi xem cài đặt quyền riêng tư!');
+                window.location.href = 'index.html';
+            }
+        });
+
+        function editField(id, fieldName) {
+            const currentVal = document.getElementById(id).innerText;
+            const newVal = prompt(`Nhập ${fieldName} mới:`, currentVal === 'Chưa thiết lập' ? '' : currentVal);
+            if (newVal !== null && newVal.trim() !== '') {
+                document.getElementById(id).innerText = newVal.trim();
+                saveToLocalStorage();
+                alert(`Cập nhật ${fieldName} thành công!`);
+            }
+        }
+
+        function deleteField(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa thông tin này?')) {
+                document.getElementById(id).innerText = 'Chưa thiết lập';
+                saveToLocalStorage();
+            }
+        }
+
+        function saveToLocalStorage() {
+            const rawUser = localStorage.getItem('currentUser');
+            if (rawUser) {
+                let user = JSON.parse(rawUser);
+                user.full_name = document.getElementById('valName').innerText;
+                user.email = document.getElementById('valEmail').innerText;
+                user.phone = document.getElementById('valPhone').innerText;
+                user.address = document.getElementById('valAddress').innerText;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+            }
+        }
+    </script>
+</body>
+</html>

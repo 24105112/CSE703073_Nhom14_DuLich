@@ -75,3 +75,7 @@ try {
     echo json_encode(['status' => 'error', 'error' => 'Lỗi hệ thống: ' . $e->getMessage()], JSON_UNESCAPED_UNICODE);
 }
 
+<?php
+// Chuyển tiếp sang book.php
+require_once __DIR__ . '/../book.php';
+?>
