@@ -2,6 +2,13 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <script>
+    (function() {
+        const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.body && document.body.setAttribute('data-theme', savedTheme);
+    })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Chi Tiết Tour Trợ Năng | AccessTravel</title>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -218,15 +225,16 @@
             <button class="btn-header-search" onclick="window.location.href='search.html'"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 12px; margin-left: auto; padding-right: 20px;">
-            <button onclick="toggleCustomerTheme()" title="Chuyển đổi Sáng/Tối" style="background: transparent; border: 1px solid var(--c-border); color: inherit; width: 38px; height: 38px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s;">
-                <i class="fa-solid fa-moon" id="customerThemeIcon"></i>
+        <div class="header-actions" style="display: flex; align-items: center; gap: 10px; margin-left: auto; padding-right: 20px;">
+            <!-- Nút đổi ngôn ngữ dạng nút bấm bo góc có icon trái đất -->
+            <button class="global-lang-btn" onclick="toggleLanguage()" title="Chuyển ngôn ngữ" style="background: var(--c-card-bg); border: 1.5px solid var(--c-border); color: var(--c-text); border-radius: 12px; height: 40px; padding: 0 14px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; font-weight: 800; font-size: 14px; font-family: inherit;">
+                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
             </button>
 
-            <select id="langSelect" onchange="changeLanguage(this.value)" style="background: transparent; border: 1px solid var(--c-border); color: inherit; padding: 8px 12px; border-radius: 8px; font-weight: 800; cursor: pointer; outline: none;">
-                <option value="vi" style="color: #000;">🇻🇳 Tiếng Việt</option>
-                <option value="en" style="color: #000;">🇬🇧 English</option>
-            </select>
+            <!-- Nút đổi Sáng / Tối dạng nút vuông tròn -->
+            <button class="global-theme-btn" onclick="toggleCustomerTheme()" title="Sáng / Tối" style="background: var(--c-card-bg); border: 1.5px solid var(--c-border); color: var(--c-text); border-radius: 12px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px;">
+                <i class="fa-solid fa-moon" id="customerThemeIcon"></i>
+            </button>
         </div>
 
         <div id="authHeaderBlock">
@@ -1309,13 +1317,124 @@ id: 8,
             }
         }
 
-        function changeLanguage(lang) {
-            if (lang === 'en') {
-                alert('Đã chuyển sang giao diện tiếng Anh.');
-            } else {
-                alert('Đã chuyển sang giao diện tiếng Việt.');
+        // BỘ TỪ ĐIỂN TỰ ĐỘNG DỊCH CHO DETAIL.HTML
+        const detailDict = {
+            "Tổng quan": "Overview",
+            "Mô tả hành trình": "Itinerary Description",
+            "Vị trí & Y tế": "Location & Medical Care",
+            "Gói dịch vụ & Đặt chỗ": "Packages & Booking",
+            "Đánh giá thực tế": "Real Reviews",
+            "Khởi hành 2026": "Departure 2026",
+            "Hỗ trợ xe lăn & người cao tuổi": "Wheelchair & Senior Assistance",
+            "Đã kiểm định độ dốc & tiếp cận 100%": "100% Verified Ramp & Accessibility",
+            "Giá trọn gói / khách từ": "All-inclusive per guest from",
+            "Chọn ngày & Đặt chỗ": "Select Date & Book",
+            "Khách nói gì về kỳ nghỉ trợ năng:": "What guests say about accessible stay:",
+            "Xem tất cả >": "View all >",
+            "Trong khu vực & Y tế": "Area & Medical Facilities",
+            "Xem bản đồ >": "View map >",
+            "Tiện ích trợ năng chính": "Key Accessibility Amenities",
+            "Chi tiết >": "Details >",
+            "Thang máy boong": "Deck Elevator",
+            "Rãnh dốc < 8%": "Ramp Slope < 8%",
+            "Trực y tế 24/7": "24/7 Medical Care",
+            "WC tay vịn chữ U": "U-bar Grab Restroom",
+            "Xe đón gầm thấp": "Low-chassis Transit",
+            "WiFi tốc độ cao": "High-speed WiFi",
+            "Giới Thiệu Chuyến Đi Tiếp Cận": "Introduction to Accessible Journey",
+            "Mô Tả Hành Trình Trải Nghiệm Thực Tế": "Actual Accessible Itinerary Details",
+            "Đã kiểm tra thực tế": "Verified On-site",
+            "Bảng dữ liệu đo đạc trợ năng thực tế (Chạm để xem chi tiết)": "Actual Accessibility Audit Data (Click to expand)",
+            "Bản Đồ Du Lịch Tiếp Cận & Cơ Sở Y Tế": "Accessible Tourism Map & Medical Facilities",
+            "Tất cả vị trí": "All Locations",
+            "Lối đi xe lăn": "Wheelchair Paths",
+            "Cơ sở y tế & Cấp cứu": "Medical Clinics & First Aid",
+            "Điểm nghỉ râm mát": "Shaded Resting Bays",
+            "Chọn Lịch Khởi Hành & Đặt Chỗ": "Select Departure Schedule & Booking",
+            "Ngày khởi hành & Suất khả dụng": "Departure Date & Availability",
+            "Số lượng khách (Vé)": "Number of Guests (Tickets)",
+            "Tổng thanh toán tạm tính": "Estimated Total Price",
+            "Xác Nhận Giữ Chỗ": "Confirm Reservation",
+            "Gói Tiêu Chuẩn Tiếp Cận Toàn Diện": "Full Accessibility Standard Package",
+            "Đặt Lịch Này": "Book This Schedule",
+            "Gói Cao Cấp (Kèm Y Tế & Điều Dưỡng Viên Đồng Hành)": "Premium Package (With Dedicated Nurse & Doctor)",
+            "Đánh Giá Của Du Khách Trợ Năng": "Verified Guest Accessibility Reviews",
+            "Viết đánh giá chuyến đi của bạn": "Write Your Experience Review",
+            "Đính kèm ảnh chuyến đi": "Attach Travel Photo",
+            "Gửi Đánh Giá Ngay": "Submit Review Now",
+            "Tất cả": "All",
+            "Mới nhất": "Newest",
+            "Cũ nhất": "Oldest",
+            "Đánh giá cao nhất": "Highest Rated",
+            "Đánh giá thấp nhất": "Lowest Rated",
+            "Khám phá": "Explore",
+            "Trang chủ": "Home",
+            "Dịch vụ": "Services",
+            "Bản tin": "News",
+            "Về chúng tôi": "About Us",
+            "Hỗ trợ": "Support",
+            "Đăng nhập": "Login",
+            "(Đăng xuất)": "(Logout)"
+        };
+
+        // Hàm cuộn mượt đến các section
+        function scrollToSection(secId, btn) {
+            if (btn) {
+                document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+            const el = document.getElementById(secId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
+
+        // HÀM DỊCH TỰ ĐỘNG VÀ LƯU LOCALSTORAGE
+        function changeLanguage(lang) {
+            localStorage.setItem('accessTravelLang', lang);
+            document.documentElement.setAttribute('lang', lang);
+
+            const select = document.getElementById('langSelect');
+            if (select) select.value = lang;
+
+            // Dịch tất cả các phần tử text
+            document.querySelectorAll('h1, h2, h3, h4, span, button, a, div, label, p').forEach(el => {
+                if (el.children.length === 0 || (el.children.length === 1 && el.querySelector('i'))) {
+                    if (!el.getAttribute('data-origin-vi')) {
+                        el.setAttribute('data-origin-vi', el.innerText.trim());
+                    }
+                    const origin = el.getAttribute('data-origin-vi');
+                    if (lang === 'en') {
+                        if (detailDict[origin]) {
+                            // Giữ lại icon nếu có
+                            const icon = el.querySelector('i');
+                            if (icon) {
+                                el.innerHTML = icon.outerHTML + ' ' + detailDict[origin];
+                            } else {
+                                el.innerText = detailDict[origin];
+                            }
+                        }
+                    } else {
+                        const icon = el.querySelector('i');
+                        if (icon) {
+                            el.innerHTML = icon.outerHTML + ' ' + origin;
+                        } else {
+                            el.innerText = origin;
+                        }
+                    }
+                }
+            });
+        }
+
+        // ĐỒNG BỘ NGÔN NGỮ KHI TẢI LẠI TRANG
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('accessTravelLang') || 'vi';
+            const select = document.getElementById('langSelect');
+            if (select) select.value = savedLang;
+            if (savedLang === 'en') {
+                changeLanguage('en');
+            }
+        });
     </script>
 
     <!-- FOOTER CHUẨN ĐỒ ÁN ACCESS-TRAVEL -->
@@ -1369,6 +1488,7 @@ id: 8,
         </div>
     </footer>
 
+    <!-- ================= FOOTER CHUẨN ACCESSTRAVEL ================= -->
     <style>
         .footer-custom {
             background-color: var(--c-card-bg, #ffffff);
@@ -1377,6 +1497,16 @@ id: 8,
             padding-top: 60px;
             margin-top: 80px;
             transition: background 0.3s, color 0.3s, border 0.3s;
+        }
+
+        /* Biến màu chế độ Tối cho Footer */
+        [data-theme="dark"] .footer-custom,
+        html[data-theme="dark"] .footer-custom {
+            --c-card-bg: #18181b;
+            --c-border: #27272a;
+            --c-text: #f8fafc;
+            --c-text-muted: #94a3b8;
+            --c-bg: #09090b;
         }
 
         .footer-container {
@@ -1395,7 +1525,9 @@ id: 8,
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #0f766e;
         }
+        [data-theme="dark"] .footer-logo { color: #14b8a6; }
 
         .footer-desc {
             font-size: 14px;
@@ -1438,6 +1570,7 @@ id: 8,
             color: var(--c-text-muted, #64748b);
             font-weight: 700;
             transition: 0.2s;
+            text-decoration: none;
         }
         .footer-links a:hover {
             color: #0f766e;
@@ -1468,5 +1601,101 @@ id: 8,
             .footer-container { grid-template-columns: 1fr; gap: 30px; }
         }
     </style>
+
+    <footer class="footer-custom">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-wheelchair"></i> AccessTravel
+                </div>
+                <p class="footer-desc">
+                    Hệ thống đặt tour du lịch tiếp cận dành riêng cho người cao tuổi và người suy giảm khả năng vận động. Mọi tuyến tour đều được khảo sát độ dốc ram, kích thước cửa và hỗ trợ y tế thực tế.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Khám phá</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="services.html">Dịch vụ trợ năng</a></li>
+                    <li><a href="news.html">Cẩm nang & Tin tức</a></li>
+                    <li><a href="about.html">Về chúng tôi</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Tiện ích</h3>
+                <ul class="footer-links">
+                    <li><a href="support.html">Hỗ trợ khẩn cấp</a></li>
+                    <li><a href="admin-login.html">Cổng Quản trị viên</a></li>
+                    <li><a href="javascript:void(0)" onclick="toggleCustomerTheme()">Đổi giao diện Tối/Sáng</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Liên hệ hỗ trợ</h3>
+                <div class="footer-contact-info">
+                    <i class="fa-solid fa-phone" style="color: #0f766e;"></i> Hotline: 1900 6868
+                </div>
+                <div class="footer-contact-info">
+                    <i class="fa-solid fa-envelope" style="color: #0f766e;"></i> hotro@accesstravel.vn
+                </div>
+                <div class="footer-contact-info">
+                    <i class="fa-solid fa-location-dot" style="color: #0f766e;"></i> Trường Đại học Phenikaa, Hà Nội
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 AccessTravel - Đồ án học phần CSE703073 | Nhóm 14 Du Lịch.
+        </div>
+    </footer>
+
+    <!-- SCRIPT ĐỒNG BỘ DARK/LIGHT THEME CHO DETAIL.HTML -->
+    <script>
+        // 1. Đồng bộ Theme từ localStorage khi vừa mở trang
+        (function() {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (document.body) document.body.setAttribute('data-theme', savedTheme);
+        })();
+
+        // 2. Hàm đổi Theme dùng chung
+        function toggleCustomerTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('accessTravelTheme', newTheme);
+
+            const icon = document.getElementById('customerThemeIcon') || document.querySelector('.theme-toggle i');
+            if (icon) {
+                icon.className = (newTheme === 'dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+                icon.style.color = (newTheme === 'dark') ? '#f59e0b' : '';
+            }
+        }
+
+        // Cập nhật icon khi DOM sẵn sàng
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            const icon = document.getElementById('customerThemeIcon') || document.querySelector('.theme-toggle i');
+            if (icon) {
+                icon.className = (currentTheme === 'dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+                icon.style.color = (currentTheme === 'dark') ? '#f59e0b' : '';
+            }
+        });
+        function toggleLanguage() {
+            const curLang = localStorage.getItem('accessTravelLang') || 'vi';
+            const nextLang = (curLang === 'vi') ? 'en' : 'vi';
+            localStorage.setItem('accessTravelLang', nextLang);
+            // Tải lại để file widget tự động quét và dịch toàn trang
+            location.reload();
+        }
+    </script><div style="display: flex; align-items: center; gap: 12px; margin-left: auto; padding-right: 20px;">
+    <script src="js/accessibility-widget.js"></script>
 </body>
 </html>

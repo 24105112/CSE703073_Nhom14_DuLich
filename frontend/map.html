@@ -2,86 +2,227 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vị Trí & Tiện Ích Lân Cận | AccessTravel</title>
+    <title id="docTitle">Vị Trí & Tiện Ích Lân Cận | AccessTravel</title>
+
+    <!-- SCRIPT CHỐNG CHỚP SÁNG VÀ LƯU THEME BẰNG LOCALSTORAGE -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --tvlk-blue: #006ce4; --tvlk-dark: #191e23; --tvlk-bg: #f4f6f8; --tvlk-border: #d0d5dd; }
-        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: vartvlk-bg; margin: 0; color: var(--tvlk-dark); font-size: 15px; background: #f4f6f8; }
+        :root {
+            --c-main: #0f766e; --c-main-dark: #0d9488; --c-text: #0f172a; --c-text-muted: #64748b;
+            --c-bg: #f8fafc; --c-card-bg: #ffffff; --c-border: #e2e8f0; --c-tvlk: #006ce4;
+        }
+
+        [data-theme="dark"], 
+        html[data-theme="dark"], 
+        html[data-theme="dark"] body {
+            --c-main: #14b8a6; --c-main-dark: #2dd4bf; --c-text: #f8fafc !important;
+            --c-text-muted: #94a3b8 !important; --c-bg: #09090b !important;
+            --c-card-bg: #18181b !important; --c-border: #27272a !important;
+            --c-tvlk: #38bdf8 !important;
+            background-color: #09090b !important; color: #f8fafc !important;
+        }
+
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); margin: 0; color: var(--c-text); font-size: 15px; transition: background-color 0.3s, color 0.3s; }
         * { box-sizing: border-box; }
         a { text-decoration: none; color: inherit; }
 
-        header { background: #fff; padding: 14px 40px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 20px; }
-        .logo { font-weight: 900; font-size: 20px; color: #0f766e; }
+        header { background: var(--c-card-bg); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .header-left { display: flex; align-items: center; gap: 18px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--c-main); font-size: 14.5px; transition: 0.2s; }
+        .back-link:hover { color: var(--c-main-dark); transform: translateX(-3px); }
+        .logo-title { font-weight: 900; font-size: 17px; color: var(--c-text); display: flex; align-items: center; gap: 8px; border-left: 2px solid var(--c-border); padding-left: 18px; }
+
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .global-lang-btn, .global-theme-btn {
+            background: var(--c-card-bg); border: 1.5px solid var(--c-border); color: var(--c-text);
+            border-radius: 12px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; font-weight: 800; font-size: 14px; transition: all 0.2s ease; outline: none; font-family: inherit;
+        }
+        .global-lang-btn { padding: 0 14px; gap: 7px; }
+        .global-theme-btn { width: 40px; padding: 0; font-size: 16px; }
+        .global-lang-btn:hover, .global-theme-btn:hover { border-color: var(--c-main); color: var(--c-main); transform: translateY(-1px); }
 
         .container { max-width: 1000px; margin: 30px auto 60px; padding: 0 20px; }
-        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--tvlk-blue); margin-bottom: 20px; }
 
-        /* KHUNG BẢN ĐỒ GIẢ LẬP (ẢNH 2) */
-        .map-box { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .map-box { background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .map-frame { width: 100%; height: 360px; background: #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; }
         
-        /* DANH SÁCH ĐỊA ĐIỂM LAN CẬN CHIA CỘT */
-        .nearby-section { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 24px; }
+        .nearby-section { background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 24px; }
         .nearby-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 16px; }
-        .nearby-col-title { font-size: 16px; font-weight: 900; margin-bottom: 14px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
-        .location-row { display: flex; justify-content: space-between; font-size: 13.5px; color: #475569; margin-bottom: 12px; font-weight: 600; }
+        .nearby-col-title { font-size: 16px; font-weight: 900; margin-bottom: 14px; color: var(--c-text); display: flex; align-items: center; gap: 8px; }
+        .location-row { display: flex; justify-content: space-between; font-size: 13.5px; color: var(--c-text-muted); margin-bottom: 12px; font-weight: 600; border-bottom: 1px dashed var(--c-border); padding-bottom: 8px; }
+        .location-row strong { color: var(--c-main); font-weight: 800; }
+
+        @media (max-width: 768px) {
+            header { padding: 12px 20px; }
+            .logo-title { display: none; }
+            .nearby-grid { grid-template-columns: 1fr; gap: 20px; }
+        }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
     <header>
-        <a href="detail.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Trở lại trang chi tiết</a>
-        <div class="logo">Bản đồ & Địa điểm lân cận</div>
+        <div class="header-left">
+            <a href="detail.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> <span class="auto-trans">Trở lại trang chi tiết</span>
+            </a>
+            <div class="logo-title">
+                <i class="fa-solid fa-map-location-dot" style="color:var(--c-main);"></i>
+                <span class="auto-trans">Bản đồ & Địa điểm lân cận</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <!-- NÚT ĐỔI NGÔN NGỮ EN / VI -->
+            <button class="global-lang-btn" onclick="toggleLanguage()" title="Chuyển ngôn ngữ">
+                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
+            </button>
+            <!-- NÚT ĐỔI SÁNG / TỐI -->
+            <button class="global-theme-btn" onclick="toggleTheme()" title="Sáng / Tối">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
     </header>
 
     <div class="container">
         
         <!-- BẢN ĐỒ -->
         <div class="map-box">
-            <h2 style="margin:0 0 14px 0; font-size:20px; font-weight:900;">Vị trí trên bản đồ</h2>
-            <div style="font-size:14px; color:#64748b; margin-bottom:14px;">
-                <i class="fa-solid fa-location-dot" style="color:var(--tvlk-blue);"></i> Cảng tàu khách quốc tế Hạ Long, Bãi Cháy, Thành phố Hạ Long, Quảng Ninh
+            <h2 style="margin:0 0 14px 0; font-size:20px; font-weight:900;" class="auto-trans">Vị trí trên bản đồ</h2>
+            <div style="font-size:14px; color:var(--c-text-muted); margin-bottom:14px;">
+                <i class="fa-solid fa-location-dot" style="color:var(--c-main);"></i> 
+                <span class="auto-trans">Cảng tàu khách quốc tế Hạ Long, Bãi Cháy, Thành phố Hạ Long, Quảng Ninh</span>
             </div>
             
             <div class="map-frame">
-                <!-- Nhúng bản đồ Google Maps minh họa chuẩn tọa độ Hạ Long -->
                 <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Ha+Long+International+Cruise+Port&t=&z=14&ie=UTF8&iwloc=&output=embed" style="border:0;"></iframe>
             </div>
         </div>
 
-        <!-- DANH SÁCH ĐỊA ĐIỂM LÂN CẬN CHIA 3 CỘT (GIỐNG ẢNH 2) -->
+        <!-- DANH SÁCH ĐỊA ĐIỂM LÂN CẬN -->
         <div class="nearby-section">
-            <h2 style="margin:0 0 20px 0; font-size:20px; font-weight:900;">Điểm mốc & Y tế xung quanh</h2>
+            <h2 style="margin:0 0 20px 0; font-size:20px; font-weight:900;" class="auto-trans">Điểm mốc & Y tế xung quanh</h2>
             
             <div class="nearby-grid">
                 <!-- Cột 1 -->
                 <div>
-                    <div class="nearby-col-title"><i class="fa-solid fa-hospital" style="color:#ef4444;"></i> Y tế & Sức khỏe</div>
-                    <div class="location-row"><span>Bệnh viện Đa khoa Hạ Long</span> <strong>1.2 km</strong></div>
-                    <div class="location-row"><span>Nhà thuốc GPP Chuẩn Y Tế</span> <strong>300 m</strong></div>
-                    <div class="location-row"><span>Trạm y tế phường Bãi Cháy</span> <strong>850 m</strong></div>
+                    <div class="nearby-col-title"><i class="fa-solid fa-hospital" style="color:#ef4444;"></i> <span class="auto-trans">Y tế & Sức khỏe</span></div>
+                    <div class="location-row"><span class="auto-trans">Bệnh viện Đa khoa Hạ Long</span> <strong>1.2 km</strong></div>
+                    <div class="location-row"><span class="auto-trans">Nhà thuốc GPP Chuẩn Y Tế</span> <strong>300 m</strong></div>
+                    <div class="location-row"><span class="auto-trans">Trạm y tế phường Bãi Cháy</span> <strong>850 m</strong></div>
                 </div>
 
                 <!-- Cột 2 -->
                 <div>
-                    <div class="nearby-col-title"><i class="fa-solid fa-anchor" style="color:var(--tvlk-blue);"></i> Giao thông & Bến bãi</div>
-                    <div class="location-row"><span>Cảng tàu khách quốc tế</span> <strong>0 m</strong></div>
-                    <div class="location-row"><span>Ga cáp treo Nữ Hoàng</span> <strong>2.1 km</strong></div>
-                    <div class="location-row"><span>Bến xe Bãi Cháy</span> <strong>3.5 km</strong></div>
+                    <div class="nearby-col-title"><i class="fa-solid fa-anchor" style="color:var(--c-main);"></i> <span class="auto-trans">Giao thông & Bến bãi</span></div>
+                    <div class="location-row"><span class="auto-trans">Cảng tàu khách quốc tế</span> <strong>0 m</strong></div>
+                    <div class="location-row"><span class="auto-trans">Ga cáp treo Nữ Hoàng</span> <strong>2.1 km</strong></div>
+                    <div class="location-row"><span class="auto-trans">Bến xe Bãi Cháy</span> <strong>3.5 km</strong></div>
                 </div>
 
                 <!-- Cột 3 -->
                 <div>
-                    <div class="nearby-col-title"><i class="fa-solid fa-bag-shopping" style="color:#10b981;"></i> Tiện ích & Mua sắm</div>
-                    <div class="location-row"><span>Chợ đêm Hạ Long</span> <strong>1.5 km</strong></div>
-                    <div class="location-row"><span>Khu ẩm thực sảnh chờ</span> <strong>50 m</strong></div>
-                    <div class="location-row"><span>Trung tâm thương mại</span> <strong>2.8 km</strong></div>
+                    <div class="nearby-col-title"><i class="fa-solid fa-bag-shopping" style="color:#10b981;"></i> <span class="auto-trans">Tiện ích & Mua sắm</span></div>
+                    <div class="location-row"><span class="auto-trans">Chợ đêm Hạ Long</span> <strong>1.5 km</strong></div>
+                    <div class="location-row"><span class="auto-trans">Khu ẩm thực sảnh chờ</span> <strong>50 m</strong></div>
+                    <div class="location-row"><span class="auto-trans">Trung tâm thương mại</span> <strong>2.8 km</strong></div>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <!-- SCRIPT TỰ ĐỘNG HÓA DỊCH THUẬT & THEME -->
+    <script>
+        const autoDict = {
+            "Trở lại trang chi tiết": "Back to Tour Details",
+            "Bản đồ & Địa điểm lân cận": "Map & Nearby Facilities",
+            "Vị trí trên bản đồ": "Location on Map",
+            "Cảng tàu khách quốc tế Hạ Long, Bãi Cháy, Thành phố Hạ Long, Quảng Ninh": "Ha Long International Cruise Port, Bai Chay, Ha Long City, Quang Ninh",
+            "Điểm mốc & Y tế xung quanh": "Nearby Landmarks & Medical Care",
+            "Y tế & Sức khỏe": "Healthcare & Medical",
+            "Bệnh viện Đa khoa Hạ Long": "Ha Long General Hospital",
+            "Nhà thuốc GPP Chuẩn Y Tế": "Certified GPP Pharmacy",
+            "Trạm y tế phường Bãi Cháy": "Bai Chay Ward Medical Clinic",
+            "Giao thông & Bến bãi": "Transport & Terminals",
+            "Cảng tàu khách quốc tế": "International Passenger Port",
+            "Ga cáp treo Nữ Hoàng": "Queen Cable Car Station",
+            "Bến xe Bãi Cháy": "Bai Chay Bus Terminal",
+            "Tiện ích & Mua sắm": "Amenities & Shopping",
+            "Chợ đêm Hạ Long": "Ha Long Night Market",
+            "Khu ẩm thực sảnh chờ": "Lounge Food Court",
+            "Trung tâm thương mại": "Shopping Center"
+        };
+
+        // Hàm tự động hóa dịch
+        function applyAutoTranslation(targetLang) {
+            localStorage.setItem('accessTravelLang', targetLang);
+            document.documentElement.setAttribute('lang', targetLang);
+
+            document.querySelectorAll('.auto-trans').forEach(el => {
+                if (!el.getAttribute('data-original-vi')) {
+                    el.setAttribute('data-original-vi', el.textContent.trim());
+                }
+                const originalText = el.getAttribute('data-original-vi');
+
+                if (targetLang === 'en') {
+                    if (autoDict[originalText]) {
+                        el.textContent = autoDict[originalText];
+                    }
+                } else {
+                    el.textContent = originalText;
+                }
+            });
+
+            const langBtnText = document.getElementById('langText');
+            if (langBtnText) langBtnText.textContent = (targetLang === 'vi') ? 'EN' : 'VI';
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('accessTravelLang') || 'vi';
+            const nextLang = (currentLang === 'vi') ? 'en' : 'vi';
+            applyAutoTranslation(nextLang);
+        }
+
+        // Quản lý Dark/Light Theme
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('accessTravelTheme', theme);
+
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.className = (theme === 'dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+                icon.style.color = (theme === 'dark') ? '#f59e0b' : '';
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const nextTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+            applyTheme(nextTheme);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            applyTheme(savedTheme);
+
+            const savedLang = localStorage.getItem('accessTravelLang') || 'vi';
+            applyAutoTranslation(savedLang);
+        });
+    </script>
+    <script src="js/accessibility-widget.js"></script>
 </body>
 </html>

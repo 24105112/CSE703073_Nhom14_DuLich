@@ -2,8 +2,18 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dịch Vụ Trợ Năng | AccessTravel</title>
+    <title id="docTitle">Dịch Vụ Trợ Năng | AccessTravel</title>
+
+    <!-- SCRIPT CHỐNG CHỚP SÁNG & ĐỒNG BỘ THEME TỪ LOCALSTORAGE -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,17 +21,33 @@
             --c-main: #0f766e; --c-hover: #0d9488; --c-bg: #f8fafc;
             --c-card: #ffffff; --c-text: #0f172a; --c-muted: #64748b; --c-border: #e2e8f0;
         }
-        [data-theme="dark"] {
-            --c-main: #14b8a6; --c-bg: #09090b; --c-card: #18181b; --c-text: #f8fafc; --c-muted: #94a3b8; --c-border: #27272a;
+
+        /* BỘ BIẾN DARK MODE ĐỒNG BỘ */
+        [data-theme="dark"], 
+        html[data-theme="dark"], 
+        html[data-theme="dark"] body {
+            --c-main: #14b8a6; --c-hover: #2dd4bf; --c-bg: #09090b !important;
+            --c-card: #18181b !important; --c-text: #f8fafc !important; 
+            --c-muted: #94a3b8 !important; --c-border: #27272a !important;
+            background-color: #09090b !important;
+            color: #f8fafc !important;
         }
-        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); color: var(--c-text); margin: 0; }
+
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); color: var(--c-text); margin: 0; transition: background-color 0.3s, color 0.3s; }
         * { box-sizing: border-box; }
         a { text-decoration: none; color: inherit; }
 
+        /* HEADER */
         header { background: var(--c-card); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 22px; font-weight: 900; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
         .nav-links { display: flex; gap: 24px; font-weight: 700; font-size: 15px; }
         .nav-links a:hover, .nav-links a.active { color: var(--c-main); }
+
+        /* NÚT LANG & NÚT THEME */
+        .btn-lang, .btn-theme { background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-text); height: 38px; border-radius: 8px; display: inline-flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; font-weight: 800; font-size: 13.5px; padding: 0 12px; gap: 6px; }
+        .btn-theme { width: 38px; padding: 0; }
+        .btn-lang:hover, .btn-theme:hover { background: rgba(15,118,110,0.1); color: var(--c-main); border-color: var(--c-main); }
 
         .container { max-width: 1140px; margin: 40px auto; padding: 0 20px; }
 
@@ -29,16 +55,16 @@
         .service-banner { background: #0f766e; color: #fff; padding: 40px 36px; border-radius: 18px; margin-bottom: 40px; box-shadow: 0 10px 25px rgba(15,118,110,0.15); }
         .service-banner-tag { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #99f6e4; margin-bottom: 8px; }
         .service-banner h1 { font-size: 32px; font-weight: 900; margin: 0 0 10px 0; }
-        .service-banner p { font-size: 16px; margin: 0; opacity: 0.9; }
+        .service-banner p { font-size: 16px; margin: 0; opacity: 0.95; }
 
         /* LƯỚI DỊCH VỤ */
-        .section-heading { font-size: 22px; font-weight: 900; margin-bottom: 24px; }
+        .section-heading { font-size: 22px; font-weight: 900; margin-bottom: 24px; color: var(--c-text); }
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 50px; }
         .service-card { background: var(--c-card); border: 1.5px solid var(--c-border); border-radius: 16px; overflow: hidden; transition: 0.25s; display: flex; flex-direction: column; }
         .service-card:hover { border-color: var(--c-main); transform: translateY(-4px); box-shadow: 0 12px 20px rgba(0,0,0,0.05); }
         .service-card img { width: 100%; height: 180px; object-fit: cover; }
         .service-body { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .service-title { font-size: 17px; font-weight: 800; margin: 0 0 8px 0; }
+        .service-title { font-size: 17px; font-weight: 800; margin: 0 0 8px 0; color: var(--c-text); }
         .service-desc { font-size: 13.5px; color: var(--c-muted); line-height: 1.5; margin-bottom: 16px; }
         .service-link { font-size: 14px; font-weight: 800; color: var(--c-main); display: inline-flex; align-items: center; gap: 6px; }
 
@@ -47,7 +73,7 @@
         .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
         .step-item { background: var(--c-bg); border: 1px solid var(--c-border); padding: 18px; border-radius: 12px; }
         .step-num { font-size: 13px; font-weight: 900; color: var(--c-main); margin-bottom: 6px; }
-        .step-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+        .step-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; color: var(--c-text); }
         .step-desc { font-size: 12.5px; color: var(--c-muted); margin: 0; line-height: 1.5; }
 
         /* FORM YÊU CẦU RIÊNG */
@@ -70,128 +96,347 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
+    <!-- HEADER -->
     <header>
         <a href="index.html" class="logo"><i class="fa-solid fa-wheelchair"></i> AccessTravel</a>
+        
         <nav class="nav-links">
-            <a href="services.html" class="active">Dịch vụ</a>
-            <a href="news.html">Bản tin</a>
-            <a href="about.html">Về chúng tôi</a>
-            <a href="support.html">Hỗ trợ</a>
+            <a href="services.html" class="active" data-i18n="nav_services">Dịch vụ</a>
+            <a href="news.html" data-i18n="nav_news">Bản tin</a>
+            <a href="about.html" data-i18n="nav_about">Về chúng tôi</a>
+            <a href="support.html" data-i18n="nav_support">Hỗ trợ</a>
         </nav>
+
+        <div class="header-actions">
+            <!-- NÚT CHUYỂN NGÔN NGỮ EN / VI -->
+            <button class="btn-lang" onclick="toggleLanguage()" id="langBtn" title="Chuyển ngôn ngữ">
+                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
+            </button>
+
+            <!-- NÚT ĐỔI SÁNG / TỐI -->
+            <button class="btn-theme" onclick="toggleServicesTheme()" title="Sáng / Tối">
+                <i class="fa-solid fa-moon" id="servicesThemeIcon"></i>
+            </button>
+        </div>
     </header>
 
     <div class="container">
+        <!-- BANNER -->
         <div class="service-banner">
-            <div class="service-banner-tag">Dịch vụ của AccessTravel</div>
-            <h1>Mỗi hành trình, một cách tiếp cận riêng</h1>
-            <p>Khám phá các giải pháp du lịch phù hợp với nhu cầu di chuyển và chăm sóc sức khỏe của bạn.</p>
+            <div class="service-banner-tag" data-i18n="banner_tag">Dịch vụ của AccessTravel</div>
+            <h1 data-i18n="banner_title">Mỗi hành trình, một cách tiếp cận riêng</h1>
+            <p data-i18n="banner_desc">Khám phá các giải pháp du lịch phù hợp với nhu cầu di chuyển và chăm sóc sức khỏe của bạn.</p>
         </div>
 
-        <div class="section-heading">Khám phá danh mục dịch vụ</div>
+        <!-- DANH MỤC DỊCH VỤ -->
+        <div class="section-heading" data-i18n="services_heading">Khám phá danh mục dịch vụ</div>
         <div class="services-grid">
+            <!-- Card 1 -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500" alt="Tour du lịch tiếp cận">
+                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500" alt="Tour tiếp cận">
                 <div class="service-body">
-                    <h3 class="service-title">Tour du lịch tiếp cận</h3>
-                    <p class="service-desc">Hành trình loại bỏ bậc tam cấp, kiểm định độ dốc an toàn dưới 8%, xe trung chuyển có bửng nâng.</p>
-                    <a href="search.html" class="service-link">Khám phá tour <i class="fa-solid fa-arrow-right"></i></a>
+                    <div>
+                        <h3 class="service-title" data-i18n="card1_t">Tour du lịch tiếp cận</h3>
+                        <p class="service-desc" data-i18n="card1_d">Hành trình loại bỏ bậc tam cấp, kiểm định độ dốc an toàn dưới 8%, xe trung chuyển có bửng nâng.</p>
+                    </div>
+                    <a href="search.html" class="service-link"><span data-i18n="btn_explore">Khám phá tour</span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
+            <!-- Card 2 -->
             <div class="service-card">
                 <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500" alt="Lưu trú tiếp cận">
                 <div class="service-body">
-                    <h3 class="service-title">Lưu trú tiếp cận</h3>
-                    <p class="service-desc">Khách sạn và resort trang bị thang máy kính, phòng vệ sinh có tay vịn chịu lực và cửa rộng ≥ 85cm.</p>
-                    <a href="search.html" class="service-link">Tìm chỗ ở <i class="fa-solid fa-arrow-right"></i></a>
+                    <div>
+                        <h3 class="service-title" data-i18n="card2_t">Lưu trú tiếp cận</h3>
+                        <p class="service-desc" data-i18n="card2_d">Khách sạn và resort trang bị thang máy kính, phòng vệ sinh có tay vịn chịu lực và cửa rộng ≥ 85cm.</p>
+                    </div>
+                    <a href="search.html" class="service-link"><span data-i18n="btn_hotel">Tìm chỗ ở</span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
+            <!-- Card 3 -->
             <div class="service-card">
                 <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500" alt="Hỗ trợ hành trình">
                 <div class="service-body">
-                    <h3 class="service-title">Hỗ trợ hành trình 1-1</h3>
-                    <p class="service-desc">Đội ngũ điều dưỡng viên và hướng dẫn viên đồng hành, hỗ trợ lên xuống xe và sơ cấp cứu 24/7.</p>
-                    <a href="#requestForm" class="service-link">Tìm hỗ trợ <i class="fa-solid fa-arrow-right"></i></a>
+                    <div>
+                        <h3 class="service-title" data-i18n="card3_t">Hỗ trợ hành trình 1-1</h3>
+                        <p class="service-desc" data-i18n="card3_d">Đội ngũ điều dưỡng viên và hướng dẫn viên đồng hành, hỗ trợ lên xuống xe và sơ cấp cứu 24/7.</p>
+                    </div>
+                    <a href="#requestForm" class="service-link"><span data-i18n="btn_support">Tìm hỗ trợ</span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
+            <!-- Card 4 -->
             <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500" alt="Tư vấn chuyến đi">
+                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500" alt="Tư vấn lịch trình">
                 <div class="service-body">
-                    <h3 class="service-title">Tư vấn lịch trình cá nhân</h3>
-                    <p class="service-desc">Lên kế hoạch khảo sát thực tế theo thể trạng sức khỏe riêng của người cao tuổi và du khách xe lăn.</p>
-                    <a href="#requestForm" class="service-link">Nhận tư vấn <i class="fa-solid fa-arrow-right"></i></a>
+                    <div>
+                        <h3 class="service-title" data-i18n="card4_t">Tư vấn lịch trình cá nhân</h3>
+                        <p class="service-desc" data-i18n="card4_d">Lên kế hoạch khảo sát thực tế theo thể trạng sức khỏe riêng của người cao tuổi và du khách xe lăn.</p>
+                    </div>
+                    <a href="#requestForm" class="service-link"><span data-i18n="btn_consult">Nhận tư vấn</span> <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
 
+        <!-- QUY TRÌNH 4 BƯỚC -->
         <div class="process-box">
-            <h3 style="margin:0 0 6px 0; font-size:18px; font-weight:900;">Quy trình phục vụ an tâm</h3>
-            <p style="margin:0; font-size:13.5px; color:var(--c-muted);">Cam kết đồng hành từ bước tiếp nhận đến khi kết thúc chuyến đi.</p>
+            <h3 style="margin:0 0 6px 0; font-size:18px; font-weight:900;" data-i18n="proc_t">Quy trình phục vụ an tâm</h3>
+            <p style="margin:0; font-size:13.5px; color:var(--c-muted);" data-i18n="proc_sub">Cam kết đồng hành từ bước tiếp nhận đến khi kết thúc chuyến đi.</p>
             <div class="process-steps">
                 <div class="step-item">
-                    <div class="step-num">BƯỚC 01</div>
-                    <div class="step-title">Chọn dịch vụ & Tour</div>
-                    <p class="step-desc">Khách hàng lựa chọn điểm đến đã được kiểm định độ an toàn thực tế.</p>
+                    <div class="step-num" data-i18n="s1_num">BƯỚC 01</div>
+                    <div class="step-title" data-i18n="s1_t">Chọn dịch vụ & Tour</div>
+                    <p class="step-desc" data-i18n="s1_d">Khách hàng lựa chọn điểm đến đã được kiểm định độ an toàn thực tế.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-num">BƯỚC 02</div>
-                    <div class="step-title">Cung cấp nhu cầu</div>
-                    <p class="step-desc">Nêu rõ kích thước xe lăn, yêu cầu ăn uống hoặc tình trạng bệnh lý cá nhân.</p>
+                    <div class="step-num" data-i18n="s2_num">BƯỚC 02</div>
+                    <div class="step-title" data-i18n="s2_t">Cung cấp nhu cầu</div>
+                    <p class="step-desc" data-i18n="s2_d">Nêu rõ kích thước xe lăn, yêu cầu ăn uống hoặc tình trạng bệnh lý cá nhân.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-num">BƯỚC 03</div>
-                    <div class="step-title">Khảo sát & Xác nhận</div>
-                    <p class="step-desc">Chuyên viên đối chiếu điều kiện điểm đến và chốt phương án đón trả phù hợp.</p>
+                    <div class="step-num" data-i18n="s3_num">BƯỚC 03</div>
+                    <div class="step-title" data-i18n="s3_t">Khảo sát & Xác nhận</div>
+                    <p class="step-desc" data-i18n="s3_d">Chuyên viên đối chiếu điều kiện điểm đến và chốt phương án đón trả phù hợp.</p>
                 </div>
                 <div class="step-item">
-                    <div class="step-num">BƯỚC 04</div>
-                    <div class="step-title">Khởi hành an toàn</div>
-                    <p class="step-desc">Nhận vé điện tử, nhân viên hỗ trợ tại cầu bến và theo sát suốt hành trình.</p>
+                    <div class="step-num" data-i18n="s4_num">BƯỚC 04</div>
+                    <div class="step-title" data-i18n="s4_t">Khởi hành an toàn</div>
+                    <p class="step-desc" data-i18n="s4_d">Nhận vé điện tử, nhân viên hỗ trợ tại cầu bến và theo sát suốt hành trình.</p>
                 </div>
             </div>
         </div>
 
+        <!-- FORM YÊU CẦU TRỢ NĂNG RIÊNG -->
         <div class="request-box" id="requestForm">
-            <h3 style="margin:0 0 6px 0; font-size:18px; font-weight:900; color:var(--c-main);"><i class="fa-solid fa-hand-holding-heart"></i> Bạn cần hỗ trợ trợ năng đặc thù?</h3>
-            <p style="margin:0; font-size:13.5px; color:var(--c-muted);">Gửi thông tin để AccessTravel điều phối xe nâng chuyên dụng hoặc bác sĩ đi cùng.</p>
-            <form class="form-grid" onsubmit="event.preventDefault(); alert('🎉 Đã ghi nhận yêu cầu trợ năng đặc biệt! Đội ngũ tư vấn sẽ liên hệ lại với bạn trong 30 phút.'); this.reset();">
+            <h3 style="margin:0 0 6px 0; font-size:18px; font-weight:900; color:var(--c-main);">
+                <i class="fa-solid fa-hand-holding-heart"></i> <span data-i18n="form_heading">Bạn cần hỗ trợ trợ năng đặc thù?</span>
+            </h3>
+            <p style="margin:0; font-size:13.5px; color:var(--c-muted);" data-i18n="form_sub">Gửi thông tin để AccessTravel điều phối xe nâng chuyên dụng hoặc bác sĩ đi cùng.</p>
+            
+            <form class="form-grid" onsubmit="handleRequestSubmit(event)">
                 <div class="form-group">
-                    <label>Họ và tên người đại diện</label>
-                    <input type="text" placeholder="Nguyễn Văn A" required>
+                    <label data-i18n="f_name">Họ và tên người đại diện</label>
+                    <input type="text" placeholder="Nguyễn Văn A" data-i18n-ph="f_name_ph" required>
                 </div>
                 <div class="form-group">
-                    <label>Số điện thoại liên hệ</label>
-                    <input type="tel" placeholder="0987xxxxxx" required>
+                    <label data-i18n="f_phone">Số điện thoại liên hệ</label>
+                    <input type="tel" placeholder="0987xxxxxx" data-i18n-ph="f_phone_ph" required>
                 </div>
                 <div class="form-group">
-                    <label>Phương tiện trợ năng chính</label>
-                    <select required>
-                        <option value="manual_wheelchair">Xe lăn tay tiêu chuẩn</option>
-                        <option value="electric_wheelchair">Xe lăn điện (Tải trọng lớn)</option>
-                        <option value="crutch">Gậy / Khung tập đi của người già</option>
-                        <option value="visually_impaired">Cần người hướng dẫn thị giác</option>
+                    <label data-i18n="f_tool">Phương tiện trợ năng chính</label>
+                    <select id="wheelchairSelect" required>
+                        <option value="manual_wheelchair" data-i18n="opt1">Xe lăn tay tiêu chuẩn</option>
+                        <option value="electric_wheelchair" data-i18n="opt2">Xe lăn điện (Tải trọng lớn)</option>
+                        <option value="crutch" data-i18n="opt3">Gậy / Khung tập đi của người già</option>
+                        <option value="visually_impaired" data-i18n="opt4">Cần người hướng dẫn thị giác</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Điểm đến hoặc Tour quan tâm</label>
-                    <input type="text" placeholder="Hạ Long, Cát Bà, Huế, Đà Nẵng...">
+                    <label data-i18n="f_dest">Điểm đến hoặc Tour quan tâm</label>
+                    <input type="text" placeholder="Hạ Long, Cát Bà, Huế, Đà Nẵng..." data-i18n-ph="f_dest_ph">
                 </div>
                 <div class="form-group full">
-                    <label>Ghi chú chi tiết về tình trạng sức khỏe / Hỗ trợ riêng</label>
-                    <textarea rows="3" placeholder="Ví dụ: Bác 78 tuổi bị cao huyết áp, cần phòng nghỉ tầng 1 gần thang máy và xe có bửng nâng..."></textarea>
+                    <label data-i18n="f_note">Ghi chú chi tiết về tình trạng sức khỏe / Hỗ trợ riêng</label>
+                    <textarea rows="3" placeholder="Ví dụ: Bác 78 tuổi bị cao huyết áp, cần phòng nghỉ tầng 1 gần thang máy và xe có bửng nâng..." data-i18n-ph="f_note_ph"></textarea>
                 </div>
                 <div class="form-group full">
-                    <button type="submit" class="btn-submit-req"><i class="fa-solid fa-paper-plane"></i> Gửi Yêu Cầu Hỗ Trợ Riêng</button>
+                    <button type="submit" class="btn-submit-req">
+                        <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_submit_req">Gửi Yêu Cầu Hỗ Trợ Riêng</span>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 AccessTravel - Đồ án học phần CSE703073 | Trường Đại học Phenikaa.</p>
+        <p data-i18n="footer_copy">&copy; 2026 AccessTravel - Đồ án học phần CSE703073 | Trường Đại học Phenikaa.</p>
     </footer>
+
+    <!-- SCRIPT CHỨC NĂNG: DARK THEME & I18N -->
+    <script>
+        // TỪ ĐIỂN SONG NGỮ VI - EN
+        const translations = {
+            vi: {
+                doc_title: "Dịch Vụ Trợ Năng | AccessTravel",
+                nav_services: "Dịch vụ",
+                nav_news: "Bản tin",
+                nav_about: "Về chúng tôi",
+                nav_support: "Hỗ trợ",
+                banner_tag: "Dịch vụ của AccessTravel",
+                banner_title: "Mỗi hành trình, một cách tiếp cận riêng",
+                banner_desc: "Khám phá các giải pháp du lịch phù hợp với nhu cầu di chuyển và chăm sóc sức khỏe của bạn.",
+                services_heading: "Khám phá danh mục dịch vụ",
+                card1_t: "Tour du lịch tiếp cận",
+                card1_d: "Hành trình loại bỏ bậc tam cấp, kiểm định độ dốc an toàn dưới 8%, xe trung chuyển có bửng nâng.",
+                btn_explore: "Khám phá tour",
+                card2_t: "Lưu trú tiếp cận",
+                card2_d: "Khách sạn và resort trang bị thang máy kính, phòng vệ sinh có tay vịn chịu lực và cửa rộng ≥ 85cm.",
+                btn_hotel: "Tìm chỗ ở",
+                card3_t: "Hỗ trợ hành trình 1-1",
+                card3_d: "Đội ngũ điều dưỡng viên và hướng dẫn viên đồng hành, hỗ trợ lên xuống xe và sơ cấp cứu 24/7.",
+                btn_support: "Tìm hỗ trợ",
+                card4_t: "Tư vấn lịch trình cá nhân",
+                card4_d: "Lên kế hoạch khảo sát thực tế theo thể trạng sức khỏe riêng của người cao tuổi và du khách xe lăn.",
+                btn_consult: "Nhận tư vấn",
+                proc_t: "Quy trình phục vụ an tâm",
+                proc_sub: "Cam kết đồng hành từ bước tiếp nhận đến khi kết thúc chuyến đi.",
+                s1_num: "BƯỚC 01",
+                s1_t: "Chọn dịch vụ & Tour",
+                s1_d: "Khách hàng lựa chọn điểm đến đã được kiểm định độ an toàn thực tế.",
+                s2_num: "BƯỚC 02",
+                s2_t: "Cung cấp nhu cầu",
+                s2_d: "Nêu rõ kích thước xe lăn, yêu cầu ăn uống hoặc tình trạng bệnh lý cá nhân.",
+                s3_num: "BƯỚC 03",
+                s3_t: "Khảo sát & Xác nhận",
+                s3_d: "Chuyên viên đối chiếu điều kiện điểm đến và chốt phương án đón trả phù hợp.",
+                s4_num: "BƯỚC 04",
+                s4_t: "Khởi hành an toàn",
+                s4_d: "Nhận vé điện tử, nhân viên hỗ trợ tại cầu bến và theo sát suốt hành trình.",
+                form_heading: "Bạn cần hỗ trợ trợ năng đặc thù?",
+                form_sub: "Gửi thông tin để AccessTravel điều phối xe nâng chuyên dụng hoặc bác sĩ đi cùng.",
+                f_name: "Họ và tên người đại diện",
+                f_name_ph: "Nguyễn Văn A",
+                f_phone: "Số điện thoại liên hệ",
+                f_phone_ph: "0987xxxxxx",
+                f_tool: "Phương tiện trợ năng chính",
+                opt1: "Xe lăn tay tiêu chuẩn",
+                opt2: "Xe lăn điện (Tải trọng lớn)",
+                opt3: "Gậy / Khung tập đi của người già",
+                opt4: "Cần người hướng dẫn thị giác",
+                f_dest: "Điểm đến hoặc Tour quan tâm",
+                f_dest_ph: "Hạ Long, Cát Bà, Huế, Đà Nẵng...",
+                f_note: "Ghi chú chi tiết về tình trạng sức khỏe / Hỗ trợ riêng",
+                f_note_ph: "Ví dụ: Bác 78 tuổi bị cao huyết áp, cần phòng nghỉ tầng 1 gần thang máy và xe có bửng nâng...",
+                btn_submit_req: "Gửi Yêu Cầu Hỗ Trợ Riêng",
+                footer_copy: "© 2026 AccessTravel - Đồ án học phần CSE703073 | Trường Đại học Phenikaa."
+            },
+            en: {
+                doc_title: "Accessibility Services | AccessTravel",
+                nav_services: "Services",
+                nav_news: "News & Articles",
+                nav_about: "About Us",
+                nav_support: "Support",
+                banner_tag: "AccessTravel Solutions",
+                banner_title: "Every Journey, An Accessible Way",
+                banner_desc: "Discover travel solutions tailored to your mobility needs and personalized health care.",
+                services_heading: "Explore Our Service Categories",
+                card1_t: "Accessible Packaged Tours",
+                card1_d: "Step-free itineraries, rigorously audited slopes (<8%), and transit vehicles with hydraulic lifts.",
+                btn_explore: "Explore tours",
+                card2_t: "Accessible Accommodation",
+                card2_d: "Hotels & resorts equipped with glass elevators, grab-bar bathrooms, and doorways ≥ 85cm.",
+                btn_hotel: "Find stays",
+                card3_t: "1-on-1 Journey Assistance",
+                card3_d: "Certified nurses and tour guides accompanying you with 24/7 boarding and first-aid support.",
+                btn_support: "Get assistance",
+                card4_t: "Personalized Itinerary Consulting",
+                card4_d: "Custom planning based on on-site audits and physical conditions for seniors and wheelchair users.",
+                btn_consult: "Consult now",
+                proc_t: "Worry-Free Service Process",
+                proc_sub: "Committed to accompanying you from initial request to trip conclusion.",
+                s1_num: "STEP 01",
+                s1_t: "Select Service & Tour",
+                s1_d: "Choose destinations thoroughly audited for actual accessible safety standards.",
+                s2_num: "STEP 02",
+                s2_t: "Specify Special Needs",
+                s2_d: "State wheelchair dimensions, dietary requests, or specific health conditions.",
+                s3_num: "STEP 03",
+                s3_t: "Audit & Confirmation",
+                s3_d: "Specialists verify location compatibility and confirm convenient pick-up arrangements.",
+                s4_num: "STEP 04",
+                s4_t: "Safe & Joyful Departure",
+                s4_d: "Receive e-tickets; support staff assist at docks and follow throughout the journey.",
+                form_heading: "Need Specialized Accessibility Support?",
+                form_sub: "Submit your inquiry for AccessTravel to arrange lift vehicles or dedicated medical companions.",
+                f_name: "Representative's Full Name",
+                f_name_ph: "John Doe",
+                f_phone: "Contact Phone Number",
+                f_phone_ph: "+84 987xxxxxx",
+                f_tool: "Primary Mobility Device",
+                opt1: "Standard Manual Wheelchair",
+                opt2: "Heavy-Duty Electric Wheelchair",
+                opt3: "Walking Stick / Senior Walker Frame",
+                opt4: "Visual Guide Assistance Needed",
+                f_dest: "Destination or Tour of Interest",
+                f_dest_ph: "Ha Long, Cat Ba, Hue, Da Nang...",
+                f_note: "Detailed Notes on Health Condition / Special Requests",
+                f_note_ph: "E.g., Senior traveler with hypertension; requests ground-floor room near elevator and lift vehicle...",
+                btn_submit_req: "Submit Specialized Request",
+                footer_copy: "© 2026 AccessTravel - CSE703073 Project | Phenikaa University."
+            }
+        };
+
+        // 1. CHUYỂN ĐỔI NGÔN NGỮ ANH - VIỆT
+        function setLanguage(lang) {
+            localStorage.setItem('accessTravelLang', lang);
+            document.documentElement.setAttribute('lang', lang);
+
+            const dict = translations[lang] || translations.vi;
+            document.getElementById('docTitle').textContent = dict.doc_title;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (dict[key]) el.setAttribute('placeholder', dict[key]);
+            });
+
+            const langBtnText = document.getElementById('langText');
+            if (langBtnText) langBtnText.textContent = (lang === 'vi') ? 'EN' : 'VI';
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('accessTravelLang') || 'vi';
+            const nextLang = (currentLang === 'vi') ? 'en' : 'vi';
+            setLanguage(nextLang);
+        }
+
+        // 2. CHUYỂN ĐỔI THEME DARK / LIGHT MODE
+        function toggleServicesTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('accessTravelTheme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('servicesThemeIcon');
+            if (icon) {
+                icon.className = (theme === 'dark') ? "fa-solid fa-sun" : "fa-solid fa-moon";
+                icon.style.color = (theme === 'dark') ? "#f59e0b" : "";
+            }
+        }
+
+        function handleRequestSubmit(e) {
+            e.preventDefault();
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
+            const msg = (lang === 'vi')
+                ? '🎉 Đã ghi nhận yêu cầu trợ năng đặc biệt! Đội ngũ tư vấn sẽ liên hệ lại với bạn trong 30 phút.'
+                : '🎉 Specialized accessibility request received! Our team will contact you within 30 minutes.';
+            alert(msg);
+            e.target.reset();
+        }
+
+        // KHI TRANG LOAD XONG
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            const savedLang = localStorage.getItem('accessTravelLang') || 'vi';
+            setLanguage(savedLang);
+        });
+    </script>
+    <script src="js/accessibility-widget.js"></script>
 </body>
 </html>

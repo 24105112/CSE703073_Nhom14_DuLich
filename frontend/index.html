@@ -2,6 +2,13 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <script>
+    // Tự động kiểm tra và gán theme ngay trước khi vẽ giao diện
+    (function() {
+        const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AccessTravel | Du Lịch Không Rào Cản</title>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -86,12 +93,28 @@
         /* THANH TÌM KIẾM ĐA TIÊU CHÍ */
         .search-container-custom { max-width: 1000px; margin: -40px auto 40px auto; padding: 0 20px; position: relative; z-index: 10; width: 100%; }
         .search-bar-wrapper { background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 14px 20px; display: flex; align-items: center; box-shadow: 0 15px 30px rgba(0,0,0,0.08); gap: 16px; }
-        .search-field { flex: 1; display: flex; align-items: center; gap: 12px; min-width: 0; }
+        .search-field { flex: 1; display: flex; align-items: center; gap: 12px; min-width: 0; position: relative; }
         .search-input-group { display: flex; flex-direction: column; width: 100%; min-width: 0; }
         .search-input-group label { font-size: calc(var(--base-font-size) - 4px); font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 4px; white-space: nowrap; }
         .search-input-group input, .search-select { background: transparent; border: none; outline: none; font-size: var(--base-font-size); font-weight: 700; color: var(--c-text); width: 100%; padding: 4px 0; font-family: inherit; }
         .search-select option { background: var(--c-card-bg); color: var(--c-text); }
         .search-divider { width: 1px; height: 38px; background: var(--c-border); flex-shrink: 0; }
+
+        /* NÚT MICRO TÌM KIẾM BẰNG GIỌNG NÓI TRONG Ô TÌM KIẾM */
+        .btn-voice-search-home {
+            background: none; border: none; font-size: 18px; color: var(--c-main);
+            cursor: pointer; padding: 6px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; transition: 0.2s;
+            margin-left: -30px; z-index: 5;
+        }
+        .btn-voice-search-home:hover { transform: scale(1.15); color: #0d9488; }
+        .btn-voice-search-home.listening { color: #ef4444; animation: pulseMicHome 1.2s infinite; }
+        @keyframes pulseMicHome {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+
         .search-submit-btn { background: #0f766e; color: #fff; border: none; padding: 14px 28px; border-radius: 12px; font-size: var(--base-font-size); font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; font-family: inherit; min-height: 48px; }
         .search-submit-btn:hover { background: #0d9488; }
 
@@ -192,7 +215,7 @@
         /* RESPONSIVE IPAD & TABLET (DƯỚI 992px) */
         @media (max-width: 992px) {
             .header-custom { padding: 12px 20px; }
-            .nav-links { display: none; } /* Ẩn menu chữ dài để không đè vỡ header */
+            .nav-links { display: none; }
             .footer-container { grid-template-columns: 1fr 1fr; gap: 30px; }
             .hero h1 { font-size: calc(var(--base-font-size) + 14px); }
         }
@@ -200,13 +223,12 @@
         /* RESPONSIVE MOBILE (DƯỚI 768px - FIX LỖI KHUNG THEO ẢNH DEVTOOLS) */
         @media (max-width: 768px) {
             .header-custom { padding: 10px 14px; }
-            .btn-elder-mode span { display: none; } /* Chỉ hiện icon trên mobile */
+            .btn-elder-mode span { display: none; }
             .btn-elder-mode { padding: 8px 10px; }
             .lang-selector span { display: none; }
             .lang-selector { padding: 8px 10px; }
             .header-right { gap: 6px; }
 
-            /* Thanh tìm kiếm chuyển dọc hoàn toàn */
             .search-container-custom {
                 margin: -30px auto 30px auto;
                 padding: 0 14px;
@@ -219,7 +241,7 @@
                 border-radius: 14px;
             }
             .search-divider {
-                display: none; /* Ẩn vạch chia khi chuyển dọc */
+                display: none;
             }
             .search-field {
                 width: 100%;
@@ -228,6 +250,13 @@
             }
             .search-input-group label {
                 font-size: 12px;
+            }
+            .btn-voice-search-home {
+                margin-left: 0;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
             }
             .search-submit-btn {
                 width: 100%;
@@ -262,8 +291,8 @@
             <a href="index.html" class="logo" aria-label="Trang chủ AccessTravel"><i class="fa-solid fa-wheelchair" style="color: #0f766e;"></i> AccessTravel</a>
             <nav class="nav-links">
                 <a href="search.html" data-i18n="navService">Dịch vụ</a>
-                <a href="#newsletterSection" data-i18n="navNews">Bản tin</a>
-                <a href="#aboutSection" data-i18n="navAbout">Về chúng tôi</a>
+                <a href="news.html">Bản tin</a>
+                <a href="about.html">Về chúng tôi</a>
                 <a href="support.html" data-i18n="navSupport">Hỗ trợ</a>
                 <a href="admin-login.html" style="color: #0d9488;"><i class="fa-solid fa-lock"></i> Admin</a>
             </nav>
@@ -316,38 +345,96 @@
                 </div>
 
                 <div class="fb-dropdown-menu" id="userFbMenu">
-                    <div class="fb-user-card">
+                    <!-- THẺ THÔNG TIN TÀI KHOẢN TRÊN ĐẦU -->
+                    <div class="fb-user-card" onclick="window.location.href='profile.html?tab=profile'">
                         <div class="avatar-big" id="menuBigAvatar">U</div>
                         <div style="flex:1;">
                             <div style="font-weight:900; font-size:16px;" id="menuBigName">Tên người dùng</div>
                             <div style="font-size:12px; color:#64748b;" id="menuBigRole">Khách hàng</div>
                         </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size:13px; color:#94a3b8;"></i>
                     </div>
-                    <button class="fb-btn-all-profile" onclick="window.location.href='profile.html'">
-                        <i class="fa-solid fa-id-card"></i> Xem tất cả trang cá nhân
-                    </button>
-                    <hr style="border:0; border-top:1px solid var(--c-border); margin:10px 0;">
+                    <hr style="border:0; border-top:1px solid var(--c-border); margin:8px 0;">
 
-                    <div class="fb-menu-item" onclick="window.location.href='profile.html'">
+                    <!-- 1. HỒ SƠ CÁ NHÂN -->
+                    <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=profile'">
+                        <div class="fb-item-left">
+                            <div class="fb-item-icon"><i class="fa-solid fa-circle-user"></i></div>
+                            <div>
+                                <div style="font-weight:800;">Hồ sơ cá nhân</div>
+                                <div style="font-size:11.5px; color:#64748b; font-weight:600;">Thông tin và thông tin liên hệ</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
+                    </div>
+
+                    <!-- 2. TOUR ĐÃ ĐẶT -->
+                    <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=bookings'">
+                        <div class="fb-item-left">
+                            <div class="fb-item-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div>
+                                <div style="font-weight:800;">Tour đã đặt</div>
+                                <div style="font-size:11.5px; color:#64748b; font-weight:600;">Lịch trình và trạng thái đặt chỗ</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
+                    </div>
+
+                    <!-- 3. TOUR YÊU THÍCH -->
+                    <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=favorites'">
+                        <div class="fb-item-left">
+                            <div class="fb-item-icon"><i class="fa-solid fa-heart"></i></div>
+                            <div>
+                                <div style="font-weight:800;">Tour yêu thích</div>
+                                <div style="font-size:11.5px; color:#64748b; font-weight:600;">Các địa điểm đã lưu</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
+                    </div>
+
+                    <!-- 4. NHU CẦU HỖ TRỢ TIẾP CẬN -->
+                    <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=profile#accessibility-req'">
+                        <div class="fb-item-left">
+                            <div class="fb-item-icon"><i class="fa-solid fa-universal-access"></i></div>
+                            <div>
+                                <div style="font-weight:800;">Nhu cầu hỗ trợ tiếp cận</div>
+                                <div style="font-size:11.5px; color:#64748b; font-weight:600;">Tùy chỉnh hỗ trợ cho chuyến đi</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
+                    </div>
+
+                    <!-- 5. CÀI ĐẶT VÀ QUYỀN RIÊNG TƯ -->
+                    <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=settings'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-gear"></i></div>
-                            <span>Cài đặt và quyền riêng tư</span>
+                            <div>
+                                <div style="font-weight:800;">Cài đặt và quyền riêng tư</div>
+                                <div style="font-size:11.5px; color:#64748b; font-weight:600;">Tài khoản và tùy chọn cá nhân</div>
+                            </div>
                         </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#64748b;"></i>
+                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
                     </div>
 
+                    <!-- 6. TRỢ GIÚP VÀ HỖ TRỢ -->
                     <div class="fb-menu-item" onclick="window.location.href='support.html'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-circle-question"></i></div>
-                            <span>Trợ giúp và hỗ trợ</span>
+                            <div>
+                                <div style="font-weight:800;">Trợ giúp và hỗ trợ</div>
+                                <div style="font-size:11.5px; color:#64748b; font-weight:600;">Câu hỏi thường gặp, liên hệ</div>
+                            </div>
                         </div>
-                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#64748b;"></i>
+                        <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
                     </div>
 
-                    <div class="fb-menu-item" onclick="handleLogout()" style="color:#dc2626;">
+                    <hr style="border:0; border-top:1px solid var(--c-border); margin:8px 0;">
+
+                    <!-- ĐĂNG XUẤT -->
+                    <div class="fb-menu-item" onclick="handleLogout()" style="color:#ef4444;">
                         <div class="fb-item-left">
-                            <div class="fb-item-icon" style="color:#dc2626; background:#fee2e2;"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
-                            <span>Đăng xuất</span>
+                            <div class="fb-item-icon" style="color:#ef4444; background:rgba(239,68,68,0.1);"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                            <span style="font-weight:900;">Đăng xuất</span>
                         </div>
                     </div>
                 </div>
@@ -362,15 +449,19 @@
         <p data-i18n="heroDesc">Nền tảng OTA duy nhất kiểm định thực tế độ dốc xe lăn, thang máy và tiện ích người cao tuổi.</p>
     </div>
 
-    <!-- THANH TÌM KIẾM ĐA TIÊU CHÍ (ĐÃ FIX CHUYỂN DỌC CO GIÃN THEO KHUNG) -->
+    <!-- THANH TÌM KIẾM ĐA TIÊU CHÍ (ĐÃ TÍCH HỢP NÚT TÌM KIẾM BẰNG GIỌNG NÓI) -->
     <div class="search-container-custom">
-        <form action="search.html" method="GET" class="search-bar-wrapper">
+        <form action="search.html" method="GET" class="search-bar-wrapper" id="homeSearchForm">
             <div class="search-field">
                 <i class="fa-solid fa-location-dot" style="color: #0f766e; font-size: 18px;"></i>
                 <div class="search-input-group">
                     <label data-i18n="searchLocationLabel">Địa điểm / Điểm đến</label>
-                    <input type="text" name="keyword" placeholder="Hạ Long, Cát Bà, Huế..." required>
+                    <input type="text" name="keyword" id="homeSearchKeyword" placeholder="Hạ Long, Cát Bà, Huế..." required>
                 </div>
+                <!-- NÚT MICRO TÌM KIẾM BẰNG GIỌNG NÓI -->
+                <button type="button" class="btn-voice-search-home" id="btnVoiceSearchHome" onclick="startVoiceSearchHome()" title="Tìm kiếm bằng giọng nói" aria-label="Tìm kiếm bằng giọng nói">
+                    <i class="fa-solid fa-microphone" id="micHomeIcon"></i>
+                </button>
             </div>
             
             <div class="search-divider"></div>
@@ -466,7 +557,7 @@
         </div>
     </footer>
 
-    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ (FIX KHUNG CO GIÃN AN TOÀN TRÊN MỌI THIẾT BỊ) -->
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
     <div id="loginModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
         <div class="agoda-modal">
             <button class="btn-close" onclick="document.getElementById('loginModal').style.display='none'" aria-label="Đóng cửa sổ">&times;</button>
@@ -537,11 +628,67 @@
         };
 
         let currentLang = 'vi';
+        let selectedText = '';
 
         document.addEventListener('DOMContentLoaded', () => {
             checkUserLoggedIn();
             loadToursHomepage();
+
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
         });
+
+        // 1. TÍNH NĂNG TÌM KIẾM BẰNG GIỌNG NÓI CHO INDEX.HTML
+        function startVoiceSearchHome() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert(currentLang === 'vi' ? 'Trình duyệt của bạn chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Cốc Cốc.' : 'Speech recognition is not supported in this browser. Please use Chrome or Coc Coc.');
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            const btnVoice = document.getElementById('btnVoiceSearchHome');
+            const micIcon = document.getElementById('micHomeIcon');
+            const inputField = document.getElementById('homeSearchKeyword');
+
+            recognition.lang = currentLang === 'en' ? 'en-US' : 'vi-VN';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onstart = function() {
+                if (btnVoice) btnVoice.classList.add('listening');
+                if (micIcon) micIcon.className = 'fa-solid fa-microphone-lines';
+                if (inputField) inputField.placeholder = (currentLang === 'vi') ? 'Đang lắng nghe... Nói tên điểm đến' : 'Listening... Say a destination';
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                if (inputField) {
+                    inputField.value = transcript.replace(/\./g, '');
+                    // Tự động kích hoạt form submit chuyển sang search.html
+                    document.getElementById('homeSearchForm').submit();
+                }
+            };
+
+            recognition.onend = function() {
+                if (btnVoice) btnVoice.classList.remove('listening');
+                if (micIcon) micIcon.className = 'fa-solid fa-microphone';
+                if (inputField) inputField.placeholder = 'Hạ Long, Cát Bà, Huế...';
+            };
+
+            recognition.onerror = function(event) {
+                if (btnVoice) btnVoice.classList.remove('listening');
+                if (micIcon) micIcon.className = 'fa-solid fa-microphone';
+                if (inputField) inputField.placeholder = 'Hạ Long, Cát Bà, Huế...';
+                if (event.error === 'not-allowed') {
+                    alert(currentLang === 'vi' ? 'Vui lòng cấp quyền truy cập Micro trên trình duyệt để sử dụng tính năng này.' : 'Please allow microphone access in your browser.');
+                }
+            };
+
+            recognition.start();
+        }
 
         function checkUserLoggedIn() {
             const raw = localStorage.getItem('currentUser');
@@ -714,43 +861,36 @@
             });
         }
 
-        function toggleCustomerTheme() {
-            const body = document.body;
-            const icon = document.getElementById('customerThemeIcon');
-            if (body.getAttribute('data-theme') === 'light') {
-                body.setAttribute('data-theme', 'dark');
-                icon.className = "fa-solid fa-sun";
-            } else {
-                body.setAttribute('data-theme', 'light');
-                icon.className = "fa-solid fa-moon";
-            }
-        }
-
         function toggleElderMode() {
             const body = document.body;
-            const textEl = document.getElementById('elderText');
             const isElder = body.getAttribute('data-elder-mode') === 'true';
-            if(isElder) {
-                body.setAttribute('data-elder-mode', 'false');
-                textEl.innerText = currentLang === 'vi' ? "Chế độ Người cao tuổi" : "Senior Mode";
-            } else {
-                body.setAttribute('data-elder-mode', 'true');
-                textEl.innerText = currentLang === 'vi' ? "Tắt Chế độ Người già" : "Disable Senior Mode";
-            }
+            body.setAttribute('data-elder-mode', !isElder);
+            document.documentElement.setAttribute('data-elder-mode', !isElder);
+            localStorage.setItem('accessTravelElderMode', !isElder);
         }
 
-        let selectedText = "";
-        document.addEventListener('mouseup', function(e) {
-            const tooltip = document.getElementById('speechTooltip');
-            selectedText = window.getSelection().toString().trim();
-            if (selectedText.length > 2) {
-                tooltip.style.display = 'flex';
-                tooltip.style.top = (e.pageY + 10) + 'px';
-                tooltip.style.left = (e.pageX + 10) + 'px';
-            } else {
-                tooltip.style.display = 'none';
+        function toggleCustomerTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('accessTravelTheme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('customerThemeIcon');
+            if (icon) {
+                if (theme === 'dark') {
+                    icon.className = 'fa-solid fa-sun';
+                    icon.style.color = '#f59e0b';
+                } else {
+                    icon.className = 'fa-solid fa-moon';
+                    icon.style.color = '';
+                }
             }
-        });
+        }
 
         function speakSelectedText() {
             if ('speechSynthesis' in window && selectedText) {
@@ -761,6 +901,19 @@
                 window.speechSynthesis.speak(utterance);
             }
         }
+
+        document.addEventListener('mouseup', function(e) {
+            const sel = window.getSelection().toString().trim();
+            const tooltip = document.getElementById('speechTooltip');
+            if (sel.length > 2) {
+                selectedText = sel;
+                tooltip.style.left = (e.pageX + 10) + 'px';
+                tooltip.style.top = (e.pageY - 35) + 'px';
+                tooltip.style.display = 'flex';
+            } else {
+                tooltip.style.display = 'none';
+            }
+        });
 
         function switchAuthMode(mode) {
             const loginTab = document.getElementById('tabLoginBtn');
@@ -780,5 +933,6 @@
             }
         }
     </script>
+    <script src="js/accessibility-widget.js"></script>
 </body>
 </html>

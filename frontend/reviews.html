@@ -2,99 +2,506 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đánh Giá Chi Tiết | AccessTravel</title>
+    <title id="docTitle">Đánh Giá Tiếp Cận Thực Tế | AccessTravel</title>
+
+    <!-- CHỐNG CHỚP SÁNG VÀ LƯU THEME BẰNG LOCALSTORAGE -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --tvlk-blue: #006ce4; --tvlk-dark: #191e23; --tvlk-bg: #f4f6f8; --tvlk-border: #d0d5dd; }
-        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--tvlk-bg); margin: 0; color: var(--tvlk-dark); font-size: 15px; }
+        :root {
+            --c-main: #0f766e; --c-main-dark: #0d9488; --c-text: #0f172a; --c-text-muted: #64748b;
+            --c-bg: #f8fafc; --c-card-bg: #ffffff; --c-border: #e2e8f0; --c-tvlk: #006ce4;
+            --base-font-size: 15px;
+        }
+
+        [data-theme="dark"], 
+        html[data-theme="dark"], 
+        html[data-theme="dark"] body {
+            --c-main: #14b8a6; --c-main-dark: #2dd4bf; --c-text: #f8fafc !important;
+            --c-text-muted: #94a3b8 !important; --c-bg: #09090b !important;
+            --c-card-bg: #18181b !important; --c-border: #27272a !important;
+            --c-tvlk: #38bdf8 !important;
+            background-color: #09090b !important; color: #f8fafc !important;
+        }
+
+        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); margin: 0; color: var(--c-text); font-size: var(--base-font-size); transition: background-color 0.3s, color 0.3s; }
         * { box-sizing: border-box; }
         a { text-decoration: none; color: inherit; }
 
-        header { background: #fff; padding: 14px 40px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 20px; }
-        .logo { font-weight: 900; font-size: 20px; color: #0f766e; }
+        /* HEADER */
+        header { background: var(--c-card-bg); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .header-left { display: flex; align-items: center; gap: 18px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--c-main); font-size: 14.5px; transition: 0.2s; }
+        .back-link:hover { color: var(--c-main-dark); transform: translateX(-3px); }
+        .logo-title { font-weight: 900; font-size: 17px; color: var(--c-text); display: flex; align-items: center; gap: 8px; border-left: 2px solid var(--c-border); padding-left: 18px; }
 
-        .container { max-width: 900px; margin: 30px auto 60px; padding: 0 20px; }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .btn-action-tool { background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-text); height: 38px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 800; font-size: 13.5px; padding: 0 12px; gap: 6px; transition: 0.2s; }
+        .btn-action-tool:hover { border-color: var(--c-main); color: var(--c-main); }
+        .btn-round { width: 38px; padding: 0; }
+
+        .container { max-width: 960px; margin: 30px auto 60px; padding: 0 20px; }
+
+        /* THANH ĐIỀU KHIỂN TIẾP CẬN (ACCESSIBILITY TOOLBAR) */
+        .a11y-toolbar { background: rgba(15, 118, 110, 0.08); border: 1px solid var(--c-main); border-radius: 12px; padding: 12px 18px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .a11y-label { font-size: 13.5px; font-weight: 800; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
+        .a11y-controls { display: flex; gap: 8px; align-items: center; }
+
+        /* KHỐI TỔNG QUAN ĐÁNH GIÁ */
+        .review-overview-box { background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 18px; padding: 32px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .score-big { font-size: 48px; font-weight: 900; color: #ff5e1f; line-height: 1; margin-bottom: 6px; }
+        .score-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 13.5px; font-weight: 700; color: var(--c-text); }
+        .score-bar-bg { flex: 1; height: 9px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
+        [data-theme="dark"] .score-bar-bg { background: #27272a; }
+        .score-bar-fill { height: 100%; background: #0f766e; border-radius: 99px; }
+
+        /* BỘ LỌC ĐÁNH GIÁ THEO ĐỐI TƯỢNG */
+        .filter-tags-wrap { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
+        .filter-chip { background: var(--c-card-bg); border: 1px solid var(--c-border); color: var(--c-text); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .filter-chip.active, .filter-chip:hover { background: var(--c-main); color: #fff; border-color: var(--c-main); }
+
+        /* FORM VIẾT ĐÁNH GIÁ TRẢI NGHIỆM */
+        .write-review-box { background: var(--c-card-bg); border: 2px dashed var(--c-main); border-radius: 18px; padding: 28px; margin-bottom: 30px; }
+        .write-review-box h3 { margin: 0 0 6px 0; font-size: 18px; font-weight: 900; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
+        .form-grid-review { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+        .form-full { grid-column: span 2; }
+        .form-label-r { font-size: 12.5px; font-weight: 800; color: var(--c-text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .form-input-r, .form-select-r, .form-textarea-r { width: 100%; padding: 12px 14px; border: 1.5px solid var(--c-border); border-radius: 10px; font-size: 14px; font-family: inherit; outline: none; background: var(--c-bg); color: var(--c-text); }
+        .form-textarea-r { height: 95px; resize: none; }
+        .btn-submit-review { background: var(--c-main); color: #fff; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 900; font-size: 14.5px; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-submit-review:hover { background: var(--c-main-dark); }
+
+        /* THẺ ĐÁNH GIÁ CHI TIẾT */
+        .review-card { background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 18px; padding: 24px; margin-bottom: 20px; transition: 0.2s; position: relative; }
+        .review-card:hover { border-color: var(--c-main); box-shadow: 0 6px 16px rgba(0,0,0,0.04); }
+        .user-row { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+        .user-avatar { width: 44px; height: 44px; background: var(--c-main); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 15px; flex-shrink: 0; }
         
-        .back-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--tvlk-blue); margin-bottom: 20px; }
+        .badge-verified { background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 800; }
+        [data-theme="dark"] .badge-verified { background: #064e3b; color: #a7f3d0; }
 
-        /* KHỐI TỔNG QUAN ĐÁNH GIÁ (ẢNH 3) */
-        .review-overview-box { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 30px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .score-big { font-size: 48px; font-weight: 900; color: #0f172a; line-height: 1; margin-bottom: 6px; }
-        .score-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: #475569; }
-        .score-bar-bg { flex: 1; height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; }
-        .score-bar-fill { height: 100%; background: var(--tvlk-blue); border-radius: 99px; }
-
-        /* DANH SÁCH BÌNH LUẬN (ẢNH 8 & 9) */
-        .review-card { background: #fff; border: 1px solid var(--tvlk-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-        .user-row { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
-        .user-avatar { width: 44px; height: 44px; background: var(--tvlk-blue); color: #fff; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 16px; }
+        .tag-pill { background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-main); font-size: 11.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; }
         
-        .reply-box { background: #f8fafc; border-left: 3px solid var(--tvlk-blue); padding: 14px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 13.5px; color: #334155; line-height: 1.6; }
+        .btn-speak-text { background: none; border: 1px solid var(--c-border); color: var(--c-text-muted); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; }
+        .btn-speak-text:hover { color: var(--c-main); border-color: var(--c-main); }
+
+        .reply-box { background: var(--c-bg); border-left: 3px solid var(--c-main); padding: 14px 18px; border-radius: 0 10px 10px 0; margin-top: 16px; font-size: 13.5px; color: var(--c-text); line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            header { padding: 12px 20px; }
+            .logo-title { display: none; }
+            .form-grid-review { grid-template-columns: 1fr; }
+            .form-full { grid-column: span 1; }
+            .review-overview-box > div { grid-template-columns: 1fr !important; gap: 20px !important; }
+        }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
+    <!-- HEADER -->
     <header>
-        <a href="detail.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Trở lại trang chi tiết</a>
-        <div class="logo">Du thuyền Ambassador Hạ Long — Đánh giá từ khách hàng</div>
+        <div class="header-left">
+            <a href="detail.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> <span data-i18n="btn_back">Quay lại tour</span>
+            </a>
+            <div class="logo-title" id="tourHeaderTitle">
+                <i class="fa-solid fa-shield-heart" style="color:var(--c-main);"></i>
+                <span data-i18n="header_title">Du thuyền Ambassador Hạ Long — Đánh giá tiếp cận</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <!-- NÚT NGÔN NGỮ EN / VI -->
+            <button class="btn-action-tool" onclick="toggleLanguage()" id="langBtn" title="Chuyển đổi ngôn ngữ">
+                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
+            </button>
+            <!-- NÚT SÁNG / TỐI -->
+            <button class="btn-action-tool btn-round" onclick="toggleReviewTheme()" title="Sáng / Tối">
+                <i class="fa-solid fa-moon" id="reviewThemeIcon"></i>
+            </button>
+        </div>
     </header>
 
     <div class="container">
         
+        <!-- THANH CÔNG CỤ TRỢ NĂNG TIỆN ÍCH -->
+        <div class="a11y-toolbar">
+            <div class="a11y-label">
+                <i class="fa-solid fa-universal-access fa-lg"></i>
+                <span data-i18n="a11y_bar_title">Tiện ích hỗ trợ người cao tuổi & người khiếm thị:</span>
+            </div>
+            <div class="a11y-controls">
+                <button class="btn-action-tool" onclick="changeFontSize(-1)" title="Giảm cỡ chữ">A-</button>
+                <button class="btn-action-tool" onclick="changeFontSize(1)" title="Tăng cỡ chữ">A+</button>
+                <button class="btn-action-tool" onclick="readAllSummary()" style="color:var(--c-main);" title="Đọc toàn bộ tóm tắt">
+                    <i class="fa-solid fa-volume-high"></i> <span data-i18n="btn_read_summary">Đọc to tóm tắt</span>
+                </button>
+            </div>
+        </div>
+
         <!-- TỔNG QUAN ĐIỂM SỐ -->
         <div class="review-overview-box">
-            <h2 style="margin:0 0 20px 0; font-size:20px; font-weight:900;">Xếp hạng và đánh giá tổng thể</h2>
+            <h2 style="margin:0 0 20px 0; font-size:20px; font-weight:900;" data-i18n="overview_heading">Xếp hạng và đánh giá tiếp cận thực tế</h2>
             <div style="display:grid; grid-template-columns: 240px 1fr; gap: 40px; align-items: center;">
                 <div>
-                    <div class="score-big">8.9 <span style="font-size:18px; color:#64748b; font-weight:normal;">/ 10</span></div>
-                    <div style="font-weight:800; font-size:18px; color:var(--tvlk-blue);">Tuyệt vời</div>
-                    <div style="font-size:13px; color:#64748b; margin-top:4px;">Dựa trên 124 đánh giá thực tế</div>
+                    <div class="score-big" id="overallScoreDisplay">9.2 <span style="font-size:18px; color:var(--c-text-muted); font-weight:normal;">/ 10</span></div>
+                    <div style="font-weight:900; font-size:18px; color:var(--c-main);" data-i18n="score_grade">Xuất sắc cho người lớn tuổi</div>
+                    <div style="font-size:13px; color:var(--c-text-muted); margin-top:4px;" id="countReviewsText">Dựa trên 126 đánh giá thực tế</div>
                 </div>
                 <div>
-                    <div class="score-bar-row"><span>Độ dốc & Lối xe lăn</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:95%;"></div></div> <strong style="color:#0f172a;">9.5</strong></div>
-                    <div class="score-bar-row"><span>Thang máy & Tiện nghi</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;"></div></div> <strong style="color:#0f172a;">9.0</strong></div>
-                    <div class="score-bar-row"><span>Nhân viên hỗ trợ y tế</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:98%;"></div></div> <strong style="color:#0f172a;">9.8</strong></div>
-                    <div class="score-bar-row"><span>Vệ sinh & An toàn</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:88%;"></div></div> <strong style="color:#0f172a;">8.8</strong></div>
+                    <div class="score-bar-row"><span data-i18n="crit_slope">Độ dốc & Lối xe lăn</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:96%;"></div></div> <strong>9.6</strong></div>
+                    <div class="score-bar-row"><span data-i18n="crit_elevator">Thang máy & Cửa rộng</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:92%;"></div></div> <strong>9.2</strong></div>
+                    <div class="score-bar-row"><span data-i18n="crit_medic">Nhân viên hỗ trợ y tế</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:98%;"></div></div> <strong>9.8</strong></div>
+                    <div class="score-bar-row"><span data-i18n="crit_restroom">Nhà vệ sinh trợ năng</span> <div class="score-bar-bg"><div class="score-bar-fill" style="width:90%;"></div></div> <strong>9.0</strong></div>
                 </div>
             </div>
+        </div>
+
+        <!-- BỘ LỌC ĐÁNH GIÁ THEO ĐỐI TƯỢNG -->
+        <div class="filter-tags-wrap">
+            <span style="font-size:13.5px; font-weight:800; color:var(--c-text-muted);" data-i18n="filter_by">Lọc đánh giá:</span>
+            <button class="filter-chip active" onclick="filterReviews('all', this)"><i class="fa-solid fa-list-ul"></i> <span data-i18n="f_all">Tất cả (126)</span></button>
+            <button class="filter-chip" onclick="filterReviews('manual_wheelchair', this)"><i class="fa-solid fa-wheelchair"></i> <span data-i18n="f_manual">Xe lăn tay</span></button>
+            <button class="filter-chip" onclick="filterReviews('electric_wheelchair', this)"><i class="fa-solid fa-bolt"></i> <span data-i18n="f_electric">Xe lăn điện</span></button>
+            <button class="filter-chip" onclick="filterReviews('elderly', this)"><i class="fa-solid fa-person-cane"></i> <span data-i18n="f_elder">Người cao tuổi</span></button>
+        </div>
+
+        <!-- FORM VIẾT ĐÁNH GIÁ MỚI -->
+        <div class="write-review-box">
+            <h3><i class="fa-solid fa-pen-to-square"></i> <span data-i18n="form_title">Gửi đánh giá trải nghiệm tiếp cận của bạn</span></h3>
+            <p style="margin:0; font-size:13.5px; color:var(--c-text-muted);" data-i18n="form_sub">Ý kiến thực tế của bạn sẽ giúp cộng đồng người lớn tuổi và người khuyết vận động an tâm lên đường.</p>
+
+            <form class="form-grid-review" onsubmit="submitNewReview(event)">
+                <div>
+                    <label class="form-label-r" data-i18n="lbl_name">Họ và tên của bạn</label>
+                    <input type="text" class="form-input-r" id="revName" placeholder="Ví dụ: Bác Trần Văn Tuấn" required>
+                </div>
+                <div>
+                    <label class="form-label-r" data-i18n="lbl_type">Nhóm đối tượng trợ năng</label>
+                    <select class="form-select-r" id="revType">
+                        <option value="elderly" data-i18n="opt_elder">Người cao tuổi / Yếu chân</option>
+                        <option value="manual_wheelchair" data-i18n="opt_manual">Người sử dụng xe lăn tay</option>
+                        <option value="electric_wheelchair" data-i18n="opt_electric">Người sử dụng xe lăn điện</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label-r" data-i18n="lbl_score">Điểm số trải nghiệm (1 - 10)</label>
+                    <select class="form-select-r" id="revScore">
+                        <option value="10.0">10.0 / 10 — Tuyệt đối an tâm</option>
+                        <option value="9.5" selected>9.5 / 10 — Rất hài lòng</option>
+                        <option value="9.0">9.0 / 10 — Tốt</option>
+                        <option value="8.0">8.0 / 10 — Bình thường</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label-r" data-i18n="lbl_tag">Tiện ích trợ năng ấn tượng nhất</label>
+                    <input type="text" class="form-input-r" id="revTag" placeholder="Ví dụ: Thang máy thủy lực, Bửng nâng xe...">
+                </div>
+                <div class="form-full">
+                    <label class="form-label-r" data-i18n="lbl_comment">Nội dung nhận xét thực tế</label>
+                    <textarea class="form-textarea-r" id="revComment" placeholder="Chia sẻ thực tế về độ dốc, nhân viên nâng xe lăn, phòng tắm..." required></textarea>
+                </div>
+                <div class="form-full">
+                    <button type="submit" class="btn-submit-review">
+                        <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_submit_rev">Đăng Đánh Giá Trải Nghiệm</span>
+                    </button>
+                </div>
+            </form>
         </div>
 
         <!-- DANH SÁCH BÌNH LUẬN CHI TIẾT -->
-        <h3 style="font-size:18px; font-weight:900; margin-bottom:16px;">Đánh giá của khách hàng</h3>
-
-        <!-- Review 1 -->
-        <div class="review-card">
-            <div class="user-row">
-                <div class="user-avatar" style="background:#0f766e;">NM</div>
-                <div>
-                    <strong style="font-size:16px; color:#0f172a; display:block;">Gia đình bác Nguyễn Minh</strong>
-                    <span style="font-size:12.5px; color:#64748b;">Đánh giá cách đây 1 tuần · <span style="color:#166534; font-weight:700;">✔ Khách đã xác minh</span></span>
-                </div>
-                <div style="margin-left:auto; background:#dcfce7; color:#166534; padding:4px 10px; border-radius:6px; font-weight:800;">10.0 / 10</div>
-            </div>
-            <p style="margin:0; line-height:1.6; color:#334155;">"Thang máy cực kỳ êm. Cứ 50m lại có ghế tựa lưng nghỉ chân, nền đường boong chống trượt rất tốt cho người già yếu chân."</p>
-            
-            <div class="reply-box">
-                <strong style="display:block; color:var(--tvlk-blue); margin-bottom:4px;">Phản hồi từ Quản lý Du thuyền Ambassador (18 Oct 2026):</strong>
-                Chào bác Minh, cảm ơn gia đình đã tin tưởng lựa chọn du thuyền. Chúc bác luôn có nhiều sức khỏe và niềm vui trong các chuyến đi tiếp theo!
-            </div>
-        </div>
-
-        <!-- Review 2 -->
-        <div class="review-card">
-            <div class="user-row">
-                <div class="user-avatar">TH</div>
-                <div>
-                    <strong style="font-size:16px; color:#0f172a; display:block;">Chị Thu Hà (Xe lăn điện)</strong>
-                    <span style="font-size:12.5px; color:#64748b;">Đánh giá cách đây 3 tuần · <span style="color:#166534; font-weight:700;">✔ Khách đã xác minh</span></span>
-                </div>
-                <div style="margin-left:auto; background:#dcfce7; color:#166534; padding:4px 10px; border-radius:6px; font-weight:800;">9.8 / 10</div>
-            </div>
-            <p style="margin:0; line-height:1.6; color:#334155;">"Cửa nhà tắm rộng đúng 85cm, xe lăn điện quay đầu thoải mái. Nhân viên hỗ trợ đẩy xe rất chu đáo khi thủy triều xuống."</p>
+        <h3 style="font-size:18px; font-weight:900; margin-bottom:16px;" data-i18n="list_heading">Đánh giá được chia sẻ bởi du khách</h3>
+        <div id="reviewsListContainer">
+            <!-- Nạp động qua JS -->
         </div>
 
     </div>
+
+    <!-- SCRIPT CHỨC NĂNG TỔNG HỢP -->
+    <script>
+        // TỪ ĐIỂN SONG NGỮ VIỆT - ANH
+        const translations = {
+            vi: {
+                doc_title: "Đánh Giá Tiếp Cận Thực Tế | AccessTravel",
+                btn_back: "Quay lại tour",
+                header_title: "Du thuyền Ambassador Hạ Long — Đánh giá tiếp cận",
+                a11y_bar_title: "Tiện ích hỗ trợ người cao tuổi & người khiếm thị:",
+                btn_read_summary: "Đọc to tóm tắt",
+                overview_heading: "Xếp hạng và đánh giá tiếp cận thực tế",
+                score_grade: "Xuất sắc cho người lớn tuổi",
+                crit_slope: "Độ dốc & Lối xe lăn",
+                crit_elevator: "Thang máy & Cửa rộng",
+                crit_medic: "Nhân viên hỗ trợ y tế",
+                crit_restroom: "Nhà vệ sinh trợ năng",
+                filter_by: "Lọc đánh giá:",
+                f_all: "Tất cả",
+                f_manual: "Xe lăn tay",
+                f_electric: "Xe lăn điện",
+                f_elder: "Người cao tuổi",
+                form_title: "Gửi đánh giá trải nghiệm tiếp cận của bạn",
+                form_sub: "Ý kiến thực tế của bạn sẽ giúp cộng đồng người lớn tuổi và người khuyết vận động an tâm lên đường.",
+                lbl_name: "Họ và tên của bạn",
+                lbl_type: "Nhóm đối tượng trợ năng",
+                opt_elder: "Người cao tuổi / Yếu chân",
+                opt_manual: "Người sử dụng xe lăn tay",
+                opt_electric: "Người sử dụng xe lăn điện",
+                lbl_score: "Điểm số trải nghiệm (1 - 10)",
+                lbl_tag: "Tiện ích trợ năng ấn tượng nhất",
+                lbl_comment: "Nội dung nhận xét thực tế",
+                btn_submit_rev: "Đăng Đánh Giá Trải Nghiệm",
+                list_heading: "Đánh giá được chia sẻ bởi du khách",
+                verified: "✔ Khách đã xác minh",
+                btn_read_comment: "Đọc bình luận này"
+            },
+            en: {
+                doc_title: "Real Accessibility Reviews | AccessTravel",
+                btn_back: "Back to tour",
+                header_title: "Ambassador Cruise Ha Long — Accessibility Reviews",
+                a11y_bar_title: "Assistance tools for seniors & visually impaired:",
+                btn_read_summary: "Read summary aloud",
+                overview_heading: "Real Accessibility Ratings & Feedback",
+                score_grade: "Excellent for elderly guests",
+                crit_slope: "Ramp Slope & Wheelchair Path",
+                crit_elevator: "Elevators & Wide Doors",
+                crit_medic: "Medical Support Staff",
+                crit_restroom: "Accessible Restrooms",
+                filter_by: "Filter by:",
+                f_all: "All",
+                f_manual: "Manual Wheelchair",
+                f_electric: "Power Wheelchair",
+                f_elder: "Senior Citizens",
+                form_title: "Submit Your Accessibility Review",
+                form_sub: "Your real on-site experience helps seniors and travelers with disabilities travel with confidence.",
+                lbl_name: "Your Full Name",
+                lbl_type: "Accessibility Category",
+                opt_elder: "Senior Citizen / Mobility Impaired",
+                opt_manual: "Manual Wheelchair User",
+                opt_electric: "Electric Wheelchair User",
+                lbl_score: "Experience Score (1 - 10)",
+                lbl_tag: "Most Impressive Feature",
+                lbl_comment: "Detailed Review Remarks",
+                btn_submit_rev: "Post Accessibility Review",
+                list_heading: "Feedback Shared by Verified Travelers",
+                verified: "✔ Verified Traveler",
+                btn_read_comment: "Read this comment"
+            }
+        };
+
+        // DỮ LIỆU ĐÁNH GIÁ MẪU CHUẨN ĐỀ TÀI TRỢ NĂNG
+        let initialReviews = [
+            {
+                name: "Gia đình bác Nguyễn Minh",
+                type: "elderly",
+                time: "1 tuần trước",
+                score: "10.0",
+                tag: "Ghế nghỉ chân 50m & Sàn chống trượt",
+                comment: "Thang máy cực kỳ êm. Cứ 50m lại có ghế tựa lưng nghỉ chân, nền đường boong chống trượt rất tốt cho người già yếu chân như tôi.",
+                reply: "Chào bác Minh, cảm ơn gia đình đã tin tưởng du thuyền. Chúc bác luôn khỏe mạnh và nhiều niềm vui trong các hành trình tới!"
+            },
+            {
+                name: "Chị Thu Hà (Xe lăn điện)",
+                type: "electric_wheelchair",
+                time: "3 tuần trước",
+                score: "9.8",
+                tag: "Cửa rộng 85cm & Hỗ trợ đẩy cầu tàu",
+                comment: "Cửa nhà tắm rộng đúng 85cm, xe lăn điện quay đầu thoải mái. Nhân viên hỗ trợ đẩy xe rất chu đáo khi thủy triều rút làm cầu tàu hơi dốc.",
+                reply: "Cảm ơn chị Hà! Đội ngũ AccessTravel và ban quản lý tàu luôn chuẩn bị sẵn kíp trực nâng hạ xe lăn tại mọi khung giờ thủy triều."
+            },
+            {
+                name: "Anh Hoàng Nam (Đi cùng mẹ dùng xe lăn tay)",
+                type: "manual_wheelchair",
+                time: "1 tháng trước",
+                score: "9.2",
+                tag: "Rãnh trượt ram dốc an toàn",
+                comment: "Đường dốc lên nhà ăn và boong ngắm cảnh thoai thoải dưới 6%, đẩy xe nhẹ tênh không hề tốn sức. Rất phù hợp cho gia đình có người thân lớn tuổi.",
+                reply: null
+            }
+        ];
+
+        // 1. TĂNG / GIẢM CỠ CHỮ CHO NGƯỜI CAO TUỔI
+        let currentFontSize = 15;
+        function changeFontSize(delta) {
+            currentFontSize = Math.max(14, Math.min(20, currentFontSize + delta));
+            document.documentElement.style.setProperty('--base-font-size', currentFontSize + 'px');
+        }
+
+        // 2. TÍNH NĂNG ĐỌC BẰNG GIỌNG NÓI (TEXT-TO-SPEECH)
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) {
+                alert('Trình duyệt của bạn không hỗ trợ đọc giọng nói tự động.');
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
+            utterance.lang = (lang === 'en') ? 'en-US' : 'vi-VN';
+            utterance.rate = 0.95;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function readAllSummary() {
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
+            const summary = (lang === 'en')
+                ? "Accessibility rating for Ambassador Cruise Ha Long: 9.2 out of 10. Excellent for seniors and wheelchair users with verified slope under 8% and certified medical crew."
+                : "Điểm đánh giá tiếp cận của Du thuyền Ambassador Hạ Long: 9.2 trên 10. Xuất sắc cho người lớn tuổi và xe lăn, độ dốc dưới 8 phần trăm và có nhân viên y tế túc trực.";
+            speakText(summary);
+        }
+
+        // 3. RENDER DANH SÁCH REVIEW & LỌC THEO ĐỐI TƯỢNG
+        let currentFilter = 'all';
+
+        function renderReviews() {
+            const container = document.getElementById('reviewsListContainer');
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
+            const dict = translations[lang] || translations.vi;
+            
+            // Đọc thêm review do người dùng vừa gửi từ localStorage
+            const localSaved = JSON.parse(localStorage.getItem('accessTravelNewReviews') || '[]');
+            const allList = [...localSaved, ...initialReviews];
+
+            const filtered = (currentFilter === 'all') 
+                ? allList 
+                : allList.filter(r => r.type === currentFilter);
+
+            container.innerHTML = '';
+            filtered.forEach((r, idx) => {
+                const initials = r.name.split(' ').slice(-2).map(n => n[0]).join('').toUpperCase() || 'KH';
+                container.innerHTML += `
+                    <div class="review-card">
+                        <div class="user-row">
+                            <div class="user-avatar">${initials}</div>
+                            <div>
+                                <strong style="font-size:16px; color:var(--c-text); display:block;">${r.name}</strong>
+                                <span style="font-size:12px; color:var(--c-text-muted);">${r.time} · <span class="badge-verified">${dict.verified}</span></span>
+                            </div>
+                            <div style="margin-left:auto; background:#dcfce7; color:#166534; padding:5px 12px; border-radius:8px; font-weight:900; font-size:14.5px;">
+                                ⭐ ${r.score} / 10
+                            </div>
+                        </div>
+
+                        ${r.tag ? `<div><span class="tag-pill"><i class="fa-solid fa-circle-check"></i> ${r.tag}</span></div>` : ''}
+
+                        <p style="margin:12px 0 6px 0; line-height:1.6; font-size:14.5px; color:var(--c-text);">${r.comment}</p>
+                        
+                        <button class="btn-speak-text" onclick="speakText('${r.comment.replace(/'/g, "\\'")}')">
+                            <i class="fa-solid fa-volume-high"></i> ${dict.btn_read_comment}
+                        </button>
+
+                        ${r.reply ? `
+                            <div class="reply-box">
+                                <strong style="display:block; color:var(--c-main); margin-bottom:4px;">
+                                    <i class="fa-solid fa-reply"></i> Phản hồi từ Ban Quản Trị AccessTravel:
+                                </strong>
+                                ${r.reply}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+        }
+
+        function filterReviews(type, btn) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderReviews();
+        }
+
+        // 4. GỬI REVIEW MỚI
+        function submitNewReview(e) {
+            e.preventDefault();
+            const name = document.getElementById('revName').value.trim();
+            const type = document.getElementById('revType').value;
+            const score = document.getElementById('revScore').value;
+            const tag = document.getElementById('revTag').value.trim();
+            const comment = document.getElementById('revComment').value.trim();
+
+            const newRev = {
+                name: name,
+                type: type,
+                time: "Vừa xong",
+                score: score,
+                tag: tag || "Trải nghiệm tiếp cận thực tế",
+                comment: comment,
+                reply: null
+            };
+
+            const localSaved = JSON.parse(localStorage.getItem('accessTravelNewReviews') || '[]');
+            localSaved.unshift(newRev);
+            localStorage.setItem('accessTravelNewReviews', JSON.stringify(localSaved));
+
+            alert('🎉 Cảm ơn bạn! Đánh giá tiếp cận đã được đăng tải thành công.');
+            e.target.reset();
+            renderReviews();
+        }
+
+        // 5. ĐỔI NGÔN NGỮ EN / VI
+        function setLanguage(lang) {
+            localStorage.setItem('accessTravelLang', lang);
+            document.documentElement.setAttribute('lang', lang);
+
+            const dict = translations[lang] || translations.vi;
+            document.getElementById('docTitle').textContent = dict.doc_title;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
+            });
+
+            const langBtnText = document.getElementById('langText');
+            if (langBtnText) langBtnText.textContent = (lang === 'vi') ? 'EN' : 'VI';
+
+            renderReviews();
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('accessTravelLang') || 'vi';
+            const nextLang = (currentLang === 'vi') ? 'en' : 'vi';
+            setLanguage(nextLang);
+        }
+
+        // 6. ĐỔI THEME SÁNG / TỐI
+        function toggleReviewTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('accessTravelTheme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('reviewThemeIcon');
+            if (icon) {
+                icon.className = (theme === 'dark') ? "fa-solid fa-sun" : "fa-solid fa-moon";
+                icon.style.color = (theme === 'dark') ? "#f59e0b" : "";
+            }
+        }
+
+        // KHỞI CHẠY KHI MỞ TRANG
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            const savedLang = localStorage.getItem('accessTravelLang') || 'vi';
+            setLanguage(savedLang);
+
+            renderReviews();
+        });
+    </script>
+    <script src="js/accessibility-widget.js"></script>
 </body>
 </html>

@@ -2,16 +2,34 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trung Tâm Hỗ Trợ & Trợ Năng | AccessTravel</title>
+    <title id="docTitle">Trung Tâm Hỗ Trợ & Trợ Năng | AccessTravel</title>
+
+    <!-- SCRIPT CHỐNG CHỚP SÁNG & ĐỒNG BỘ THEME TỪ LOCALSTORAGE -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --c-main: #0f766e; --c-text: #0f172a; --c-bg: #f8fafc; --c-card-bg: #ffffff; --c-border: #e2e8f0;
+            --c-main: #0f766e; --c-main-dark: #0d9488; --c-text: #0f172a; --c-text-muted: #64748b;
+            --c-bg: #f8fafc; --c-card-bg: #ffffff; --c-border: #e2e8f0;
         }
-        [data-theme="dark"] {
-            --c-main: #14b8a6; --c-text: #f8fafc; --c-bg: #09090b; --c-card-bg: #18181b; --c-border: #27272a;
+
+        [data-theme="dark"], 
+        html[data-theme="dark"], 
+        html[data-theme="dark"] body {
+            --c-main: #14b8a6; --c-main-dark: #2dd4bf; --c-text: #f8fafc !important;
+            --c-text-muted: #94a3b8 !important; --c-bg: #09090b !important;
+            --c-card-bg: #18181b !important; --c-border: #27272a !important;
+            background-color: #09090b !important; color: #f8fafc !important;
         }
 
         body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--c-bg); color: var(--c-text); margin: 0; transition: background 0.3s, color 0.3s; }
@@ -19,71 +37,66 @@
         a { text-decoration: none; color: inherit; }
 
         /* HEADER */
-        .header-custom { background-color: var(--c-card-bg); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; transition: background 0.3s, border 0.3s; }
+        .header-custom { background-color: var(--c-card-bg); border-bottom: 1px solid var(--c-border); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 22px; font-weight: 900; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
-        .header-right-group { display: flex; align-items: center; gap: 12px; }
-        .nav-links { display: flex; gap: 28px; align-items: center; font-size: 14.5px; font-weight: 700; }
+        .header-right-group { display: flex; align-items: center; gap: 14px; }
+        .nav-links { display: flex; gap: 20px; align-items: center; font-size: 14.5px; font-weight: 700; }
         .nav-links a:hover { color: var(--c-main); }
-        .btn-back { background: var(--c-bg); border: 1px solid var(--c-border); padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; color: var(--c-text); }
-        
-        /* NÚT SÁNG / TỐI */
-        .btn-theme { background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-text); width: 38px; height: 38px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
-        .btn-theme:hover { background: rgba(15,118,110,0.1); color: var(--c-main); }
+        .btn-back { background: var(--c-bg); border: 1px solid var(--c-border); padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; color: var(--c-text); display: inline-flex; align-items: center; gap: 6px; }
 
-        /* HERO BANNER XANH NGỌC ĐẶC TRƯNG */
+        /* NÚT NGÔN NGỮ & NÚT THEME */
+        .btn-lang, .btn-theme { background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-text); height: 38px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; font-weight: 800; font-size: 13.5px; padding: 0 12px; gap: 6px; }
+        .btn-theme { width: 38px; padding: 0; }
+        .btn-lang:hover, .btn-theme:hover { background: rgba(15,118,110,0.1); color: var(--c-main); border-color: var(--c-main); }
+
+        /* HERO BANNER */
         .support-hero { background: linear-gradient(135deg, #0f766e, #0d9488); color: #fff; padding: 60px 20px; text-align: center; }
-        .support-hero h1 { font-size: 38px; font-weight: 900; margin: 0 0 12px 0; }
-        .support-hero p { font-size: 16px; opacity: 0.9; margin-bottom: 30px; }
+        .support-hero h1 { font-size: 36px; font-weight: 900; margin: 0 0 12px 0; }
+        .support-hero p { font-size: 15.5px; opacity: 0.95; margin-bottom: 28px; }
         .support-search { max-width: 600px; margin: 0 auto; position: relative; }
-        .support-search input { width: 100%; padding: 16px 20px 16px 50px; border-radius: 12px; border: none; font-size: 15px; outline: none; font-family: inherit; box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: #0f172a; }
+        .support-search input { width: 100%; padding: 15px 20px 15px 48px; border-radius: 12px; border: none; font-size: 14.5px; outline: none; font-family: inherit; box-shadow: 0 10px 25px rgba(0,0,0,0.15); color: #0f172a; }
         .support-search i { position: absolute; left: 18px; top: 18px; color: #64748b; font-size: 18px; }
 
-        /* LAYOUT CHÍNH (SIDEBAR + NỘI DUNG TÀI LIỆU) */
+        /* MAIN LAYOUT */
         .main-layout { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: flex; gap: 30px; align-items: flex-start; }
         
-        /* SIDEBAR CHUYÊN MỤC BÊN TRÁI */
-        .help-sidebar { width: 300px; background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); position: sticky; top: 90px; transition: background 0.3s, border 0.3s; }
+        .help-sidebar { width: 300px; background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 20px; position: sticky; top: 90px; }
         .sidebar-category { font-size: 11.5px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px 12px; }
         .sidebar-category:first-child { margin-top: 0; }
         .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; font-size: 14px; font-weight: 700; color: var(--c-text); cursor: pointer; transition: 0.2s; margin-bottom: 4px; }
         .sidebar-item:hover { background: var(--c-bg); color: var(--c-main); }
         .sidebar-item.active { background: rgba(15, 118, 110, 0.15); color: var(--c-main); border: 1px solid var(--c-main); }
 
-        /* KHUNG HIỂN THỊ NỘI DUNG BÊN PHẢI */
-        .help-content-card { flex: 1; background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); min-height: 600px; transition: background 0.3s, border 0.3s; }
-        
+        .help-content-card { flex: 1; background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 40px; min-height: 600px; }
         .tab-pane { display: none; }
         .tab-pane.active { display: block; }
 
         .content-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
         .content-header i { font-size: 28px; color: var(--c-main); }
         .content-header h2 { font-size: 26px; font-weight: 900; margin: 0; color: var(--c-text); }
-        .content-meta { font-size: 13px; color: #64748b; margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid var(--c-border); }
+        .content-meta { font-size: 13px; color: var(--c-text-muted); margin-bottom: 30px; padding-bottom: 16px; border-bottom: 1px solid var(--c-border); }
 
         .info-box { background: rgba(15, 118, 110, 0.1); border: 1px solid var(--c-main); color: var(--c-text); padding: 16px 20px; border-radius: 10px; font-size: 14.5px; margin-bottom: 24px; font-weight: 600; line-height: 1.5; }
         .section-title-custom { font-size: 18px; font-weight: 900; margin: 24px 0 12px 0; display: flex; align-items: center; gap: 8px; color: var(--c-text); }
         
         .help-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; color: var(--c-text); }
         .help-table th, .help-table td { padding: 12px 16px; border: 1px solid var(--c-border); text-align: left; }
-        .help-table th { background: var(--c-bg); font-weight: 800; color: #64748b; }
+        .help-table th { background: var(--c-bg); font-weight: 800; color: var(--c-text-muted); }
 
-        /* CÁC THẺ KÊNH HỖ TRỢ NHANH */
         .contact-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 30px; }
         .contact-card { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 12px; padding: 20px; text-align: center; }
         .contact-card i { font-size: 24px; color: var(--c-main); margin-bottom: 10px; }
         .contact-card h4 { font-size: 15px; font-weight: 800; margin: 0 0 6px 0; color: var(--c-text); }
-        .contact-card p { font-size: 12.5px; color: #64748b; margin-bottom: 12px; }
+        .contact-card p { font-size: 12.5px; color: var(--c-text-muted); margin-bottom: 12px; }
 
-        /* FAQ GRID */
         .faq-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; margin-bottom: 40px; }
         .faq-item { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 10px; padding: 18px; }
         .faq-question { font-size: 15px; font-weight: 800; margin-bottom: 6px; color: var(--c-main); }
-        .faq-answer { font-size: 14px; color: #64748b; margin: 0; line-height: 1.5; }
+        .faq-answer { font-size: 14px; color: var(--c-text-muted); margin: 0; line-height: 1.5; }
 
-        /* FORM GỬI YÊU CẦU TRỰC TIẾP */
         .support-form-container { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 30px; margin-top: 40px; }
         .form-group { margin-bottom: 16px; }
-        .form-label { font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+        .form-label { font-size: 12px; font-weight: 800; color: var(--c-text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
         .form-input, .form-textarea { width: 100%; background: var(--c-card-bg); border: 1px solid var(--c-border); padding: 12px 16px; border-radius: 8px; font-size: 14px; color: var(--c-text); outline: none; font-family: inherit; }
         .form-textarea { height: 110px; resize: none; }
         .btn-submit-support { width: 100%; background: var(--c-main); color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.2s; }
@@ -103,26 +116,33 @@
         <a href="index.html" class="logo"><i class="fa-solid fa-wheelchair"></i> AccessTravel</a>
         
         <div class="header-right-group">
-            <nav class="nav-links" style="display: flex; gap: 20px;">
-                <a href="index.html">Trang chủ</a>
-                <a href="search.html">Điểm đến</a>
-                <a href="support.html" style="color: var(--c-main);">Hỗ trợ</a>
+            <nav class="nav-links">
+                <a href="index.html" data-i18n="nav_home">Trang chủ</a>
+                <a href="search.html" data-i18n="nav_dest">Điểm đến</a>
+                <a href="support.html" style="color: var(--c-main);" data-i18n="nav_support">Hỗ trợ</a>
             </nav>
+            
+            <!-- NÚT ĐỔI NGÔN NGỮ EN / VI -->
+            <button class="btn-lang" onclick="toggleLanguage()" id="langBtn" title="Chuyển ngôn ngữ">
+                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
+            </button>
+
             <!-- NÚT ĐỔI SÁNG / TỐI -->
             <button class="btn-theme" onclick="toggleSupportTheme()" title="Chuyển đổi Sáng / Tối">
                 <i class="fa-solid fa-moon" id="supportThemeIcon"></i>
             </button>
-            <a href="index.html" class="btn-back">← Quay lại</a>
+
+            <a href="index.html" class="btn-back" data-i18n="btn_back">← Quay lại</a>
         </div>
     </header>
 
     <!-- HERO -->
     <div class="support-hero">
-        <h1>Trung Tâm Hỗ Trợ & Trợ Năng AccessTravel</h1>
-        <p>Chúng tôi luôn sẵn sàng hỗ trợ thông tin kiểm định, lộ trình xe lăn và dịch vụ chăm sóc 24/7.</p>
+        <h1 data-i18n="hero_title">Trung Tâm Hỗ Trợ & Trợ Năng AccessTravel</h1>
+        <p data-i18n="hero_desc">Chúng tôi luôn sẵn sàng hỗ trợ thông tin kiểm định, lộ trình xe lăn và dịch vụ chăm sóc 24/7.</p>
         <div class="support-search">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Bạn cần hỗ trợ gì? Nhập từ khóa (xe lăn, hủy tour, thanh toán...)...">
+            <input type="text" id="searchKeyword" placeholder="Bạn cần hỗ trợ gì? Nhập từ khóa (xe lăn, hủy tour, thanh toán...)..." data-i18n-ph="search_placeholder">
         </div>
     </div>
 
@@ -131,25 +151,25 @@
         
         <!-- SIDEBAR CHUYÊN MỤC -->
         <div class="help-sidebar">
-            <div class="sidebar-category">Chăm sóc khách hàng</div>
+            <div class="sidebar-category" data-i18n="cat_care">Chăm sóc khách hàng</div>
             <div class="sidebar-item active" onclick="switchTab('tab1', this)">
-                <i class="fa-solid fa-headset"></i> Trung tâm hỗ trợ 24/7
+                <i class="fa-solid fa-headset"></i> <span data-i18n="tab_title_1">Trung tâm hỗ trợ 24/7</span>
             </div>
             <div class="sidebar-item" onclick="switchTab('tab2', this)">
-                <i class="fa-solid fa-file-invoice-dollar"></i> Chính sách hủy & hoàn tiền
+                <i class="fa-solid fa-file-invoice-dollar"></i> <span data-i18n="tab_title_2">Chính sách hủy & hoàn tiền</span>
             </div>
 
-            <div class="sidebar-category">Hướng dẫn & Cẩm nang</div>
+            <div class="sidebar-category" data-i18n="cat_guide">Hướng dẫn & Cẩm nang</div>
             <div class="sidebar-item" onclick="switchTab('tab3', this)">
-                <i class="fa-solid fa-person-swimming"></i> Du lịch cho người đi xe lăn
+                <i class="fa-solid fa-wheelchair"></i> <span data-i18n="tab_title_3">Du lịch cho người đi xe lăn</span>
             </div>
 
-            <div class="sidebar-category">Pháp lý & Tiêu chuẩn</div>
+            <div class="sidebar-category" data-i18n="cat_legal">Pháp lý & Tiêu chuẩn</div>
             <div class="sidebar-item" onclick="switchTab('tab4', this)">
-                <i class="fa-solid fa-universal-access"></i> Cam kết chuẩn tiếp cận số
+                <i class="fa-solid fa-universal-access"></i> <span data-i18n="tab_title_4">Cam kết chuẩn tiếp cận số</span>
             </div>
             <div class="sidebar-item" onclick="switchTab('tab5', this)">
-                <i class="fa-solid fa-scale-balanced"></i> Điều khoản dịch vụ chung
+                <i class="fa-solid fa-scale-balanced"></i> <span data-i18n="tab_title_5">Điều khoản dịch vụ chung</span>
             </div>
         </div>
 
@@ -160,109 +180,108 @@
             <div id="tab1" class="tab-pane active">
                 <div class="content-header">
                     <i class="fa-solid fa-headset"></i>
-                    <h2>Trung Tâm Hỗ Trợ & Giải Quyết Sự Cố 24/7</h2>
+                    <h2 data-i18n="tab1_heading">Trung Tâm Hỗ Trợ & Giải Quyết Sự Cố 24/7</h2>
                 </div>
-                <div class="content-meta">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
+                <div class="content-meta" data-i18n="meta_update">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
                 
                 <div class="info-box">
-                    <i class="fa-solid fa-phone-volume"></i> <strong>Hotline Khẩn Cấp (24/7): 1900 6868</strong><br>
-                    Đội ngũ trực ban được đào tạo chuyên sâu về sơ cứu y tế cơ bản và quy chuẩn giao tiếp với người khuyết tật.
+                    <i class="fa-solid fa-phone-volume"></i> <strong data-i18n="hotline_title">Hotline Khẩn Cấp (24/7): 1900 6868</strong><br>
+                    <span data-i18n="hotline_desc">Đội ngũ trực ban được đào tạo chuyên sâu về sơ cứu y tế cơ bản và quy chuẩn giao tiếp với người khuyết tật.</span>
                 </div>
 
                 <div class="contact-cards-grid">
                     <div class="contact-card">
                         <i class="fa-solid fa-phone-volume"></i>
-                        <h4>Tổng đài Trợ năng</h4>
-                        <p>Hỗ trợ khẩn cấp cho người cao tuổi.</p>
+                        <h4 data-i18n="call_box_t">Tổng đài Trợ năng</h4>
+                        <p data-i18n="call_box_d">Hỗ trợ khẩn cấp cho người cao tuổi.</p>
                         <a href="tel:19006868" style="color:var(--c-main); font-weight:800;">1900 6868</a>
                     </div>
                     <div class="contact-card">
                         <i class="fa-solid fa-comments"></i>
-                        <h4>Chat trực tuyến</h4>
-                        <p>Kết nối chuyên viên tư vấn.</p>
-                        <a href="#" onclick="alert('Đang kết nối nhân viên...')" style="color:var(--c-main); font-weight:800;">Chat ngay</a>
+                        <h4 data-i18n="chat_box_t">Chat trực tuyến</h4>
+                        <p data-i18n="chat_box_d">Kết nối chuyên viên tư vấn.</p>
+                        <a href="javascript:void(0)" onclick="alert('Đang kết nối chuyên viên...')" style="color:var(--c-main); font-weight:800;" data-i18n="btn_chat">Chat ngay</a>
                     </div>
                     <div class="contact-card">
                         <i class="fa-solid fa-envelope"></i>
-                        <h4>Gửi Email</h4>
-                        <p>Hóa đơn & Hỗ trợ doanh nghiệp.</p>
-                        <a href="mailto:support@accesstravel.vn" style="color:var(--c-main); font-weight:800;">Gửi thư</a>
+                        <h4 data-i18n="mail_box_t">Gửi Email</h4>
+                        <p data-i18n="mail_box_d">Hóa đơn & Hỗ trợ doanh nghiệp.</p>
+                        <a href="mailto:support@accesstravel.vn" style="color:var(--c-main); font-weight:800;" data-i18n="btn_mail">Gửi thư</a>
                     </div>
                 </div>
 
-                <h3 class="section-title-custom"><i class="fa-solid fa-circle-question" style="color:var(--c-main);"></i> Câu hỏi thường gặp (FAQ)</h3>
+                <h3 class="section-title-custom"><i class="fa-solid fa-circle-question" style="color:var(--c-main);"></i> <span data-i18n="faq_title">Câu hỏi thường gặp (FAQ)</span></h3>
                 <div class="faq-grid">
                     <div class="faq-item">
-                        <div class="faq-question">1. Tiêu chuẩn kiểm định độ dốc xe lăn tại AccessTravel như thế nào?</div>
-                        <p class="faq-answer">Tất cả các điểm đến đều được kiểm định thực tế đảm bảo độ dốc đường dẫn dưới 8%, có rãnh lăn đạt chuẩn quốc tế.</p>
+                        <div class="faq-question" data-i18n="faq_q1">1. Tiêu chuẩn kiểm định độ dốc xe lăn tại AccessTravel như thế nào?</div>
+                        <p class="faq-answer" data-i18n="faq_a1">Tất cả các điểm đến đều được kiểm định thực tế đảm bảo độ dốc đường dẫn dưới 8%, có rãnh lăn đạt chuẩn an toàn.</p>
                     </div>
                     <div class="faq-item">
-                        <div class="faq-question">2. Làm thế nào để bật "Chế độ Người cao tuổi"?</div>
-                        <p class="faq-answer">Quý khách chỉ cần bấm vào nút "Chế độ Người cao tuổi" màu vàng trên thanh menu để phóng to chữ và tăng độ tương phản.</p>
+                        <div class="faq-question" data-i18n="faq_q2">2. Làm thế nào để bật "Chế độ Người cao tuổi"?</div>
+                        <p class="faq-answer" data-i18n="faq_a2">Quý khách chỉ cần bấm vào nút "Chế độ Người cao tuổi" màu vàng trên thanh menu để phóng to chữ và tăng độ tương phản.</p>
                     </div>
                 </div>
 
-                <!-- FORM GỬI YÊU CẦU HỖ TRỢ TRỰC TIẾP -->
+                <!-- FORM GỬI YÊU CẦU -->
                 <div class="support-form-container">
-                    <h3 style="margin-top:0; font-size: 20px; font-weight: 900; text-align: center; margin-bottom: 6px;">Gửi yêu cầu hỗ trợ trực tiếp</h3>
-                    <p style="text-align: center; color: #64748b; font-size: 13.5px; margin-bottom: 24px;">Chuyên viên của chúng tôi sẽ phản hồi qua email trong vòng 30 phút.</p>
+                    <h3 style="margin-top:0; font-size: 20px; font-weight: 900; text-align: center; margin-bottom: 6px;" data-i18n="form_title">Gửi yêu cầu hỗ trợ trực tiếp</h3>
+                    <p style="text-align: center; color: var(--c-text-muted); font-size: 13.5px; margin-bottom: 24px;" data-i18n="form_desc">Chuyên viên của chúng tôi sẽ phản hồi qua email trong vòng 30 phút.</p>
                     
-                    <form onsubmit="alert('Gửi yêu cầu hỗ trợ thành công! Chúng tôi sẽ liên hệ lại sớm.'); event.preventDefault();">
+                    <form onsubmit="handleFormSubmit(event)">
                         <div class="form-group">
-                            <label class="form-label">Họ và tên của bạn</label>
+                            <label class="form-label" data-i18n="lbl_name">Họ và tên của bạn</label>
                             <input type="text" class="form-input" placeholder="Ví dụ: Nguyễn Văn A" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Địa chỉ email nhận phản hồi</label>
+                            <label class="form-label" data-i18n="lbl_email">Địa chỉ email nhận phản hồi</label>
                             <input type="email" class="form-input" placeholder="Ví dụ: email@domain.com" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Nội dung cần hỗ trợ / Góp ý</label>
+                            <label class="form-label" data-i18n="lbl_content">Nội dung cần hỗ trợ / Góp ý</label>
                             <textarea class="form-textarea" placeholder="Mô tả chi tiết thắc mắc hoặc yêu cầu trợ năng đặc biệt..." required></textarea>
                         </div>
-                        <button type="submit" class="btn-submit-support">Gửi yêu cầu ngay</button>
+                        <button type="submit" class="btn-submit-support" data-i18n="btn_submit">Gửi yêu cầu ngay</button>
                     </form>
                 </div>
-
             </div>
 
             <!-- TAB 2: CHÍNH SÁCH HỦY & HOÀN TIỀN -->
             <div id="tab2" class="tab-pane">
                 <div class="content-header">
                     <i class="fa-solid fa-file-invoice-dollar"></i>
-                    <h2>Chính Sách Hủy Dịch Vụ & Hoàn Tiền</h2>
+                    <h2 data-i18n="tab2_heading">Chính Sách Hủy Dịch Vụ & Hoàn Tiền</h2>
                 </div>
-                <div class="content-meta">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
+                <div class="content-meta" data-i18n="meta_update">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
 
                 <div class="info-box">
-                    <i class="fa-solid fa-shield-check"></i> <strong>Bảo vệ quyền lợi khách hàng (Sai lệch kiểm định):</strong><br>
-                    Nếu đến nơi phát hiện hạ tầng (độ dốc, chiều rộng cửa, thang máy) sai lệch so với tem kiểm định trên website, AccessTravel hoàn <strong>100% tiền vé/phòng</strong> ngay trong ngày.
+                    <i class="fa-solid fa-shield-check"></i> <strong data-i18n="p2_box_t">Bảo vệ quyền lợi khách hàng (Sai lệch kiểm định):</strong><br>
+                    <span data-i18n="p2_box_d">Nếu đến nơi phát hiện hạ tầng (độ dốc, chiều rộng cửa, thang máy) sai lệch so với tem kiểm định trên website, AccessTravel hoàn 100% tiền vé/phòng ngay trong ngày.</span>
                 </div>
 
-                <h3 class="section-title-custom">Bảng Tỷ Lệ Hoàn Phí Tiêu Chuẩn</h3>
+                <h3 class="section-title-custom" data-i18n="table_title">Bảng Tỷ Lệ Hoàn Phí Tiêu Chuẩn</h3>
                 <table class="help-table">
                     <thead>
                         <tr>
-                            <th>Thời điểm thông báo hủy</th>
-                            <th>Lý do sức khỏe (Có giấy xác nhận)</th>
-                            <th>Lý do cá nhân khác</th>
+                            <th data-i18n="th_time">Thời điểm thông báo hủy</th>
+                            <th data-i18n="th_med">Lý do sức khỏe (Có giấy xác nhận)</th>
+                            <th data-i18n="th_other">Lý do cá nhân khác</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Trước 48 giờ khởi hành</td>
-                            <td><strong style="color:#166534;">Hoàn 100%</strong></td>
-                            <td>Hoàn 100% (Thu phí xử lý 50.000đ)</td>
+                            <td data-i18n="td_t1">Trước 48 giờ khởi hành</td>
+                            <td><strong style="color:#166534;" data-i18n="td_m1">Hoàn 100%</strong></td>
+                            <td data-i18n="td_o1">Hoàn 100% (Thu phí xử lý 50.000đ)</td>
                         </tr>
                         <tr>
-                            <td>Trước 24 giờ khởi hành</td>
-                            <td><strong style="color:#166534;">Hoàn 100%</strong></td>
-                            <td>Hoàn 50% tổng giá trị</td>
+                            <td data-i18n="td_t2">Trước 24 giờ khởi hành</td>
+                            <td><strong style="color:#166534;" data-i18n="td_m2">Hoàn 100%</strong></td>
+                            <td data-i18n="td_o2">Hoàn 50% tổng giá trị</td>
                         </tr>
                         <tr>
-                            <td>Trong vòng 24 giờ / No-show</td>
-                            <td>Hoàn 50% (Hoặc dời lịch miễn phí)</td>
-                            <td>Không hoàn tiền</td>
+                            <td data-i18n="td_t3">Trong vòng 24 giờ / Không đến</td>
+                            <td data-i18n="td_m3">Hoàn 50% (Hoặc dời lịch miễn phí)</td>
+                            <td data-i18n="td_o3">Không hoàn tiền</td>
                         </tr>
                     </tbody>
                 </table>
@@ -271,17 +290,17 @@
             <!-- TAB 3: DU LỊCH CHO NGƯỜI ĐI XE LĂN -->
             <div id="tab3" class="tab-pane">
                 <div class="content-header">
-                    <i class="fa-solid fa-person-swimming"></i>
-                    <h2>Cẩm Nang Du Lịch Cho Người Sử Dụng Xe Lăn</h2>
+                    <i class="fa-solid fa-wheelchair"></i>
+                    <h2 data-i18n="tab3_heading">Cẩm Nang Du Lịch Cho Người Sử Dụng Xe Lăn</h2>
                 </div>
-                <div class="content-meta">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
+                <div class="content-meta" data-i18n="meta_update">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
 
-                <p>Du lịch bằng xe lăn hoàn toàn có thể mang lại những trải nghiệm tuyệt vời nếu được chuẩn bị đúng cách. Đội ngũ chuyên gia trợ năng của AccessTravel xin gửi đến bạn bộ tài liệu bỏ túi này.</p>
+                <p data-i18n="tab3_p1">Du lịch bằng xe lăn hoàn toàn có thể mang lại những trải nghiệm tuyệt vời nếu được chuẩn bị đúng cách. Đội ngũ chuyên gia trợ năng của AccessTravel xin gửi đến bạn bộ tài liệu bỏ túi này.</p>
 
-                <h3 class="section-title-custom">1. Phân loại xe lăn trước chuyến đi</h3>
-                <ul style="line-height: 1.8; color: #64748b;">
-                    <li><strong>Xe lăn cơ tự đẩy:</strong> Trọng lượng nhẹ, dễ gấp gọn. Phù hợp với đường dốc $\le 8\%$ (theo tiêu chuẩn Việt Nam).</li>
-                    <li><strong>Xe lăn điện:</strong> Trọng lượng nặng (30-50kg), cần chú ý kiểm tra chuẩn pin LFP hoặc Lithium có được phép mang lên máy bay hay không.</li>
+                <h3 class="section-title-custom" data-i18n="tab3_h1">1. Phân loại xe lăn trước chuyến đi</h3>
+                <ul style="line-height: 1.8; color: var(--c-text-muted);">
+                    <li><strong data-i18n="tab3_l1_t">Xe lăn cơ tự đẩy:</strong> <span data-i18n="tab3_l1_d">Trọng lượng nhẹ, dễ gấp gọn. Phù hợp với đường dốc ≤ 8% theo tiêu chuẩn kiểm định.</span></li>
+                    <li><strong data-i18n="tab3_l2_t">Xe lăn điện:</strong> <span data-i18n="tab3_l2_d">Trọng lượng nặng (30-50kg), cần chú ý kiểm tra chuẩn pin LFP hoặc Lithium khi vận chuyển.</span></li>
                 </ul>
             </div>
 
@@ -289,56 +308,258 @@
             <div id="tab4" class="tab-pane">
                 <div class="content-header">
                     <i class="fa-solid fa-universal-access"></i>
-                    <h2>Cam Kết Chuẩn Tiếp Cận Số (WCAG 2.1 AA)</h2>
+                    <h2 data-i18n="tab4_heading">Cam Kết Chuẩn Tiếp Cận Số (WCAG 2.1 AA)</h2>
                 </div>
-                <div class="content-meta">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
+                <div class="content-meta" data-i18n="meta_update">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
 
-                <div class="info-box">
-                    Tự hào đạt chuẩn W3C Accessibility: Giao diện web được tối ưu hóa bằng code HTML Semantic và ARIA Labels, hỗ trợ tuyệt đối cho người khiếm thị.
+                <div class="info-box" data-i18n="tab4_box">
+                    Tự hào đạt chuẩn W3C Accessibility: Giao diện web được tối ưu hóa bằng code HTML Semantic và ARIA Labels, hỗ trợ tối đa cho người khiếm thị sử dụng trình đọc màn hình.
                 </div>
 
-                <p>Tiếp cận (Accessibility) không chỉ nằm ở hạ tầng vật lý tại điểm du lịch, mà phải bắt đầu ngay từ thao tác đặt tour trên website theo chuẩn WCAG 2.1 mức độ AA.</p>
+                <p data-i18n="tab4_p1">Tiếp cận (Accessibility) không chỉ nằm ở hạ tầng vật lý tại điểm du lịch, mà phải bắt đầu ngay từ thao tác đặt tour trên website theo chuẩn WCAG 2.1 mức độ AA.</p>
             </div>
 
             <!-- TAB 5: ĐIỀU KHOẢN DỊCH VỤ CHUNG -->
             <div id="tab5" class="tab-pane">
                 <div class="content-header">
                     <i class="fa-solid fa-scale-balanced"></i>
-                    <h2>Điều Khoản Sử Dụng Dịch Vụ Chung</h2>
+                    <h2 data-i18n="tab5_heading">Điều Khoản Sử Dụng Dịch Vụ Chung</h2>
                 </div>
-                <div class="content-meta">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
+                <div class="content-meta" data-i18n="meta_update">Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel</div>
 
-                <h3 class="section-title-custom">1. Tính minh bạch của dữ liệu</h3>
-                <p style="color: #64748b; line-height: 1.7;">Các chỉ số về độ dốc, kích thước cửa và tiện ích hỗ trợ là kết quả đo đạc thực tế tại thời điểm thẩm định. Khách hàng nên lưu ý các nhãn cảnh báo trước khi đặt.</p>
+                <h3 class="section-title-custom" data-i18n="tab5_h1">1. Tính minh bạch của dữ liệu</h3>
+                <p style="color: var(--c-text-muted); line-height: 1.7;" data-i18n="tab5_p1">Các chỉ số về độ dốc, kích thước cửa và tiện ích hỗ trợ là kết quả đo đạc thực tế tại thời điểm thẩm định. Khách hàng nên lưu ý các nhãn cảnh báo trước khi đặt chỗ.</p>
 
-                <h3 class="section-title-custom">2. Miễn trừ trách nhiệm y tế</h3>
-                <p style="color: #64748b; line-height: 1.7;">AccessTravel là nền tảng trung gian hỗ trợ thông tin hạ tầng du lịch, không cung cấp dịch vụ điều trị y tế trực tiếp trong chuyến đi.</p>
+                <h3 class="section-title-custom" data-i18n="tab5_h2">2. Miễn trừ trách nhiệm y tế</h3>
+                <p style="color: var(--c-text-muted); line-height: 1.7;" data-i18n="tab5_p2">AccessTravel là nền tảng trung gian hỗ trợ thông tin hạ tầng du lịch tiếp cận, không trực tiếp thay thế các dịch vụ điều trị y tế chuyên sâu trong chuyến đi.</p>
             </div>
 
         </div>
     </div>
 
+    <!-- SCRIPT CHỨC NĂNG: ĐỔI TAB, ĐỔI THEME & ĐỔI NGÔN NGỮ EN/VI -->
     <script>
+        // TỪ ĐIỂN SONG NGỮ VIỆT - ANH
+        const translations = {
+            vi: {
+                nav_home: "Trang chủ",
+                nav_dest: "Điểm đến",
+                nav_support: "Hỗ trợ",
+                btn_back: "← Quay lại",
+                hero_title: "Trung Tâm Hỗ Trợ & Trợ Năng AccessTravel",
+                hero_desc: "Chúng tôi luôn sẵn sàng hỗ trợ thông tin kiểm định, lộ trình xe lăn và dịch vụ chăm sóc 24/7.",
+                search_placeholder: "Bạn cần hỗ trợ gì? Nhập từ khóa (xe lăn, hủy tour, thanh toán...)...",
+                cat_care: "Chăm sóc khách hàng",
+                cat_guide: "Hướng dẫn & Cẩm nang",
+                cat_legal: "Pháp lý & Tiêu chuẩn",
+                tab_title_1: "Trung tâm hỗ trợ 24/7",
+                tab_title_2: "Chính sách hủy & hoàn tiền",
+                tab_title_3: "Du lịch cho người đi xe lăn",
+                tab_title_4: "Cam kết chuẩn tiếp cận số",
+                tab_title_5: "Điều khoản dịch vụ chung",
+                tab1_heading: "Trung Tâm Hỗ Trợ & Giải Quyết Sự Cố 24/7",
+                meta_update: "Cập nhật lần cuối: 25 Tháng 10, 2026 • Bởi Ban Giám Đốc AccessTravel",
+                hotline_title: "Hotline Khẩn Cấp (24/7): 1900 6868",
+                hotline_desc: "Đội ngũ trực ban được đào tạo chuyên sâu về sơ cứu y tế cơ bản và quy chuẩn giao tiếp với người khuyết tật.",
+                call_box_t: "Tổng đài Trợ năng",
+                call_box_d: "Hỗ trợ khẩn cấp cho người cao tuổi.",
+                chat_box_t: "Chat trực tuyến",
+                chat_box_d: "Kết nối chuyên viên tư vấn.",
+                btn_chat: "Chat ngay",
+                mail_box_t: "Gửi Email",
+                mail_box_d: "Hóa đơn & Hỗ trợ doanh nghiệp.",
+                btn_mail: "Gửi thư",
+                faq_title: "Câu hỏi thường gặp (FAQ)",
+                faq_q1: "1. Tiêu chuẩn kiểm định độ dốc xe lăn tại AccessTravel như thế nào?",
+                faq_a1: "Tất cả các điểm đến đều được kiểm định thực tế đảm bảo độ dốc đường dẫn dưới 8%, có rãnh lăn đạt chuẩn an toàn.",
+                faq_q2: "2. Làm thế nào để bật \"Chế độ Người cao tuổi\"?",
+                faq_a2: "Quý khách chỉ cần bấm vào nút \"Chế độ Người cao tuổi\" màu vàng trên thanh menu để phóng to chữ và tăng độ tương phản.",
+                form_title: "Gửi yêu cầu hỗ trợ trực tiếp",
+                form_desc: "Chuyên viên của chúng tôi sẽ phản hồi qua email trong vòng 30 phút.",
+                lbl_name: "Họ và tên của bạn",
+                lbl_email: "Địa chỉ email nhận phản hồi",
+                lbl_content: "Nội dung cần hỗ trợ / Góp ý",
+                btn_submit: "Gửi yêu cầu ngay",
+                tab2_heading: "Chính Sách Hủy Dịch Vụ & Hoàn Tiền",
+                p2_box_t: "Bảo vệ quyền lợi khách hàng (Sai lệch kiểm định):",
+                p2_box_d: "Nếu đến nơi phát hiện hạ tầng (độ dốc, chiều rộng cửa, thang máy) sai lệch so với tem kiểm định trên website, AccessTravel hoàn 100% tiền vé/phòng ngay trong ngày.",
+                table_title: "Bảng Tỷ Lệ Hoàn Phí Tiêu Chuẩn",
+                th_time: "Thời điểm thông báo hủy",
+                th_med: "Lý do sức khỏe (Có giấy xác nhận)",
+                th_other: "Lý do cá nhân khác",
+                td_t1: "Trước 48 giờ khởi hành",
+                td_m1: "Hoàn 100%",
+                td_o1: "Hoàn 100% (Thu phí xử lý 50.000đ)",
+                td_t2: "Trước 24 giờ khởi hành",
+                td_m2: "Hoàn 100%",
+                td_o2: "Hoàn 50% tổng giá trị",
+                td_t3: "Trong vòng 24 giờ / Không đến",
+                td_m3: "Hoàn 50% (Hoặc dời lịch miễn phí)",
+                td_o3: "Không hoàn tiền",
+                tab3_heading: "Cẩm Nang Du Lịch Cho Người Sử Dụng Xe Lăn",
+                tab3_p1: "Du lịch bằng xe lăn hoàn toàn có thể mang lại những trải nghiệm tuyệt vời nếu được chuẩn bị đúng cách. Đội ngũ chuyên gia trợ năng của AccessTravel xin gửi đến bạn bộ tài liệu bỏ túi này.",
+                tab3_h1: "1. Phân loại xe lăn trước chuyến đi",
+                tab3_l1_t: "Xe lăn cơ tự đẩy:",
+                tab3_l1_d: "Trọng lượng nhẹ, dễ gấp gọn. Phù hợp với đường dốc ≤ 8% theo tiêu chuẩn kiểm định.",
+                tab3_l2_t: "Xe lăn điện:",
+                tab3_l2_d: "Trọng lượng nặng (30-50kg), cần chú ý kiểm tra chuẩn pin LFP hoặc Lithium khi vận chuyển.",
+                tab4_heading: "Cam Kết Chuẩn Tiếp Cận Số (WCAG 2.1 AA)",
+                tab4_box: "Tự hào đạt chuẩn W3C Accessibility: Giao diện web được tối ưu hóa bằng code HTML Semantic và ARIA Labels, hỗ trợ tối đa cho người khiếm thị sử dụng trình đọc màn hình.",
+                tab4_p1: "Tiếp cận (Accessibility) không chỉ nằm ở hạ tầng vật lý tại điểm du lịch, mà phải bắt đầu ngay từ thao tác đặt tour trên website theo chuẩn WCAG 2.1 mức độ AA.",
+                tab5_heading: "Điều Khoản Sử Dụng Dịch Vụ Chung",
+                tab5_h1: "1. Tính minh bạch của dữ liệu",
+                tab5_p1: "Các chỉ số về độ dốc, kích thước cửa và tiện ích hỗ trợ là kết quả đo đạc thực tế tại thời điểm thẩm định. Khách hàng nên lưu ý các nhãn cảnh báo trước khi đặt chỗ.",
+                tab5_h2: "2. Miễn trừ trách nhiệm y tế",
+                tab5_p2: "AccessTravel là nền tảng trung gian hỗ trợ thông tin hạ tầng du lịch tiếp cận, không trực tiếp thay thế các dịch vụ điều trị y tế chuyên sâu trong chuyến đi."
+            },
+            en: {
+                nav_home: "Home",
+                nav_dest: "Destinations",
+                nav_support: "Support",
+                btn_back: "← Back",
+                hero_title: "AccessTravel Accessibility & Support Center",
+                hero_desc: "We are always ready to provide audit data, wheelchair routes, and 24/7 care support.",
+                search_placeholder: "How can we assist you? (wheelchair, cancellation, payment...)...",
+                cat_care: "Customer Support",
+                cat_guide: "Guides & Handbooks",
+                cat_legal: "Legal & Standards",
+                tab_title_1: "24/7 Support Center",
+                tab_title_2: "Cancellation & Refund Policy",
+                tab_title_3: "Wheelchair Travel Guide",
+                tab_title_4: "Digital Accessibility Commitment",
+                tab_title_5: "Terms of Service",
+                tab1_heading: "24/7 Support & Incident Management Center",
+                meta_update: "Last updated: October 25, 2026 • By AccessTravel Board of Directors",
+                hotline_title: "Emergency Hotline (24/7): 1900 6868",
+                hotline_desc: "Our on-duty team is rigorously trained in basic first aid and accessible communication etiquette.",
+                call_box_t: "Accessibility Hotline",
+                call_box_d: "Emergency support for seniors & travelers with disabilities.",
+                chat_box_t: "Live Chat",
+                chat_box_d: "Connect with our advisory specialists.",
+                btn_chat: "Chat Now",
+                mail_box_t: "Email Support",
+                mail_box_d: "Invoices & corporate inquiries.",
+                btn_mail: "Send Email",
+                faq_title: "Frequently Asked Questions (FAQ)",
+                faq_q1: "1. What are AccessTravel's wheelchair ramp slope audit standards?",
+                faq_a1: "All destinations are physically audited to ensure slope gradients remain below 8%, fully equipped with standard ramps.",
+                faq_q2: "2. How do I activate the 'Senior / Elderly Mode'?",
+                faq_a2: "Simply click the yellow 'Elderly Mode' toggle on the menu bar to increase font sizes and color contrast.",
+                form_title: "Submit a Direct Support Request",
+                form_desc: "Our accessibility specialists will get back to your email within 30 minutes.",
+                lbl_name: "Your Full Name",
+                lbl_email: "Response Email Address",
+                lbl_content: "Inquiry Details / Accessibility Feedback",
+                btn_submit: "Submit Request",
+                tab2_heading: "Service Cancellation & Refund Policies",
+                p2_box_t: "Customer Protection (Verification Discrepancies):",
+                p2_box_d: "If upon arrival on-site accessibility (ramps, door width, lifts) does not match our audited badge, AccessTravel guarantees a 100% refund immediately.",
+                table_title: "Standard Refund Fee Schedule",
+                th_time: "Cancellation Timeframe",
+                th_med: "Medical Reasons (with Certificate)",
+                th_other: "Personal Reasons",
+                td_t1: "Before 48h of Departure",
+                td_m1: "100% Refund",
+                td_o1: "100% Refund (50,000đ processing fee)",
+                td_t2: "Before 24h of Departure",
+                td_m2: "100% Refund",
+                td_o2: "50% Refund",
+                td_t3: "Within 24h / No-show",
+                td_m3: "50% Refund (Or free rescheduling)",
+                td_o3: "Non-refundable",
+                tab3_heading: "Travel Handbook for Wheelchair Users",
+                tab3_p1: "Traveling with a wheelchair can be an empowering experience when properly prepared. AccessTravel's accessibility team shares this practical pocket guide.",
+                tab3_h1: "1. Wheelchair Classification Prior to Departure",
+                tab3_l1_t: "Manual Wheelchair:",
+                tab3_l1_d: "Lightweight and foldable. Ideal for slope paths ≤ 8% according to accessible standards.",
+                tab3_l2_t: "Electric Wheelchair:",
+                tab3_l2_d: "Heavier (30-50kg); ensure LFP or Lithium battery compliance prior to air or ferry transit.",
+                tab4_heading: "Digital Accessibility Commitment (WCAG 2.1 AA)",
+                tab4_box: "Proudly WCAG 2.1 AA Compliant: Interface structured with Semantic HTML and ARIA labels, fully compatible with screen readers for visually impaired travelers.",
+                tab4_p1: "Accessibility is not limited to physical infrastructure; it starts directly when booking a journey online on an inclusive, barrier-free interface.",
+                tab5_heading: "General Terms & Conditions of Service",
+                tab5_h1: "1. Data Transparency",
+                tab5_p1: "Ramp gradients, doorway widths, and assistance services reflect actual on-site audits at the time of evaluation. Please review safety notices before booking.",
+                tab5_h2: "2. Medical Disclaimer",
+                tab5_p2: "AccessTravel acts as an accessible travel information bridge and does not directly provide specialized in-tour clinical medical treatment."
+            }
+        };
+
+        // 1. CHUYỂN TAB NỘI DUNG
         function switchTab(tabId, el) {
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
             
             document.getElementById(tabId).classList.add('active');
             el.classList.add('active');
         }
 
-        // Chức năng chuyển đổi Sáng / Tối cho trang Hỗ trợ
+        // 2. CHUYỂN ĐỔI NGÔN NGỮ ANH - VIỆT
+        function setLanguage(lang) {
+            localStorage.setItem('accessTravelLang', lang);
+            document.documentElement.setAttribute('lang', lang);
+
+            const dict = translations[lang] || translations.vi;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (dict[key]) el.setAttribute('placeholder', dict[key]);
+            });
+
+            const langBtnText = document.getElementById('langText');
+            if (langBtnText) langBtnText.textContent = (lang === 'vi') ? 'EN' : 'VI';
+        }
+
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('accessTravelLang') || 'vi';
+            const nextLang = (currentLang === 'vi') ? 'en' : 'vi';
+            setLanguage(nextLang);
+        }
+
+        // 3. CHUYỂN ĐỔI DARK / LIGHT MODE
         function toggleSupportTheme() {
-            const body = document.body;
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('accessTravelTheme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
             const icon = document.getElementById('supportThemeIcon');
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                icon.className = "fa-solid fa-moon";
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                icon.className = "fa-solid fa-sun";
+            if (icon) {
+                icon.className = (theme === 'dark') ? "fa-solid fa-sun" : "fa-solid fa-moon";
+                icon.style.color = (theme === 'dark') ? "#f59e0b" : "";
             }
         }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
+            const msg = (lang === 'vi') 
+                ? 'Gửi yêu cầu hỗ trợ thành công! Đội ngũ AccessTravel sẽ liên hệ lại sớm nhất.' 
+                : 'Support request submitted successfully! The AccessTravel team will contact you shortly.';
+            alert(msg);
+            e.target.reset();
+        }
+
+        // KHI TRANG LOAD XONG
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            const savedLang = localStorage.getItem('accessTravelLang') || 'vi';
+            setLanguage(savedLang);
+        });
     </script>
+    <script src="js/accessibility-widget.js"></script>
 </body>
 </html>

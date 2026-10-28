@@ -2,8 +2,18 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tìm Kiếm Điểm Đến Trợ Năng | AccessTravel</title>
+    <title id="docTitle">Tìm Kiếm Điểm Đến Trợ Năng | AccessTravel</title>
+
+    <!-- CHỐNG CHỚP SÁNG VÀ LƯU THEME BẰNG LOCALSTORAGE -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,44 +23,84 @@
             --base-font-size: 15px;
         }
 
-        [data-theme="dark"] {
-            --c-main: #14b8a6; --c-text: #f8fafc; --c-text-muted: #94a3b8;
-            --c-bg: #09090b; --c-card-bg: #18181b; --c-border: #27272a;
+        [data-theme="dark"], 
+        html[data-theme="dark"], 
+        html[data-theme="dark"] body {
+            --c-main: #14b8a6; --c-main-dark: #2dd4bf;
+            --c-text: #f8fafc !important; --c-text-muted: #94a3b8 !important;
+            --c-bg: #09090b !important; --c-card-bg: #18181b !important; --c-border: #27272a !important;
+            background-color: #09090b !important; color: #f8fafc !important;
         }
 
-        [data-elder-mode="true"] {
-            --base-font-size: 19px !important;
-            --c-bg: #fffbeb !important;
-            --c-card-bg: #ffffff !important;
-            --c-border: #d97706 !important;
+        [data-theme="dark"] header,
+        [data-theme="dark"] .top-search-wrap,
+        [data-theme="dark"] .filter-sidebar,
+        [data-theme="dark"] .tour-result-card,
+        [data-theme="dark"] .card-img-wrap {
+            background-color: #18181b !important;
+            border-color: #27272a !important;
+        }
+
+        [data-theme="dark"] .search-input-box input,
+        [data-theme="dark"] .btn-header-round,
+        [data-theme="dark"] .btn-lang,
+        [data-theme="dark"] .card-tag-item {
+            background-color: #27272a !important;
+            color: #f8fafc !important;
+            border-color: #3f3f46 !important;
+        }
+
+        [data-theme="dark"] .card-name,
+        [data-theme="dark"] .results-count,
+        [data-theme="dark"] .filter-title {
+            color: #f8fafc !important;
+        }
+
+        [data-theme="dark"] .card-desc,
+        [data-theme="dark"] .filter-checkbox-label {
+            color: #cbd5e1 !important;
         }
 
         body, button, input, select {
             font-family: 'Be Vietnam Pro', sans-serif !important;
         }
-        body { background-color: var(--c-bg); color: var(--c-text); margin: 0; font-size: var(--base-font-size); transition: 0.3s; }
+        body { background-color: var(--c-bg); color: var(--c-text); margin: 0; font-size: var(--base-font-size); transition: background-color 0.3s, color 0.3s; }
         * { box-sizing: border-box; }
         a { text-decoration: none; color: inherit; }
 
         /* HEADER */
         header { background: var(--c-card-bg); border-bottom: 1px solid var(--c-border); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .logo { font-size: 22px; font-weight: 900; color: var(--c-main); display: flex; align-items: center; gap: 8px; }
-        .header-actions { display: flex; align-items: center; gap: 14px; }
-        .btn-header-round { background: var(--c-bg); border: 1px solid var(--c-border); width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--c-text); font-weight: 800; }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .btn-header-round { background: var(--c-bg); border: 1px solid var(--c-border); width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--c-text); font-weight: 800; transition: 0.2s; }
+        .btn-lang { background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-text); height: 38px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; cursor: pointer; font-weight: 800; font-size: 13.5px; transition: 0.2s; }
+        .btn-header-round:hover, .btn-lang:hover { color: var(--c-main); border-color: var(--c-main); }
 
         /* THANH TÌM KIẾM NHANH TRÊN ĐẦU */
         .top-search-wrap { background: var(--c-card-bg); border-bottom: 1px solid var(--c-border); padding: 18px 20px; }
         .top-search-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 12px; align-items: center; }
-        .search-input-box { flex: 2; position: relative; }
-        .search-input-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--c-main); }
-        .search-input-box input { width: 100%; padding: 12px 14px 12px 40px; border: 1.5px solid var(--c-border); border-radius: 10px; font-size: 14.5px; font-weight: 700; background: var(--c-bg); color: var(--c-text); outline: none; }
-        .btn-search-trigger { background: var(--c-main); color: #fff; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 900; font-size: 14.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .search-input-box { flex: 2; position: relative; display: flex; align-items: center; }
+        .search-input-box i.search-icon { position: absolute; left: 14px; color: var(--c-main); pointer-events: none; }
+        .search-input-box input { width: 100%; padding: 12px 48px 12px 40px; border: 1.5px solid var(--c-border); border-radius: 10px; font-size: 14.5px; font-weight: 700; background: var(--c-bg); color: var(--c-text); outline: none; transition: 0.2s; }
+        .search-input-box input:focus { border-color: var(--c-main); }
+        
+        /* NÚT MICROPHONE TÌM KIẾM BẰNG GIỌNG NÓI */
+        .btn-voice-search { position: absolute; right: 10px; background: none; border: none; font-size: 18px; color: var(--c-main); cursor: pointer; padding: 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-voice-search:hover { transform: scale(1.15); color: var(--c-main-dark); }
+        .btn-voice-search.listening { color: #ef4444; animation: pulseMic 1.2s infinite; }
+        @keyframes pulseMic {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-search-trigger { background: var(--c-main); color: #fff; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 900; font-size: 14.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .btn-search-trigger:hover { background: var(--c-main-dark); }
 
         /* KHUNG BỐ CỤC CHÍNH */
         .search-layout { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: flex; gap: 28px; align-items: flex-start; }
         
-        /* BỘ LỌC BÊN TRÁI (SIDEBAR) */
+        /* BỘ LỌC BÊN TRÁI */
         .filter-sidebar { width: 300px; background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 16px; padding: 22px; position: sticky; top: 90px; }
         .filter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--c-border); }
         .filter-title { font-size: 17px; font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
@@ -102,10 +152,15 @@
     <header>
         <a href="index.html" class="logo"><i class="fa-solid fa-wheelchair"></i> AccessTravel</a>
         <div class="header-actions">
+            <!-- NÚT CHUYỂN EN / VI -->
+            <button class="btn-lang" onclick="toggleLanguage()" id="langBtn" title="Chuyển ngôn ngữ">
+                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
+            </button>
+            <!-- NÚT ĐỔI SÁNG / TỐI -->
             <button class="btn-header-round" onclick="toggleCustomerTheme()" title="Sáng/Tối">
                 <i class="fa-solid fa-moon" id="themeIcon"></i>
             </button>
-            <a href="index.html" style="font-weight:900; color:var(--c-main); font-size:14px;"><i class="fa-solid fa-arrow-left"></i> Trang Chủ</a>
+            <a href="index.html" style="font-weight:900; color:var(--c-main); font-size:14px;" data-i18n="nav_home_link"><i class="fa-solid fa-arrow-left"></i> Trang Chủ</a>
         </div>
     </header>
 
@@ -113,11 +168,16 @@
     <div class="top-search-wrap">
         <div class="top-search-container">
             <div class="search-input-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="keywordInput" placeholder="Nhập điểm đến (Hạ Long, Sapa, Huế, Đà Nẵng, Cát Bà...)" onkeyup="if(event.key==='Enter') executeSearch()">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="keywordInput" placeholder="Nhập điểm đến (Hạ Long, Sapa, Huế, Đà Nẵng, Cát Bà...)" data-i18n-ph="search_placeholder" onkeyup="if(event.key==='Enter') executeSearch()">
+                
+                <!-- NÚT MICRO TÌM KIẾM BẰNG GIỌNG NÓI -->
+                <button type="button" class="btn-voice-search" id="btnVoiceSearch" onclick="startVoiceSearch()" title="Tìm kiếm bằng giọng nói" aria-label="Tìm kiếm bằng giọng nói">
+                    <i class="fa-solid fa-microphone" id="micIcon"></i>
+                </button>
             </div>
             <button type="button" class="btn-search-trigger" onclick="executeSearch()">
-                <i class="fa-solid fa-filter"></i> Lọc Kết Quả
+                <i class="fa-solid fa-filter"></i> <span data-i18n="btn_filter">Lọc Kết Quả</span>
             </button>
         </div>
     </div>
@@ -128,70 +188,70 @@
         <!-- SIDEBAR BỘ LỌC -->
         <aside class="filter-sidebar">
             <div class="filter-header">
-                <h3 class="filter-title"><i class="fa-solid fa-sliders" style="color:var(--c-main);"></i> Bộ Lọc Trợ Năng</h3>
-                <button type="button" class="btn-reset-filter" onclick="resetAllFilters()">Đặt lại</button>
+                <h3 class="filter-title"><i class="fa-solid fa-sliders" style="color:var(--c-main);"></i> <span data-i18n="filter_heading">Bộ Lọc Trợ Năng</span></h3>
+                <button type="button" class="btn-reset-filter" onclick="resetAllFilters()" data-i18n="btn_reset">Đặt lại</button>
             </div>
 
             <!-- NHÓM 1: TIÊU CHUẨN TIẾP CẬN -->
             <div class="filter-group">
-                <div class="filter-group-title">Tiện ích kiểm định</div>
+                <div class="filter-group-title" data-i18n="group_access">Tiện ích kiểm định</div>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="accessFilter" value="all" checked onchange="executeSearch()">
-                    <span>Tất cả tiện ích</span>
+                    <span data-i18n="acc_all">Tất cả tiện ích</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="accessFilter" value="elevator" onchange="executeSearch()">
-                    <span>Thang máy / Cửa rộng &ge; 85cm</span>
+                    <span data-i18n="acc_elevator">Thang máy / Cửa rộng &ge; 85cm</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="accessFilter" value="slope" onchange="executeSearch()">
-                    <span>Độ dốc an toàn (&lt; 8%)</span>
+                    <span data-i18n="acc_slope">Độ dốc an toàn (&lt; 8%)</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="accessFilter" value="wc" onchange="executeSearch()">
-                    <span>WC có tay vịn chữ U</span>
+                    <span data-i18n="acc_wc">WC có tay vịn chữ U</span>
                 </label>
             </div>
 
             <!-- NHÓM 2: MỨC NGÂN SÁCH -->
             <div class="filter-group">
-                <div class="filter-group-title">Ngân sách / Khách</div>
+                <div class="filter-group-title" data-i18n="group_price">Ngân sách / Khách</div>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="priceFilter" value="all" checked onchange="executeSearch()">
-                    <span>Mọi mức giá</span>
+                    <span data-i18n="price_all">Mọi mức giá</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="priceFilter" value="low" onchange="executeSearch()">
-                    <span>Dưới 1.000.000 đ</span>
+                    <span data-i18n="price_low">Dưới 1.000.000 đ</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="priceFilter" value="mid" onchange="executeSearch()">
-                    <span>1.000.000 đ - 3.000.000 đ</span>
+                    <span data-i18n="price_mid">1.000.000 đ - 3.000.000 đ</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="priceFilter" value="high" onchange="executeSearch()">
-                    <span>Trên 3.000.000 đ</span>
+                    <span data-i18n="price_high">Trên 3.000.000 đ</span>
                 </label>
             </div>
 
             <!-- NHÓM 3: LOẠI HÌNH DỊCH VỤ -->
             <div class="filter-group">
-                <div class="filter-group-title">Loại hình tour</div>
+                <div class="filter-group-title" data-i18n="group_cat">Loại hình tour</div>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="catFilter" value="0" checked onchange="executeSearch()">
-                    <span>Tất cả loại hình</span>
+                    <span data-i18n="cat_all">Tất cả loại hình</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="catFilter" value="1" onchange="executeSearch()">
-                    <span>Du thuyền vịnh biển</span>
+                    <span data-i18n="cat_cruise">Du thuyền vịnh biển</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="catFilter" value="2" onchange="executeSearch()">
-                    <span>Resort & Nghỉ dưỡng</span>
+                    <span data-i18n="cat_resort">Resort & Nghỉ dưỡng</span>
                 </label>
                 <label class="filter-checkbox-label">
                     <input type="radio" name="catFilter" value="3" onchange="executeSearch()">
-                    <span>Di tích & Văn hóa</span>
+                    <span data-i18n="cat_culture">Di tích & Văn hóa</span>
                 </label>
             </div>
         </aside>
@@ -199,70 +259,232 @@
         <!-- NỘI DUNG KẾT QUẢ -->
         <main class="results-content">
             <div class="results-top-bar">
-                <div class="results-count">Tìm thấy <span id="countNumber">0</span> hành trình phù hợp</div>
+                <div class="results-count">
+                    <span data-i18n="found_text">Tìm thấy</span> <span id="countNumber">0</span> <span data-i18n="trips_text">hành trình phù hợp</span>
+                </div>
             </div>
 
-            <div class="tour-result-list" id="toursResultContainer">
-                <!-- Render tour động -->
-            </div>
+            <div class="tour-result-list" id="toursResultContainer"></div>
         </main>
 
     </div>
 
-    <!-- SCRIPT TÌM KIẾM VÀ LỌC THỜI GIAN THỰC -->
+    <!-- SCRIPT CHỨC NĂNG TỔNG HỢP: DATA 18 TOUR, LOCALSTORAGE & ĐỔI NGÔN NGỮ EN/VI -->
     <script>
-        // KHO DỮ LIỆU DỰ PHÒNG CHUẨN 18 TOUR KHÔNG SỢ MẤT
+        // TỪ ĐIỂN SONG NGỮ CHO TOÀN BỘ GIAO DIỆN VÀ THẺ TOUR
+        const translations = {
+            vi: {
+                doc_title: "Tìm Kiếm Điểm Đến Trợ Năng | AccessTravel",
+                nav_home_link: '<i class="fa-solid fa-arrow-left"></i> Trang Chủ',
+                search_placeholder: "Nhập điểm đến (Hạ Long, Sapa, Huế, Đà Nẵng, Cát Bà...)",
+                btn_filter: "Lọc Kết Quả",
+                filter_heading: "Bộ Lọc Trợ Năng",
+                btn_reset: "Đặt lại",
+                group_access: "Tiện ích kiểm định",
+                acc_all: "Tất cả tiện ích",
+                acc_elevator: "Thang máy / Cửa rộng ≥ 85cm",
+                acc_slope: "Độ dốc an toàn (< 8%)",
+                acc_wc: "WC có tay vịn chữ U",
+                group_price: "Ngân sách / Khách",
+                price_all: "Mọi mức giá",
+                price_low: "Dưới 1.000.000 đ",
+                price_mid: "1.000.000 đ - 3.000.000 đ",
+                price_high: "Trên 3.000.000 đ",
+                group_cat: "Loại hình tour",
+                cat_all: "Tất cả loại hình",
+                cat_cruise: "Du thuyền vịnh biển",
+                cat_resort: "Resort & Nghỉ dưỡng",
+                cat_culture: "Di tích & Văn hóa",
+                found_text: "Tìm thấy",
+                trips_text: "hành trình phù hợp",
+                verified_badge: "✔ Đã kiểm định 100%",
+                tag_wheelchair: "Lối đi xe lăn",
+                tag_elevator: "Thang máy boong",
+                tag_medical: "Hỗ trợ y tế",
+                price_label: "Giá trọn gói từ:",
+                btn_view: "Xem Chi Tiết & Đặt Chỗ →",
+                no_found_title: "Không tìm thấy tour phù hợp",
+                no_found_desc: "Hãy thử giảm bớt tiêu chí lọc hoặc xóa từ khóa tìm kiếm để xem thêm nhiều hành trình khác.",
+                btn_view_all: "Xem Tất Cả 18 Tour",
+                voice_listening: "Đang lắng nghe... Hãy nói tên điểm đến",
+                voice_error_perm: "Vui lòng cấp quyền truy cập Micro trên trình duyệt để sử dụng tính năng này.",
+                voice_not_supported: "Trình duyệt của bạn chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Cốc Cốc."
+            },
+            en: {
+                doc_title: "Accessible Destination Search | AccessTravel",
+                nav_home_link: '<i class="fa-solid fa-arrow-left"></i> Home',
+                search_placeholder: "Enter destination (Ha Long, Sapa, Hue, Da Nang, Cat Ba...)",
+                btn_filter: "Filter Tours",
+                filter_heading: "Accessibility Filters",
+                btn_reset: "Reset",
+                group_access: "Verified Features",
+                acc_all: "All Features",
+                acc_elevator: "Elevator / Doorway ≥ 85cm",
+                acc_slope: "Safe Gradient (< 8%)",
+                acc_wc: "Accessible Restroom w/ Grab Bars",
+                group_price: "Budget / Guest",
+                price_all: "All Price Levels",
+                price_low: "Under 1,000,000 đ",
+                price_mid: "1,000,000 đ - 3,000,000 đ",
+                price_high: "Above 3,000,000 đ",
+                group_cat: "Tour Category",
+                cat_all: "All Categories",
+                cat_cruise: "Bay Cruises",
+                cat_resort: "Resort & Retreats",
+                cat_culture: "Heritage & Culture",
+                found_text: "Found",
+                trips_text: "accessible journeys",
+                verified_badge: "✔ 100% Audited",
+                tag_wheelchair: "Wheelchair Ramp",
+                tag_elevator: "Deck Elevator",
+                tag_medical: "Medical Support",
+                price_label: "All-inclusive from:",
+                btn_view: "View Details & Book →",
+                no_found_title: "No Matching Tours Found",
+                no_found_desc: "Try adjusting your filter criteria or removing the search keyword to discover more journeys.",
+                btn_view_all: "View All 18 Tours",
+                voice_listening: "Listening... Please speak the destination",
+                voice_error_perm: "Please allow microphone access in your browser to use voice search.",
+                voice_not_supported: "Speech recognition is not supported in this browser. Please use Chrome or Coc Coc."
+            }
+        };
+
+        // KHO 18 TOUR CHUẨN CÓ DỊCH CẢ TIẾNG VIỆT LẪN TIẾNG ANH
         const fallback18Tours = [
-            { id: 1, cat: 1, ten_tour: "Du thuyền Ambassador Vịnh Hạ Long", dia_diem: "Quảng Ninh, Việt Nam", gia_tien: 3200000, hinh_anh: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Du thuyền 5 sao đẳng cấp vịnh Bắc Bộ với thang máy thủy lực kết nối thông suốt giữa các tầng boong ngắm cảnh.", access: "elevator", sao: 4.8 },
-            { id: 2, cat: 2, ten_tour: "Khu nghỉ dưỡng Topas Ecolodge Sapa", dia_diem: "Lào Cai, Việt Nam", gia_tien: 4500000, hinh_anh: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Nghỉ dưỡng đỉnh đồi phong cách Bắc Âu với đội xe điện gầm thấp hỗ trợ người lớn tuổi di chuyển giữa các bungalow.", access: "slope", sao: 4.9 },
-            { id: 3, cat: 3, ten_tour: "Quần thể Di tích Cố đô Huế Không Rào Cản", dia_diem: "Thừa Thiên Huế, Việt Nam", gia_tien: 850000, hinh_anh: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Khám phá Đại Nội với hệ thống rãnh dốc tiếp cận đạt chuẩn quốc tế tại cổng Ngọ Môn và điện Thái Hòa.", access: "slope", sao: 4.7 },
-            { id: 4, cat: 1, ten_tour: "Du thuyền Heritage Bình Chuẩn Cát Bà", dia_diem: "Hải Phòng, Việt Nam", gia_tien: 3800000, hinh_anh: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Hành trình di sản phong cách Đông Dương trang bị thang cuốn và cửa cabin mở rộng 95cm cho xe lăn điện.", access: "elevator", sao: 4.9 },
-            { id: 5, cat: 3, ten_tour: "Hành trình Di sản Tràng An - Bái Đính Xe Điện", dia_diem: "Ninh Bình, Việt Nam", gia_tien: 950000, hinh_anh: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Trải nghiệm du thuyền mạn thấp có phao cố định xe lăn và tuyến xe điện tham quan chùa Bái Đính đường dốc êm.", access: "slope", sao: 4.6 },
-            { id: 6, cat: 2, ten_tour: "Vinpearl Resort & Spa Nha Trang Bay", dia_diem: "Khánh Hòa, Việt Nam", gia_tien: 2800000, hinh_anh: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Đầy đủ đường trượt thoai thoải ra bãi biển, lối đi lát gỗ đặc chủng cho xe lăn ngắm bình minh đại dương.", access: "wc", sao: 4.8 },
-            { id: 7, cat: 3, ten_tour: "Phố Cổ Hội An - Đêm Hoa Đăng Lối Dốc Bằng", dia_diem: "Quảng Nam, Việt Nam", gia_tien: 650000, hinh_anh: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Tuyến phố đi bộ không rào cản hoàn toàn bằng phẳng, có vạch dẫn hướng xúc giác và điểm dừng chân nghỉ ngơi.", access: "slope", sao: 4.9 },
-            { id: 8, cat: 2, ten_tour: "InterContinental Danang Sun Peninsula Resort", dia_diem: "Đà Nẵng, Việt Nam", gia_tien: 8900000, hinh_anh: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Khu nghỉ dưỡng sang trọng có tuyến tàu điện nghiêng Nam Tram vận chuyển xe lăn độc bản nối 4 tầng địa hình.", access: "elevator", sao: 5.0 },
-            { id: 9, cat: 3, ten_tour: "Bà Nà Hills - Cầu Vàng Tiếp Cận Toàn Diện", dia_diem: "Đà Nẵng, Việt Nam", gia_tien: 1250000, hinh_anh: "https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Cáp treo cửa lùa rộng 100cm tự động hạ tốc đón xe lăn, lối đi Cầu Vàng có lan can đôi chịu lực tay vịn.", access: "elevator", sao: 4.7 },
-            { id: 10, cat: 2, ten_tour: "Flamingo Đại Lải Resort Nghỉ Dưỡng Xanh", dia_diem: "Vĩnh Phúc, Việt Nam", gia_tien: 1950000, hinh_anh: "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Khuôn viên hồ thông trải nhựa êm ái, xe golf chuyên dụng có sàn nâng thủy lực đưa người ngồi xe lăn lên xe.", access: "slope", sao: 4.6 },
-            { id: 11, cat: 3, ten_tour: "Địa Đạo Củ Chi - Tuyến Tham Quan Trợ Năng Mới", dia_diem: "TP. Hồ Chí Minh, Việt Nam", gia_tien: 550000, hinh_anh: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Đoạn hào phục dựng trên mặt đất lát thảm cao su chống trượt cho xe lăn di chuyển và hệ thống thuyết minh âm thanh.", access: "wc", sao: 4.5 },
-            { id: 12, cat: 2, ten_tour: "Salinda Resort Phu Quoc Island", dia_diem: "Kiên Giang, Việt Nam", gia_tien: 3600000, hinh_anh: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Hồ bơi điện phân muối có cầu nâng hạ đưa người hạn chế vận động xuống nước thư giãn an toàn.", access: "wc", sao: 4.8 },
-            { id: 13, cat: 3, ten_tour: "Khu Sinh Thái Tràm Chim Tam Nông Mùa Nước Nổi", dia_diem: "Đồng Tháp, Việt Nam", gia_tien: 820000, hinh_anh: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Tàu vỏ composite lòng rộng lắp ghế tựa công thái học cho người lớn tuổi ngắm sếu đầu đỏ.", access: "slope", sao: 4.6 },
-            { id: 14, cat: 2, ten_tour: "Ana Mandara Villas Dalat Resort & Spa", dia_diem: "Lâm Đồng, Việt Nam", gia_tien: 2950000, hinh_anh: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Biệt thự Pháp cổ được cải tạo thêm ram dốc dán gạch chống trượt, nhà vệ sinh trang bị chuông cấp cứu khẩn cấp.", access: "wc", sao: 4.7 },
-            { id: 15, cat: 3, ten_tour: "Hành Hương Yên Tử - Cáp Treo Tiếp Cận Chùa Hoa Yên", dia_diem: "Quảng Ninh, Việt Nam", gia_tien: 780000, hinh_anh: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Hệ thống cabin cáp treo không rãnh bậc, sàn đỗ cáp phẳng bằng giúp người già hành hương không mỏi gối.", access: "slope", sao: 4.8 },
-            { id: 16, cat: 1, ten_tour: "Du thuyền Paradise Elegance Cruises Hạ Long", dia_diem: "Quảng Ninh, Việt Nam", gia_tien: 4100000, hinh_anh: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Tàu vỏ thép chịu sóng tốt hạn chế say sóng người cao tuổi, có 2 phòng suite thiết kế cửa trượt tự động cho xe lăn.", access: "elevator", sao: 4.9 },
-            { id: 17, cat: 3, ten_tour: "Khu Du Lịch Văn Hóa Suối Tiên TP.HCM", dia_diem: "TP. Hồ Chí Minh, Việt Nam", gia_tien: 450000, hinh_anh: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Dịch vụ mượn xe lăn miễn phí tại cổng, toàn bộ công viên xây gờ vát dốc tiếp cận mọi cảnh điểm.", access: "slope", sao: 4.5 },
-            { id: 18, cat: 2, ten_tour: "Avana Retreat Mai Châu Bản Làng Y Tĩnh", dia_diem: "Hòa Bình, Việt Nam", gia_tien: 5200000, hinh_anh: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Cung cấp cầu nối gỗ dốc thoai thoải ngắm thác Pùng, bữa ăn thiết kế riêng kiểm soát chỉ số tiểu đường, huyết áp.", access: "slope", sao: 4.9 }
+            { id: 1, cat: 1, ten_tour: "Du thuyền Ambassador Vịnh Hạ Long", ten_tour_en: "Ambassador Cruise Ha Long Bay", dia_diem: "Quảng Ninh, Việt Nam", gia_tien: 3200000, hinh_anh: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Du thuyền 5 sao đẳng cấp vịnh Bắc Bộ với thang máy thủy lực kết nối thông suốt giữa các tầng boong ngắm cảnh.", mo_ta_en: "5-star luxury cruise featuring hydraulic elevators seamlessly connecting panoramic viewing decks.", access: "elevator", sao: 4.8 },
+            { id: 2, cat: 2, ten_tour: "Khu nghỉ dưỡng Topas Ecolodge Sapa", ten_tour_en: "Topas Ecolodge Resort Sapa", dia_diem: "Lào Cai, Việt Nam", gia_tien: 4500000, hinh_anh: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Nghỉ dưỡng đỉnh đồi phong cách Bắc Âu với đội xe điện gầm thấp hỗ trợ người lớn tuổi di chuyển giữa các bungalow.", mo_ta_en: "Nordic-style hilltop resort equipped with low-chassis electric buggies for senior guests between bungalows.", access: "slope", sao: 4.9 },
+            { id: 3, cat: 3, ten_tour: "Quần thể Di tích Cố đô Huế Không Rào Cản", ten_tour_en: "Barrier-Free Hue Imperial Citadel Tour", dia_diem: "Thừa Thiên Huế, Việt Nam", gia_tien: 850000, hinh_anh: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Khám phá Đại Nội với hệ thống rãnh dốc tiếp cận đạt chuẩn quốc tế tại cổng Ngọ Môn và điện Thái Hòa.", mo_ta_en: "Explore the Imperial City with standard accessible ramp systems at Ngo Mon Gate and Thai Hoa Palace.", access: "slope", sao: 4.7 },
+            { id: 4, cat: 1, ten_tour: "Du thuyền Heritage Bình Chuẩn Cát Bà", ten_tour_en: "Heritage Binh Chuan Cruise Cat Ba", dia_diem: "Hải Phòng, Việt Nam", gia_tien: 3800000, hinh_anh: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Hành trình di sản phong cách Đông Dương trang bị thang cuốn và cửa cabin mở rộng 95cm cho xe lăn điện.", mo_ta_en: "Indochine heritage voyage featuring escalators and wide 95cm cabin doorways for power wheelchairs.", access: "elevator", sao: 4.9 },
+            { id: 5, cat: 3, ten_tour: "Hành trình Di sản Tràng An - Bái Đính Xe Điện", ten_tour_en: "Trang An - Bai Dinh Buggy Heritage Tour", dia_diem: "Ninh Bình, Việt Nam", gia_tien: 950000, hinh_anh: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Trải nghiệm du thuyền mạn thấp có phao cố định xe lăn và tuyến xe điện tham quan chùa Bái Đính đường dốc êm.", mo_ta_en: "Low-gunwale boat cruise with wheelchair stabilization and electric buggy transit along smooth temple paths.", access: "slope", sao: 4.6 },
+            { id: 6, cat: 2, ten_tour: "Vinpearl Resort & Spa Nha Trang Bay", ten_tour_en: "Vinpearl Resort & Spa Nha Trang Bay", dia_diem: "Khánh Hòa, Việt Nam", gia_tien: 2800000, hinh_anh: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Đầy đủ đường trượt thoai thoải ra bãi biển, lối đi lát gỗ đặc chủng cho xe lăn ngắm bình minh đại dương.", mo_ta_en: "Gentle beach ramps and specialized wooden boardwalks designed for wheelchairs to enjoy ocean sunrises.", access: "wc", sao: 4.8 },
+            { id: 7, cat: 3, ten_tour: "Phố Cổ Hội An - Đêm Hoa Đăng Lối Dốc Bằng", ten_tour_en: "Hoi An Ancient Town - Flat Path Lantern Night", dia_diem: "Quảng Nam, Việt Nam", gia_tien: 650000, hinh_anh: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Tuyến phố đi bộ không rào cản hoàn toàn bằng phẳng, có vạch dẫn hướng xúc giác và điểm dừng chân nghỉ ngơi.", mo_ta_en: "Step-free pedestrian routes equipped with tactile ground indicators and frequent accessible resting bays.", access: "slope", sao: 4.9 },
+            { id: 8, cat: 2, ten_tour: "InterContinental Danang Sun Peninsula Resort", ten_tour_en: "InterContinental Danang Sun Peninsula Resort", dia_diem: "Đà Nẵng, Việt Nam", gia_tien: 8900000, hinh_anh: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Khu nghỉ dưỡng sang trọng có tuyến tàu điện nghiêng Nam Tram vận chuyển xe lăn độc bản nối 4 tầng địa hình.", mo_ta_en: "Luxury resort featuring the custom Nam Tram funicular railway carrying wheelchairs across 4 hill levels.", access: "elevator", sao: 5.0 },
+            { id: 9, cat: 3, ten_tour: "Bà Nà Hills - Cầu Vàng Tiếp Cận Toàn Diện", ten_tour_en: "Ba Na Hills - Golden Bridge Inclusive Tour", dia_diem: "Đà Nẵng, Việt Nam", gia_tien: 1250000, hinh_anh: "https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Cáp treo cửa lùa rộng 100cm tự động hạ tốc đón xe lăn, lối đi Cầu Vàng có lan can đôi chịu lực tay vịn.", mo_ta_en: "100cm wide cable car doors with slow boarding for wheelchairs and dual handrails along the Golden Bridge.", access: "elevator", sao: 4.7 },
+            { id: 10, cat: 2, ten_tour: "Flamingo Đại Lải Resort Nghỉ Dưỡng Xanh", ten_tour_en: "Flamingo Dai Lai Eco-Resort", dia_diem: "Vĩnh Phúc, Việt Nam", gia_tien: 1950000, hinh_anh: "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Khuôn viên hồ thông trải nhựa êm ái, xe golf chuyên dụng có sàn nâng thủy lực đưa người ngồi xe lăn lên xe.", mo_ta_en: "Smooth lakeside pine trails and specialized golf carts with hydraulic lifts for wheelchair boarding.", access: "slope", sao: 4.6 },
+            { id: 11, cat: 3, ten_tour: "Địa Đạo Củ Chi - Tuyến Tham Quan Trợ Năng Mới", ten_tour_en: "Cu Chi Tunnels - New Accessible Circuit", dia_diem: "TP. Hồ Chí Minh, Việt Nam", gia_tien: 550000, hinh_anh: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Đoạn hào phục dựng trên mặt đất lát thảm cao su chống trượt cho xe lăn di chuyển và hệ thống thuyết minh âm thanh.", mo_ta_en: "Above-ground trench replica with non-slip rubber surfacing for wheelchairs and audio guide narrations.", access: "wc", sao: 4.5 },
+            { id: 12, cat: 2, ten_tour: "Salinda Resort Phu Quoc Island", ten_tour_en: "Salinda Resort Phu Quoc Island", dia_diem: "Kiên Giang, Việt Nam", gia_tien: 3600000, hinh_anh: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Hồ bơi điện phân muối có cầu nâng hạ đưa người hạn chế vận động xuống nước thư giãn an toàn.", mo_ta_en: "Salt-filtered swimming pool equipped with specialized mechanical hoists for safe guest water entry.", access: "wc", sao: 4.8 },
+            { id: 13, cat: 3, ten_tour: "Khu Sinh Thái Tràm Chim Tam Nông Mùa Nước Nổi", ten_tour_en: "Tram Chim Tam Nong Floating Season Eco-Tour", dia_diem: "Đồng Tháp, Việt Nam", gia_tien: 820000, hinh_anh: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Tàu vỏ composite lòng rộng lắp ghế tựa công thái học cho người lớn tuổi ngắm sếu đầu đỏ.", mo_ta_en: "Wide-beam composite boats with ergonomic back support seats for seniors observing red-crowned cranes.", access: "slope", sao: 4.6 },
+            { id: 14, cat: 2, ten_tour: "Ana Mandara Villas Dalat Resort & Spa", ten_tour_en: "Ana Mandara Villas Dalat Resort & Spa", dia_diem: "Lâm Đồng, Việt Nam", gia_tien: 2950000, hinh_anh: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Biệt thự Pháp cổ được cải tạo thêm ram dốc dán gạch chống trượt, nhà vệ sinh trang bị chuông cấp cứu khẩn cấp.", mo_ta_en: "Heritage French villas renovated with anti-slip ramps and bathrooms fitted with SOS emergency pull cords.", access: "wc", sao: 4.7 },
+            { id: 15, cat: 3, ten_tour: "Hành Hương Yên Tử - Cáp Treo Tiếp Cận Chùa Hoa Yên", ten_tour_en: "Yen Tu Pilgrimage - Accessible Cable Car to Pagoda", dia_diem: "Quảng Ninh, Việt Nam", gia_tien: 780000, hinh_anh: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Hệ thống cabin cáp treo không rãnh bậc, sàn đỗ cáp phẳng bằng giúp người già hành hương không mỏi gối.", mo_ta_en: "Step-free cable car cabins and flat docking platforms allowing elderly pilgrims comfortable mountain visits.", access: "slope", sao: 4.8 },
+            { id: 16, cat: 1, ten_tour: "Du thuyền Paradise Elegance Cruises Hạ Long", ten_tour_en: "Paradise Elegance Cruises Ha Long", dia_diem: "Quảng Ninh, Việt Nam", gia_tien: 4100000, hinh_anh: "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Tàu vỏ thép chịu sóng tốt hạn chế say sóng người cao tuổi, có 2 phòng suite thiết kế cửa trượt tự động cho xe lăn.", mo_ta_en: "Wave-stabilized steel hull reducing seasickness; features 2 luxury suites with automatic wheelchair sliding doors.", access: "elevator", sao: 4.9 },
+            { id: 17, cat: 3, ten_tour: "Khu Du Lịch Văn Hóa Suối Tiên TP.HCM", ten_tour_en: "Suoi Tien Cultural Theme Park HCMC", dia_diem: "TP. Hồ Chí Minh, Việt Nam", gia_tien: 450000, hinh_anh: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Dịch vụ mượn xe lăn miễn phí tại cổng, toàn bộ công viên xây gờ vát dốc tiếp cận mọi cảnh điểm.", access: "slope", sao: 4.5 },
+            { id: 18, cat: 2, ten_tour: "Avana Retreat Mai Châu Bản Làng Y Tĩnh", ten_tour_en: "Avana Retreat Mai Chau Peaceful Village", dia_diem: "Hòa Bình, Việt Nam", gia_tien: 5200000, hinh_anh: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=600&q=80", mo_ta_ngan: "Cung cấp cầu nối gỗ dốc thoai thoải ngắm thác Pùng, bữa ăn thiết kế riêng kiểm soát chỉ số tiểu đường, huyết áp.", mo_ta_en: "Gentle wooden footbridge viewing Pung Waterfall and tailored meals supporting diabetic and blood pressure diets.", access: "slope", sao: 4.9 }
         ];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Đọc tham số truyền từ trang chủ qua URL (ví dụ: ?keyword=Ha+Long)
-            const params = new URLSearchParams(window.location.search);
-            const kw = params.get('keyword');
-            if (kw) {
-                document.getElementById('keywordInput').value = kw;
-            }
-            const acc = params.get('accessibility');
-            if (acc) {
-                const radio = document.querySelector(`input[name="accessFilter"][value="${acc}"]`);
-                if (radio) radio.checked = true;
-            }
-            const pr = params.get('price_range');
-            if (pr) {
-                const radioPr = document.querySelector(`input[name="priceFilter"][value="${pr}"]`);
-                if (radioPr) radioPr.checked = true;
+        // 1. TÍNH NĂNG TÌM KIẾM BẰNG GIỌNG NÓI (VOICE SEARCH)
+        function startVoiceSearch() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
+            const dict = translations[lang] || translations.vi;
+
+            if (!SpeechRecognition) {
+                alert(dict.voice_not_supported);
+                return;
             }
 
+            const recognition = new SpeechRecognition();
+            const btnVoice = document.getElementById('btnVoiceSearch');
+            const micIcon = document.getElementById('micIcon');
+            const inputField = document.getElementById('keywordInput');
+
+            recognition.lang = (lang === 'en') ? 'en-US' : 'vi-VN';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onstart = function() {
+                if (btnVoice) btnVoice.classList.add('listening');
+                if (micIcon) micIcon.className = "fa-solid fa-microphone-lines";
+                if (inputField) inputField.placeholder = dict.voice_listening;
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                if (inputField) {
+                    inputField.value = transcript.replace(/\./g, '');
+                    executeSearch();
+                }
+            };
+
+            recognition.onend = function() {
+                if (btnVoice) btnVoice.classList.remove('listening');
+                if (micIcon) micIcon.className = "fa-solid fa-microphone";
+                if (inputField) inputField.placeholder = dict.search_placeholder;
+            };
+
+            recognition.onerror = function(event) {
+                if (btnVoice) btnVoice.classList.remove('listening');
+                if (micIcon) micIcon.className = "fa-solid fa-microphone";
+                if (inputField) inputField.placeholder = dict.search_placeholder;
+
+                if (event.error === 'not-allowed') {
+                    alert(dict.voice_error_perm);
+                }
+            };
+
+            recognition.start();
+        }
+
+        // 2. CHUYỂN ĐỔI NGÔN NGỮ EN / VI
+        function setLanguage(lang) {
+            localStorage.setItem('accessTravelLang', lang);
+            document.documentElement.setAttribute('lang', lang);
+
+            const dict = translations[lang] || translations.vi;
+            document.getElementById('docTitle').textContent = dict.doc_title;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.innerHTML = dict[key];
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (dict[key]) el.setAttribute('placeholder', dict[key]);
+            });
+
+            const langBtnText = document.getElementById('langText');
+            if (langBtnText) langBtnText.textContent = (lang === 'vi') ? 'EN' : 'VI';
+
+            // Cập nhật lại kết quả tour sang ngôn ngữ mới
             executeSearch();
-        });
+        }
 
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('accessTravelLang') || 'vi';
+            const nextLang = (currentLang === 'vi') ? 'en' : 'vi';
+            setLanguage(nextLang);
+        }
+
+        // 3. CHUYỂN ĐỔI SÁNG / TỐI (DARK MODE)
+        function toggleCustomerTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('accessTravelTheme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.className = (theme === 'dark') ? "fa-solid fa-sun" : "fa-solid fa-moon";
+                icon.style.color = (theme === 'dark') ? "#f59e0b" : "";
+            }
+        }
+
+        // 4. TÌM KIẾM VÀ LỌC TOUR
         async function executeSearch() {
             const kw = document.getElementById('keywordInput').value.trim().toLowerCase();
             const access = document.querySelector('input[name="accessFilter"]:checked').value;
             const price = document.querySelector('input[name="priceFilter"]:checked').value;
             const cat = parseInt(document.querySelector('input[name="catFilter"]:checked').value);
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
 
             let results = [];
 
-            // 1. Thử gọi API Backend MySQL trước
+            // Thử gọi API Backend trước
             try {
                 const url = `../api/search_tours.php?keyword=${encodeURIComponent(kw)}&accessibility=${access}&price_range=${price}&category_id=${cat}`;
                 const res = await fetch(url);
@@ -271,43 +493,51 @@
                     if (data.status === 'success' && data.data && data.data.length > 0) {
                         results = data.data.map(t => ({
                             id: t.id,
-                            ten_tour: t.ten_tour,
+                            ten_tour: (lang === 'en' && t.ten_tour_en) ? t.ten_tour_en : t.ten_tour,
                             dia_diem: t.dia_diem,
                             gia_tien: parseFloat(t.gia_tien) || 0,
                             hinh_anh: t.hinh_anh,
-                            mo_ta_ngan: t.mo_ta_ngan,
+                            mo_ta_ngan: (lang === 'en' && t.mo_ta_en) ? t.mo_ta_en : t.mo_ta_ngan,
                             sao: parseFloat(t.danh_gia_sao) || 5.0
                         }));
                     }
                 }
             } catch (err) {
-                // Không lỗi, fallback tự lọc trên danh sách 18 tour
+                // Tự fallback nếu chưa bật API
             }
 
-            // 2. Nếu API chưa có dữ liệu hoặc lỗi mạng, tự lọc trên danh sách 18 tour chuẩn
+            // Fallback danh sách 18 tour chuẩn
             if (results.length === 0) {
                 results = fallback18Tours.filter(t => {
-                    // Lọc từ khóa
-                    const matchKw = !kw || t.ten_tour.toLowerCase().includes(kw) || t.dia_diem.toLowerCase().includes(kw);
-                    // Lọc danh mục
+                    const nameToSearch = (lang === 'en' ? t.ten_tour_en : t.ten_tour).toLowerCase();
+                    const matchKw = !kw || nameToSearch.includes(kw) || t.dia_diem.toLowerCase().includes(kw);
                     const matchCat = cat === 0 || t.cat === cat;
-                    // Lọc giá
                     let matchPrice = true;
                     if (price === 'low') matchPrice = t.gia_tien < 1000000;
                     else if (price === 'mid') matchPrice = t.gia_tien >= 1000000 && t.gia_tien <= 3000000;
                     else if (price === 'high') matchPrice = t.gia_tien > 3000000;
-                    // Lọc trợ năng
                     let matchAccess = true;
                     if (access !== 'all') matchAccess = t.access === access;
 
                     return matchKw && matchCat && matchPrice && matchAccess;
-                });
+                }).map(t => ({
+                    id: t.id,
+                    ten_tour: (lang === 'en') ? t.ten_tour_en : t.ten_tour,
+                    dia_diem: t.dia_diem,
+                    gia_tien: t.gia_tien,
+                    hinh_anh: t.hinh_anh,
+                    mo_ta_ngan: (lang === 'en') ? t.mo_ta_en : t.mo_ta_ngan,
+                    sao: t.sao
+                }));
             }
 
             renderResults(results);
         }
 
         function renderResults(tours) {
+            const lang = localStorage.getItem('accessTravelLang') || 'vi';
+            const dict = translations[lang] || translations.vi;
+
             document.getElementById('countNumber').innerText = tours.length;
             const container = document.getElementById('toursResultContainer');
             container.innerHTML = '';
@@ -316,9 +546,9 @@
                 container.innerHTML = `
                     <div style="background:var(--c-card-bg); border:1px solid var(--c-border); border-radius:16px; padding:60px 20px; text-align:center;">
                         <i class="fa-solid fa-map-location-dot" style="font-size:48px; color:var(--c-text-muted); margin-bottom:16px;"></i>
-                        <h3 style="font-size:18px; font-weight:900; margin:0 0 8px 0;">Không tìm thấy tour phù hợp</h3>
-                        <p style="font-size:14px; color:var(--c-text-muted); font-weight:600; margin:0 0 20px 0;">Hãy thử giảm bớt tiêu chí lọc hoặc xóa từ khóa tìm kiếm để xem thêm nhiều hành trình khác.</p>
-                        <button onclick="resetAllFilters()" style="background:var(--c-main); color:#fff; border:none; padding:10px 22px; border-radius:8px; font-weight:900; cursor:pointer;">Xem Tất Cả 18 Tour</button>
+                        <h3 style="font-size:18px; font-weight:900; margin:0 0 8px 0;">${dict.no_found_title}</h3>
+                        <p style="font-size:14px; color:var(--c-text-muted); font-weight:600; margin:0 0 20px 0;">${dict.no_found_desc}</p>
+                        <button onclick="resetAllFilters()" style="background:var(--c-main); color:#fff; border:none; padding:10px 22px; border-radius:8px; font-weight:900; cursor:pointer;">${dict.btn_view_all}</button>
                     </div>
                 `;
                 return;
@@ -330,26 +560,26 @@
                     <div class="tour-result-card">
                         <div class="card-img-wrap">
                             <img src="${t.hinh_anh}" alt="${t.ten_tour}">
-                            <span class="badge-verified-mini">✔ Đã kiểm định 100%</span>
+                            <span class="badge-verified-mini">${dict.verified_badge}</span>
                         </div>
                         <div class="card-detail-wrap">
                             <div>
                                 <h2 class="card-name">${t.ten_tour}</h2>
-                                <div class="card-loc">📍 ${t.dia_diem} · ⭐ ${Number(t.sao).toFixed(1)}/5 Đánh giá</div>
+                                <div class="card-loc">📍 ${t.dia_diem} · ⭐ ${Number(t.sao).toFixed(1)}/5</div>
                                 <div class="card-desc">${t.mo_ta_ngan}</div>
                                 <div class="card-tags">
-                                    <span class="card-tag-item"><i class="fa-solid fa-wheelchair"></i> Lối đi xe lăn</span>
-                                    <span class="card-tag-item"><i class="fa-solid fa-elevator"></i> Thang máy boong</span>
-                                    <span class="card-tag-item"><i class="fa-solid fa-user-doctor"></i> Hỗ trợ y tế</span>
+                                    <span class="card-tag-item"><i class="fa-solid fa-wheelchair"></i> ${dict.tag_wheelchair}</span>
+                                    <span class="card-tag-item"><i class="fa-solid fa-elevator"></i> ${dict.tag_elevator}</span>
+                                    <span class="card-tag-item"><i class="fa-solid fa-user-doctor"></i> ${dict.tag_medical}</span>
                                 </div>
                             </div>
                             <div class="card-footer-wrap">
                                 <div>
-                                    <div style="font-size:12px; color:var(--c-text-muted); font-weight:700;">Giá trọn gói từ:</div>
+                                    <div style="font-size:12px; color:var(--c-text-muted); font-weight:700;">${dict.price_label}</div>
                                     <div class="card-price-value">${priceFormatted}</div>
                                 </div>
                                 <a href="detail.html?id=${t.id}">
-                                    <button class="btn-view-tour">Xem Chi Tiết & Đặt Chỗ →</button>
+                                    <button class="btn-view-tour">${dict.btn_view}</button>
                                 </a>
                             </div>
                         </div>
@@ -366,17 +596,33 @@
             executeSearch();
         }
 
-        function toggleCustomerTheme() {
-            const body = document.body;
-            const icon = document.getElementById('themeIcon');
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                icon.className = "fa-solid fa-moon";
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                icon.className = "fa-solid fa-sun";
+        // KHI TRANG LOAD XONG
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            const savedLang = localStorage.getItem('accessTravelLang') || 'vi';
+            setLanguage(savedLang);
+
+            const params = new URLSearchParams(window.location.search);
+            const kw = params.get('keyword');
+            if (kw) document.getElementById('keywordInput').value = kw;
+            const acc = params.get('accessibility');
+            if (acc) {
+                const radio = document.querySelector(`input[name="accessFilter"][value="${acc}"]`);
+                if (radio) radio.checked = true;
             }
-        }
+            const pr = params.get('price_range');
+            if (pr) {
+                const radioPr = document.querySelector(`input[name="priceFilter"][value="${pr}"]`);
+                if (radioPr) radioPr.checked = true;
+            }
+
+            executeSearch();
+        });
     </script>
+    <script src="js/accessibility-widget.js"></script>
 </body>
 </html>
