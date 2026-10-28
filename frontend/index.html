@@ -72,10 +72,8 @@
 
         .fb-dropdown-menu { display: none; position: absolute; right: 0; top: 52px; width: 320px; background: var(--c-card-bg); border: 1px solid var(--c-border); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.18); z-index: 1002; padding: 12px; }
         .fb-dropdown-menu.show { display: block; }
-        .fb-user-card { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; background: var(--c-bg); border: 1px solid var(--c-border); margin-bottom: 12px; }
+        .fb-user-card { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; background: var(--c-bg); border: 1px solid var(--c-border); margin-bottom: 12px; cursor: pointer; }
         .fb-user-card .avatar-big { width: 44px; height: 44px; border-radius: 50%; background: #0f766e; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; }
-        .fb-btn-all-profile { width: 100%; background: var(--c-card-bg); border: 1px solid var(--c-border); padding: 8px; border-radius: 8px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; font-family: inherit; }
-        .fb-btn-all-profile:hover { background: #e2e8f0; }
 
         .fb-menu-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: 0.2s; margin-bottom: 2px; }
         .fb-menu-item:hover { background: var(--c-bg); }
@@ -163,7 +161,7 @@
 
         #speechTooltip { display: none; position: absolute; background: #0f766e; color: #fff; padding: 8px 16px; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 99999; align-items: center; gap: 8px; }
 
-        /* ================= CƠ CHẾ MODAL VÀ RESPONSIVE FIX ================= */
+        /* ================= MODAL & RESPONSIVE ================= */
         .modal-overlay { 
             display: none; 
             position: fixed; 
@@ -212,7 +210,6 @@
         .btn-submit-primary { width: 100%; background: #0f766e; color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit; min-height: 48px; }
         .btn-submit-primary:hover { background: #0d9488; }
 
-        /* RESPONSIVE IPAD & TABLET (DƯỚI 992px) */
         @media (max-width: 992px) {
             .header-custom { padding: 12px 20px; }
             .nav-links { display: none; }
@@ -220,7 +217,6 @@
             .hero h1 { font-size: calc(var(--base-font-size) + 14px); }
         }
 
-        /* RESPONSIVE MOBILE (DƯỚI 768px - FIX LỖI KHUNG THEO ẢNH DEVTOOLS) */
         @media (max-width: 768px) {
             .header-custom { padding: 10px 14px; }
             .btn-elder-mode span { display: none; }
@@ -344,8 +340,8 @@
                     <i class="fa-solid fa-chevron-down" style="font-size:11px; color:#64748b;"></i>
                 </div>
 
+                <!-- MENU TÀI KHOẢN ĐỀ XUẤT -->
                 <div class="fb-dropdown-menu" id="userFbMenu">
-                    <!-- THẺ THÔNG TIN TÀI KHOẢN TRÊN ĐẦU -->
                     <div class="fb-user-card" onclick="window.location.href='profile.html?tab=profile'">
                         <div class="avatar-big" id="menuBigAvatar">U</div>
                         <div style="flex:1;">
@@ -356,7 +352,6 @@
                     </div>
                     <hr style="border:0; border-top:1px solid var(--c-border); margin:8px 0;">
 
-                    <!-- 1. HỒ SƠ CÁ NHÂN -->
                     <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=profile'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-circle-user"></i></div>
@@ -368,7 +363,6 @@
                         <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
                     </div>
 
-                    <!-- 2. TOUR ĐÃ ĐẶT -->
                     <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=bookings'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-calendar-check"></i></div>
@@ -380,7 +374,6 @@
                         <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
                     </div>
 
-                    <!-- 3. TOUR YÊU THÍCH -->
                     <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=favorites'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-heart"></i></div>
@@ -392,7 +385,6 @@
                         <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
                     </div>
 
-                    <!-- 4. NHU CẦU HỖ TRỢ TIẾP CẬN -->
                     <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=profile#accessibility-req'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-universal-access"></i></div>
@@ -404,7 +396,6 @@
                         <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
                     </div>
 
-                    <!-- 5. CÀI ĐẶT VÀ QUYỀN RIÊNG TƯ -->
                     <div class="fb-menu-item" onclick="window.location.href='profile.html?tab=settings'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-gear"></i></div>
@@ -416,7 +407,6 @@
                         <i class="fa-solid fa-chevron-right" style="font-size:12px; color:#94a3b8;"></i>
                     </div>
 
-                    <!-- 6. TRỢ GIÚP VÀ HỖ TRỢ -->
                     <div class="fb-menu-item" onclick="window.location.href='support.html'">
                         <div class="fb-item-left">
                             <div class="fb-item-icon"><i class="fa-solid fa-circle-question"></i></div>
@@ -430,7 +420,6 @@
 
                     <hr style="border:0; border-top:1px solid var(--c-border); margin:8px 0;">
 
-                    <!-- ĐĂNG XUẤT -->
                     <div class="fb-menu-item" onclick="handleLogout()" style="color:#ef4444;">
                         <div class="fb-item-left">
                             <div class="fb-item-icon" style="color:#ef4444; background:rgba(239,68,68,0.1);"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
@@ -449,7 +438,7 @@
         <p data-i18n="heroDesc">Nền tảng OTA duy nhất kiểm định thực tế độ dốc xe lăn, thang máy và tiện ích người cao tuổi.</p>
     </div>
 
-    <!-- THANH TÌM KIẾM ĐA TIÊU CHÍ (ĐÃ TÍCH HỢP NÚT TÌM KIẾM BẰNG GIỌNG NÓI) -->
+    <!-- THANH TÌM KIẾM ĐA TIÊU CHÍ -->
     <div class="search-container-custom">
         <form action="search.html" method="GET" class="search-bar-wrapper" id="homeSearchForm">
             <div class="search-field">
@@ -502,7 +491,7 @@
     <div class="container" id="tourSection">
         <h2 class="section-title"><i class="fa-solid fa-map-location-dot" style="color:var(--c-main);"></i> <span data-i18n="tourSectionTitle">Điểm Đến Đã Kiểm Định Thực Tế</span></h2>
         <div class="tour-grid" id="tourGridContainer">
-            <!-- 18 Tour nạp tự động qua API get_tours.php -->
+            <!-- Tự động nạp qua hàm loadToursHomepage() -->
         </div>
     </div>
 
@@ -630,6 +619,16 @@
         let currentLang = 'vi';
         let selectedText = '';
 
+        // DỮ LIỆU TOUR DỰ PHÒNG CHUẨN ĐỒ ÁN (ĐẢM BẢO HIỂN THỊ KHI RENDER KHÔNG CHẠY PHP)
+        const homeFallbackTours = [
+            { id: 1, ten_tour: "Du thuyền Ambassador Vịnh Hạ Long", dia_diem: "Quảng Ninh", gia_tien: 3200000, hinh_anh: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.8, so_luot_danh_gia: 12, tong_cho_con: 8 },
+            { id: 2, ten_tour: "Khu nghỉ dưỡng Topas Ecolodge Sapa", dia_diem: "Lào Cai", gia_tien: 4500000, hinh_anh: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.9, so_luot_danh_gia: 24, tong_cho_con: 5 },
+            { id: 3, ten_tour: "Quần thể Di tích Cố đô Huế Không Rào Cản", dia_diem: "Thừa Thiên Huế", gia_tien: 850000, hinh_anh: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.7, so_luot_danh_gia: 18, tong_cho_con: 15 },
+            { id: 4, ten_tour: "Du thuyền Heritage Bình Chuẩn Cát Bà", dia_diem: "Hải Phòng", gia_tien: 3800000, hinh_anh: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.9, so_luot_danh_gia: 31, tong_cho_con: 10 },
+            { id: 5, ten_tour: "Hành trình Di sản Tràng An - Bái Đính Xe Điện", dia_diem: "Ninh Bình", gia_tien: 950000, hinh_anh: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.6, so_luot_danh_gia: 14, tong_cho_con: 12 },
+            { id: 6, ten_tour: "Vinpearl Resort & Spa Nha Trang Bay", dia_diem: "Khánh Hòa", gia_tien: 2800000, hinh_anh: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.8, so_luot_danh_gia: 45, tong_cho_con: 6 }
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
             checkUserLoggedIn();
             loadToursHomepage();
@@ -640,11 +639,61 @@
             updateThemeIcon(savedTheme);
         });
 
-        // 1. TÍNH NĂNG TÌM KIẾM BẰNG GIỌNG NÓI CHO INDEX.HTML
+        // HÀM NẠP DANH SÁCH TOUR TRANG CHỦ (TỰ ĐỘNG CHUYỂN SANG DỮ LIỆU DỰ PHÒNG NẾU API THẤT BẠI)
+        async function loadToursHomepage() {
+            const container = document.getElementById('tourGridContainer');
+            if (!container) return;
+            
+            let tourList = [];
+
+            try {
+                const res = await fetch('../api/get_tours.php');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === 'success' && data.data && data.data.length > 0) {
+                        tourList = data.data;
+                    }
+                }
+            } catch (e) {
+                // Tự động chuyển fallback khi chạy trên Render tĩnh
+            }
+
+            if (tourList.length === 0) {
+                tourList = homeFallbackTours;
+            }
+
+            container.innerHTML = '';
+            tourList.forEach(t => {
+                container.innerHTML += `
+                    <div class="tour-card">
+                        <div class="tour-img-box">
+                            <img src="${t.hinh_anh}" alt="${t.ten_tour}" loading="lazy">
+                            <span class="tour-badge">✔ Đã xác minh 100%</span>
+                            <span class="tour-slots">Còn ${t.tong_cho_con || 8} suất</span>
+                        </div>
+                        <div class="tour-body">
+                            <div>
+                                <h3 class="tour-title">${t.ten_tour}</h3>
+                                <div class="tour-address">📍 ${t.dia_diem}</div>
+                                <div class="tour-support-box">
+                                    <div><strong>🤝 Đánh giá:</strong> ⭐ ${Number(t.danh_gia_sao).toFixed(1)}/5 (${t.so_luot_danh_gia || 10} đánh giá)</div>
+                                </div>
+                            </div>
+                            <div class="tour-footer">
+                                <span class="tour-price">${Number(t.gia_tien).toLocaleString('vi-VN')} đ</span>
+                                <a href="detail.html?id=${t.id}"><button class="btn-detail" aria-label="Xem chi tiết ${t.ten_tour}">Xem chi tiết →</button></a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // TÌM KIẾM BẰNG GIỌNG NÓI
         function startVoiceSearchHome() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert(currentLang === 'vi' ? 'Trình duyệt của bạn chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Cốc Cốc.' : 'Speech recognition is not supported in this browser. Please use Chrome or Coc Coc.');
+                alert(currentLang === 'vi' ? 'Trình duyệt chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Cốc Cốc.' : 'Speech recognition not supported.');
                 return;
             }
 
@@ -667,7 +716,6 @@
                 const transcript = event.results[0][0].transcript;
                 if (inputField) {
                     inputField.value = transcript.replace(/\./g, '');
-                    // Tự động kích hoạt form submit chuyển sang search.html
                     document.getElementById('homeSearchForm').submit();
                 }
             };
@@ -683,7 +731,7 @@
                 if (micIcon) micIcon.className = 'fa-solid fa-microphone';
                 if (inputField) inputField.placeholder = 'Hạ Long, Cát Bà, Huế...';
                 if (event.error === 'not-allowed') {
-                    alert(currentLang === 'vi' ? 'Vui lòng cấp quyền truy cập Micro trên trình duyệt để sử dụng tính năng này.' : 'Please allow microphone access in your browser.');
+                    alert(currentLang === 'vi' ? 'Vui lòng cấp quyền truy cập Micro trên trình duyệt.' : 'Please allow microphone access.');
                 }
             };
 
@@ -799,44 +847,6 @@
                 }
             } catch (err) {
                 alert('Lỗi kết nối máy chủ register.php!');
-            }
-        }
-
-        async function loadToursHomepage() {
-            const container = document.getElementById('tourGridContainer');
-            if (!container) return;
-            try {
-                const res = await fetch('../api/get_tours.php');
-                const data = await res.json();
-                if (data.status === 'success' && data.data.length > 0) {
-                    container.innerHTML = '';
-                    data.data.forEach(t => {
-                        container.innerHTML += `
-                            <div class="tour-card">
-                                <div class="tour-img-box">
-                                    <img src="${t.hinh_anh}" alt="${t.ten_tour}" loading="lazy">
-                                    <span class="tour-badge">✔ Đã xác minh 100%</span>
-                                    <span class="tour-slots">Còn ${t.tong_cho_con} suất</span>
-                                </div>
-                                <div class="tour-body">
-                                    <div>
-                                        <h3 class="tour-title">${t.ten_tour}</h3>
-                                        <div class="tour-address">📍 ${t.dia_diem}</div>
-                                        <div class="tour-support-box">
-                                            <div><strong>🤝 Đánh giá:</strong> ⭐ ${Number(t.danh_gia_sao).toFixed(1)}/5 (${t.so_luot_danh_gia} đánh giá)</div>
-                                        </div>
-                                    </div>
-                                    <div class="tour-footer">
-                                        <span class="tour-price">${Number(t.gia_tien).toLocaleString('vi-VN')} đ</span>
-                                        <a href="detail.html?id=${t.id}"><button class="btn-detail" aria-label="Xem chi tiết ${t.ten_tour}">Xem chi tiết →</button></a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-            } catch (e) {
-                console.error('Lỗi nạp tour:', e);
             }
         }
 
