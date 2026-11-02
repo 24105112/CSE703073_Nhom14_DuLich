@@ -12,53 +12,188 @@
             --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
             --primary: #0f766e; --primary-hover: #0d9488;
         }
+        [data-theme="dark"] {
+            --bg-main: #09090b; --sidebar-bg: #18181b; --card-bg: #18181b;
+            --text-main: #f8fafc; --text-muted: #a1a1aa; --border-color: #27272a;
+            --primary: #14b8a6; --primary-hover: #0d9488;
+        }
         body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         * { box-sizing: border-box; }
         a { text-decoration: none; color: inherit; }
 
+        /* SIDEBAR TRÁI */
         .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; }
-        .sidebar-brand { font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .sidebar-brand { font-size: 19px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
         .sidebar-menu { display: flex; flex-direction: column; gap: 6px; }
         .menu-item { padding: 12px 16px; border-radius: 8px; font-size: 14.5px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 12px; transition: 0.2s; }
         .menu-item:hover, .menu-item.active { background: rgba(15, 118, 110, 0.1); color: var(--primary); }
 
+        /* KHUNG CHÍNH */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        .admin-header { height: 70px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 30px; display: flex; justify-content: space-between; align-items: center; }
-        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); }
-        .breadcrumb span { color: var(--text-main); font-weight: 700; }
-        .btn-add { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        
+        /* HEADER NÂNG CẤP ĐỒNG BỘ */
+        .admin-header { 
+            height: 72px; 
+            background: var(--card-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 0 32px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+        .breadcrumb span { color: var(--text-main); font-weight: 800; }
+        
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .btn-add { background: var(--primary); color: #fff; border: none; padding: 9px 16px; border-radius: 8px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-add:hover { background: var(--primary-hover); }
 
+        /* CHUÔNG THÔNG BÁO */
+        .admin-notif-btn {
+            position: relative;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .admin-notif-btn:hover { background: #e2e8f0; }
+        .admin-notif-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 800;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-notif-dropdown {
+            display: none;
+            position: absolute;
+            right: 190px;
+            top: 66px;
+            width: 340px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            padding: 16px;
+            z-index: 1001;
+        }
+        .admin-notif-dropdown.show { display: block; }
+        .admin-notif-item { padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 8px; background: var(--bg-main); line-height: 1.4; cursor: pointer; }
+        .admin-notif-item:hover { background: #e2e8f0; }
+
+        /* CỤM TÀI KHOẢN QUẢN TRỊ VIÊN */
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px 5px 6px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            transition: 0.2s;
+        }
+        .admin-profile-pill:hover { border-color: var(--primary); }
+        .admin-avatar-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #0f766e;
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-pill-info { display: flex; flex-direction: column; text-align: left; }
+        .admin-pill-name { font-size: 13.5px; font-weight: 800; color: var(--text-main); line-height: 1.2; }
+        .admin-pill-role { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+        /* MENU THẢ XUỐNG PROFILE */
+        .admin-profile-menu {
+            display: none;
+            position: absolute;
+            right: 32px;
+            top: 68px;
+            width: 250px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            padding: 8px;
+            z-index: 1002;
+        }
+        .admin-profile-menu.show { display: block; }
+        .dropdown-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .dropdown-menu-item:hover { background: var(--bg-main); color: var(--primary); }
+        .dropdown-divider { height: 1px; background: var(--border-color); margin: 6px 0; }
+
+        /* NỘI DUNG TRANG */
         .content-body { padding: 30px; }
         .page-title { font-size: 24px; font-weight: 900; margin: 0 0 6px 0; }
         .page-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
 
         .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
-        .filter-tab.active { background: var(--text-main); color: var(--card-bg); border-color: var(--text-main); }
+        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .filter-tab.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
 
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 16px; }
-        .search-box { position: relative; flex: 1; max-width: 360px; }
-        .search-box input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 16px 10px 40px; border-radius: 8px; font-size: 14px; color: var(--text-main); outline: none; }
+        .search-box { position: relative; flex: 1; max-width: 380px; }
+        .search-box input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 36px 10px 40px; border-radius: 8px; font-size: 14px; color: var(--text-main); outline: none; }
         .search-box i { position: absolute; left: 14px; top: 13px; color: var(--text-muted); }
-        .btn-tool { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .btn-clear-search { position: absolute; right: 12px; top: 8px; background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; display: none; }
+        .btn-tool { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-tool:hover { border-color: var(--primary); color: var(--primary); }
 
-        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: visible; }
+        /* BẢNG SẢN PHẨM */
+        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: visible; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .product-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
         .product-table th, .product-table td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); }
-        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12.5px; text-transform: uppercase; }
+        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12px; text-transform: uppercase; }
         .product-name-cell { display: flex; align-items: center; gap: 12px; font-weight: 700; }
-        .product-icon { width: 36px; height: 36px; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; display: flex; justify-content: center; align-items: center; color: var(--primary); }
+        .product-icon { width: 40px; height: 40px; background: rgba(15, 118, 110, 0.08); border: 1px solid var(--border-color); border-radius: 8px; display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 16px; }
         
-        .badge-active { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
-        .badge-draft { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
-        .badge-archived { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .badge-active { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; }
+        .badge-draft { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; }
+        .badge-archived { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; }
         .category-pill { background: var(--bg-main); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
 
-        /* MENU THẢ DÙNG CHUNG */
+        /* ACTION POPUP MENU */
         .action-dropdown { position: relative; display: inline-block; }
         .btn-action-dots { background: transparent; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); padding: 6px 10px; border-radius: 6px; }
         .btn-action-dots:hover { background: var(--bg-main); color: var(--text-main); }
-        
         .action-menu-popup {
             display: none; position: absolute; right: 0; top: 36px; background: var(--card-bg);
             border: 1px solid var(--border-color); border-radius: 10px; width: 150px;
@@ -66,25 +201,34 @@
         }
         .action-menu-popup.show { display: block; }
         .action-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13.5px;
+            display: flex; align-items: center; gap: 10px; padding: 9px 12px; font-size: 13.5px;
             font-weight: 700; color: var(--text-main); border-radius: 6px; cursor: pointer;
         }
         .action-item:hover { background: var(--bg-main); }
         .action-item.delete { color: #dc2626; }
         .action-item.delete:hover { background: #fee2e2; }
 
-        /* MODAL DÙNG CHUNG (THÊM & XEM & SỬA) */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-card { background: var(--card-bg); color: var(--text-main); width: 100%; max-width: 560px; border-radius: 16px; padding: 30px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
-        .modal-close { position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
-        .form-input, .form-select { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 14px; color: var(--text-main); margin-bottom: 16px; outline: none; font-family: inherit; }
-        .form-label { font-size: 12.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
-        .btn-modal-save { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; font-size: 15px; }
+        /* MODAL CHUNG */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-card { background: var(--card-bg); color: var(--text-main); width: 100%; max-width: 580px; border-radius: 16px; padding: 28px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+        .modal-close { position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
+        .modal-close:hover { color: #ef4444; }
+        .form-input, .form-select { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); padding: 11px 14px; border-radius: 8px; font-size: 14px; color: var(--text-main); margin-bottom: 14px; outline: none; font-family: inherit; }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); }
+        .form-label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .btn-modal-save { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; font-size: 15px; transition: 0.2s; }
         .btn-modal-save:hover { background: var(--primary-hover); }
+
+        /* MODAL HƯỚNG DẪN */
+        .guide-modal-content { max-width: 760px; }
+        .guide-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        .guide-table th, .guide-table td { padding: 10px 14px; border: 1px solid var(--border-color); }
+        .guide-table th { background: var(--bg-main); font-weight: 800; text-align: left; }
     </style>
 </head>
 <body data-theme="light">
 
+    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="sidebar-brand"><i class="fa-solid fa-wheelchair"></i> AccessTravel</div>
         <div class="sidebar-menu">
@@ -96,67 +240,104 @@
         </div>
     </div>
 
+    <!-- MAIN CONTENT -->
     <div class="main-content">
+        <!-- HEADER CÓ CỤM TÀI KHOẢN VÀ CHUÔNG -->
         <header class="admin-header">
             <div class="breadcrumb">Bảng điều khiển &nbsp;>&nbsp; <span>Các sản phẩm</span></div>
-            <!-- NÚT THÊM SẢN PHẨM MỚI (GỌI MODAL) -->
-            <button class="btn-add" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
+            
+            <div class="header-actions">
+                <!-- NÚT THÊM SẢN PHẨM -->
+                <button class="btn-add" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
+
+                <!-- CHUÔNG THÔNG BÁO -->
+                <div style="position: relative;">
+                    <button type="button" class="admin-notif-btn" onclick="toggleAdminNotif(event)" title="Xem thông báo hệ thống">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="admin-notif-badge" id="adminNotifCount">3</span>
+                    </button>
+                    <div class="admin-notif-dropdown" id="adminNotifDropdown">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                            <strong style="font-size: 14.5px;">Thông Báo Sản Phẩm</strong>
+                            <span style="font-size: 11px; color: var(--primary); font-weight: 800; cursor: pointer;" onclick="document.getElementById('adminNotifCount').style.display='none';">Đã đọc tất cả</span>
+                        </div>
+                        <div class="admin-notif-item">
+                            <strong style="color: #0f766e;"><i class="fa-solid fa-circle-check"></i> Đã kiểm định mới:</strong>
+                            <div style="font-size: 12px; margin-top: 2px;">Tour Vịnh Hạ Long vừa hoàn tất kiểm định thang máy thủy lực.</div>
+                            <small style="color: #94a3b8; font-size: 10.5px;">10 phút trước</small>
+                        </div>
+                        <div class="admin-notif-item">
+                            <strong style="color: #f59e0b;"><i class="fa-solid fa-triangle-exclamation"></i> Cần cập nhật thông số:</strong>
+                            <div style="font-size: 12px; margin-top: 2px;">01 gói tour Sapa cần bổ sung thông tin độ dốc lối vào nhà hàng.</div>
+                            <small style="color: #94a3b8; font-size: 10.5px;">1 giờ trước</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CỤM TÀI KHOẢN QUẢN TRỊ VIÊN -->
+                <div class="admin-profile-pill" onclick="toggleProfileDropdown(event)">
+                    <div class="admin-avatar-circle">TA</div>
+                    <div class="admin-pill-info">
+                        <span class="admin-pill-name">Nguyễn Trung Anh</span>
+                        <span class="admin-pill-role">Quản trị viên</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 11px; color: #94a3b8; margin-left: 4px;"></i>
+                </div>
+
+                <!-- MENU TÀI KHOẢN THẢ XUỐNG -->
+                <div class="admin-profile-menu" id="adminProfileMenu">
+                    <div class="dropdown-menu-item" onclick="openProfileView()">
+                        <i class="fa-regular fa-id-badge" style="width: 18px; color: var(--primary);"></i> Hồ sơ quản trị viên
+                    </div>
+                    <div class="dropdown-menu-item" onclick="openSystemSettings()">
+                        <i class="fa-solid fa-sliders" style="width: 18px; color: var(--primary);"></i> Cài đặt hệ thống
+                    </div>
+                    <div class="dropdown-menu-item" onclick="openGuideModal()">
+                        <i class="fa-regular fa-circle-question" style="width: 18px; color: var(--primary);"></i> Sổ tay hướng dẫn
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-menu-item" onclick="handleAdminLogout()" style="color: #ef4444;">
+                        <i class="fa-solid fa-arrow-right-from-bracket" style="width: 18px;"></i> Đăng xuất
+                    </div>
+                </div>
+            </div>
         </header>
 
+        <!-- THÂN NỘI DUNG -->
         <div class="content-body">
-            <h1 class="page-title">Các sản phẩm</h1>
-            <p class="page-desc">Duyệt và quản lý danh mục tour du lịch và dịch vụ trợ năng của bạn.</p>
+            <h1 class="page-title">Các sản phẩm & Tour du lịch</h1>
+            <p class="page-desc">Duyệt, quản lý danh mục tour tiếp cận và tiêu chuẩn rào cản hỗ trợ người cao tuổi / xe lăn.</p>
 
             <div class="filter-tabs">
-                <div class="filter-tab active" onclick="filterTable('all', this)">Tất cả</div>
-                <div class="filter-tab" onclick="filterTable('active', this)">Tích cực</div>
-                <div class="filter-tab" onclick="filterTable('draft', this)">Bản nháp</div>
-                <div class="filter-tab" onclick="filterTable('archived', this)">Đã lưu trữ</div>
+                <div class="filter-tab active" onclick="filterTable('all', this)">Tất cả (<span id="countAll">0</span>)</div>
+                <div class="filter-tab" onclick="filterTable('active', this)">Tích cực (<span id="countActive">0</span>)</div>
+                <div class="filter-tab" onclick="filterTable('draft', this)">Bản nháp (<span id="countDraft">0</span>)</div>
+                <div class="filter-tab" onclick="filterTable('archived', this)">Đã lưu trữ (<span id="countArchived">0</span>)</div>
             </div>
 
             <div class="toolbar">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchTable()">
+                    <input type="text" id="searchInput" placeholder="Tìm tên tour, điểm đến, tiêu chuẩn trợ năng..." oninput="handleSearch(this)">
+                    <button type="button" class="btn-clear-search" id="btnClearSearch" onclick="clearSearch()" title="Xóa">&times;</button>
                 </div>
-                <button class="btn-tool" onclick="exportTable()"><i class="fa-solid fa-download"></i> Xuất khẩu</button>
+                <button class="btn-tool" onclick="exportTable()"><i class="fa-solid fa-download"></i> Xuất file CSV</button>
             </div>
 
             <div class="table-container">
                 <table class="product-table" id="dataTable">
                     <thead>
                         <tr>
-                            <th>Sản phẩm</th>
+                            <th>Sản phẩm / Tour</th>
                             <th>Loại dịch vụ</th>
                             <th>Trạng thái</th>
-                            <th>Cổ phần (Suất)</th>
-                            <th>Giá</th>
+                            <th>Suất khả dụng</th>
+                            <th>Giá tiền</th>
                             <th style="text-align: right;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <tr data-status="active" data-name="Du thuyền Ambassador Vịnh Hạ Long" data-type="Du thuyền" data-price="3.200.000 đ" data-stock="999" data-desc="Kiểm định thang máy & xe lăn 100%">
-                            <td>
-                                <div class="product-name-cell">
-                                    <div class="product-icon"><i class="fa-solid fa-ship"></i></div>
-                                    <div>Du thuyền Ambassador Vịnh Hạ Long<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">Kiểm định thang máy & xe lăn 100%</span></div>
-                                </div>
-                            </td>
-                            <td><span class="category-pill">Du thuyền</span></td>
-                            <td><span class="badge-active">Tích cực</span></td>
-                            <td>999</td>
-                            <td style="font-weight: 800; color: var(--primary);">3.200.000 đ</td>
-                            <td style="text-align: right;">
-                                <div class="action-dropdown">
-                                    <button class="btn-action-dots" onclick="toggleMenu(event, 'p1')"><i class="fa-solid fa-ellipsis"></i></button>
-                                    <div class="action-menu-popup" id="p1">
-                                        <div class="action-item" onclick="openViewModal(this)"><i class="fa-regular fa-eye"></i> Xem</div>
-                                        <div class="action-item" onclick="openEditModal(this)"><i class="fa-regular fa-pen-to-square"></i> Biên tập</div>
-                                        <div class="action-item delete" onclick="deleteRow(this)"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        <!-- Render tự động qua JavaScript từ localStorage hoặc danh sách mẫu -->
                     </tbody>
                 </table>
             </div>
@@ -167,22 +348,28 @@
     <div id="addModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
         <div class="modal-card">
             <button class="modal-close" onclick="document.getElementById('addModal').style.display='none'">&times;</button>
-            <h2 style="margin-top:0;">Thêm sản phẩm / Tour mới</h2>
+            <h2 style="margin-top:0; font-size:20px; font-weight:900; color:var(--primary);">Thêm sản phẩm / Tour mới</h2>
             <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:20px;">Nhập thông tin chi tiết dịch vụ trợ năng vào hệ thống.</p>
             
             <form onsubmit="addNewProduct(event)">
                 <label class="form-label">Tên sản phẩm / Tour</label>
-                <input type="text" id="addName" class="form-input" placeholder="Ví dụ: Tour Sapa xe điện..." required>
+                <input type="text" id="addName" class="form-input" placeholder="Ví dụ: Tour Huế Di Sản Không Rào Cản..." required>
                 
                 <div style="display: flex; gap: 16px;">
                     <div style="flex: 1;">
                         <label class="form-label">Loại dịch vụ</label>
-                        <input type="text" id="addType" class="form-input" placeholder="Ví dụ: Resort, Du thuyền..." required>
+                        <select id="addType" class="form-select">
+                            <option value="Du thuyền">Du thuyền</option>
+                            <option value="Resort">Khu nghỉ dưỡng (Resort)</option>
+                            <option value="Di sản / Văn hóa">Di sản / Văn hóa</option>
+                            <option value="Khách sạn">Khách sạn</option>
+                            <option value="Tuyến đi bộ">Tuyến đi bộ</option>
+                        </select>
                     </div>
                     <div style="flex: 1;">
                         <label class="form-label">Trạng thái</label>
                         <select id="addStatus" class="form-select">
-                            <option value="active">Tích cực</option>
+                            <option value="active">Tích cực (Mở bán)</option>
                             <option value="draft">Bản nháp</option>
                             <option value="archived">Đã lưu trữ</option>
                         </select>
@@ -191,17 +378,17 @@
 
                 <div style="display: flex; gap: 16px;">
                     <div style="flex: 1;">
-                        <label class="form-label">Giá tiền</label>
-                        <input type="text" id="addPrice" class="form-input" placeholder="Ví dụ: 2.500.000 đ" required>
+                        <label class="form-label">Giá tiền (VND)</label>
+                        <input type="text" id="addPrice" class="form-input" placeholder="Ví dụ: 3.200.000 đ" required>
                     </div>
                     <div style="flex: 1;">
-                        <label class="form-label">Số suất (Cổ phần)</label>
-                        <input type="number" id="addStock" class="form-input" placeholder="Ví dụ: 100" required>
+                        <label class="form-label">Số suất khả dụng</label>
+                        <input type="number" id="addStock" class="form-input" placeholder="Ví dụ: 12" value="10" required>
                     </div>
                 </div>
 
-                <label class="form-label">Mô tả tiêu chuẩn trợ năng</label>
-                <input type="text" id="addDesc" class="form-input" placeholder="Ví dụ: Có thang máy, dốc < 8%">
+                <label class="form-label">Tiêu chuẩn trợ năng đã kiểm định</label>
+                <input type="text" id="addDesc" class="form-input" placeholder="Ví dụ: Thang máy xe lăn, ram dốc < 8%, WC tay vịn..." required>
 
                 <button type="submit" class="btn-modal-save">Thêm sản phẩm ngay</button>
             </form>
@@ -212,167 +399,389 @@
     <div id="viewModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
         <div class="modal-card">
             <button class="modal-close" onclick="document.getElementById('viewModal').style.display='none'">&times;</button>
-            <h2 style="margin-top:0;">Chi tiết sản phẩm</h2>
+            <h2 style="margin-top:0; font-size:20px; font-weight:900; color:var(--primary);">Chi tiết sản phẩm tiếp cận</h2>
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
             <p><strong>Tên sản phẩm:</strong> <span id="viewName"></span></p>
             <p><strong>Loại dịch vụ:</strong> <span id="viewType"></span></p>
-            <p><strong>Mức giá:</strong> <span id="viewPrice" style="color:var(--primary); font-weight:800;"></span></p>
-            <p><strong>Số suất tồn kho:</strong> <span id="viewStock"></span></p>
-            <p><strong>Tiêu chuẩn trợ năng:</strong> <span id="viewDesc"></span></p>
+            <p><strong>Trạng thái:</strong> <span id="viewStatusBadge"></span></p>
+            <p><strong>Mức giá niêm yết:</strong> <span id="viewPrice" style="color:var(--primary); font-weight:900; font-size:16px;"></span></p>
+            <p><strong>Số suất còn trống:</strong> <span id="viewStock"></span></p>
+            <p><strong>Tiêu chuẩn trợ năng:</strong> <span id="viewDesc" style="color:#0f766e; font-weight:700;"></span></p>
         </div>
     </div>
 
-    <!-- MODAL BIÊN TẬP -->
+    <!-- MODAL CHỈNH SỬA SẢN PHẨM -->
     <div id="editModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
         <div class="modal-card">
             <button class="modal-close" onclick="document.getElementById('editModal').style.display='none'">&times;</button>
-            <h2 style="margin-top:0;">Chỉnh sửa sản phẩm</h2>
-            <label class="form-label">Tên sản phẩm</label>
-            <input type="text" id="editNameInput" class="form-input">
-            <label class="form-label">Giá tiền</label>
-            <input type="text" id="editPriceInput" class="form-input">
+            <h2 style="margin-top:0; font-size:20px; font-weight:900; color:var(--primary);">Chỉnh sửa thông tin tour</h2>
+            <input type="hidden" id="editIndex">
+            
+            <label class="form-label">Tên sản phẩm / Tour</label>
+            <input type="text" id="editNameInput" class="form-input" required>
+            
+            <div style="display:flex; gap:16px;">
+                <div style="flex:1;">
+                    <label class="form-label">Giá tiền</label>
+                    <input type="text" id="editPriceInput" class="form-input" required>
+                </div>
+                <div style="flex:1;">
+                    <label class="form-label">Suất khả dụng</label>
+                    <input type="number" id="editStockInput" class="form-input" required>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:16px;">
+                <div style="flex:1;">
+                    <label class="form-label">Loại hình</label>
+                    <select id="editTypeInput" class="form-select">
+                        <option value="Du thuyền">Du thuyền</option>
+                        <option value="Resort">Khu nghỉ dưỡng (Resort)</option>
+                        <option value="Di sản / Văn hóa">Di sản / Văn hóa</option>
+                        <option value="Khách sạn">Khách sạn</option>
+                        <option value="Tuyến đi bộ">Tuyến đi bộ</option>
+                    </select>
+                </div>
+                <div style="flex:1;">
+                    <label class="form-label">Trạng thái</label>
+                    <select id="editStatusInput" class="form-select">
+                        <option value="active">Tích cực</option>
+                        <option value="draft">Bản nháp</option>
+                        <option value="archived">Đã lưu trữ</option>
+                    </select>
+                </div>
+            </div>
+
+            <label class="form-label">Tiêu chuẩn trợ năng</label>
+            <input type="text" id="editDescInput" class="form-input" required>
+
             <button class="btn-modal-save" onclick="saveEdit()">Lưu thay đổi</button>
         </div>
     </div>
 
-    <script>
-        let currentRow = null;
-        let menuCounter = 2;
+    <!-- MODAL SỔ TAY HƯỚNG DẪN QUẢN TRỊ -->
+    <div id="guideModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card guide-modal-content">
+            <button class="modal-close" onclick="document.getElementById('guideModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0; font-size:19px; font-weight:900; color:var(--primary);"><i class="fa-solid fa-book-open-reader"></i> Sổ Tay Vận Hành Danh Mục Sản Phẩm</h2>
+            <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:14px;">Quy trình chuẩn hóa cập nhật dữ liệu tour trợ năng cho quản trị viên:</p>
+            
+            <table class="guide-table">
+                <thead>
+                    <tr>
+                        <th>Nghiệp vụ</th>
+                        <th>Mô tả</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Thêm tour mới</strong></td>
+                        <td>Đăng tải tuyến điểm đã có biên bản nghiệm thu tiếp cận</td>
+                        <td>Bấm nút <code>+ Thêm sản phẩm</code> ở góc trên cùng.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kiểm định trợ năng</strong></td>
+                        <td>Ghi rõ độ dốc (&lt; 8%), thang máy xe lăn, WC tay vịn</td>
+                        <td>Điền vào ô <em>Tiêu chuẩn trợ năng</em> khi thêm hoặc sửa.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quản lý trạng thái</strong></td>
+                        <td>Tích cực (mở bán), Bản nháp (chờ duyệt), Đã lưu trữ</td>
+                        <td>Dùng nút <code>...</code> trên dòng tương ứng để sửa đổi.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Xuất dữ liệu</strong></td>
+                        <td>Tải bảng CSV để gửi báo cáo tuần / tháng cho phòng ban</td>
+                        <td>Bấm <code>Xuất file CSV</code> cạnh ô tìm kiếm.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <script>
+        // DANH SÁCH SẢN PHẨM TOUR TIẾP CẬN MẪU
+        const defaultProducts = [
+            { id: 1, name: "Du thuyền Ambassador Vịnh Hạ Long", type: "Du thuyền", status: "active", stock: 12, price: "3.200.000 đ", desc: "Thang máy thủy lực nối boong ngắm cảnh, dốc < 8%" },
+            { id: 2, name: "Khu nghỉ dưỡng Topas Ecolodge Sapa", type: "Resort", status: "active", stock: 6, price: "4.500.000 đ", desc: "Xe điện gầm thấp hỗ trợ người cao tuổi" },
+            { id: 3, name: "Quần thể Di tích Cố đô Huế Không Rào Cản", type: "Di sản / Văn hóa", status: "active", stock: 15, price: "850.000 đ", desc: "Đường ram dốc < 8% qua cổng Ngọ Môn" },
+            { id: 4, name: "Du thuyền Heritage Bình Chuẩn Cát Bà", type: "Du thuyền", status: "active", stock: 10, price: "3.800.000 đ", desc: "Cửa cabin rộng 95cm, phòng tắm có chuông SOS" },
+            { id: 5, name: "Hành trình Di sản Tràng An - Bái Đính", type: "Di sản / Văn hóa", status: "draft", stock: 20, price: "950.000 đ", desc: "Thuyền mạn thấp có đai định vị an toàn" },
+            { id: 6, name: "Vinpearl Resort & Spa Nha Trang Bay", type: "Resort", status: "archived", stock: 4, price: "2.800.000 đ", desc: "Đường lát ván gỗ chống trơn trượt ra sát biển" }
+        ];
+
+        let products = [];
+        let currentFilterStatus = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initProducts();
+        });
+
+        function initProducts() {
+            try {
+                const stored = localStorage.getItem('accessTravelAdminProducts');
+                if (stored) {
+                    products = JSON.parse(stored);
+                } else {
+                    products = defaultProducts;
+                    saveProducts();
+                }
+            } catch(e) {
+                products = defaultProducts;
+            }
+            renderTable();
+        }
+
+        function saveProducts() {
+            localStorage.setItem('accessTravelAdminProducts', JSON.stringify(products));
+        }
+
+        // RENDER BẢNG DỮ LIỆU
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            let filtered = products;
+            if (currentFilterStatus !== 'all') {
+                filtered = products.filter(p => p.status === currentFilterStatus);
+            }
+
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (searchVal) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchVal) ||
+                    p.type.toLowerCase().includes(searchVal) ||
+                    p.desc.toLowerCase().includes(searchVal)
+                );
+            }
+
+            // Cập nhật số đếm trên các Tab
+            document.getElementById('countAll').innerText = products.length;
+            document.getElementById('countActive').innerText = products.filter(p => p.status === 'active').length;
+            document.getElementById('countDraft').innerText = products.filter(p => p.status === 'draft').length;
+            document.getElementById('countArchived').innerText = products.filter(p => p.status === 'archived').length;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted); font-weight:700;">Không tìm thấy sản phẩm / tour nào phù hợp!</td></tr>`;
+                return;
+            }
+
+            filtered.forEach((p, index) => {
+                let badgeHtml = '<span class="badge-active"><i class="fa-solid fa-circle-check"></i> Tích cực</span>';
+                if (p.status === 'draft') badgeHtml = '<span class="badge-draft"><i class="fa-solid fa-pen"></i> Bản nháp</span>';
+                if (p.status === 'archived') badgeHtml = '<span class="badge-archived"><i class="fa-solid fa-box-archive"></i> Đã lưu trữ</span>';
+
+                let iconClass = "fa-mountain-sun";
+                if (p.type.includes("Du thuyền")) iconClass = "fa-ship";
+                else if (p.type.includes("Resort")) iconClass = "fa-hotel";
+                else if (p.type.includes("Di sản")) iconClass = "fa-landmark";
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="product-name-cell">
+                            <div class="product-icon"><i class="fa-solid ${iconClass}"></i></div>
+                            <div>
+                                <div style="font-weight:800; color:var(--text-main); line-height:1.3;">${p.name}</div>
+                                <span style="font-size:12px; color:var(--primary); font-weight:700;">🤝 ${p.desc}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="category-pill">${p.type}</span></td>
+                    <td>${badgeHtml}</td>
+                    <td><strong>${p.stock}</strong> suất</td>
+                    <td style="font-weight: 900; color: var(--primary); font-size:14.5px;">${p.price}</td>
+                    <td style="text-align: right;">
+                        <div class="action-dropdown">
+                            <button type="button" class="btn-action-dots" onclick="toggleMenu(event, 'menu_${p.id}')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            <div class="action-menu-popup" id="menu_${p.id}">
+                                <div class="action-item" onclick="openViewModal(${p.id})"><i class="fa-regular fa-eye"></i> Xem chi tiết</div>
+                                <div class="action-item" onclick="openEditModal(${p.id})"><i class="fa-regular fa-pen-to-square"></i> Biên tập</div>
+                                <div class="action-item delete" onclick="deleteProduct(${p.id})"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // THÊM SẢN PHẨM MỚI
         function openAddModal() {
             document.getElementById('addModal').style.display = 'flex';
         }
 
-        // Xử lý thêm sản phẩm mới và chèn trực tiếp vào bảng
         function addNewProduct(e) {
             e.preventDefault();
-            const name = document.getElementById('addName').value;
-            const type = document.getElementById('addType').value;
-            const status = document.getElementById('addStatus').value;
-            const price = document.getElementById('addPrice').value;
-            const stock = document.getElementById('addStock').value;
-            const desc = document.getElementById('addDesc').value;
+            const newProd = {
+                id: Date.now(),
+                name: document.getElementById('addName').value.trim(),
+                type: document.getElementById('addType').value,
+                status: document.getElementById('addStatus').value,
+                price: document.getElementById('addPrice').value.trim(),
+                stock: parseInt(document.getElementById('addStock').value) || 10,
+                desc: document.getElementById('addDesc').value.trim()
+            };
 
-            let badgeHtml = '<span class="badge-active">Tích cực</span>';
-            let statusText = 'Tích cực';
-            if(status === 'draft') {
-                badgeHtml = '<span class="badge-draft">Bản nháp</span>';
-                statusText = 'Bản nháp';
-            } else if(status === 'archived') {
-                badgeHtml = '<span class="badge-archived">Đã lưu trữ</span>';
-                statusText = 'Đã lưu trữ';
-            }
+            products.unshift(newProd);
+            saveProducts();
+            renderTable();
 
-            menuCounter++;
-            const menuId = 'p' + menuCounter;
-
-            const tbody = document.getElementById('tableBody');
-            const newRow = document.createElement('tr');
-            newRow.setAttribute('data-status', status);
-            newRow.setAttribute('data-name', name);
-            newRow.setAttribute('data-type', type);
-            newRow.setAttribute('data-price', price);
-            newRow.setAttribute('data-stock', stock);
-            newRow.setAttribute('data-desc', desc);
-
-            newRow.innerHTML = `
-                <td>
-                    <div class="product-name-cell">
-                        <div class="product-icon"><i class="fa-solid fa-box-open"></i></div>
-                        <div>${name}<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">${desc}</span></div>
-                    </div>
-                </td>
-                <td><span class="category-pill">${type}</span></td>
-                <td>${badgeHtml}</td>
-                <td>${stock}</td>
-                <td style="font-weight: 800; color: var(--primary);">${price}</td>
-                <td style="text-align: right;">
-                    <div class="action-dropdown">
-                        <button class="btn-action-dots" onclick="toggleMenu(event, '${menuId}')"><i class="fa-solid fa-ellipsis"></i></button>
-                        <div class="action-menu-popup" id="${menuId}">
-                            <div class="action-item" onclick="openViewModal(this)"><i class="fa-regular fa-eye"></i> Xem</div>
-                            <div class="action-item" onclick="openEditModal(this)"><i class="fa-regular fa-pen-to-square"></i> Biên tập</div>
-                            <div class="action-item delete" onclick="deleteRow(this)"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
-                        </div>
-                    </div>
-                </td>
-            `;
-
-            tbody.appendChild(newRow);
-            alert('Thêm sản phẩm mới thành công!');
+            alert('Thêm sản phẩm tour mới thành công!');
             document.getElementById('addModal').style.display = 'none';
-            document.querySelector('form').reset();
+            e.target.reset();
         }
 
-        function toggleMenu(e, menuId) {
-            e.stopPropagation();
-            document.querySelectorAll('.action-menu-popup').forEach(m => {
-                if(m.id !== menuId) m.classList.remove('show');
-            });
-            document.getElementById(menuId).classList.toggle('show');
-        }
-        window.addEventListener('click', () => {
-            document.querySelectorAll('.action-menu-popup').forEach(m => m.classList.remove('show'));
-        });
+        // XEM CHI TIẾT
+        function openViewModal(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
 
-        function deleteRow(el) {
-            if(confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
-                el.closest('tr').remove();
-            }
-        }
+            document.getElementById('viewName').innerText = p.name;
+            document.getElementById('viewType').innerText = p.type;
+            document.getElementById('viewPrice').innerText = p.price;
+            document.getElementById('viewStock').innerText = p.stock + " suất khả dụng";
+            document.getElementById('viewDesc').innerText = p.desc;
 
-        function openViewModal(el) {
-            const tr = el.closest('tr');
-            document.getElementById('viewName').innerText = tr.dataset.name;
-            document.getElementById('viewType').innerText = tr.dataset.type;
-            document.getElementById('viewPrice').innerText = tr.dataset.price;
-            document.getElementById('viewStock').innerText = tr.dataset.stock;
-            document.getElementById('viewDesc').innerText = tr.dataset.desc;
+            let badge = '<span class="badge-active">Tích cực</span>';
+            if (p.status === 'draft') badge = '<span class="badge-draft">Bản nháp</span>';
+            if (p.status === 'archived') badge = '<span class="badge-archived">Đã lưu trữ</span>';
+            document.getElementById('viewStatusBadge').innerHTML = badge;
+
             document.getElementById('viewModal').style.display = 'flex';
         }
 
-        function openEditModal(el) {
-            currentRow = el.closest('tr');
-            document.getElementById('editNameInput').value = currentRow.dataset.name;
-            document.getElementById('editPriceInput').value = currentRow.dataset.price;
+        // CHỈNH SỬA
+        function openEditModal(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('editIndex').value = p.id;
+            document.getElementById('editNameInput').value = p.name;
+            document.getElementById('editPriceInput').value = p.price;
+            document.getElementById('editStockInput').value = p.stock;
+            document.getElementById('editTypeInput').value = p.type;
+            document.getElementById('editStatusInput').value = p.status;
+            document.getElementById('editDescInput').value = p.desc;
+
             document.getElementById('editModal').style.display = 'flex';
         }
 
         function saveEdit() {
-            if(currentRow) {
-                currentRow.dataset.name = document.getElementById('editNameInput').value;
-                currentRow.dataset.price = document.getElementById('editPriceInput').value;
-                alert('Cập nhật sản phẩm thành công!');
+            const id = parseInt(document.getElementById('editIndex').value);
+            const p = products.find(item => item.id === id);
+            if (p) {
+                p.name = document.getElementById('editNameInput').value.trim();
+                p.price = document.getElementById('editPriceInput').value.trim();
+                p.stock = parseInt(document.getElementById('editStockInput').value) || 0;
+                p.type = document.getElementById('editTypeInput').value;
+                p.status = document.getElementById('editStatusInput').value;
+                p.desc = document.getElementById('editDescInput').value.trim();
+
+                saveProducts();
+                renderTable();
+                alert('Cập nhật thông tin sản phẩm thành công!');
                 document.getElementById('editModal').style.display = 'none';
-                location.reload();
             }
         }
 
+        // XÓA SẢN PHẨM
+        function deleteProduct(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi hệ thống không?')) {
+                products = products.filter(p => p.id !== id);
+                saveProducts();
+                renderTable();
+            }
+        }
+
+        // LỌC THEO TAB
         function filterTable(status, tab) {
+            currentFilterStatus = status;
             document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            document.querySelectorAll('#tableBody tr').forEach(row => {
-                row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
-            });
+            renderTable();
         }
-        function searchTable() {
-            let val = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('#tableBody tr').forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(val) ? '' : 'none';
-            });
+
+        // TÌM KIẾM
+        function handleSearch(input) {
+            document.getElementById('btnClearSearch').style.display = input.value.trim() ? 'block' : 'none';
+            renderTable();
         }
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            document.getElementById('btnClearSearch').style.display = 'none';
+            renderTable();
+            input.focus();
+        }
+
+        // XUẤT CSV
         function exportTable() {
             let csv = [];
-            document.querySelectorAll("#dataTable tr").forEach(row => {
-                let r = [];
-                row.querySelectorAll("td, th").forEach(col => r.push('"' + col.innerText.replace(/"/g, '""') + '"'));
-                csv.push(r.join(";"));
+            csv.push('"Tên Sản Phẩm / Tour";"Loại Hình";"Trạng Thái";"Suất Khả Dụng";"Giá Tiền";"Tiêu Chuẩn Trợ Năng"');
+
+            products.forEach(p => {
+                csv.push(`"${p.name}";"${p.type}";"${p.status}";"${p.stock}";"${p.price}";"${p.desc}"`);
             });
+
             let blob = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
             let link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "danh-sach-san-pham.csv";
+            link.download = "danh-sach-tour-tro-nang.csv";
             link.click();
+        }
+
+        // QUẢN LÝ MENU ACTION POPUP VÀ PROFILE DROPDOWN
+        function toggleMenu(e, menuId) {
+            e.stopPropagation();
+            document.querySelectorAll('.action-menu-popup').forEach(m => {
+                if (m.id !== menuId) m.classList.remove('show');
+            });
+            const target = document.getElementById(menuId);
+            if (target) target.classList.toggle('show');
+        }
+
+        function toggleProfileDropdown(e) {
+            e.stopPropagation();
+            document.getElementById('adminProfileMenu').classList.toggle('show');
+            document.getElementById('adminNotifDropdown').classList.remove('show');
+        }
+
+        function toggleAdminNotif(e) {
+            e.stopPropagation();
+            document.getElementById('adminNotifDropdown').classList.toggle('show');
+            document.getElementById('adminProfileMenu').classList.remove('show');
+        }
+
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.action-menu-popup').forEach(m => m.classList.remove('show'));
+            const pMenu = document.getElementById('adminProfileMenu');
+            const nMenu = document.getElementById('adminNotifDropdown');
+            if (pMenu) pMenu.classList.remove('show');
+            if (nMenu) nMenu.classList.remove('show');
+        });
+
+        // CÁC HÀM TIỆN ÍCH QUẢN TRỊ VIÊN
+        function openProfileView() {
+            alert('HỒ SƠ QUẢN TRỊ VIÊN:\n• Họ tên: Nguyễn Trung Anh\n• Vai trò: Quản trị viên hệ thống (V3)\n• Email: admin@dulichso.test\n• Phụ trách: Quản lý danh mục & kiểm định tour');
+        }
+
+        function openSystemSettings() {
+            alert('CÀI ĐẶT HỆ THỐNG:\n• Phiên bản: AccessTravel V3.2\n• Chuẩn trợ năng: Web Content Accessibility Guidelines (WCAG) 2.1 & Tiêu chuẩn rào cản độ dốc < 8%');
+        }
+
+        function openGuideModal() {
+            document.getElementById('guideModal').style.display = 'flex';
+        }
+
+        function handleAdminLogout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất tài khoản quản trị?')) {
+                localStorage.removeItem('currentUser');
+                alert('Đã đăng xuất tài khoản.');
+                window.location.href = 'index.html';
+            }
         }
     </script>
     <script src="js/accessibility-widget.js"></script>

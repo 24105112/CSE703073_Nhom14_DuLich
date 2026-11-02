@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-        <script>
+    <script>
     (function() {
         const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
@@ -19,68 +19,216 @@
             --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
             --primary: #0f766e; --primary-hover: #0d9488;
         }
+        [data-theme="dark"] {
+            --bg-main: #09090b; --sidebar-bg: #18181b; --card-bg: #18181b;
+            --text-main: #f8fafc; --text-muted: #a1a1aa; --border-color: #27272a;
+            --primary: #14b8a6; --primary-hover: #0d9488;
+        }
         body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         * { box-sizing: border-box; }
         a { text-decoration: none; color: inherit; }
 
+        /* SIDEBAR TRÁI */
         .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; }
-        .sidebar-brand { font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .sidebar-brand { font-size: 19px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
         .sidebar-menu { display: flex; flex-direction: column; gap: 6px; }
         .menu-item { padding: 12px 16px; border-radius: 8px; font-size: 14.5px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 12px; transition: 0.2s; }
         .menu-item:hover, .menu-item.active { background: rgba(15, 118, 110, 0.1); color: var(--primary); }
 
+        /* KHUNG CHÍNH */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        .admin-header { height: 70px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 30px; display: flex; justify-content: space-between; align-items: center; }
-        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); }
-        .breadcrumb span { color: var(--text-main); font-weight: 700; }
+        
+        /* HEADER NÂNG CẤP ĐỒNG BỘ */
+        .admin-header { 
+            height: 72px; 
+            background: var(--card-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 0 32px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+        .breadcrumb span { color: var(--text-main); font-weight: 800; }
 
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+
+        /* CHUÔNG THÔNG BÁO */
+        .admin-notif-btn {
+            position: relative;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .admin-notif-btn:hover { background: #e2e8f0; }
+        .admin-notif-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 800;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-notif-dropdown {
+            display: none;
+            position: absolute;
+            right: 190px;
+            top: 66px;
+            width: 340px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            padding: 16px;
+            z-index: 1001;
+        }
+        .admin-notif-dropdown.show { display: block; }
+        .admin-notif-item { padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 8px; background: var(--bg-main); line-height: 1.4; cursor: pointer; }
+        .admin-notif-item:hover { background: #e2e8f0; }
+
+        /* CỤM TÀI KHOẢN QUẢN TRỊ VIÊN */
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px 5px 6px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            transition: 0.2s;
+        }
+        .admin-profile-pill:hover { border-color: var(--primary); }
+        .admin-avatar-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #0f766e;
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-pill-info { display: flex; flex-direction: column; text-align: left; }
+        .admin-pill-name { font-size: 13.5px; font-weight: 800; color: var(--text-main); line-height: 1.2; }
+        .admin-pill-role { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+        /* MENU THẢ XUỐNG PROFILE */
+        .admin-profile-menu {
+            display: none;
+            position: absolute;
+            right: 32px;
+            top: 68px;
+            width: 250px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            padding: 8px;
+            z-index: 1002;
+        }
+        .admin-profile-menu.show { display: block; }
+        .dropdown-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .dropdown-menu-item:hover { background: var(--bg-main); color: var(--primary); }
+        .dropdown-divider { height: 1px; background: var(--border-color); margin: 6px 0; }
+
+        /* THÂN NỘI DUNG */
         .content-body { padding: 30px; }
         .page-title { font-size: 24px; font-weight: 900; margin: 0 0 6px 0; }
         .page-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
 
         .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
-        .filter-tab.active { background: var(--text-main); color: var(--card-bg); border-color: var(--text-main); }
+        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .filter-tab.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
 
-        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: visible; }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 16px; }
+        .search-box { position: relative; flex: 1; max-width: 380px; }
+        .search-box input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 36px 10px 40px; border-radius: 8px; font-size: 14px; color: var(--text-main); outline: none; }
+        .search-box i { position: absolute; left: 14px; top: 13px; color: var(--text-muted); }
+        .btn-clear-search { position: absolute; right: 12px; top: 8px; background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; display: none; }
+        .btn-tool { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-tool:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* BẢNG ĐƠN HÀNG */
+        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: visible; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .product-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
         .product-table th, .product-table td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); }
-        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12.5px; text-transform: uppercase; }
+        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12px; text-transform: uppercase; }
         
-        .badge-completed { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
-        .badge-processing { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .badge-completed { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; }
+        .badge-processing { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; }
 
-        /* MENU THẢ DÙNG CHUNG */
+        /* ACTION MENU */
         .action-dropdown { position: relative; display: inline-block; }
         .btn-action-dots { background: transparent; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); padding: 6px 10px; border-radius: 6px; }
         .btn-action-dots:hover { background: var(--bg-main); color: var(--text-main); }
-        
         .action-menu-popup {
             display: none; position: absolute; right: 0; top: 36px; background: var(--card-bg);
-            border: 1px solid var(--border-color); border-radius: 10px; width: 150px;
+            border: 1px solid var(--border-color); border-radius: 10px; width: 160px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 100; padding: 6px;
         }
         .action-menu-popup.show { display: block; }
         .action-item {
-            display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13.5px;
+            display: flex; align-items: center; gap: 10px; padding: 9px 12px; font-size: 13px;
             font-weight: 700; color: var(--text-main); border-radius: 6px; cursor: pointer;
         }
-        .action-item:hover { background: var(--bg-main); }
+        .action-item:hover { background: var(--bg-main); color: var(--primary); }
         .action-item.delete { color: #dc2626; }
         .action-item.delete:hover { background: #fee2e2; }
 
         /* MODAL */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-card { background: var(--card-bg); color: var(--text-main); width: 100%; max-width: 600px; border-radius: 16px; padding: 30px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
-        .modal-close { position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
-        .form-input { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; font-size: 14px; color: var(--text-main); margin-bottom: 16px; outline: none; font-family: inherit; }
-        .form-label { font-size: 12.5px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
-        .btn-modal-save { background: #000; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; }
-        .btn-modal-save:hover { background: #333; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-card { background: var(--card-bg); color: var(--text-main); width: 100%; max-width: 600px; border-radius: 16px; padding: 28px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+        .modal-close { position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
+        .modal-close:hover { color: #ef4444; }
+        .form-input, .form-select { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); padding: 11px 14px; border-radius: 8px; font-size: 14px; color: var(--text-main); margin-bottom: 14px; outline: none; font-family: inherit; }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); }
+        .form-label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .btn-modal-save { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; font-size: 15px; transition: 0.2s; }
+        .btn-modal-save:hover { background: var(--primary-hover); }
+
+        .guide-modal-content { max-width: 760px; }
+        .guide-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        .guide-table th, .guide-table td { padding: 10px 14px; border: 1px solid var(--border-color); }
+        .guide-table th { background: var(--bg-main); font-weight: 800; text-align: left; }
     </style>
 </head>
 <body data-theme="light">
 
+    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="sidebar-brand"><i class="fa-solid fa-wheelchair"></i> AccessTravel</div>
         <div class="sidebar-menu">
@@ -92,52 +240,101 @@
         </div>
     </div>
 
+    <!-- MAIN CONTENT -->
     <div class="main-content">
+        <!-- HEADER CÓ CỤM TÀI KHOẢN VÀ CHUÔNG ĐỒNG BỘ -->
         <header class="admin-header">
             <div class="breadcrumb">Bảng điều khiển &nbsp;>&nbsp; <span>Đơn đặt hàng</span></div>
-            <div style="font-weight: 800; font-size: 14px;">Quản trị viên Aigars S.</div>
+
+            <div class="header-actions">
+                <!-- CHUÔNG THÔNG BÁO -->
+                <div style="position: relative;">
+                    <button type="button" class="admin-notif-btn" onclick="toggleAdminNotif(event)" title="Xem thông báo hệ thống">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="admin-notif-badge" id="adminNotifCount">3</span>
+                    </button>
+                    <div class="admin-notif-dropdown" id="adminNotifDropdown">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                            <strong style="font-size: 14.5px;">Thông Báo Đơn Hàng</strong>
+                            <span style="font-size: 11px; color: var(--primary); font-weight: 800; cursor: pointer;" onclick="document.getElementById('adminNotifCount').style.display='none';">Đã đọc tất cả</span>
+                        </div>
+                        <div class="admin-notif-item">
+                            <strong style="color: #0f766e;"><i class="fa-solid fa-circle-check"></i> Đơn đặt mới thành công:</strong>
+                            <div style="font-size: 12px; margin-top: 2px;">Khách đặt tour qua Sandbox vừa hoàn tất thanh toán.</div>
+                            <small style="color: #94a3b8; font-size: 10.5px;">Vừa xong</small>
+                        </div>
+                        <div class="admin-notif-item">
+                            <strong style="color: #f59e0b;"><i class="fa-solid fa-wheelchair"></i> Yêu cầu tiếp cận:</strong>
+                            <div style="font-size: 12px; margin-top: 2px;">Khách kèm ghi chú "Cần hỗ trợ xe lăn & đường ram dốc".</div>
+                            <small style="color: #94a3b8; font-size: 10.5px;">15 phút trước</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CỤM TÀI KHOẢN QUẢN TRỊ VIÊN -->
+                <div class="admin-profile-pill" onclick="toggleProfileDropdown(event)">
+                    <div class="admin-avatar-circle">TA</div>
+                    <div class="admin-pill-info">
+                        <span class="admin-pill-name">Nguyễn Trung Anh</span>
+                        <span class="admin-pill-role">Quản trị viên</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 11px; color: #94a3b8; margin-left: 4px;"></i>
+                </div>
+
+                <!-- MENU TÀI KHOẢN THẢ XUỐNG -->
+                <div class="admin-profile-menu" id="adminProfileMenu">
+                    <div class="dropdown-menu-item" onclick="openProfileView()">
+                        <i class="fa-regular fa-id-badge" style="width: 18px; color: var(--primary);"></i> Hồ sơ quản trị viên
+                    </div>
+                    <div class="dropdown-menu-item" onclick="openSystemSettings()">
+                        <i class="fa-solid fa-sliders" style="width: 18px; color: var(--primary);"></i> Cài đặt hệ thống
+                    </div>
+                    <div class="dropdown-menu-item" onclick="openGuideModal()">
+                        <i class="fa-regular fa-circle-question" style="width: 18px; color: var(--primary);"></i> Sổ tay hướng dẫn
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-menu-item" onclick="handleAdminLogout()" style="color: #ef4444;">
+                        <i class="fa-solid fa-arrow-right-from-bracket" style="width: 18px;"></i> Đăng xuất
+                    </div>
+                </div>
+            </div>
         </header>
 
+        <!-- THÂN NỘI DUNG -->
         <div class="content-body">
-            <h1 class="page-title">Đơn đặt hàng</h1>
-            <p class="page-desc">Quản lý và theo dõi tất cả đơn đặt hàng tour trợ năng của khách hàng.</p>
+            <h1 class="page-title">Quản lý Đơn đặt hàng & Vé Tour</h1>
+            <p class="page-desc">Theo dõi luồng thanh toán Sandbox, trạng thái giữ chỗ và các yêu cầu hỗ trợ người cao tuổi / khuyết tật.</p>
 
             <div class="filter-tabs">
-                <div class="filter-tab active">Tất cả</div>
-                <div class="filter-tab">Hoàn thành</div>
-                <div class="filter-tab">Xử lý</div>
+                <div class="filter-tab active" onclick="filterOrders('all', this)">Tất cả (<span id="countAll">0</span>)</div>
+                <div class="filter-tab" onclick="filterOrders('paid', this)">Đã thanh toán (<span id="countPaid">0</span>)</div>
+                <div class="filter-tab" onclick="filterOrders('pending', this)">Chờ thanh toán (<span id="countPending">0</span>)</div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm theo mã đơn, khách hàng, tên tour..." oninput="handleSearch(this)">
+                    <button type="button" class="btn-clear-search" id="btnClearSearch" onclick="clearSearch()" title="Xóa">&times;</button>
+                </div>
+                <button class="btn-tool" onclick="exportOrders()"><i class="fa-solid fa-download"></i> Xuất file CSV</button>
             </div>
 
             <div class="table-container">
-                <table class="product-table">
+                <table class="product-table" id="ordersTable">
                     <thead>
                         <tr>
-                            <th>ĐẶT HÀNG</th>
-                            <th>KHÁCH HÀNG</th>
+                            <th>MÃ ĐƠN</th>
+                            <th>KHÁCH HÀNG & THỜI GIAN</th>
                             <th>SẢN PHẨM / TOUR</th>
+                            <th>NHU CẦU TIẾP CẬN</th>
                             <th>TRẠNG THÁI</th>
                             <th>TỔNG TIỀN</th>
                             <th style="text-align: right;">HÀNH ĐỘNG</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr data-id="ORD-7891" data-customer="Emma Wilson (emma@example.com)" data-product="Du thuyền Ambassador Vịnh Hạ Long" data-status="Hoàn thành" data-price="3.200.000 đ">
-                            <td style="font-weight:800;">ORD-7891</td>
-                            <td>Emma Wilson<br><span style="font-size:12px; color:var(--text-muted);">emma@example.com</span></td>
-                            <td>Du thuyền Ambassador Vịnh Hạ Long</td>
-                            <td><span class="badge-completed">Hoàn thành</span></td>
-                            <td style="font-weight:800; color:var(--primary);">3.200.000 đ</td>
-                            <td style="text-align: right;">
-                                <div class="action-dropdown">
-                                    <button class="btn-action-dots" onclick="toggleMenu(event, 'ord1')"><i class="fa-solid fa-ellipsis"></i></button>
-                                    <div class="action-menu-popup" id="ord1">
-                                        <div class="action-item" onclick="openViewModal(this)"><i class="fa-regular fa-eye"></i> Xem</div>
-                                        <div class="action-item" onclick="openEditModal(this)"><i class="fa-regular fa-pen-to-square"></i> Biên tập</div>
-                                        <div class="action-item delete" onclick="deleteRow(this)"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody id="ordersTableBody">
+                        <!-- Nạp tự động qua JavaScript từ localStorage và dữ liệu mẫu -->
                     </tbody>
                 </table>
             </div>
@@ -148,72 +345,385 @@
     <div id="viewModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
         <div class="modal-card">
             <button class="modal-close" onclick="document.getElementById('viewModal').style.display='none'">&times;</button>
-            <h2 style="margin-top:0;">Chi tiết đơn hàng</h2>
+            <h2 style="margin-top:0; font-size:20px; font-weight:900; color:var(--primary);">Chi tiết đơn đặt tour</h2>
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
-            <p><strong>Mã đơn hàng:</strong> <span id="viewId" style="font-weight:800;"></span></p>
+            <p><strong>Mã đơn hàng:</strong> <span id="viewId" style="font-weight:900; color:var(--primary);"></span></p>
             <p><strong>Khách hàng:</strong> <span id="viewCustomer"></span></p>
-            <p><strong>Sản phẩm:</strong> <span id="viewProduct"></span></p>
-            <p><strong>Trạng thái:</strong> <span id="viewStatus"></span></p>
-            <p><strong>Tổng tiền:</strong> <span id="viewPrice" style="color:var(--primary); font-weight:800;"></span></p>
+            <p><strong>Tuyến tour:</strong> <span id="viewProduct" style="font-weight:700;"></span></p>
+            <p><strong>Số lượng vé:</strong> <span id="viewGuests"></span></p>
+            <p><strong>Ngày khởi hành:</strong> <span id="viewDate"></span></p>
+            <p><strong>Nhu cầu tiếp cận:</strong> <span id="viewA11y" style="color:#0f766e; font-weight:700;"></span></p>
+            <p><strong>Phương thức:</strong> <span id="viewPayment"></span></p>
+            <p><strong>Trạng thái:</strong> <span id="viewStatusBadge"></span></p>
+            <p><strong>Tổng thanh toán:</strong> <span id="viewPrice" style="color:#ea580c; font-weight:900; font-size:18px;"></span></p>
         </div>
     </div>
 
-    <!-- MODAL BIÊN TẬP ĐƠN HÀNG -->
+    <!-- MODAL CHỈNH SỬA ĐƠN HÀNG -->
     <div id="editModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
         <div class="modal-card">
             <button class="modal-close" onclick="document.getElementById('editModal').style.display='none'">&times;</button>
-            <h2 style="margin-top:0;">Chỉnh sửa đơn hàng</h2>
+            <h2 style="margin-top:0; font-size:20px; font-weight:900; color:var(--primary);">Cập nhật đơn hàng</h2>
+            <input type="hidden" id="editOrderId">
+            
             <label class="form-label">Mã đơn hàng</label>
             <input type="text" id="editIdInput" class="form-input" disabled style="opacity:0.7;">
-            <label class="form-label">Tổng tiền</label>
+            
+            <label class="form-label">Trạng thái thanh toán</label>
+            <select id="editStatusSelect" class="form-select">
+                <option value="paid">Đã thanh toán (Hoàn thành)</option>
+                <option value="pending_payment">Chờ thanh toán (Đang xử lý)</option>
+            </select>
+
+            <label class="form-label">Tổng tiền (VND)</label>
             <input type="text" id="editPriceInput" class="form-input">
-            <button class="btn-modal-save" onclick="saveEdit()">Lưu thay đổi</button>
+
+            <label class="form-label">Yêu cầu tiếp cận</label>
+            <input type="text" id="editA11yInput" class="form-input">
+
+            <button class="btn-modal-save" onclick="saveOrderEdit()">Lưu cập nhật</button>
+        </div>
+    </div>
+
+    <!-- MODAL SỔ TAY HƯỚNG DẪN -->
+    <div id="guideModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card guide-modal-content">
+            <button class="modal-close" onclick="document.getElementById('guideModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0; font-size:19px; font-weight:900; color:var(--primary);"><i class="fa-solid fa-book-open-reader"></i> Sổ Tay Nghiệp Vụ Quản Lý Đơn Hàng</h2>
+            <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:14px;">Hướng dẫn kiểm soát luồng giao dịch và yêu cầu tiếp cận cho quản trị viên:</p>
+            
+            <table class="guide-table">
+                <thead>
+                    <tr>
+                        <th>Nghiệp vụ</th>
+                        <th>Ý nghĩa</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Đơn hàng từ khách</strong></td>
+                        <td>Tự động đồng bộ từ cổng thanh toán Sandbox của khách hàng</td>
+                        <td>Đơn mới sẽ lập tức nổi lên đầu danh sách kèm tổng tiền thực tế.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Xác nhận trợ năng</strong></td>
+                        <td>Đối soát yêu cầu xe lăn / ram dốc / phòng tắm tay vịn</td>
+                        <td>Xem cột <em>Nhu cầu tiếp cận</em> để liên hệ chuẩn bị thiết bị hỗ trợ.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Đổi trạng thái</strong></td>
+                        <td>Chuyển từ chờ sang đã thanh toán hoặc ngược lại</td>
+                        <td>Bấm <code>...</code> &gt; <em>Biên tập</em> để đổi trạng thái. Doanh thu ở Dashboard sẽ tự động đồng bộ lại.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script>
-        let currentRow = null;
+        // DỮ LIỆU ĐƠN HÀNG MẪU NẾU CHƯA CÓ TRONG LOCALSTORAGE
+        const defaultOrders = [
+            {
+                id: "AT-8829",
+                tour_name: "Du thuyền Ambassador Vịnh Hạ Long",
+                customer_name: "Nguyễn Văn An",
+                customer_email: "an.nguyen@gmail.com",
+                guests: 2,
+                departure_date: "15/11/2026",
+                accessibility_req: "Cần hỗ trợ xe lăn lên xuống boong",
+                status: "paid",
+                total_price: 6400000,
+                payment_method: "VIETQR",
+                date_display: "28/10/2026"
+            },
+            {
+                id: "AT-7104",
+                tour_name: "Khu nghỉ dưỡng Topas Ecolodge Sapa",
+                customer_name: "Trần Thị Mai",
+                customer_email: "mai.tran@gmail.com",
+                guests: 1,
+                departure_date: "20/11/2026",
+                accessibility_req: "Xe điện gầm thấp cho người cao tuổi",
+                status: "paid",
+                total_price: 4500000,
+                payment_method: "MOMO",
+                date_display: "27/10/2026"
+            },
+            {
+                id: "AT-3391",
+                tour_name: "Quần thể Di tích Cố đô Huế Không Rào Cản",
+                customer_name: "Lê Hoàng Long",
+                customer_email: "long.le@gmail.com",
+                guests: 3,
+                departure_date: "25/11/2026",
+                accessibility_req: "Ram dốc < 8% qua cổng Ngọ Môn",
+                status: "pending_payment",
+                total_price: 2550000,
+                payment_method: "CHỜ THANH TOÁN",
+                date_display: "26/10/2026"
+            }
+        ];
 
-        function toggleMenu(e, menuId) {
-            e.stopPropagation();
-            document.querySelectorAll('.action-menu-popup').forEach(m => {
-                if(m.id !== menuId) m.classList.remove('show');
-            });
-            document.getElementById(menuId).classList.toggle('show');
-        }
-        window.addEventListener('click', () => {
-            document.querySelectorAll('.action-menu-popup').forEach(m => m.classList.remove('show'));
+        let allOrders = [];
+        let currentFilterStatus = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initOrders();
         });
 
-        function deleteRow(el) {
-            if(confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')) {
-                el.closest('tr').remove();
+        // NẠP VÀ KẾT HỢP DỮ LIỆU ĐƠN TỪ LOCALSTORAGE
+        function initOrders() {
+            let localOrders = [];
+            try {
+                localOrders = JSON.parse(localStorage.getItem('accessTravelOrders')) || [];
+            } catch (e) {
+                localOrders = [];
             }
+
+            // Chuẩn hóa dữ liệu từ khách đặt sang cấu trúc hiển thị
+            const formattedLocal = localOrders.map(item => ({
+                id: String(item.id).replace('#', ''),
+                tour_name: item.tour_name || "Tour Du Lịch Trợ Năng",
+                customer_name: item.customer_name || "Khách Hàng Đặt Chỗ",
+                customer_email: item.customer_email || "khachhang@accesstravel.vn",
+                guests: item.guests || 2,
+                departure_date: item.departure_date || "15/11/2026",
+                accessibility_req: item.accessibility_req || "Hỗ trợ xe lăn & đường ram dốc",
+                status: item.status || "paid",
+                total_price: Number(item.total_price) || 3200000,
+                payment_method: item.payment_method || "SANDBOX VIETQR",
+                date_display: item.date_display || new Date().toLocaleDateString('vi-VN')
+            }));
+
+            // Ghép đơn mới lên đầu, tiếp đến là đơn mẫu
+            allOrders = [...formattedLocal, ...defaultOrders];
+            renderOrdersTable();
         }
 
-        function openViewModal(el) {
-            const tr = el.closest('tr');
-            document.getElementById('viewId').innerText = tr.dataset.id;
-            document.getElementById('viewCustomer').innerText = tr.dataset.customer;
-            document.getElementById('viewProduct').innerText = tr.dataset.product;
-            document.getElementById('viewStatus').innerText = tr.dataset.status;
-            document.getElementById('viewPrice').innerText = tr.dataset.price;
+        function saveOrders() {
+            localStorage.setItem('accessTravelOrders', JSON.stringify(allOrders));
+        }
+
+        // RENDER BẢNG ĐƠN HÀNG
+        function renderOrdersTable() {
+            const tbody = document.getElementById('ordersTableBody');
+            tbody.innerHTML = '';
+
+            let filtered = allOrders;
+            if (currentFilterStatus === 'paid') {
+                filtered = allOrders.filter(o => o.status === 'paid' || o.status === 'confirmed');
+            } else if (currentFilterStatus === 'pending') {
+                filtered = allOrders.filter(o => o.status === 'pending_payment' || o.status === 'pending');
+            }
+
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (searchVal) {
+                filtered = filtered.filter(o => 
+                    o.id.toLowerCase().includes(searchVal) ||
+                    o.tour_name.toLowerCase().includes(searchVal) ||
+                    o.customer_name.toLowerCase().includes(searchVal) ||
+                    o.customer_email.toLowerCase().includes(searchVal)
+                );
+            }
+
+            // Cập nhật số đếm Tab
+            document.getElementById('countAll').innerText = allOrders.length;
+            document.getElementById('countPaid').innerText = allOrders.filter(o => o.status === 'paid' || o.status === 'confirmed').length;
+            document.getElementById('countPending').innerText = allOrders.filter(o => o.status === 'pending_payment' || o.status === 'pending').length;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-muted); font-weight:700;">Không có đơn đặt hàng nào trong danh mục này!</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(o => {
+                const isPaid = (o.status === 'paid' || o.status === 'confirmed');
+                const badgeHtml = isPaid 
+                    ? '<span class="badge-completed"><i class="fa-solid fa-circle-check"></i> Đã thanh toán</span>'
+                    : '<span class="badge-processing"><i class="fa-solid fa-clock"></i> Chờ thanh toán</span>';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="font-weight: 900; color: var(--primary);">#${o.id}</td>
+                    <td>
+                        <div style="font-weight: 800; color: var(--text-main);">${o.customer_name}</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">${o.customer_email} · ${o.date_display}</div>
+                    </td>
+                    <td>
+                        <div style="font-weight: 700; color: var(--text-main);">${o.tour_name}</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">${o.guests} vé · Khởi hành: ${o.departure_date}</div>
+                    </td>
+                    <td>
+                        <span style="font-size: 12.5px; font-weight: 700; color: #0f766e; background: rgba(15,118,110,0.08); padding: 3px 8px; border-radius: 6px;">
+                            <i class="fa-solid fa-wheelchair"></i> ${o.accessibility_req}
+                        </span>
+                    </td>
+                    <td>${badgeHtml}</td>
+                    <td style="font-weight: 900; color: var(--text-main); font-size: 14.5px;">${Number(o.total_price).toLocaleString('vi-VN')} đ</td>
+                    <td style="text-align: right;">
+                        <div class="action-dropdown">
+                            <button type="button" class="btn-action-dots" onclick="toggleMenu(event, 'menu_${o.id}')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            <div class="action-menu-popup" id="menu_${o.id}">
+                                <div class="action-item" onclick="openViewModal('${o.id}')"><i class="fa-regular fa-eye"></i> Xem chi tiết</div>
+                                <div class="action-item" onclick="openEditModal('${o.id}')"><i class="fa-regular fa-pen-to-square"></i> Cập nhật đơn</div>
+                                <div class="action-item delete" onclick="deleteOrder('${o.id}')"><i class="fa-regular fa-trash-can"></i> Hủy / Xóa</div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // XEM CHI TIẾT ĐƠN HÀNG
+        function openViewModal(id) {
+            const o = allOrders.find(item => item.id === id);
+            if (!o) return;
+
+            document.getElementById('viewId').innerText = '#' + o.id;
+            document.getElementById('viewCustomer').innerText = `${o.customer_name} (${o.customer_email})`;
+            document.getElementById('viewProduct').innerText = o.tour_name;
+            document.getElementById('viewGuests').innerText = o.guests + " vé";
+            document.getElementById('viewDate').innerText = o.departure_date;
+            document.getElementById('viewA11y').innerText = o.accessibility_req;
+            document.getElementById('viewPayment').innerText = o.payment_method;
+            document.getElementById('viewPrice').innerText = Number(o.total_price).toLocaleString('vi-VN') + " đ";
+
+            const isPaid = (o.status === 'paid' || o.status === 'confirmed');
+            document.getElementById('viewStatusBadge').innerHTML = isPaid 
+                ? '<span class="badge-completed">Đã thanh toán thành công</span>'
+                : '<span class="badge-processing">Chờ khách thanh toán Sandbox</span>';
+
             document.getElementById('viewModal').style.display = 'flex';
         }
 
-        function openEditModal(el) {
-            currentRow = el.closest('tr');
-            document.getElementById('editIdInput').value = currentRow.dataset.id;
-            document.getElementById('editPriceInput').value = currentRow.dataset.price;
+        // CHỈNH SỬA ĐƠN HÀNG
+        function openEditModal(id) {
+            const o = allOrders.find(item => item.id === id);
+            if (!o) return;
+
+            document.getElementById('editOrderId').value = o.id;
+            document.getElementById('editIdInput').value = '#' + o.id;
+            document.getElementById('editStatusSelect').value = (o.status === 'paid' || o.status === 'confirmed') ? 'paid' : 'pending_payment';
+            document.getElementById('editPriceInput').value = Number(o.total_price).toLocaleString('vi-VN') + ' đ';
+            document.getElementById('editA11yInput').value = o.accessibility_req;
+
             document.getElementById('editModal').style.display = 'flex';
         }
 
-        function saveEdit() {
-            if(currentRow) {
-                currentRow.dataset.price = document.getElementById('editPriceInput').value;
-                alert('Cập nhật đơn hàng thành công!');
+        function saveOrderEdit() {
+            const id = document.getElementById('editOrderId').value;
+            const o = allOrders.find(item => item.id === id);
+            if (o) {
+                const rawPrice = document.getElementById('editPriceInput').value.replace(/\D/g, '');
+                o.total_price = parseInt(rawPrice) || o.total_price;
+                o.status = document.getElementById('editStatusSelect').value;
+                o.accessibility_req = document.getElementById('editA11yInput').value.trim();
+
+                saveOrders();
+                renderOrdersTable();
+                alert('Đã cập nhật đơn hàng thành công! Số liệu doanh thu Dashboard sẽ tự động đồng bộ.');
                 document.getElementById('editModal').style.display = 'none';
-                location.reload();
+            }
+        }
+
+        // XÓA ĐƠN HÀNG
+        function deleteOrder(id) {
+            if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng #${id} không?`)) {
+                allOrders = allOrders.filter(item => item.id !== id);
+                saveOrders();
+                renderOrdersTable();
+            }
+        }
+
+        // LỌC THEO TAB
+        function filterOrders(status, tab) {
+            currentFilterStatus = status;
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderOrdersTable();
+        }
+
+        // TÌM KIẾM
+        function handleSearch(input) {
+            document.getElementById('btnClearSearch').style.display = input.value.trim() ? 'block' : 'none';
+            renderOrdersTable();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            document.getElementById('btnClearSearch').style.display = 'none';
+            renderOrdersTable();
+            input.focus();
+        }
+
+        // XUẤT CSV
+        function exportOrders() {
+            let csv = [];
+            csv.push('"Mã Đơn";"Khách Hàng";"Email";"Tên Tour";"Số Vé";"Khởi Hành";"Nhu Cầu Tiếp Cận";"Trạng Thái";"Tổng Tiền"');
+
+            allOrders.forEach(o => {
+                const st = (o.status === 'paid' || o.status === 'confirmed') ? 'Đã thanh toán' : 'Chờ thanh toán';
+                csv.push(`"#${o.id}";"${o.customer_name}";"${o.customer_email}";"${o.tour_name}";"${o.guests}";"${o.departure_date}";"${o.accessibility_req}";"${st}";"${o.total_price}"`);
+            });
+
+            let blob = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "danh-sach-don-dat-tour.csv";
+            link.click();
+        }
+
+        // QUẢN LÝ DROPDOWN POPUP
+        function toggleMenu(e, menuId) {
+            e.stopPropagation();
+            document.querySelectorAll('.action-menu-popup').forEach(m => {
+                if (m.id !== menuId) m.classList.remove('show');
+            });
+            const target = document.getElementById(menuId);
+            if (target) target.classList.toggle('show');
+        }
+
+        function toggleProfileDropdown(e) {
+            e.stopPropagation();
+            document.getElementById('adminProfileMenu').classList.toggle('show');
+            document.getElementById('adminNotifDropdown').classList.remove('show');
+        }
+
+        function toggleAdminNotif(e) {
+            e.stopPropagation();
+            document.getElementById('adminNotifDropdown').classList.toggle('show');
+            document.getElementById('adminProfileMenu').classList.remove('show');
+        }
+
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.action-menu-popup').forEach(m => m.classList.remove('show'));
+            const pMenu = document.getElementById('adminProfileMenu');
+            const nMenu = document.getElementById('adminNotifDropdown');
+            if (pMenu) pMenu.classList.remove('show');
+            if (nMenu) nMenu.classList.remove('show');
+        });
+
+        // CÁC HÀM TIỆN ÍCH PROFILE
+        function openProfileView() {
+            alert('HỒ SƠ QUẢN TRỊ VIÊN:\n• Họ tên: Nguyễn Trung Anh\n• Vai trò: Quản trị viên hệ thống (V3)\n• Email: admin@dulichso.test\n• Quyền: Toàn quyền điều hành');
+        }
+
+        function openSystemSettings() {
+            alert('CÀI ĐẶT HỆ THỐNG:\n• Cổng thanh toán: Sandbox MoMo / VietQR\n• Đồng bộ dữ liệu: Realtime localStorage');
+        }
+
+        function openGuideModal() {
+            document.getElementById('guideModal').style.display = 'flex';
+        }
+
+        function handleAdminLogout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất tài khoản quản trị?')) {
+                localStorage.removeItem('currentUser');
+                alert('Đã đăng xuất tài khoản.');
+                window.location.href = 'index.html';
             }
         }
     </script>

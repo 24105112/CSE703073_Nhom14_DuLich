@@ -548,6 +548,7 @@
     </div>
 
     <!-- SCRIPT XỬ LÝ CHUYỂN PHƯƠNG THỨC & TÍNH TIỀN VOUCHER ĐỘNG -->
+<!-- SCRIPT XỬ LÝ CHUYỂN PHƯƠNG THỨC, TÍNH VOUCHER & LIÊN THÔNG ADMIN / PROFILE -->
     <script>
         let currentMethod = 'vietqr';
         let rawBasePrice = 3200000;
@@ -565,19 +566,48 @@
             startCountdown(14, 54);
         });
 
-        // 1. Khởi tạo thông tin đơn hàng
+        // 1. Khởi tạo thông tin đơn hàng từ tham số URL hoặc đơn chờ gần nhất trong localStorage
         function initOrderDetails() {
+            let matchedOrder = null;
+            let orders = [];
+            try {
+                orders = JSON.parse(localStorage.getItem('accessTravelOrders')) || [];
+            } catch (e) {
+                orders = [];
+            }
+
             if (paramMaDon) {
                 document.getElementById('sumOrderCode').innerText = '#' + paramMaDon;
+                matchedOrder = orders.find(o => o.id === paramMaDon || o.id === ('#' + paramMaDon));
+            } else if (orders.length > 0) {
+                matchedOrder = orders[0];
+                document.getElementById('sumOrderCode').innerText = '#' + matchedOrder.id;
             }
-            if (paramTongTien) {
-                // Tách số tiền thô
-                const cleaned = paramTongTien.replace(/[^\d]/g, '');
-                if (cleaned) {
-                    rawBasePrice = parseInt(cleaned);
-                    currentFinalPrice = rawBasePrice;
+
+            // Đồng bộ tên tour và số khách nếu tìm thấy đơn hàng
+            if (matchedOrder) {
+                if (matchedOrder.tour_name) {
+                    document.getElementById('sumTourName').innerText = matchedOrder.tour_name;
+                }
+                if (matchedOrder.guests) {
+                    document.getElementById('sumTourPackage').innerText = `${matchedOrder.guests} Khách · ${matchedOrder.accessibility_req || 'Gói hỗ trợ tiếp cận'}`;
+                }
+                if (matchedOrder.departure_date) {
+                    document.getElementById('sumDepDate').innerText = matchedOrder.departure_date;
                 }
             }
+
+            // Đồng bộ giá tiền
+            if (paramTongTien) {
+                const cleaned = String(paramTongTien).replace(/[^\d]/g, '');
+                if (cleaned) {
+                    rawBasePrice = parseInt(cleaned, 10);
+                }
+            } else if (matchedOrder && matchedOrder.total_price) {
+                rawBasePrice = Number(matchedOrder.total_price);
+            }
+
+            currentFinalPrice = rawBasePrice;
             renderPriceUI();
         }
 
@@ -593,7 +623,7 @@
             if (method === 'vietqr') {
                 document.getElementById('itemVietQR').classList.add('active');
                 document.getElementById('rdVietQR').checked = true;
-                btnText.innerText = "Thanh toán & Đã quét mã QR";
+                btnText.innerText = "Xác nhận & Đã quét mã QR";
             } else if (method === 'ewallet') {
                 document.getElementById('itemEwallet').classList.add('active');
                 document.getElementById('rdEwallet').checked = true;
@@ -618,13 +648,11 @@
                 discountRow.style.display = 'none';
                 statusMsg.style.display = 'none';
             } else if (val < 1) {
-                // Giảm theo % (0.1 = 10%)
                 discountAmount = Math.round(rawBasePrice * val);
                 discountRow.style.display = 'flex';
                 statusMsg.style.display = 'block';
                 statusMsg.innerText = `✔ Đã giảm 10% (-${discountAmount.toLocaleString('vi-VN')} đ)!`;
             } else {
-                // Giảm theo số tiền cố định (100k, 200k)
                 discountAmount = val;
                 discountRow.style.display = 'flex';
                 statusMsg.style.display = 'block';
@@ -665,11 +693,12 @@
             }
         }
 
-        // 6. Xử lý bấm nút thanh toán (Chuyển trạng thái đơn sang đã thanh toán)
+        // 6. Xử lý bấm nút thanh toán (Cập nhật sang 'paid', kích hoạt doanh thu Admin, lưu lịch sử và chuyển sang profile)
         async function handleExecutePayment() {
             const orderCode = document.getElementById('sumOrderCode').innerText.replace('#', '');
+            const tourTitle = document.getElementById('sumTourName').innerText.trim();
 
-            // Nếu chọn thẻ, kiểm tra thông tin thẻ cơ bản
+            // Nếu chọn thẻ, kiểm tra các trường bắt buộc
             if (currentMethod === 'credit') {
                 const cardNum = document.getElementById('cardNumberInput').value.trim();
                 const cardHolder = document.getElementById('cardHolderInput').value.trim();
@@ -682,9 +711,9 @@
                 }
             }
 
-            // Gọi API thanh toán thử nghiệm cập nhật CSDL
+            // Gọi API backend thanh toán thử nghiệm (nếu chạy PHP/MySQL)
             try {
-                const res = await fetch('../api/bookings/pay.php', {
+                await fetch('../api/bookings/pay.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -695,16 +724,76 @@
                     })
                 });
             } catch (err) {
-                console.log('Chế độ sandbox cục bộ.');
+                // Tự động bỏ qua lỗi khi chạy trên nền tảng tĩnh Render
             }
 
-            alert(`🎉 THANH TOÁN THÀNH CÔNG (SANDBOX)!\n---------------------------------\n• Mã đơn: ${orderCode}\n• Phương thức: ${currentMethod.toUpperCase()}\n• Tổng tiền đã thanh toán: ${currentFinalPrice.toLocaleString('vi-VN')} đ\n• Đã giảm trừ Voucher: ${discountAmount.toLocaleString('vi-VN')} đ\n---------------------------------\nVé điện tử trợ năng và hóa đơn đã được gửi qua email của bạn!`);
-            
-            // Chuyển về trang chủ hoặc đơn hàng
-            window.location.href = 'index.html';
+            // CẬP NHẬT TRẠNG THÁI ĐƠN HÀNG TRONG LOCALSTORAGE
+            let orders = [];
+            try {
+                orders = JSON.parse(localStorage.getItem('accessTravelOrders')) || [];
+            } catch (e) {
+                orders = [];
+            }
+
+            let found = false;
+            orders = orders.map(order => {
+                if (order.id === orderCode || order.id === ('#' + orderCode)) {
+                    order.status = 'paid'; // Kích hoạt tính doanh thu cho admin.html
+                    order.total_price = currentFinalPrice;
+                    order.payment_method = currentMethod.toUpperCase();
+                    order.paid_at = new Date().toISOString();
+                    found = true;
+                }
+                return order;
+            });
+
+            // Nếu đơn chưa tồn tại sẵn trong mảng, tạo bản ghi mới hoàn chỉnh
+            if (!found) {
+                orders.unshift({
+                    id: orderCode,
+                    tour_name: tourTitle,
+                    total_price: currentFinalPrice,
+                    guests: 2,
+                    departure_date: document.getElementById('sumDepDate').innerText.trim(),
+                    accessibility_req: 'Đã xác nhận tiêu chuẩn tiếp cận',
+                    status: 'paid',
+                    payment_method: currentMethod.toUpperCase(),
+                    created_at: new Date().toISOString(),
+                    date_display: new Date().toLocaleDateString('vi-VN')
+                });
+            }
+            localStorage.setItem('accessTravelOrders', JSON.stringify(orders));
+
+            // THÊM THÔNG BÁO VÀO CHUÔNG HỆ THỐNG
+            let notifs = [];
+            try {
+                notifs = JSON.parse(localStorage.getItem('accessTravelNotifs')) || [];
+            } catch (e) {
+                notifs = [];
+            }
+            notifs.unshift({
+                id: Date.now(),
+                title: '🎉 Thanh toán đơn hàng thành công!',
+                desc: `Đơn #${orderCode} (${tourTitle}) đã thanh toán thành công ${currentFinalPrice.toLocaleString('vi-VN')} đ qua Sandbox.`,
+                time: 'Vừa xong',
+                read: false
+            });
+            localStorage.setItem('accessTravelNotifs', JSON.stringify(notifs));
+
+            // THÔNG BÁO CHO NGƯỜI DÙNG VÀ ĐIỀU HƯỚNG VỀ PROFILE
+            alert(`🎉 THANH TOÁN THÀNH CÔNG (SANDBOX)!\n---------------------------------\n` +
+                  `• Mã đơn: #${orderCode}\n` +
+                  `• Chuyến đi: ${tourTitle}\n` +
+                  `• Phương thức: ${currentMethod.toUpperCase()}\n` +
+                  `• Số tiền thanh toán: ${currentFinalPrice.toLocaleString('vi-VN')} đ\n` +
+                  (discountAmount > 0 ? `• Đã trừ Voucher: -${discountAmount.toLocaleString('vi-VN')} đ\n` : '') +
+                  `---------------------------------\n` +
+                  `Vé điện tử và hóa đơn đã được lưu. Hệ thống đang chuyển về mục "Tour đã đặt" trong hồ sơ của bạn.`);
+
+            window.location.href = 'profile.html?tab=bookings';
         }
 
-        // 7. Đồng hồ đếm ngược giữ chỗ
+        // 7. Đồng hồ đếm ngược giữ chỗ 15 phút (Mốc M2/M3)
         function startCountdown(minutes, seconds) {
             let totalSec = minutes * 60 + seconds;
             const timerEl = document.getElementById('countdownTimer');
@@ -713,7 +802,7 @@
                 if (totalSec <= 0) {
                     clearInterval(interval);
                     timerEl.innerText = "00:00";
-                    alert("Thời hạn giữ chỗ đã hết! Vui lòng chọn lại suất khởi hành.");
+                    alert("Thời hạn giữ chỗ đã hết! Vui lòng chọn lại chuyến đi.");
                     window.location.href = 'detail.html';
                     return;
                 }
@@ -723,6 +812,3 @@
             }, 1000);
         }
     </script>
-    <script src="js/accessibility-widget.js"></script>
-</body>
-</html>

@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-        <script>
+    <script>
     (function() {
         const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
@@ -10,7 +10,7 @@
     })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khách hàng | AccessTravel Admin</title>
+    <title>Quản Lý Khách Hàng | AccessTravel Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,49 +19,221 @@
             --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
             --primary: #0f766e; --primary-hover: #0d9488;
         }
+        [data-theme="dark"] {
+            --bg-main: #09090b; --sidebar-bg: #18181b; --card-bg: #18181b;
+            --text-main: #f8fafc; --text-muted: #a1a1aa; --border-color: #27272a;
+            --primary: #14b8a6; --primary-hover: #0d9488;
+        }
         body { font-family: 'Be Vietnam Pro', sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         * { box-sizing: border-box; }
         a { text-decoration: none; color: inherit; }
 
+        /* SIDEBAR TRÁI */
         .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px; }
-        .sidebar-brand { font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
+        .sidebar-brand { font-size: 19px; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; margin-bottom: 30px; }
         .sidebar-menu { display: flex; flex-direction: column; gap: 6px; }
         .menu-item { padding: 12px 16px; border-radius: 8px; font-size: 14.5px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 12px; transition: 0.2s; }
         .menu-item:hover, .menu-item.active { background: rgba(15, 118, 110, 0.1); color: var(--primary); }
 
+        /* KHUNG CHÍNH */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        .admin-header { height: 70px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); padding: 0 30px; display: flex; justify-content: space-between; align-items: center; }
-        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); }
-        .breadcrumb span { color: var(--text-main); font-weight: 700; }
-        .btn-add { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        
+        /* HEADER NÂNG CẤP ĐỒNG BỘ */
+        .admin-header { 
+            height: 72px; 
+            background: var(--card-bg); 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 0 32px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .breadcrumb { font-size: 14px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+        .breadcrumb span { color: var(--text-main); font-weight: 800; }
+        
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .btn-add { background: var(--primary); color: #fff; border: none; padding: 9px 16px; border-radius: 8px; font-weight: 800; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-add:hover { background: var(--primary-hover); }
 
+        /* CHUÔNG THÔNG BÁO */
+        .admin-notif-btn {
+            position: relative;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .admin-notif-btn:hover { background: #e2e8f0; }
+        .admin-notif-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 800;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-notif-dropdown {
+            display: none;
+            position: absolute;
+            right: 190px;
+            top: 66px;
+            width: 340px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            padding: 16px;
+            z-index: 1001;
+        }
+        .admin-notif-dropdown.show { display: block; }
+        .admin-notif-item { padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 8px; background: var(--bg-main); line-height: 1.4; cursor: pointer; }
+        .admin-notif-item:hover { background: #e2e8f0; }
+
+        /* CỤM TÀI KHOẢN QUẢN TRỊ VIÊN */
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px 5px 6px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            transition: 0.2s;
+        }
+        .admin-profile-pill:hover { border-color: var(--primary); }
+        .admin-avatar-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #0f766e;
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 13.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-pill-info { display: flex; flex-direction: column; text-align: left; }
+        .admin-pill-name { font-size: 13.5px; font-weight: 800; color: var(--text-main); line-height: 1.2; }
+        .admin-pill-role { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+        /* MENU THẢ XUỐNG PROFILE */
+        .admin-profile-menu {
+            display: none;
+            position: absolute;
+            right: 32px;
+            top: 68px;
+            width: 250px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            padding: 8px;
+            z-index: 1002;
+        }
+        .admin-profile-menu.show { display: block; }
+        .dropdown-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .dropdown-menu-item:hover { background: var(--bg-main); color: var(--primary); }
+        .dropdown-divider { height: 1px; background: var(--border-color); margin: 6px 0; }
+
+        /* NỘI DUNG CHÍNH */
         .content-body { padding: 30px; }
         .page-title { font-size: 24px; font-weight: 900; margin: 0 0 6px 0; }
         .page-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
 
         .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
-        .filter-tab.active { background: var(--text-main); color: var(--card-bg); border-color: var(--text-main); }
+        .filter-tab { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .filter-tab.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
 
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; gap: 16px; }
-        .search-box { position: relative; flex: 1; max-width: 360px; }
-        .search-box input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 16px 10px 40px; border-radius: 8px; font-size: 14px; color: var(--text-main); outline: none; }
+        .search-box { position: relative; flex: 1; max-width: 380px; }
+        .search-box input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px 36px 10px 40px; border-radius: 8px; font-size: 14px; color: var(--text-main); outline: none; }
         .search-box i { position: absolute; left: 14px; top: 13px; color: var(--text-muted); }
-        .btn-tool { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .btn-clear-search { position: absolute; right: 12px; top: 8px; background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; display: none; }
+        .btn-tool { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-tool:hover { border-color: var(--primary); color: var(--primary); }
 
-        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+        /* BẢNG KHÁCH HÀNG */
+        .table-container { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: visible; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
         .product-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
         .product-table th, .product-table td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); }
-        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12.5px; text-transform: uppercase; }
-        .customer-avatar { width: 36px; height: 36px; background: #e0f2fe; color: #0369a1; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 13px; }
+        .product-table th { background: var(--bg-main); font-weight: 800; color: var(--text-muted); font-size: 12px; text-transform: uppercase; }
+        
+        .customer-avatar { width: 38px; height: 38px; background: #e0f2fe; color: #0369a1; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 13.5px; }
         .customer-cell { display: flex; align-items: center; gap: 12px; font-weight: 700; }
         
-        .badge-active { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
-        .badge-inactive { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+        .badge-active { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; }
+        .badge-inactive { background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; }
+
+        /* ACTION MENU */
+        .action-dropdown { position: relative; display: inline-block; }
+        .btn-action-dots { background: transparent; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); padding: 6px 10px; border-radius: 6px; }
+        .btn-action-dots:hover { background: var(--bg-main); color: var(--text-main); }
+        .action-menu-popup {
+            display: none; position: absolute; right: 0; top: 36px; background: var(--card-bg);
+            border: 1px solid var(--border-color); border-radius: 10px; width: 150px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 100; padding: 6px;
+        }
+        .action-menu-popup.show { display: block; }
+        .action-item {
+            display: flex; align-items: center; gap: 10px; padding: 9px 12px; font-size: 13px;
+            font-weight: 700; color: var(--text-main); border-radius: 6px; cursor: pointer;
+        }
+        .action-item:hover { background: var(--bg-main); color: var(--primary); }
+        .action-item.delete { color: #dc2626; }
+        .action-item.delete:hover { background: #fee2e2; }
+
+        /* MODAL */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-card { background: var(--card-bg); color: var(--text-main); width: 100%; max-width: 580px; border-radius: 16px; padding: 28px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+        .modal-close { position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
+        .modal-close:hover { color: #ef4444; }
+        .form-input, .form-select { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); padding: 11px 14px; border-radius: 8px; font-size: 14px; color: var(--text-main); margin-bottom: 14px; outline: none; font-family: inherit; }
+        .form-input:focus, .form-select:focus { border-color: var(--primary); }
+        .form-label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .btn-modal-save { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; width: 100%; font-size: 15px; transition: 0.2s; }
+        .btn-modal-save:hover { background: var(--primary-hover); }
+
+        .guide-modal-content { max-width: 760px; }
+        .guide-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+        .guide-table th, .guide-table td { padding: 10px 14px; border: 1px solid var(--border-color); }
+        .guide-table th { background: var(--bg-main); font-weight: 800; text-align: left; }
     </style>
 </head>
 <body data-theme="light">
 
+    <!-- SIDEBAR -->
     <div class="sidebar">
         <div class="sidebar-brand"><i class="fa-solid fa-wheelchair"></i> AccessTravel</div>
         <div class="sidebar-menu">
@@ -73,110 +245,502 @@
         </div>
     </div>
 
+    <!-- MAIN CONTENT -->
     <div class="main-content">
+        <!-- HEADER ĐỒNG BỘ CỤM QUẢN TRỊ VIÊN -->
         <header class="admin-header">
             <div class="breadcrumb">Bảng điều khiển &nbsp;>&nbsp; <span>Khách hàng</span></div>
-            <button class="btn-add" onclick="alert('Thêm khách hàng mới!')"><i class="fa-solid fa-plus"></i> Thêm khách hàng</button>
+
+            <div class="header-actions">
+                <button class="btn-add" onclick="openAddModal()"><i class="fa-solid fa-user-plus"></i> Thêm khách hàng</button>
+
+                <!-- CHUÔNG THÔNG BÁO -->
+                <div style="position: relative;">
+                    <button type="button" class="admin-notif-btn" onclick="toggleAdminNotif(event)" title="Xem thông báo hệ thống">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="admin-notif-badge" id="adminNotifCount">2</span>
+                    </button>
+                    <div class="admin-notif-dropdown" id="adminNotifDropdown">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                            <strong style="font-size: 14.5px;">Hồ Sơ Thành Viên</strong>
+                            <span style="font-size: 11px; color: var(--primary); font-weight: 800; cursor: pointer;" onclick="document.getElementById('adminNotifCount').style.display='none';">Đã đọc tất cả</span>
+                        </div>
+                        <div class="admin-notif-item">
+                            <strong style="color: #0f766e;"><i class="fa-solid fa-circle-check"></i> Khách hàng mới:</strong>
+                            <div style="font-size: 12px; margin-top: 2px;">Thành viên mới vừa hoàn tất hồ sơ nhu cầu trợ năng xe lăn.</div>
+                            <small style="color: #94a3b8; font-size: 10.5px;">20 phút trước</small>
+                        </div>
+                        <div class="admin-notif-item">
+                            <strong style="color: #f59e0b;"><i class="fa-solid fa-heart"></i> Cập nhật nhu cầu:</strong>
+                            <div style="font-size: 12px; margin-top: 2px;">Khách hàng yêu cầu hỗ trợ thực đơn kiểm soát đường huyết.</div>
+                            <small style="color: #94a3b8; font-size: 10.5px;">1 giờ trước</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CỤM TÀI KHOẢN QUẢN TRỊ VIÊN -->
+                <div class="admin-profile-pill" onclick="toggleProfileDropdown(event)">
+                    <div class="admin-avatar-circle">TA</div>
+                    <div class="admin-pill-info">
+                        <span class="admin-pill-name">Nguyễn Trung Anh</span>
+                        <span class="admin-pill-role">Quản trị viên</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 11px; color: #94a3b8; margin-left: 4px;"></i>
+                </div>
+
+                <!-- MENU TÀI KHOẢN THẢ XUỐNG -->
+                <div class="admin-profile-menu" id="adminProfileMenu">
+                    <div class="dropdown-menu-item" onclick="openProfileView()">
+                        <i class="fa-regular fa-id-badge" style="width: 18px; color: var(--primary);"></i> Hồ sơ quản trị viên
+                    </div>
+                    <div class="dropdown-menu-item" onclick="openSystemSettings()">
+                        <i class="fa-solid fa-sliders" style="width: 18px; color: var(--primary);"></i> Cài đặt hệ thống
+                    </div>
+                    <div class="dropdown-menu-item" onclick="openGuideModal()">
+                        <i class="fa-regular fa-circle-question" style="width: 18px; color: var(--primary);"></i> Sổ tay hướng dẫn
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-menu-item" onclick="handleAdminLogout()" style="color: #ef4444;">
+                        <i class="fa-solid fa-arrow-right-from-bracket" style="width: 18px;"></i> Đăng xuất
+                    </div>
+                </div>
+            </div>
         </header>
 
+        <!-- THÂN NỘI DUNG -->
         <div class="content-body">
-            <h1 class="page-title">Khách hàng</h1>
-            <p class="page-desc">Xem và quản lý cơ sở khách hàng của bạn.</p>
+            <h1 class="page-title">Cơ sở dữ liệu Khách hàng</h1>
+            <p class="page-desc">Quản lý danh sách thành viên, mức độ tương tác và hồ sơ trợ năng cá nhân hóa.</p>
 
             <div class="filter-tabs">
-                <div class="filter-tab active" onclick="filterTable('all', this)">Tất cả</div>
-                <div class="filter-tab" onclick="filterTable('active', this)">Tích cực</div>
-                <div class="filter-tab" onclick="filterTable('inactive', this)">Không hoạt động</div>
+                <div class="filter-tab active" onclick="filterCustomers('all', this)">Tất cả (<span id="countAll">0</span>)</div>
+                <div class="filter-tab" onclick="filterCustomers('active', this)">Tích cực (<span id="countActive">0</span>)</div>
+                <div class="filter-tab" onclick="filterCustomers('inactive', this)">Không hoạt động (<span id="countInactive">0</span>)</div>
             </div>
 
             <div class="toolbar">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm khách hàng..." onkeyup="searchTable()">
+                    <input type="text" id="searchInput" placeholder="Tìm tên khách hàng, email, nhu cầu trợ năng..." oninput="handleSearch(this)">
+                    <button type="button" class="btn-clear-search" id="btnClearSearch" onclick="clearSearch()" title="Xóa">&times;</button>
                 </div>
-                <button class="btn-tool" onclick="exportTable()"><i class="fa-solid fa-download"></i> Xuất khẩu</button>
+                <button class="btn-tool" onclick="exportCustomers()"><i class="fa-solid fa-download"></i> Xuất file CSV</button>
             </div>
 
             <div class="table-container">
-                <table class="product-table" id="dataTable">
+                <table class="product-table" id="customersTable">
                     <thead>
                         <tr>
                             <th>Khách hàng</th>
+                            <th>Nhu cầu tiếp cận</th>
                             <th>Trạng thái</th>
-                            <th>Đã tham gia</th>
-                            <th>Đơn đặt hàng</th>
-                            <th>Tổng số tiền đã chi</th>
+                            <th>Ngày tham gia</th>
+                            <th>Đơn đặt chỗ</th>
+                            <th>Tổng chi tiêu</th>
+                            <th style="text-align: right;">Hành động</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody">
-                        <tr data-status="active">
-                            <td>
-                                <div class="customer-cell">
-                                    <div class="customer-avatar">EW</div>
-                                    <div>Emma Wilson<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">emma@example.com</span></div>
-                                </div>
-                            </td>
-                            <td><span class="badge-active">Tích cực</span></td>
-                            <td>Ngày 5 tháng 1 năm 2026</td>
-                            <td>3</td>
-                            <td style="font-weight:800; color:var(--primary);">898,00 đ</td>
-                        </tr>
-                        <tr data-status="active">
-                            <td>
-                                <div class="customer-cell">
-                                    <div class="customer-avatar">JC</div>
-                                    <div>James Chen<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">james@company.io</span></div>
-                                </div>
-                            </td>
-                            <td><span class="badge-active">Tích cực</span></td>
-                            <td>Ngày 12 tháng 1 năm 2026</td>
-                            <td>1</td>
-                            <td style="font-weight:800; color:var(--primary);">599,00 đ</td>
-                        </tr>
-                        <tr data-status="inactive">
-                            <td>
-                                <div class="customer-cell">
-                                    <div class="customer-avatar" style="background:#f1f5f9; color:#475569;">DK</div>
-                                    <div>David Kim<br><span style="font-size:12px; color:var(--text-muted); font-weight:500;">david@tech.io</span></div>
-                                </div>
-                            </td>
-                            <td><span class="badge-inactive">Không Hoạt Động</span></td>
-                            <td>Ngày 15 tháng 11 năm 2025</td>
-                            <td>1</td>
-                            <td style="font-weight:800; color:var(--text-muted);">0,00 đ</td>
-                        </tr>
+                    <tbody id="customersTableBody">
+                        <!-- Render tự động qua JavaScript từ localStorage và danh sách mẫu -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- MODAL THÊM KHÁCH HÀNG MỚI -->
+    <div id="addModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card">
+            <button class="modal-close" onclick="document.getElementById('addModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0; font-size:20px; font-weight:900; color:var(--primary);">Thêm hồ sơ khách hàng mới</h2>
+            <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:20px;">Lưu trữ thông tin và hồ sơ hỗ trợ đặc thù của du khách.</p>
+            
+            <form onsubmit="addNewCustomer(event)">
+                <label class="form-label">Họ và tên</label>
+                <input type="text" id="addName" class="form-input" placeholder="Ví dụ: Nguyễn Văn Nam" required>
+                
+                <label class="form-label">Địa chỉ Email</label>
+                <input type="email" id="addEmail" class="form-input" placeholder="Ví dụ: nam.nguyen@example.com" required>
+
+                <div style="display:flex; gap:16px;">
+                    <div style="flex:1;">
+                        <label class="form-label">Nhu cầu tiếp cận</label>
+                        <select id="addA11y" class="form-select">
+                            <option value="Sử dụng xe lăn cơ">Sử dụng xe lăn cơ</option>
+                            <option value="Sử dụng xe lăn điện">Sử dụng xe lăn điện</option>
+                            <option value="Người cao tuổi (Xe gầm thấp)">Người cao tuổi (Xe gầm thấp)</option>
+                            <option value="Hỗ trợ thị giác / Thính giác">Hỗ trợ thị giác / Thính giác</option>
+                            <option value="Không có yêu cầu đặc biệt">Không có yêu cầu đặc biệt</option>
+                        </select>
+                    </div>
+                    <div style="flex:1;">
+                        <label class="form-label">Trạng thái</label>
+                        <select id="addStatus" class="form-select">
+                            <option value="active">Tích cực</option>
+                            <option value="inactive">Không hoạt động</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-modal-save">Thêm khách hàng ngay</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL XEM CHI TIẾT KHÁCH HÀNG -->
+    <div id="viewModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card">
+            <button class="modal-close" onclick="document.getElementById('viewModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0; font-size:20px; font-weight:900; color:var(--primary);">Hồ sơ du khách chi tiết</h2>
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <p><strong>Họ và tên:</strong> <span id="viewName" style="font-weight:800;"></span></p>
+            <p><strong>Email liên hệ:</strong> <span id="viewEmail"></span></p>
+            <p><strong>Nhu cầu tiếp cận:</strong> <span id="viewA11y" style="color:var(--primary); font-weight:800;"></span></p>
+            <p><strong>Ngày gia nhập:</strong> <span id="viewDate"></span></p>
+            <p><strong>Tổng số đơn đã đặt:</strong> <span id="viewOrders"></span></p>
+            <p><strong>Tổng chi tiêu lũy kế:</strong> <span id="viewSpent" style="color:#ea580c; font-weight:900; font-size:16px;"></span></p>
+        </div>
+    </div>
+
+    <!-- MODAL SỔ TAY HƯỚNG DẪN -->
+    <div id="guideModal" class="modal-overlay" onclick="if(event.target==this) this.style.display='none'">
+        <div class="modal-card guide-modal-content">
+            <button class="modal-close" onclick="document.getElementById('guideModal').style.display='none'">&times;</button>
+            <h2 style="margin-top:0; font-size:19px; font-weight:900; color:var(--primary);"><i class="fa-solid fa-book-open-reader"></i> Sổ Tay Quản Lý Hồ Sơ Khách Hàng</h2>
+            <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:14px;">Hướng dẫn chăm sóc và đồng bộ nhu cầu du khách trợ năng:</p>
+            
+            <table class="guide-table">
+                <thead>
+                    <tr>
+                        <th>Nghiệp vụ</th>
+                        <th>Mô tả</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Hồ sơ người dùng mới</strong></td>
+                        <td>Tự động cập nhật khi khách đăng ký tài khoản hoặc đặt tour</td>
+                        <td>Bảng sẽ hiển thị thông tin thành viên cùng số tiền họ đã thanh toán.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phân loại rào cản</strong></td>
+                        <td>Xe lăn điện, người cao tuổi, khiếm thị/khiếm thính</td>
+                        <td>Xem cột <em>Nhu cầu tiếp cận</em> để điều phối nhân sự trợ giúp thích hợp.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Xuất tệp du khách</strong></td>
+                        <td>Tải danh sách gửi cho bên bảo hiểm hoặc hướng dẫn viên đoàn</td>
+                        <td>Bấm <code>Xuất file CSV</code> góc trên bảng dữ liệu.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <script>
-        function filterTable(status, tab) {
+        // DỮ LIỆU KHÁCH HÀNG MẪU CHUẨN ĐỒ ÁN
+        const defaultCustomers = [
+            {
+                id: 1,
+                name: "Nguyễn Văn An",
+                email: "an.nguyen@gmail.com",
+                a11y: "Sử dụng xe lăn cơ",
+                status: "active",
+                joined: "05/01/2026",
+                orders_count: 2,
+                total_spent: 6400000
+            },
+            {
+                id: 2,
+                name: "Trần Thị Mai",
+                email: "mai.tran@gmail.com",
+                a11y: "Người cao tuổi (Xe gầm thấp)",
+                status: "active",
+                joined: "12/01/2026",
+                orders_count: 1,
+                total_spent: 4500000
+            },
+            {
+                id: 3,
+                name: "Lê Hoàng Long",
+                email: "long.le@gmail.com",
+                a11y: "Sử dụng xe lăn điện",
+                status: "inactive",
+                joined: "15/11/2025",
+                orders_count: 0,
+                total_spent: 0
+            },
+            {
+                id: 4,
+                name: "Phạm Hải Đăng",
+                email: "dang.pham@travel.org",
+                a11y: "Hỗ trợ thị giác / Thính giác",
+                status: "active",
+                joined: "18/02/2026",
+                orders_count: 3,
+                total_spent: 8950000
+            }
+        ];
+
+        let customersList = [];
+        let currentFilterStatus = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCustomers();
+        });
+
+        // NẠP VÀ KẾT HỢP DỮ LIỆU LOCALSTORAGE
+        function initCustomers() {
+            let localRegUsers = [];
+            try {
+                localRegUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            } catch(e) { localRegUsers = []; }
+
+            // Lấy thêm người dùng hiện tại đang đăng nhập nếu có
+            try {
+                const curUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (curUser && curUser.email && !localRegUsers.some(u => u.email === curUser.email)) {
+                    localRegUsers.unshift(curUser);
+                }
+            } catch(e) {}
+
+            // Đọc các đơn đã đặt để tính tổng tiền và số đơn cho người dùng cục bộ
+            let localOrders = [];
+            try {
+                localOrders = JSON.parse(localStorage.getItem('accessTravelOrders')) || [];
+            } catch(e) { localOrders = []; }
+
+            const formattedRegistered = localRegUsers.map((u, idx) => {
+                const userOrders = localOrders.filter(o => o.customer_email === u.email || (o.status === 'paid' && idx === 0));
+                const totalSpent = userOrders.reduce((sum, o) => sum + (Number(o.total_price) || 0), 0);
+                
+                return {
+                    id: Date.now() + idx,
+                    name: u.full_name || u.name || "Khách Hàng Mới",
+                    email: u.email,
+                    a11y: u.accessibility_req || "Hỗ trợ xe lăn & đường ram dốc",
+                    status: "active",
+                    joined: "Hôm nay",
+                    orders_count: userOrders.length || 1,
+                    total_spent: totalSpent || 3200000
+                };
+            });
+
+            // Gộp danh sách người dùng đăng ký thực với danh sách mẫu
+            customersList = [...formattedRegistered, ...defaultCustomers];
+            renderCustomersTable();
+        }
+
+        function saveCustomers() {
+            localStorage.setItem('accessTravelCustomersList', JSON.stringify(customersList));
+        }
+
+        // RENDER BẢNG DỮ LIỆU
+        function renderCustomersTable() {
+            const tbody = document.getElementById('customersTableBody');
+            tbody.innerHTML = '';
+
+            let filtered = customersList;
+            if (currentFilterStatus !== 'all') {
+                filtered = customersList.filter(c => c.status === currentFilterStatus);
+            }
+
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (searchVal) {
+                filtered = filtered.filter(c => 
+                    c.name.toLowerCase().includes(searchVal) ||
+                    c.email.toLowerCase().includes(searchVal) ||
+                    c.a11y.toLowerCase().includes(searchVal)
+                );
+            }
+
+            // Cập nhật số đếm Tab
+            document.getElementById('countAll').innerText = customersList.length;
+            document.getElementById('countActive').innerText = customersList.filter(c => c.status === 'active').length;
+            document.getElementById('countInactive').innerText = customersList.filter(c => c.status === 'inactive').length;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-muted); font-weight:700;">Không tìm thấy khách hàng nào phù hợp!</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(c => {
+                const initials = c.name.split(' ').map(n => n.charAt(0)).slice(-2).join('').toUpperCase() || 'KH';
+                const badgeHtml = c.status === 'active'
+                    ? '<span class="badge-active"><i class="fa-solid fa-circle-check"></i> Tích cực</span>'
+                    : '<span class="badge-inactive"><i class="fa-solid fa-circle-minus"></i> Không hoạt động</span>';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="customer-cell">
+                            <div class="customer-avatar">${initials}</div>
+                            <div>
+                                <div style="font-weight:800; color:var(--text-main); line-height:1.2;">${c.name}</div>
+                                <span style="font-size:12px; color:var(--text-muted); font-weight:500;">${c.email}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span style="font-size:12.5px; font-weight:700; color:var(--primary); background:rgba(15,118,110,0.08); padding:3px 8px; border-radius:6px;">
+                            <i class="fa-solid fa-wheelchair"></i> ${c.a11y}
+                        </span>
+                    </td>
+                    <td>${badgeHtml}</td>
+                    <td style="font-size:13px; color:var(--text-muted); font-weight:600;">${c.joined}</td>
+                    <td style="font-weight:800; text-align:center;">${c.orders_count}</td>
+                    <td style="font-weight:900; color:var(--primary); font-size:14.5px;">${Number(c.total_spent).toLocaleString('vi-VN')} đ</td>
+                    <td style="text-align: right;">
+                        <div class="action-dropdown">
+                            <button type="button" class="btn-action-dots" onclick="toggleMenu(event, 'cust_${c.id}')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            <div class="action-menu-popup" id="cust_${c.id}">
+                                <div class="action-item" onclick="openViewModal(${c.id})"><i class="fa-regular fa-eye"></i> Xem hồ sơ</div>
+                                <div class="action-item delete" onclick="deleteCustomer(${c.id})"><i class="fa-regular fa-trash-can"></i> Xóa bỏ</div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // THÊM KHÁCH HÀNG MỚI
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+        }
+
+        function addNewCustomer(e) {
+            e.preventDefault();
+            const newCust = {
+                id: Date.now(),
+                name: document.getElementById('addName').value.trim(),
+                email: document.getElementById('addEmail').value.trim(),
+                a11y: document.getElementById('addA11y').value,
+                status: document.getElementById('addStatus').value,
+                joined: "Hôm nay",
+                orders_count: 0,
+                total_spent: 0
+            };
+
+            customersList.unshift(newCust);
+            renderCustomersTable();
+            alert('Thêm khách hàng thành công!');
+            document.getElementById('addModal').style.display = 'none';
+            e.target.reset();
+        }
+
+        // XEM CHI TIẾT
+        function openViewModal(id) {
+            const c = customersList.find(item => item.id === id);
+            if (!c) return;
+
+            document.getElementById('viewName').innerText = c.name;
+            document.getElementById('viewEmail').innerText = c.email;
+            document.getElementById('viewA11y').innerText = c.a11y;
+            document.getElementById('viewDate').innerText = c.joined;
+            document.getElementById('viewOrders').innerText = c.orders_count + " chuyến đi";
+            document.getElementById('viewSpent').innerText = Number(c.total_spent).toLocaleString('vi-VN') + " đ";
+
+            document.getElementById('viewModal').style.display = 'flex';
+        }
+
+        // XÓA KHÁCH HÀNG
+        function deleteCustomer(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa hồ sơ khách hàng này không?')) {
+                customersList = customersList.filter(item => item.id !== id);
+                renderCustomersTable();
+            }
+        }
+
+        // LỌC THEO TAB
+        function filterCustomers(status, tab) {
+            currentFilterStatus = status;
             document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            document.querySelectorAll('#tableBody tr').forEach(row => {
-                row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
-            });
+            renderCustomersTable();
         }
-        function searchTable() {
-            let val = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('#tableBody tr').forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(val) ? '' : 'none';
-            });
+
+        // TÌM KIẾM
+        function handleSearch(input) {
+            document.getElementById('btnClearSearch').style.display = input.value.trim() ? 'block' : 'none';
+            renderCustomersTable();
         }
-        function exportTable() {
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            document.getElementById('btnClearSearch').style.display = 'none';
+            renderCustomersTable();
+            input.focus();
+        }
+
+        // XUẤT CSV
+        function exportCustomers() {
             let csv = [];
-            document.querySelectorAll("#dataTable tr").forEach(row => {
-                let r = [];
-                row.querySelectorAll("td, th").forEach(col => r.push('"' + col.innerText.replace(/"/g, '""') + '"'));
-                csv.push(r.join(";"));
+            csv.push('"Họ và Tên";"Email";"Nhu Cầu Tiếp Cận";"Trạng Thái";"Ngày Tham Gia";"Số Đơn";"Tổng Chi Tiêu"');
+
+            customersList.forEach(c => {
+                const st = c.status === 'active' ? 'Tích cực' : 'Không hoạt động';
+                csv.push(`"${c.name}";"${c.email}";"${c.a11y}";"${st}";"${c.joined}";"${c.orders_count}";"${c.total_spent}"`);
             });
+
             let blob = new Blob(["\ufeff" + csv.join("\n")], { type: "text/csv;charset=utf-8;" });
             let link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "danh-sach-khach-hang.csv";
+            link.download = "danh-sach-khach-hang-accesstravel.csv";
             link.click();
+        }
+
+        // QUẢN LÝ DROPDOWN POPUP
+        function toggleMenu(e, menuId) {
+            e.stopPropagation();
+            document.querySelectorAll('.action-menu-popup').forEach(m => {
+                if (m.id !== menuId) m.classList.remove('show');
+            });
+            const target = document.getElementById(menuId);
+            if (target) target.classList.toggle('show');
+        }
+
+        function toggleProfileDropdown(e) {
+            e.stopPropagation();
+            document.getElementById('adminProfileMenu').classList.toggle('show');
+            document.getElementById('adminNotifDropdown').classList.remove('show');
+        }
+
+        function toggleAdminNotif(e) {
+            e.stopPropagation();
+            document.getElementById('adminNotifDropdown').classList.toggle('show');
+            document.getElementById('adminProfileMenu').classList.remove('show');
+        }
+
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.action-menu-popup').forEach(m => m.classList.remove('show'));
+            const pMenu = document.getElementById('adminProfileMenu');
+            const nMenu = document.getElementById('adminNotifDropdown');
+            if (pMenu) pMenu.classList.remove('show');
+            if (nMenu) nMenu.classList.remove('show');
+        });
+
+        // TIỆN ÍCH PROFILE
+        function openProfileView() {
+            alert('HỒ SƠ QUẢN TRỊ VIÊN:\n• Họ tên: Nguyễn Trung Anh\n• Vai trò: Quản trị viên hệ thống (V3)\n• Email: admin@dulichso.test\n• Phụ trách: Quản lý khách hàng & dịch vụ tiếp cận');
+        }
+
+        function openSystemSettings() {
+            alert('CÀI ĐẶT HỆ THỐNG:\n• Phân loại khách hàng: Tiêu chuẩn WCAG 2.1\n• Hỗ trợ: Xe lăn cơ/điện, người cao tuổi, khiếm thị/thính');
+        }
+
+        function openGuideModal() {
+            document.getElementById('guideModal').style.display = 'flex';
+        }
+
+        function handleAdminLogout() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất tài khoản quản trị?')) {
+                localStorage.removeItem('currentUser');
+                alert('Đã đăng xuất tài khoản.');
+                window.location.href = 'index.html';
+            }
         }
     </script>
     <script src="js/accessibility-widget.js"></script>
