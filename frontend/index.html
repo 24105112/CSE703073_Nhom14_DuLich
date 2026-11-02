@@ -126,6 +126,30 @@
         .tour-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .tour-badge { position: absolute; top: 12px; left: 12px; background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-size: calc(var(--base-font-size) - 4px); font-weight: 800; }
         .tour-slots { position: absolute; bottom: 12px; right: 12px; background: var(--c-main); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: calc(var(--base-font-size) - 3px); font-weight: 700; }
+
+        /* NÚT TIM YÊU THÍCH TRÊN ẢNH TOUR */
+        .btn-fav-card {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 17px;
+            transition: transform 0.2s, color 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            z-index: 5;
+        }
+        .btn-fav-card:hover { transform: scale(1.15); }
+        .btn-fav-card.active { color: #ef4444; }
+
         .tour-body { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .tour-title { font-size: calc(var(--base-font-size) + 2px); font-weight: 800; margin: 0 0 6px 0; line-height: 1.4; }
         .tour-address { font-size: calc(var(--base-font-size) - 2px); color: #64748b; font-weight: 600; margin-bottom: 16px; }
@@ -629,9 +653,104 @@
             { id: 6, ten_tour: "Vinpearl Resort & Spa Nha Trang Bay", dia_diem: "Khánh Hòa", gia_tien: 2800000, hinh_anh: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.8, so_luot_danh_gia: 45, tong_cho_con: 6 }
         ];
 
+        // Lấy danh sách ID tour yêu thích từ localStorage
+        function getFavoriteIds() {
+            try {
+                return JSON.parse(localStorage.getItem('accessTravelFavs')) || [2, 3];
+            } catch(e) { return [2, 3]; }
+        }
+
+        // Bật / Tắt tim yêu thích
+        function toggleFavorite(tourId, btn) {
+            let favs = getFavoriteIds();
+            const idx = favs.indexOf(tourId);
+            if (idx > -1) {
+                favs.splice(idx, 1);
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+                pushNotification('Tour yêu thích', 'Đã bỏ tour khỏi danh sách yêu thích.', 'info');
+            } else {
+                favs.push(tourId);
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+                pushNotification('Tour yêu thích', 'Đã thêm tour vào danh sách yêu thích!', 'success');
+            }
+            localStorage.setItem('accessTravelFavs', JSON.stringify(favs));
+        }
+
+        // QUẢN LÝ THÔNG BÁO TỰ ĐỘNG
+        function getNotifications() {
+            let notifs = [];
+            try {
+                notifs = JSON.parse(localStorage.getItem('accessTravelNotifs'));
+            } catch(e) {}
+
+            if (!notifs || notifs.length === 0) {
+                notifs = [
+                    { id: 1, title: '🎉 Đặt tour thành công!', desc: 'Đơn #AT-1025 chuyến Hạ Long đã được xác nhận chỗ an toàn.', time: '10 phút trước', read: false },
+                    { id: 2, title: '⏳ Sắp hết hạn thanh toán', desc: 'Đơn giữ chỗ tuyến Sapa của bạn còn 15 phút trước khi hoàn vé.', time: '30 phút trước', read: false },
+                    { id: 3, title: '🛠 Thông báo bảo trì', desc: 'Hệ thống bảo trì máy chủ thanh toán sandbox từ 02:00 - 03:00 sáng mai.', time: '2 giờ trước', read: true }
+                ];
+                localStorage.setItem('accessTravelNotifs', JSON.stringify(notifs));
+            }
+            return notifs;
+        }
+
+        function pushNotification(title, desc, type) {
+            let notifs = getNotifications();
+            notifs.unshift({
+                id: Date.now(),
+                title: title,
+                desc: desc,
+                time: 'Vừa xong',
+                read: false
+            });
+            localStorage.setItem('accessTravelNotifs', JSON.stringify(notifs));
+            renderNotifUI();
+        }
+
+        function renderNotifUI() {
+            const notifs = getNotifications();
+            const badge = document.getElementById('notifBadge');
+            const unreadCount = notifs.filter(n => !n.read).length;
+
+            if (badge) {
+                badge.innerText = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+            }
+
+            const popup = document.getElementById('notifPopup');
+            if (popup) {
+                let html = `
+                    <div class="notif-header">
+                        <span>Thông báo hệ thống</span>
+                        <a href="javascript:void(0)" onclick="markAllRead(event)" style="font-size:12px; color:var(--c-main); font-weight:800;">Đọc tất cả</a>
+                    </div>
+                `;
+                notifs.slice(0, 5).forEach(n => {
+                    html += `
+                        <div class="notif-item" style="${n.read ? 'opacity:0.7;' : 'border-left:3px solid var(--c-main); background:var(--c-card-bg); font-weight:700;'}">
+                            <strong style="color:var(--c-text);">${n.title}</strong>
+                            <div style="font-size:12px; color:var(--c-text-muted); margin-top:2px;">${n.desc}</div>
+                            <small style="font-size:11px; color:#94a3b8;">${n.time}</small>
+                        </div>
+                    `;
+                });
+                popup.innerHTML = html;
+            }
+        }
+
+        function markAllRead(e) {
+            if (e) e.preventDefault();
+            let notifs = getNotifications().map(n => ({ ...n, read: true }));
+            localStorage.setItem('accessTravelNotifs', JSON.stringify(notifs));
+            renderNotifUI();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             checkUserLoggedIn();
             loadToursHomepage();
+            renderNotifUI();
 
             const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
@@ -639,7 +758,7 @@
             updateThemeIcon(savedTheme);
         });
 
-        // HÀM NẠP DANH SÁCH TOUR TRANG CHỦ (TỰ ĐỘNG CHUYỂN SANG DỮ LIỆU DỰ PHÒNG NẾU API THẤT BẠI)
+        // HÀM NẠP DANH SÁCH TOUR TRANG CHỦ KÈM NÚT TIM
         async function loadToursHomepage() {
             const container = document.getElementById('tourGridContainer');
             if (!container) return;
@@ -662,14 +781,21 @@
                 tourList = homeFallbackTours;
             }
 
+            const favIds = getFavoriteIds();
             container.innerHTML = '';
             tourList.forEach(t => {
+                const isFav = favIds.includes(Number(t.id));
                 container.innerHTML += `
                     <div class="tour-card">
                         <div class="tour-img-box">
                             <img src="${t.hinh_anh}" alt="${t.ten_tour}" loading="lazy">
                             <span class="tour-badge">✔ Đã xác minh 100%</span>
                             <span class="tour-slots">Còn ${t.tong_cho_con || 8} suất</span>
+                            
+                            <!-- NÚT TIM GÓC TRÊN BÊN PHẢI -->
+                            <button type="button" class="btn-fav-card ${isFav ? 'active' : ''}" onclick="toggleFavorite(${t.id}, this)" title="Lưu vào tour yêu thích">
+                                <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                            </button>
                         </div>
                         <div class="tour-body">
                             <div>
