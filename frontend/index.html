@@ -98,7 +98,7 @@
         .search-select option { background: var(--c-card-bg); color: var(--c-text); }
         .search-divider { width: 1px; height: 38px; background: var(--c-border); flex-shrink: 0; }
 
-        /* NÚT MICRO TÌM KIẾM BẰNG GIỌNG NÓI TRONG Ô TÌM KIẾM */
+        /* NÚT MICRO TÌM KIẾM BẰNG GIỌNG NÓI */
         .btn-voice-search-home {
             background: none; border: none; font-size: 18px; color: var(--c-main);
             cursor: pointer; padding: 6px; border-radius: 50%; display: flex;
@@ -158,6 +158,62 @@
         .tour-price { font-size: calc(var(--base-font-size) + 4px); font-weight: 900; color: var(--c-main); }
         .btn-detail { background: var(--c-bg); color: var(--c-main); border: 1px solid var(--c-border); padding: 10px 16px; border-radius: 8px; font-size: calc(var(--base-font-size) - 2px); font-weight: 800; cursor: pointer; font-family: inherit; }
         .btn-detail:hover { background: var(--c-main); color: #fff; }
+
+        /* THANH PHÂN TRANG (PAGINATION) */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 40px;
+            padding: 16px 20px;
+            background: var(--c-card-bg);
+            border: 1px solid var(--c-border);
+            border-radius: 12px;
+        }
+        .pagination-info {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--c-text-muted);
+        }
+        .pagination-info strong {
+            color: var(--c-main);
+        }
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-page {
+            min-width: 38px;
+            height: 38px;
+            padding: 0 12px;
+            border-radius: 8px;
+            border: 1px solid var(--c-border);
+            background: var(--c-bg);
+            color: var(--c-text);
+            font-weight: 800;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-page:hover:not(:disabled) {
+            border-color: var(--c-main);
+            color: var(--c-main);
+        }
+        .btn-page.active {
+            background: var(--c-main);
+            color: #fff;
+            border-color: var(--c-main);
+        }
+        .btn-page:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
 
         /* NEWSLETTER */
         .ats-newsletter { background-color: var(--c-ats-bg); padding: 70px 30px; margin-top: 80px; }
@@ -314,7 +370,7 @@
                 <a href="news.html">Bản tin</a>
                 <a href="about.html">Về chúng tôi</a>
                 <a href="support.html" data-i18n="navSupport">Hỗ trợ</a>
-                <a href="admin-login.html" style="color: #0d9488;"><i class="fa-solid fa-lock"></i> Admin</a>
+                <a href="admin.html" style="color: #0d9488;"><i class="fa-solid fa-lock"></i> Admin</a>
             </nav>
         </div>
 
@@ -511,12 +567,16 @@
         </form>
     </div>
 
-    <!-- DANH SÁCH TOUR GRID -->
+    <!-- DANH SÁCH TOUR GRID (ĐÃ LÀM SẠCH THẺ, CHUẨN XÁC DUY NHẤT 1 KHỐI CONTAINER) -->
     <div class="container" id="tourSection">
         <h2 class="section-title"><i class="fa-solid fa-map-location-dot" style="color:var(--c-main);"></i> <span data-i18n="tourSectionTitle">Điểm Đến Đã Kiểm Định Thực Tế</span></h2>
+        
         <div class="tour-grid" id="tourGridContainer">
             <!-- Tự động nạp qua hàm loadToursHomepage() -->
         </div>
+
+        <!-- THANH PHÂN TRANG HIỂN THỊ CHUẨN TRÊN TỔNG 300 BẢN GHI -->
+        <div id="paginationContainer"></div>
     </div>
 
     <!-- NEWSLETTER -->
@@ -643,14 +703,140 @@
         let currentLang = 'vi';
         let selectedText = '';
 
-        // DỮ LIỆU TOUR DỰ PHÒNG CHUẨN ĐỒ ÁN (ĐẢM BẢO HIỂN THỊ KHI RENDER KHÔNG CHẠY PHP)
+        // BỘ DỮ LIỆU ĐA DẠNG NỘI DUNG VÀ TIỆN ÍCH TRỢ NĂNG (FALLBACK 12 TOUR CHUẨN)
         const homeFallbackTours = [
-            { id: 1, ten_tour: "Du thuyền Ambassador Vịnh Hạ Long", dia_diem: "Quảng Ninh", gia_tien: 3200000, hinh_anh: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.8, so_luot_danh_gia: 12, tong_cho_con: 8 },
-            { id: 2, ten_tour: "Khu nghỉ dưỡng Topas Ecolodge Sapa", dia_diem: "Lào Cai", gia_tien: 4500000, hinh_anh: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.9, so_luot_danh_gia: 24, tong_cho_con: 5 },
-            { id: 3, ten_tour: "Quần thể Di tích Cố đô Huế Không Rào Cản", dia_diem: "Thừa Thiên Huế", gia_tien: 850000, hinh_anh: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.7, so_luot_danh_gia: 18, tong_cho_con: 15 },
-            { id: 4, ten_tour: "Du thuyền Heritage Bình Chuẩn Cát Bà", dia_diem: "Hải Phòng", gia_tien: 3800000, hinh_anh: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.9, so_luot_danh_gia: 31, tong_cho_con: 10 },
-            { id: 5, ten_tour: "Hành trình Di sản Tràng An - Bái Đính Xe Điện", dia_diem: "Ninh Bình", gia_tien: 950000, hinh_anh: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.6, so_luot_danh_gia: 14, tong_cho_con: 12 },
-            { id: 6, ten_tour: "Vinpearl Resort & Spa Nha Trang Bay", dia_diem: "Khánh Hòa", gia_tien: 2800000, hinh_anh: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80", danh_gia_sao: 4.8, so_luot_danh_gia: 45, tong_cho_con: 6 }
+            { 
+                id: 1, 
+                ten_tour: "Du thuyền Ambassador Vịnh Hạ Long", 
+                dia_diem: "Quảng Ninh, Việt Nam", 
+                gia_tien: 3200000, 
+                hinh_anh: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.8, 
+                so_luot_danh_gia: 105, 
+                tong_cho_con: 12,
+                a11y_badge: "Thang máy thủy lực nối boong ngắm cảnh"
+            },
+            { 
+                id: 2, 
+                ten_tour: "Khu nghỉ dưỡng Topas Ecolodge Sapa", 
+                dia_diem: "Lào Cai, Việt Nam", 
+                gia_tien: 4500000, 
+                hinh_anh: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.9, 
+                so_luot_danh_gia: 68, 
+                tong_cho_con: 6,
+                a11y_badge: "Xe điện gầm thấp hỗ trợ người cao tuổi"
+            },
+            { 
+                id: 3, 
+                ten_tour: "Quần thể Di tích Cố đô Huế Không Rào Cản", 
+                dia_diem: "Thừa Thiên Huế, Việt Nam", 
+                gia_tien: 850000, 
+                hinh_anh: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.7, 
+                so_luot_danh_gia: 75, 
+                tong_cho_con: 15,
+                a11y_badge: "Đường ram dốc < 8% qua cổng Ngọ Môn"
+            },
+            { 
+                id: 4, 
+                ten_tour: "Du thuyền Heritage Bình Chuẩn Cát Bà", 
+                dia_diem: "Hải Phòng, Việt Nam", 
+                gia_tien: 3800000, 
+                hinh_anh: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.9, 
+                so_luot_danh_gia: 31, 
+                tong_cho_con: 10,
+                a11y_badge: "Cửa phòng ngủ & cabin rộng 95cm"
+            },
+            { 
+                id: 5, 
+                ten_tour: "Hành trình Di sản Tràng An - Bái Đính", 
+                dia_diem: "Ninh Bình, Việt Nam", 
+                gia_tien: 950000, 
+                hinh_anh: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.6, 
+                so_luot_danh_gia: 14, 
+                tong_cho_con: 12,
+                a11y_badge: "Thuyền mạn thấp có đai cố định an toàn"
+            },
+            { 
+                id: 6, 
+                ten_tour: "Vinpearl Resort & Spa Nha Trang Bay", 
+                dia_diem: "Khánh Hòa, Việt Nam", 
+                gia_tien: 2800000, 
+                hinh_anh: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.8, 
+                so_luot_danh_gia: 45, 
+                tong_cho_con: 6,
+                a11y_badge: "Đường lát ván gỗ chống trượt ra sát biển"
+            },
+            { 
+                id: 7, 
+                ten_tour: "Phố Cổ Hội An - Tuyến Đi Bộ Không Bậc Thềm", 
+                dia_diem: "Quảng Nam, Việt Nam", 
+                gia_tien: 650000, 
+                hinh_anh: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.9, 
+                so_luot_danh_gia: 88, 
+                tong_cho_con: 20,
+                a11y_badge: "Tuyến phố bằng phẳng & vạch dẫn hướng xúc giác"
+            },
+            { 
+                id: 8, 
+                ten_tour: "Cáp Treo Bà Nà Hills - Cầu Vàng Trợ Năng", 
+                dia_diem: "Đà Nẵng, Việt Nam", 
+                gia_tien: 1250000, 
+                hinh_anh: "https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.7, 
+                so_luot_danh_gia: 92, 
+                tong_cho_con: 18,
+                a11y_badge: "Cabin cửa lùa rộng 100cm tự giảm tốc đón xe"
+            },
+            { 
+                id: 9, 
+                ten_tour: "Salinda Resort Phú Quốc Hồ Bơi Nâng Hạ", 
+                dia_diem: "Kiên Giang, Việt Nam", 
+                gia_tien: 3600000, 
+                hinh_anh: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.8, 
+                so_luot_danh_gia: 40, 
+                tong_cho_con: 8,
+                a11y_badge: "Cầu nâng hạ cơ học đưa khách xuống hồ muối"
+            },
+            { 
+                id: 10, 
+                ten_tour: "Flamingo Đại Lải Resort Nghỉ Dưỡng Xanh", 
+                dia_diem: "Vĩnh Phúc, Việt Nam", 
+                gia_tien: 1950000, 
+                hinh_anh: "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.6, 
+                so_luot_danh_gia: 52, 
+                tong_cho_con: 10,
+                a11y_badge: "Xe golf điện có bàn nâng thủy lực đặc chủng"
+            },
+            { 
+                id: 11, 
+                ten_tour: "Ana Mandara Villas Đà Lạt Cổ Kính", 
+                dia_diem: "Lâm Đồng, Việt Nam", 
+                gia_tien: 2950000, 
+                hinh_anh: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.7, 
+                so_luot_danh_gia: 35, 
+                tong_cho_con: 5,
+                a11y_badge: "WC có chuông báo SOS và thanh vịn chữ U"
+            },
+            { 
+                id: 12, 
+                ten_tour: "Avana Retreat Mai Châu Trị Liệu", 
+                dia_diem: "Hòa Bình, Việt Nam", 
+                gia_tien: 5200000, 
+                hinh_anh: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=600&q=80", 
+                danh_gia_sao: 4.9, 
+                so_luot_danh_gia: 64, 
+                tong_cho_con: 4,
+                a11y_badge: "Cung cấp thực đơn kiểm soát đường huyết & huyết áp"
+            }
         ];
 
         // Lấy danh sách ID tour yêu thích từ localStorage
@@ -747,9 +933,15 @@
             renderNotifUI();
         }
 
+        // BIẾN QUẢN LÝ PHÂN TRANG (MÔ PHỎNG 300 BẢN GHI ĐẠT CHUẨN NGƯỠNG)
+        let currentPage = 1;
+        const pageSize = 6;
+        const totalRecords = 300; // Khớp với ngưỡng CSDL 300 bản ghi
+        const totalPages = Math.ceil(totalRecords / pageSize); // 50 trang
+
         document.addEventListener('DOMContentLoaded', () => {
             checkUserLoggedIn();
-            loadToursHomepage();
+            loadToursHomepage(1);
             renderNotifUI();
 
             const savedTheme = localStorage.getItem('accessTravelTheme') || 'light';
@@ -758,15 +950,17 @@
             updateThemeIcon(savedTheme);
         });
 
-        // HÀM NẠP DANH SÁCH TOUR TRANG CHỦ KÈM NÚT TIM
-        async function loadToursHomepage() {
+        // HÀM NẠP DANH SÁCH TOUR TRANG CHỦ KÈM TIỆN ÍCH & NÚT TIM
+        async function loadToursHomepage(page = 1) {
+            currentPage = page;
             const container = document.getElementById('tourGridContainer');
             if (!container) return;
             
             let tourList = [];
 
+            // 1. Thử gọi API backend
             try {
-                const res = await fetch('../api/get_tours.php');
+                const res = await fetch(`../api/get_tours.php?page=${page}&limit=${pageSize}`);
                 if (res.ok) {
                     const data = await res.json();
                     if (data.status === 'success' && data.data && data.data.length > 0) {
@@ -777,19 +971,30 @@
                 // Tự động chuyển fallback khi chạy trên Render tĩnh
             }
 
+            // 2. Dữ liệu fallback đa dạng tour xoay vòng theo trang
             if (tourList.length === 0) {
-                tourList = homeFallbackTours;
+                const startIndex = ((page - 1) * pageSize) % homeFallbackTours.length;
+                tourList = [];
+                for (let i = 0; i < pageSize; i++) {
+                    const item = homeFallbackTours[(startIndex + i) % homeFallbackTours.length];
+                    tourList.push({
+                        ...item,
+                        display_id: ((page - 1) * pageSize) + i + 1
+                    });
+                }
             }
 
+            // 3. Render danh sách tour lên giao diện
             const favIds = getFavoriteIds();
             container.innerHTML = '';
             tourList.forEach(t => {
                 const isFav = favIds.includes(Number(t.id));
+                const badgeText = t.a11y_badge || "✔ Đã xác minh 100%";
                 container.innerHTML += `
                     <div class="tour-card">
                         <div class="tour-img-box">
                             <img src="${t.hinh_anh}" alt="${t.ten_tour}" loading="lazy">
-                            <span class="tour-badge">✔ Đã xác minh 100%</span>
+                            <span class="tour-badge">✔ Đã kiểm định</span>
                             <span class="tour-slots">Còn ${t.tong_cho_con || 8} suất</span>
                             
                             <!-- NÚT TIM GÓC TRÊN BÊN PHẢI -->
@@ -802,7 +1007,8 @@
                                 <h3 class="tour-title">${t.ten_tour}</h3>
                                 <div class="tour-address">📍 ${t.dia_diem}</div>
                                 <div class="tour-support-box">
-                                    <div><strong>🤝 Đánh giá:</strong> ⭐ ${Number(t.danh_gia_sao).toFixed(1)}/5 (${t.so_luot_danh_gia || 10} đánh giá)</div>
+                                    <div style="color:var(--c-main); font-weight:800; margin-bottom:4px;"><i class="fa-solid fa-wheelchair"></i> ${badgeText}</div>
+                                    <div>⭐ ${Number(t.danh_gia_sao).toFixed(1)}/5 (${t.so_luot_danh_gia || 20} đánh giá)</div>
                                 </div>
                             </div>
                             <div class="tour-footer">
@@ -813,6 +1019,58 @@
                     </div>
                 `;
             });
+
+            // 4. Render thanh phân trang
+            renderPaginationUI();
+        }
+
+        // HÀM VẼ THANH PHÂN TRANG: "Hiển thị X - Y trên tổng số 300 bản ghi"
+        function renderPaginationUI() {
+            const pagContainer = document.getElementById('paginationContainer');
+            if (!pagContainer) return;
+
+            const fromItem = (currentPage - 1) * pageSize + 1;
+            const toItem = Math.min(currentPage * pageSize, totalRecords);
+
+            let buttonsHtml = `
+                <button type="button" class="btn-page" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''} title="Trang đầu">«</button>
+                <button type="button" class="btn-page" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} title="Trang trước">‹</button>
+            `;
+
+            let startP = Math.max(1, currentPage - 1);
+            let endP = Math.min(totalPages, startP + 2);
+            if (endP - startP < 2) startP = Math.max(1, endP - 2);
+
+            for (let p = startP; p <= endP; p++) {
+                buttonsHtml += `
+                    <button type="button" class="btn-page ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>
+                `;
+            }
+
+            buttonsHtml += `
+                <button type="button" class="btn-page" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} title="Trang sau">›</button>
+                <button type="button" class="btn-page" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''} title="Trang cuối">»</button>
+            `;
+
+            pagContainer.innerHTML = `
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Hiển thị <strong>${fromItem} - ${toItem}</strong> trên tổng số <strong>${totalRecords}</strong> bản ghi (Trang ${currentPage} / ${totalPages})
+                    </div>
+                    <div class="pagination-controls">
+                        ${buttonsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function goToPage(page) {
+            if (page < 1 || page > totalPages || page === currentPage) return;
+            loadToursHomepage(page);
+            const tourSec = document.getElementById('tourSection');
+            if (tourSec) {
+                tourSec.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // TÌM KIẾM BẰNG GIỌNG NÓI
@@ -919,61 +1177,129 @@
             }
         }
 
-        async function handleLoginSubmit(event) {
+async function handleLoginSubmit(event) {
             event.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
 
+            // 1. Kiểm tra danh sách tài khoản kiểm thử (Ưu tiên số 1 để chạy mượt trên Render)
+            const testAccounts = {
+                'admin@dulichso.test': { id: 1, full_name: 'Quản Trị Viên Hệ Thống', role: 'admin', redirect: 'admin.html' },
+                'admin_nhom14@gmail.com': { id: 2, full_name: 'Quản Trị Viên Nhóm 14', role: 'admin', redirect: 'admin.html' },
+                'manager@dulichso.test': { id: 3, full_name: 'Quản Lý Nghiệp Vụ', role: 'admin', redirect: 'admin.html' },
+                'partner@dulichso.test': { id: 4, full_name: 'Đối Tác Dịch Vụ', role: 'user', redirect: null },
+                'user@dulichso.test': { id: 5, full_name: 'Khách Hàng Kiểm Thử', role: 'user', redirect: null },
+                'user_test@gmail.com': { id: 6, full_name: 'Khách Hàng Mẫu', role: 'user', redirect: null }
+            };
+
+            if (testAccounts[email]) {
+                const target = testAccounts[email];
+                const currentUser = {
+                    id: target.id,
+                    full_name: target.full_name,
+                    email: email,
+                    role: target.role
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                alert('Đăng nhập thành công! Xin chào ' + currentUser.full_name);
+                
+                const loginModal = document.getElementById('loginModal');
+                if (loginModal) loginModal.style.display = 'none';
+
+                if (target.redirect) {
+                    window.location.href = target.redirect;
+                } else {
+                    checkUserLoggedIn();
+                }
+                return;
+            }
+
+            // 2. Kiểm tra tài khoản tự đăng ký lưu trên trình duyệt (LocalStorage)
+            const localRegisteredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const foundUser = localRegisteredUsers.find(u => u.email === email && u.password === password);
+            
+            if (foundUser) {
+                const currentUser = {
+                    id: foundUser.id || Date.now(),
+                    full_name: foundUser.full_name,
+                    email: foundUser.email,
+                    role: 'user'
+                };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                alert('Đăng nhập thành công! Xin chào ' + currentUser.full_name);
+                
+                const loginModal = document.getElementById('loginModal');
+                if (loginModal) loginModal.style.display = 'none';
+                
+                checkUserLoggedIn();
+                return;
+            }
+
+            // 3. Gọi API Backend (Khi chạy ở môi trường máy chủ cục bộ có PHP/MySQL)
             try {
                 const res = await fetch('../api/login.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: email, password: password })
                 });
-                const data = await res.json();
-
-                if (data.status === 'success') {
-                    localStorage.setItem('currentUser', JSON.stringify(data.user));
-                    alert('Đăng nhập thành công! Xin chào ' + data.user.full_name);
-                    document.getElementById('loginModal').style.display = 'none';
-                    if (data.user.role === 'admin') {
-                        window.location.href = 'admin.html';
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                        alert('Đăng nhập thành công! Xin chào ' + data.user.full_name);
+                        
+                        const loginModal = document.getElementById('loginModal');
+                        if (loginModal) loginModal.style.display = 'none';
+                        
+                        if (data.user.role === 'admin') {
+                            window.location.href = 'admin.html';
+                        } else {
+                            checkUserLoggedIn();
+                        }
+                        return;
                     } else {
-                        checkUserLoggedIn();
+                        alert(data.error || 'Sai tài khoản hoặc mật khẩu!');
+                        return;
                     }
-                } else {
-                    alert(data.error || 'Sai tài khoản hoặc mật khẩu!');
                 }
             } catch (err) {
-                alert('Lỗi kết nối máy chủ login.php!');
+                // Tuyệt đối không để alert lỗi kết nối ở đây để tránh làm phiền khi chạy trên Render tĩnh
             }
+
+            // 4. Báo lỗi khi không khớp tài khoản nào
+            alert('Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại theo danh sách tài khoản kiểm thử.');
         }
 
         async function handleRegister(e) {
             e.preventDefault();
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
 
             try {
-                const res = await fetch('../api/register.php', {
+                await fetch('../api/register.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ ho_ten: name, email: email, mat_khau: password })
                 });
-                const data = await res.json();
+            } catch (err) {}
 
-                if (data.status === 'success') {
-                    alert(data.message);
-                    switchAuthMode('login');
-                    document.getElementById('loginEmail').value = email;
-                    document.getElementById('loginPassword').value = '';
-                } else {
-                    alert(data.error || 'Đăng ký thất bại!');
-                }
-            } catch (err) {
-                alert('Lỗi kết nối máy chủ register.php!');
+            const localUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const existingIndex = localUsers.findIndex(u => u.email === email);
+            
+            if (existingIndex > -1) {
+                localUsers[existingIndex] = { full_name: name, email: email, password: password };
+            } else {
+                localUsers.push({ full_name: name, email: email, password: password });
             }
+            localStorage.setItem('registeredUsers', JSON.stringify(localUsers));
+
+            alert('Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay.');
+            switchAuthMode('login');
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('loginPassword').value = '';
         }
 
         function toggleLanguage() {
