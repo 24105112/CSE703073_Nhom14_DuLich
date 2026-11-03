@@ -370,7 +370,10 @@
                 <a href="news.html">Bản tin</a>
                 <a href="about.html">Về chúng tôi</a>
                 <a href="support.html" data-i18n="navSupport">Hỗ trợ</a>
-                <a href="admin.html" style="color: #0d9488;"><i class="fa-solid fa-lock"></i> Admin</a>
+                <!-- Mặc định ẩn, chỉ bật khi đăng nhập đúng tài khoản Quản trị viên -->
+<a href="admin.html" id="navAdminLink" style="display: none; color: #0f766e; font-weight: 800;">
+    <i class="fa-solid fa-lock"></i> Admin
+</a>
             </nav>
         </div>
 
@@ -1134,21 +1137,35 @@
             const raw = localStorage.getItem('currentUser');
             const authBtn = document.getElementById('btnAuthLink');
             const userGroup = document.getElementById('userProfileGroup');
+            const adminLink = document.getElementById('navAdminLink');
 
             if (raw) {
                 const user = JSON.parse(raw);
-                authBtn.style.display = 'none';
-                userGroup.style.display = 'block';
+                if (authBtn) authBtn.style.display = 'none';
+                if (userGroup) userGroup.style.display = 'block';
 
                 const initial = (user.full_name || 'U').charAt(0).toUpperCase();
-                document.getElementById('userAvatarText').innerText = initial;
-                document.getElementById('headerUserName').innerText = user.full_name || 'Người dùng';
-                document.getElementById('menuBigAvatar').innerText = initial;
-                document.getElementById('menuBigName').innerText = user.full_name || 'Người dùng';
-                document.getElementById('menuBigRole').innerText = user.role === 'admin' ? 'Quản trị viên' : 'Khách hàng';
+                const avatarText = document.getElementById('userAvatarText');
+                const headerName = document.getElementById('headerUserName');
+                const menuAvatar = document.getElementById('menuBigAvatar');
+                const menuName = document.getElementById('menuBigName');
+                const menuRole = document.getElementById('menuBigRole');
+
+                if (avatarText) avatarText.innerText = initial;
+                if (headerName) headerName.innerText = user.full_name || 'Người dùng';
+                if (menuAvatar) menuAvatar.innerText = initial;
+                if (menuName) menuName.innerText = user.full_name || 'Người dùng';
+                if (menuRole) menuRole.innerText = user.role === 'admin' ? 'Quản trị viên' : 'Khách hàng';
+
+                // Chỉ hiển thị nút Admin trên menu nếu role là 'admin'
+                if (adminLink) {
+                    adminLink.style.display = (user.role === 'admin') ? 'inline-flex' : 'none';
+                }
             } else {
-                authBtn.style.display = 'block';
-                userGroup.style.display = 'none';
+                if (authBtn) authBtn.style.display = 'block';
+                if (userGroup) userGroup.style.display = 'none';
+                // Chưa đăng nhập thì ẩn hoàn toàn nút Admin
+                if (adminLink) adminLink.style.display = 'none';
             }
         }
 
