@@ -625,8 +625,16 @@
                 <p style="margin-top: 12px;"><a href="support.html" style="color: #0f766e; font-weight: 800; text-decoration: underline;" data-i18n="footerSupportLink"><i class="fa-solid fa-headset"></i> Trung tâm Hỗ trợ & FAQ →</a></p>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 AccessTravel - Đồ án cuối kỳ học phần CSE703073 | Trường Đại học Phenikaa.</p>
+        <div class="footer-bottom" style="line-height: 1.8; text-align: center; padding: 20px 0;">
+            <p style="margin: 0; font-weight: 700; color: var(--c-text, #0f172a);">
+                &copy; 2026 AccessTravel &middot; Đồ án cuối kỳ
+            </p>
+            <p style="margin: 4px 0; color: var(--c-text-muted, #64748b);">
+                Lập trình Web 2 (CSE703073) &middot; Nhóm 14 – Du lịch
+            </p>
+            <p style="margin: 0; font-weight: 600; color: var(--c-text-muted, #64748b);">
+                Trường Đại học Phenikaa
+            </p>
         </div>
     </footer>
 
@@ -1302,26 +1310,285 @@ async function handleLoginSubmit(event) {
             document.getElementById('loginPassword').value = '';
         }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'vi' ? 'en' : 'vi';
-            const flag = document.getElementById('langFlag');
-            const text = document.getElementById('langText');
-            if(currentLang === 'en') {
-                flag.src = "https://flagcdn.com/w20/gb.png";
-                flag.alt = "Great Britain Flag";
-                text.innerText = "English";
-            } else {
-                flag.src = "https://flagcdn.com/w20/vn.png";
-                flag.alt = "Cờ Việt Nam";
-                text.innerText = "Tiếng Việt";
-            }
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(translations[currentLang][key]) {
-                    el.innerText = translations[currentLang][key];
-                }
-            });
+// ================= I18N VI -> EN TOÀN TRANG (INDEX) =================
+const VI_EN = {
+    // Thông báo & menu tài khoản
+    "Thông báo của bạn": "Your notifications",
+    "Thông báo hệ thống": "System notifications",
+    "Đọc tất cả": "Mark all as read",
+    "Chào mừng bạn!": "Welcome!",
+    "Bạn đã tham gia AccessTravel. Hãy khám phá các tour kiểm định ngay.": "You have joined AccessTravel. Explore our verified tours now.",
+    "Tour Hạ Long mới": "New Ha Long tour",
+    "Đã kiểm định thang máy xe lăn 100% đạt chuẩn tiếp cận.": "Wheelchair elevator verified 100% to accessibility standards.",
+    "Hồ sơ cá nhân": "Personal profile",
+    "Thông tin và thông tin liên hệ": "Profile and contact information",
+    "Tour đã đặt": "Booked tours",
+    "Lịch trình và trạng thái đặt chỗ": "Itinerary and booking status",
+    "Tour yêu thích": "Favorite tours",
+    "Các địa điểm đã lưu": "Saved destinations",
+    "Nhu cầu hỗ trợ tiếp cận": "Accessibility needs",
+    "Tùy chỉnh hỗ trợ cho chuyến đi": "Customize support for your trip",
+    "Cài đặt và quyền riêng tư": "Settings & privacy",
+    "Tài khoản và tùy chọn cá nhân": "Account and personal preferences",
+    "Trợ giúp và hỗ trợ": "Help & support",
+    "Câu hỏi thường gặp, liên hệ": "FAQs, contact",
+    "Người dùng": "User",
+    "Khách hàng": "Customer",
+    "Quản trị viên": "Administrator",
+    "Tên người dùng": "User name",
+    "Quản Trị Viên Hệ Thống": "System Administrator",
+    "Quản Trị Viên Nhóm 14": "Group 14 Administrator",
+    "Quản Lý Nghiệp Vụ": "Operations Manager",
+    "Đối Tác Dịch Vụ": "Service Partner",
+    "Khách Hàng Kiểm Thử": "Test Customer",
+    "Khách Hàng Mẫu": "Sample Customer",
+
+    // Tìm kiếm
+    "Hạ Long, Cát Bà, Huế...": "Ha Long, Cat Ba, Hue...",
+    "Tìm kiếm bằng giọng nói": "Voice search",
+    "Tìm kiếm tour": "Search tours",
+    "Đang lắng nghe... Nói tên điểm đến": "Listening... Say a destination",
+    "Trình duyệt chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Cốc Cốc.": "Your browser does not support voice recognition. Please use Google Chrome or Coc Coc.",
+    "Vui lòng cấp quyền truy cập Micro trên trình duyệt.": "Please allow microphone access in your browser.",
+
+    // Thẻ tour
+    "✔ Đã kiểm định": "✔ Verified",
+    "✔ Đã xác minh 100%": "✔ 100% verified",
+    "Lưu vào tour yêu thích": "Save to favorite tours",
+    "Xem chi tiết →": "View details →",
+    "Đã bỏ tour khỏi danh sách yêu thích.": "Tour removed from favorites.",
+    "Đã thêm tour vào danh sách yêu thích!": "Tour added to favorites!",
+    "Vừa xong": "Just now",
+    "Khu nghỉ dưỡng Topas Ecolodge Sapa": "Topas Ecolodge Sapa Resort",
+    "Lào Cai, Việt Nam": "Lao Cai, Vietnam",
+    "Xe điện gầm thấp hỗ trợ người cao tuổi": "Low-floor electric vehicle for seniors",
+    "Quần thể Di tích Cố đô Huế Không Rào Cản": "Hue Imperial Citadel – Barrier-Free",
+    "Thừa Thiên Huế, Việt Nam": "Thua Thien Hue, Vietnam",
+    "Đường ram dốc < 8% qua cổng Ngọ Môn": "Ramp slope < 8% through Ngo Mon Gate",
+    "Du thuyền Heritage Bình Chuẩn Cát Bà": "Heritage Binh Chuan Cat Ba Cruise",
+    "Hải Phòng, Việt Nam": "Hai Phong, Vietnam",
+    "Cửa phòng ngủ & cabin rộng 95cm": "Bedroom & cabin doors 95 cm wide",
+    "Hành trình Di sản Tràng An - Bái Đính": "Trang An - Bai Dinh Heritage Journey",
+    "Ninh Bình, Việt Nam": "Ninh Binh, Vietnam",
+    "Thuyền mạn thấp có đai cố định an toàn": "Low-side boat with secure safety straps",
+    "Vinpearl Resort & Spa Nha Trang Bay": "Vinpearl Resort & Spa Nha Trang Bay",
+    "Khánh Hòa, Việt Nam": "Khanh Hoa, Vietnam",
+    "Đường lát ván gỗ chống trượt ra sát biển": "Anti-slip wooden walkway leading to the beach",
+    "Phố Cổ Hội An - Tuyến Đi Bộ Không Bậc Thềm": "Hoi An Ancient Town – Step-free Walking Route",
+    "Quảng Nam, Việt Nam": "Quang Nam, Vietnam",
+    "Tuyến phố bằng phẳng & vạch dẫn hướng xúc giác": "Flat streets & tactile guidance lines",
+    "Cáp Treo Bà Nà Hills - Cầu Vàng Trợ Năng": "Ba Na Hills Cable Car – Accessible Golden Bridge",
+    "Đà Nẵng, Việt Nam": "Da Nang, Vietnam",
+    "Cabin cửa lùa rộng 100cm tự giảm tốc đón xe": "100 cm sliding-door cabin with automatic slow-down for boarding",
+    "Salinda Resort Phú Quốc Hồ Bơi Nâng Hạ": "Salinda Resort Phu Quoc – Lift-in Pool",
+    "Kiên Giang, Việt Nam": "Kien Giang, Vietnam",
+    "Cầu nâng hạ cơ học đưa khách xuống hồ muối": "Mechanical lift taking guests down to the salt pool",
+    "Flamingo Đại Lải Resort Nghỉ Dưỡng Xanh": "Flamingo Dai Lai Resort – Green Retreat",
+    "Vĩnh Phúc, Việt Nam": "Vinh Phuc, Vietnam",
+    "Xe golf điện có bàn nâng thủy lực đặc chủng": "Electric golf cart with a specialized hydraulic lift",
+    "Ana Mandara Villas Đà Lạt Cổ Kính": "Ana Mandara Villas Dalat",
+    "Lâm Đồng, Việt Nam": "Lam Dong, Vietnam",
+    "WC có chuông báo SOS và thanh vịn chữ U": "Restroom with SOS alarm and U-shaped grab bars",
+    "Avana Retreat Mai Châu Trị Liệu": "Avana Retreat Mai Chau Wellness",
+    "Hòa Bình, Việt Nam": "Hoa Binh, Vietnam",
+    "Cung cấp thực đơn kiểm soát đường huyết & huyết áp": "Menus designed for blood sugar and blood pressure control",
+
+    // Phân trang
+    "Trang đầu": "First page",
+    "Trang trước": "Previous page",
+    "Trang sau": "Next page",
+    "Trang cuối": "Last page",
+    "Hiển thị": "Showing",
+    "trên tổng số": "of",
+
+    // Form đăng nhập / đăng ký / bản tin
+    "Email": "Email",
+    "Mật khẩu": "Password",
+    "Họ và tên": "Full name",
+    "Email đăng nhập": "Login email",
+    "Mật khẩu đăng nhập": "Login password",
+    "Họ tên đăng ký": "Registration name",
+    "Email đăng ký": "Registration email",
+    "Mật khẩu đăng ký": "Registration password",
+    "Đóng cửa sổ": "Close window",
+    "Email nhận bản tin": "Newsletter email",
+    "Đăng ký nhận bản tin": "Subscribe to newsletter",
+    "NHẬP ĐỊA CHỈ EMAIL CỦA BẠN": "ENTER YOUR EMAIL ADDRESS",
+
+    // Thông báo hệ thống (alert / confirm)
+    "Đã đánh dấu đọc tất cả thông báo!": "All notifications marked as read!",
+    "Bạn có chắc chắn muốn đăng xuất tài khoản?": "Are you sure you want to sign out?",
+    "Đã đăng xuất thành công!": "Signed out successfully!",
+    "Sai tài khoản hoặc mật khẩu!": "Incorrect email or password!",
+    "Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại theo danh sách tài khoản kiểm thử.": "Incorrect email or password! Please check the test account list.",
+    "Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay.": "Account created successfully! You can sign in now.",
+
+    // Header, footer, ARIA
+    "Chuyển đổi ngôn ngữ": "Switch language",
+    "Chuyển ngôn ngữ": "Switch language",
+    "Cờ Việt Nam": "Vietnam flag",
+    "Chế độ Người cao tuổi": "Senior Mode",
+    "Phóng to chữ & Tương phản cao cho người cao tuổi": "Larger text & high contrast for seniors",
+    "Đổi chế độ Sáng/Tối": "Toggle light/dark mode",
+    "Đổi giao diện Sáng Tối": "Toggle light/dark theme",
+    "Sáng / Tối": "Light / Dark",
+    "Xem thông báo": "View notifications",
+    "Hồ sơ người dùng": "User profile",
+    "Trang chủ AccessTravel": "AccessTravel home",
+    "Đại học Phenikaa, Hà Nội": "Phenikaa University, Hanoi",
+    "Hotline: 1900 xxxx": "Hotline: 1900 xxxx",
+    "© 2026 AccessTravel - Đồ án cuối kỳ học phần CSE703073 | Trường Đại học Phenikaa.":
+        "© 2026 AccessTravel - CSE703073 final course project | Phenikaa University.",
+};
+
+// Tự động lấy thêm từ điển đã có sẵn (translations + data-i18n), không phải nhập lại
+Object.keys(translations.vi).forEach(k => {
+    const vi = translations.vi[k], en = translations.en[k];
+    if (vi && en && !Object.prototype.hasOwnProperty.call(VI_EN, vi)) VI_EN[vi] = en;
+});
+
+// Mẫu động (số, tên thay đổi)
+const VI_EN_PATTERNS = [
+    [/^⭐ ([\d.]+)\/5 \((\d+) đánh giá\)$/, "⭐ $1/5 ($2 reviews)"],
+    [/^Còn (\d+) suất$/, "$1 slots left"],
+    [/^bản ghi \(Trang (\d+) \/ (\d+)\)$/, "records (Page $1 / $2)"],
+    [/^Đăng nhập thành công! Xin chào (.+)$/, "Login successful! Welcome $1"],
+    [/^Xem chi tiết (.+)$/, (m, a) => "View details of " + (VI_EN[a] ?? a)],
+    [/^bản ghi$/, "records"],
+];
+
+function lookupVi(s) {
+    if (!s) return null;
+    if (Object.prototype.hasOwnProperty.call(VI_EN, s)) return VI_EN[s];
+    for (const [re, rep] of VI_EN_PATTERNS) {
+        if (re.test(s)) return s.replace(re, rep);
+    }
+    return null;
+}
+
+function translateText(raw) {
+    const lead = raw.match(/^\s*/)[0];
+    const trail = raw.match(/\s*$/)[0];
+    const core = raw.trim();
+    if (!core) return null;
+    const direct = lookupVi(core);
+    if (direct !== null) return lead + direct + trail;
+    const m = core.match(/^([^\p{L}\p{N}]*)([\s\S]*?)([^\p{L}\p{N}]*)$/u);
+    const inner = lookupVi(m[2]);
+    if (inner !== null) return lead + m[1] + inner + m[3] + trail;
+    return null;
+}
+
+// Bộ nhớ bản gốc tiếng Việt, để đổi qua lại không mất dữ liệu
+const TEXT_REC = new WeakMap();
+const ATTR_REC = new WeakMap();
+const ATTR_LIST = ['placeholder', 'title', 'alt', 'aria-label'];
+const SKIP_TAGS = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEXTAREA: 1 };
+let titleRec = null;
+
+function syncAttrs(el) {
+    let map = ATTR_REC.get(el);
+    if (!map) { map = {}; ATTR_REC.set(el, map); }
+    ATTR_LIST.forEach(a => {
+        const cur = el.getAttribute(a);
+        if (cur === null) return;
+        let rec = map[a];
+        if (!rec || rec.applied !== cur) rec = map[a] = { orig: cur, applied: null };
+        const tr = currentLang === 'en' ? translateText(rec.orig) : null;
+        const out = tr !== null ? tr : rec.orig;
+        if (out !== cur) el.setAttribute(a, out);
+        rec.applied = out;
+    });
+}
+
+function syncText(node) {
+    const cur = node.nodeValue;
+    let rec = TEXT_REC.get(node);
+    if (!rec || rec.applied !== cur) rec = { orig: cur, applied: null };
+    const tr = currentLang === 'en' ? translateText(rec.orig) : null;
+    const out = tr !== null ? tr : rec.orig;
+    if (out !== cur) node.nodeValue = out;
+    rec.applied = out;
+    TEXT_REC.set(node, rec);
+}
+
+function syncTexts(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(n) {
+            return (n.parentElement && SKIP_TAGS[n.parentElement.tagName])
+                ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
         }
+    });
+    const list = [];
+    let n;
+    while ((n = walker.nextNode())) list.push(n);
+    list.forEach(syncText);
+}
+
+function syncDocumentTitle() {
+    const cur = document.title;
+    if (!titleRec || titleRec.applied !== cur) titleRec = { orig: cur, applied: null };
+    const tr = currentLang === 'en' ? translateText(titleRec.orig) : null;
+    const out = tr !== null ? tr : titleRec.orig;
+    if (out !== cur) document.title = out;
+    titleRec.applied = document.title;
+}
+
+function translatePage() {
+    document.querySelectorAll('[placeholder],[title],[alt],[aria-label]').forEach(syncAttrs);
+    syncTexts(document.body);
+    syncDocumentTitle();
+}
+
+// Theo dõi nội dung JavaScript render lại (thẻ tour, phân trang, thông báo, kết quả đăng nhập...)
+const i18nObserver = new MutationObserver(() => {
+    translatePage();
+    i18nObserver.takeRecords(); // bỏ qua thay đổi do chính hàm dịch tạo ra
+});
+i18nObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+    attributes: true,
+    attributeFilter: ATTR_LIST
+});
+
+// Alert / confirm cũng được dịch
+const _nativeAlert = window.alert.bind(window);
+const _nativeConfirm = window.confirm.bind(window);
+const trMsg = s => (currentLang === 'en' && typeof s === 'string') ? (translateText(s) ?? s) : s;
+window.alert = msg => _nativeAlert(trMsg(msg));
+window.confirm = msg => _nativeConfirm(trMsg(msg));
+
+// Áp dụng ngôn ngữ (dùng chung với detail.html qua key accessTravelLang)
+function applyLanguage(lang) {
+    currentLang = lang === 'en' ? 'en' : 'vi';
+    localStorage.setItem('accessTravelLang', currentLang);
+    document.documentElement.setAttribute('lang', currentLang);
+
+    const flag = document.getElementById('langFlag');
+    const text = document.getElementById('langText');
+    if (currentLang === 'en') {
+        if (flag) { flag.src = "https://flagcdn.com/w20/gb.png"; flag.alt = "Great Britain Flag"; }
+        if (text) text.innerText = "English";
+    } else {
+        if (flag) { flag.src = "https://flagcdn.com/w20/vn.png"; flag.alt = "Cờ Việt Nam"; }
+        if (text) text.innerText = "Tiếng Việt";
+    }
+
+    translatePage();
+    i18nObserver.takeRecords();
+}
+
+// HÀM BẬT TẮT NGÔN NGỮ (gọi từ nút header)
+function toggleLanguage() {
+    applyLanguage(currentLang === 'vi' ? 'en' : 'vi');
+}
+
+// Khôi phục ngôn ngữ đã chọn khi mở trang
+document.addEventListener('DOMContentLoaded', () => {
+    applyLanguage(localStorage.getItem('accessTravelLang') || 'vi');
+});
 
         function toggleElderMode() {
             const body = document.body;

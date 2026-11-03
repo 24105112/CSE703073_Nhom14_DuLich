@@ -561,5 +561,218 @@
         });
     </script>
     <script src="js/accessibility-widget.js"></script>
+    <!-- ================= CHÂN TRANG ACCESSTRAVEL (DÀNH CHO KHÁCH HÀNG) ================= -->
+    <style>
+        .site-footer {
+            background-color: var(--c-card-bg, #ffffff);
+            border-top: 1px solid var(--c-border, #e2e8f0);
+            color: var(--c-text, #0f172a);
+            padding-top: 50px;
+            margin-top: 60px;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            transition: background 0.3s, color 0.3s, border 0.3s;
+        }
+
+        [data-theme="dark"] .site-footer {
+            --c-card-bg: #18181b;
+            --c-border: #27272a;
+            --c-text: #f8fafc;
+            --c-text-muted: #94a3b8;
+            --c-bg: #09090b;
+        }
+
+        .footer-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 40px;
+            display: grid;
+            grid-template-columns: 2fr 1.1fr 1.2fr 1.4fr;
+            gap: 36px;
+        }
+
+        .footer-brand-logo {
+            font-size: 22px;
+            font-weight: 900;
+            color: #0f766e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            text-decoration: none;
+        }
+        [data-theme="dark"] .footer-brand-logo { color: #14b8a6; }
+
+        .footer-intro {
+            font-size: 13.5px;
+            color: var(--c-text-muted, #64748b);
+            line-height: 1.6;
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+
+        .footer-social-links { display: flex; gap: 10px; }
+        .footer-social-links a {
+            width: 36px;
+            height: 36px;
+            background: var(--c-bg, #f8fafc);
+            border: 1px solid var(--c-border, #e2e8f0);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--c-text, #0f172a);
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .footer-social-links a:hover {
+            background: #0f766e;
+            color: #ffffff;
+            border-color: #0f766e;
+        }
+
+        .footer-group-title {
+            font-size: 15.5px;
+            font-weight: 900;
+            margin-bottom: 18px;
+            color: var(--c-text, #0f172a);
+        }
+
+        .footer-list { list-style: none; padding: 0; margin: 0; }
+        .footer-list li { margin-bottom: 10px; }
+        .footer-list a {
+            font-size: 13.5px;
+            color: var(--c-text-muted, #64748b);
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .footer-list a:hover { color: #0f766e; padding-left: 4px; }
+
+        .footer-contact-line {
+            font-size: 13.5px;
+            color: var(--c-text-muted, #64748b);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        .footer-contact-line i { color: #0f766e; width: 16px; text-align: center; }
+
+        /* NÚT TRUNG TÂM HỖ TRỢ & FAQ */
+        .footer-support-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            padding: 9px 16px;
+            background: rgba(15, 118, 110, 0.08);
+            border: 1.5px solid #0f766e;
+            border-radius: 10px;
+            color: #0f766e;
+            font-weight: 800;
+            font-size: 13.5px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+        .footer-support-cta:hover {
+            background: #0f766e;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+        }
+        [data-theme="dark"] .footer-support-cta {
+            border-color: #14b8a6;
+            color: #14b8a6;
+            background: rgba(20, 184, 166, 0.1);
+        }
+        [data-theme="dark"] .footer-support-cta:hover {
+            background: #14b8a6;
+            color: #09090b;
+        }
+
+        .footer-bottom-bar {
+            border-top: 1px solid var(--c-border, #e2e8f0);
+            padding: 22px 20px;
+            text-align: center;
+            background: var(--c-bg, #f8fafc);
+            line-height: 1.8;
+        }
+        .footer-bottom-bar p { margin: 0; }
+        .footer-copy-main { font-weight: 800; font-size: 14px; color: var(--c-text, #0f172a); }
+        .footer-copy-sub { font-size: 13px; color: var(--c-text-muted, #64748b); margin: 3px 0 !important; font-weight: 600; }
+        .footer-copy-uni { font-size: 13px; font-weight: 700; color: #0f766e; }
+
+        @media (max-width: 860px) {
+            .footer-wrap { grid-template-columns: 1fr; gap: 28px; }
+        }
+    </style>
+
+    <footer class="site-footer">
+        <div class="footer-wrap">
+            <!-- Cột 1: Giới thiệu dự án -->
+            <div>
+                <a href="index.html" class="footer-brand-logo">
+                    <i class="fa-solid fa-wheelchair"></i> AccessTravel
+                </a>
+                <p class="footer-intro">
+                    Nền tảng OTA tiên phong tại Việt Nam chuyên khảo sát và kiểm định thực tế rào cản di chuyển, độ dốc ram, kích thước cửa và tiện ích hỗ trợ người cao tuổi, người khuyết tật.
+                </p>
+                <div class="footer-social-links">
+                    <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <!-- Cột 2: Khám phá dịch vụ du lịch -->
+            <div>
+                <div class="footer-group-title">Khám phá</div>
+                <ul class="footer-list">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="search.html">Tìm kiếm chuyến đi</a></li>
+                    <li><a href="detail.html">Chi tiết tour trợ năng</a></li>
+                    <li><a href="profile.html?tab=bookings">Tour đã đặt của tôi</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 3: Chính sách & An toàn (Thay thế cột Admin cũ) -->
+            <div>
+                <div class="footer-group-title">Chính sách & An toàn</div>
+                <ul class="footer-list">
+                    <li><a href="support.html">Tiêu chuẩn kiểm định ram dốc</a></li>
+                    <li><a href="support.html">Bảo hiểm du lịch y tế</a></li>
+                    <li><a href="support.html">Chính sách hỗ trợ xe lăn</a></li>
+                    <li><a href="support.html">Quy định hoàn hủy giữ chỗ</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 4: Thông tin liên hệ & Hỗ trợ -->
+            <div>
+                <div class="footer-group-title">Thông tin liên hệ</div>
+                <div class="footer-contact-line">
+                    <i class="fa-solid fa-phone"></i> Hotline: 1900 6868
+                </div>
+                <div class="footer-contact-line">
+                    <i class="fa-solid fa-envelope"></i> hotro@accesstravel.vn
+                </div>
+                <div class="footer-contact-line">
+                    <i class="fa-solid fa-location-dot"></i> Trường Đại học Phenikaa, Hà Nội
+                </div>
+
+                <!-- Nút chuyển tới trang hỗ trợ -->
+                <a href="support.html" class="footer-support-cta">
+                    <i class="fa-regular fa-circle-question"></i> Trung tâm Hỗ trợ & FAQ &rarr;
+                </a>
+            </div>
+        </div>
+
+        <!-- 3 Dòng bản quyền tiêu đề cuối -->
+        <div class="footer-bottom-bar">
+            <p class="footer-copy-main">&copy; 2026 AccessTravel &middot; Đồ án cuối kỳ</p>
+            <p class="footer-copy-sub">Lập trình Web 2 (CSE703073) &middot; Nhóm 14 – Du lịch</p>
+            <p class="footer-copy-uni">Trường Đại học Phenikaa</p>
+        </div>
+    </footer>
 </body>
 </html>

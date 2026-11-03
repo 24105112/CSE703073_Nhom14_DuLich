@@ -226,10 +226,11 @@
         </div>
 
         <div class="header-actions" style="display: flex; align-items: center; gap: 10px; margin-left: auto; padding-right: 20px;">
-            <!-- Nút đổi ngôn ngữ dạng nút bấm bo góc có icon trái đất -->
-            <button class="global-lang-btn" onclick="toggleLanguage()" title="Chuyển ngôn ngữ" style="background: var(--c-card-bg); border: 1.5px solid var(--c-border); color: var(--c-text); border-radius: 12px; height: 40px; padding: 0 14px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; font-weight: 800; font-size: 14px; font-family: inherit;">
-                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
-            </button>
+<!-- MỚI: CHUẨN ĐỒNG BỘ CỜ & NGÔN NGỮ -->
+           <button class="global-lang-btn" onclick="toggleDetailLanguage()" id="langBtn" title="Chuyển đổi ngôn ngữ" style="background: var(--c-card-bg); border: 1.5px solid var(--c-border); color: var(--c-text); border-radius: 12px; height: 40px; padding: 0 14px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; font-weight: 800; font-size: 13.5px; font-family: inherit;">
+                <img src="https://flagcdn.com/w20/vn.png" alt="VN" width="18" height="13" id="langFlag">
+                <span id="langText">Tiếng Việt</span>
+           </button>
 
             <!-- Nút đổi Sáng / Tối dạng nút vuông tròn -->
             <button class="global-theme-btn" onclick="toggleCustomerTheme()" title="Sáng / Tối" style="background: var(--c-card-bg); border: 1.5px solid var(--c-border); color: var(--c-text); border-radius: 12px; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px;">
@@ -1406,124 +1407,470 @@ function onLichChange() {
                 }
             }
         }
-        // BỘ TỪ ĐIỂN TỰ ĐỘNG DỊCH CHO DETAIL.HTML
-        const detailDict = {
-            "Tổng quan": "Overview",
-            "Mô tả hành trình": "Itinerary Description",
-            "Vị trí & Y tế": "Location & Medical Care",
-            "Gói dịch vụ & Đặt chỗ": "Packages & Booking",
-            "Đánh giá thực tế": "Real Reviews",
-            "Khởi hành 2026": "Departure 2026",
-            "Hỗ trợ xe lăn & người cao tuổi": "Wheelchair & Senior Assistance",
-            "Đã kiểm định độ dốc & tiếp cận 100%": "100% Verified Ramp & Accessibility",
-            "Giá trọn gói / khách từ": "All-inclusive per guest from",
-            "Chọn ngày & Đặt chỗ": "Select Date & Book",
-            "Khách nói gì về kỳ nghỉ trợ năng:": "What guests say about accessible stay:",
-            "Xem tất cả >": "View all >",
-            "Trong khu vực & Y tế": "Area & Medical Facilities",
-            "Xem bản đồ >": "View map >",
-            "Tiện ích trợ năng chính": "Key Accessibility Amenities",
-            "Chi tiết >": "Details >",
-            "Thang máy boong": "Deck Elevator",
-            "Rãnh dốc < 8%": "Ramp Slope < 8%",
-            "Trực y tế 24/7": "24/7 Medical Care",
-            "WC tay vịn chữ U": "U-bar Grab Restroom",
-            "Xe đón gầm thấp": "Low-chassis Transit",
-            "WiFi tốc độ cao": "High-speed WiFi",
-            "Giới Thiệu Chuyến Đi Tiếp Cận": "Introduction to Accessible Journey",
-            "Mô Tả Hành Trình Trải Nghiệm Thực Tế": "Actual Accessible Itinerary Details",
-            "Đã kiểm tra thực tế": "Verified On-site",
-            "Bảng dữ liệu đo đạc trợ năng thực tế (Chạm để xem chi tiết)": "Actual Accessibility Audit Data (Click to expand)",
-            "Bản Đồ Du Lịch Tiếp Cận & Cơ Sở Y Tế": "Accessible Tourism Map & Medical Facilities",
-            "Tất cả vị trí": "All Locations",
-            "Lối đi xe lăn": "Wheelchair Paths",
-            "Cơ sở y tế & Cấp cứu": "Medical Clinics & First Aid",
-            "Điểm nghỉ râm mát": "Shaded Resting Bays",
-            "Chọn Lịch Khởi Hành & Đặt Chỗ": "Select Departure Schedule & Booking",
-            "Ngày khởi hành & Suất khả dụng": "Departure Date & Availability",
-            "Số lượng khách (Vé)": "Number of Guests (Tickets)",
-            "Tổng thanh toán tạm tính": "Estimated Total Price",
-            "Xác Nhận Giữ Chỗ": "Confirm Reservation",
-            "Gói Tiêu Chuẩn Tiếp Cận Toàn Diện": "Full Accessibility Standard Package",
-            "Đặt Lịch Này": "Book This Schedule",
-            "Gói Cao Cấp (Kèm Y Tế & Điều Dưỡng Viên Đồng Hành)": "Premium Package (With Dedicated Nurse & Doctor)",
-            "Đánh Giá Của Du Khách Trợ Năng": "Verified Guest Accessibility Reviews",
-            "Viết đánh giá chuyến đi của bạn": "Write Your Experience Review",
-            "Đính kèm ảnh chuyến đi": "Attach Travel Photo",
-            "Gửi Đánh Giá Ngay": "Submit Review Now",
-            "Tất cả": "All",
-            "Mới nhất": "Newest",
-            "Cũ nhất": "Oldest",
-            "Đánh giá cao nhất": "Highest Rated",
-            "Đánh giá thấp nhất": "Lowest Rated",
-            "Khám phá": "Explore",
-            "Trang chủ": "Home",
-            "Dịch vụ": "Services",
-            "Bản tin": "News",
-            "Về chúng tôi": "About Us",
-            "Hỗ trợ": "Support",
-            "Đăng nhập": "Login",
-            "(Đăng xuất)": "(Logout)"
-        };
+// ================= I18N VI -> EN TOÀN TRANG =================
+const VI_EN = {
+    // ----- Header, sub-nav, gallery -----
+    "Đang tải điểm đến...": "Loading destination...",
+    "Khởi hành 2026": "Departure 2026",
+    "Hỗ trợ xe lăn & người cao tuổi": "Wheelchair & senior support",
+    "Chuyển đổi ngôn ngữ": "Switch language",
+    "Sáng / Tối": "Light / Dark",
+    "Đăng nhập": "Log in",
+    "Đăng xuất": "Log out",
+    "Xem tất cả ảnh": "View all photos",
+    "Tổng quan": "Overview",
+    "Mô tả hành trình": "Itinerary description",
+    "Vị trí & Y tế": "Location & Medical",
+    "Gói dịch vụ & Đặt chỗ": "Packages & Booking",
+    "Đánh giá thực tế (": "Real reviews (",
+    "Main": "Main",
+    "Sub 1": "Sub 1",
+    "Sub 2": "Sub 2",
+    "Sub 3": "Sub 3",
+    "Sub 4": "Sub 4",
 
-        // Hàm cuộn mượt đến các section
-        function scrollToSection(secId, btn) {
-            if (btn) {
-                document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
-            const el = document.getElementById(secId);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+    // ----- Tiêu đề tour -----
+    "Du thuyền Ambassador Vịnh Hạ Long": "Ambassador Ha Long Bay Cruise",
+    "Quảng Ninh, Việt Nam": "Quang Ninh, Vietnam",
+    "✔ Đã kiểm định độ dốc & tiếp cận 100%": "✔ Slope & access verified 100%",
+    "Giá trọn gói / khách từ": "All-inclusive price per guest from",
+    "Chọn ngày & Đặt chỗ": "Select date & book",
+    "Du thuyền": "Cruise",
+    "Tour trợ năng": "Accessible tour",
+
+    // ----- Tổng quan (3 cột) -----
+    "Khách nói gì về kỳ nghỉ trợ năng:": "What guests say about their accessible trip:",
+    "Xem tất cả": "View all",
+    "Xem bản đồ": "View map",
+    "Chi tiết": "Details",
+    "Trong khu vực & Y tế": "Nearby & Medical",
+    "Cảng tàu khách quốc tế Bãi Cháy": "Bai Chay International Cruise Port",
+    "📍 Cảng tàu khách quốc tế Bãi Cháy · Khu vực đã được kiểm định an toàn": "📍 Bai Chay International Cruise Port · Verified safe area",
+    "Bệnh viện Đa khoa Bãi Cháy": "Bai Chay General Hospital",
+    "Nhà thuốc chuẩn GPP": "GPP-standard pharmacy",
+    "Tuyến xe cấp cứu ưu tiên": "Priority ambulance route",
+    "Trực 24/7": "On duty 24/7",
+    "Xe trung chuyển gầm thấp": "Low-floor shuttle bus",
+    "Có sẵn": "Available",
+    "Điểm dừng nghỉ cho người già": "Rest stop for seniors",
+    "Tiện ích trợ năng chính": "Key accessibility amenities",
+    "Thang máy boong": "Deck elevator",
+    "Rãnh dốc < 8%": "Ramp slope < 8%",
+    "Trực y tế 24/7": "24/7 medical staff",
+    "WC tay vịn chữ U": "U-shaped grab-bar restroom",
+    "Xe đón gầm thấp": "Low-floor pickup vehicle",
+    "WiFi tốc độ cao": "High-speed WiFi",
+    "⭐ ": "⭐ ",
+    "Đánh Giá Của Du Khách Trợ Năng (": "Accessibility Guest Reviews (",
+    "Giới Thiệu Chuyến Đi Tiếp Cận": "Introduction to the Accessible Trip",
+    "Hành trình được thiết kế loại bỏ hoàn toàn các bậc tam cấp cao. Du khách sử dụng xe lăn hoặc người cao tuổi có thể lên xuống tàu dễ dàng qua hệ thống cầu dẫn thủy lực gầm thấp. Thang máy kính hỗ trợ di chuyển thông suốt giữa nhà hàng, phòng nghỉ và boong ngắm cảnh tầng thượng.":
+        "The itinerary is designed to completely eliminate high steps. Wheelchair users and seniors can board the ship easily via low-profile hydraulic gangways. Glass elevators provide smooth movement between the restaurant, rest rooms and the rooftop observation deck.",
+
+    // ----- Mô tả hành trình -----
+    "Mô Tả Hành Trình Trải Nghiệm Thực Tế": "Real Experience Itinerary Description",
+    "01 • Tổng quan hành trình": "01 • Trip overview",
+    "Tuyến tham quan trợ năng mới": "New accessible sightseeing route",
+    "Thời lượng 1 ngày, độ dốc kiểm định < 6%, mặt đường êm ái cho xe lăn điện.":
+        "1-day trip, verified slope < 6%, smooth surface for power wheelchairs.",
+    "02 • Bản đồ tiếp cận": "02 • Accessibility map",
+    "Đi được đến đâu, bằng cách nào?": "Where can you go and how?",
+    "Đường dốc tiêu chuẩn, cửa mở 90cm, không bậc tam cấp, WC tiếp cận từng chặng.":
+        "Standard ramps, 90 cm doors, no steps, accessible restrooms at every stop.",
+    "03 • Lịch trình chi tiết": "03 • Detailed schedule",
+    "Từng chặng trong chuyến đi": "Step-by-step journey",
+    "Khoảng cách đi bộ ngắn, bố trí 4 điểm dừng chân râm mát, có phương án thay thế.":
+        "Short walking distances, 4 shaded rest stops, with alternative options.",
+    "04 • Dịch vụ hỗ trợ": "04 • Support services",
+    "Đồng hành suốt chuyến đi": "Support throughout the trip",
+    "Xe nâng thủy lực, hướng dẫn viên đào tạo trợ giúp y tế, chuẩn bị bình oxy cá nhân.":
+        "Hydraulic lifts, guides trained in medical assistance, personal oxygen cylinders prepared.",
+    "Lịch trình chi tiết từng chặng": "Detailed stage-by-stage itinerary",
+    "08:00 – 15:00 • Lịch trình đã được xác minh thực địa": "08:00 – 15:00 • Itinerary verified on site",
+    "Đã kiểm tra thực tế": "Checked on site",
+    "Đón khách & khởi hành an toàn": "Pickup & safe departure",
+    "Tập trung tại điểm hẹn trung tâm, nhân viên hỗ trợ lên xe bằng bàn nâng điện chuyên dụng và chằng cố định xe lăn bánh an toàn.":
+        "Gather at the central meeting point. Staff help guests board using a dedicated electric lift and secure wheelchairs safely.",
+    "Xe có bửng nâng": "Vehicle with lift platform",
+    "Hỗ trợ lên xuống xe 1-1": "1-on-1 boarding assistance",
+    "Tham quan khu di tích & trải nghiệm thực địa": "Heritage site tour & on-site experience",
+    "Khám phá tuyến đường di sản bằng phẳng, nghe thuyết minh qua tai nghe trợ thính, di chuyển qua các hành lang rộng có tay vịn kép.":
+        "Explore a flat heritage route, listen to commentary through hearing-aid headsets, and move through wide corridors with double handrails.",
+    "Nghỉ ngơi, dùng bữa & phục hồi thể lực": "Rest, meals & recovery",
+    "Nhà hàng tiêu chuẩn trợ năng, bàn ăn cao 75cm chui vừa xe lăn, nhà vệ sinh không bậu cửa có chuông báo động SOS.":
+        "Accessible-standard restaurant with 75 cm tables that fit wheelchairs, threshold-free restroom with an SOS alarm.",
+    "Điểm nghỉ râm mát": "Shaded rest spot",
+    "WC trợ năng rộng 1m6": "1.6 m accessible restroom",
+    "Kết thúc hành trình & trao trả điểm hẹn": "End of trip & drop-off",
+    "Kiểm tra tư trang, nhân viên hỗ trợ khách hạ xe an toàn, lắng nghe phản hồi thực tế và tiễn khách về điểm ban đầu.":
+        "Belongings check. Staff help guests disembark safely, collect feedback and return guests to the starting point.",
+    "Bảng dữ liệu đo đạc trợ năng thực tế (Chạm để xem chi tiết)": "Actual accessibility measurement data (tap to view details)",
+    "1. Lối đi & đường dốc tiếp cận": "1. Pathways & access ramps",
+    "2. Mức độ vận động & sức bền yêu cầu": "2. Required mobility & stamina",
+    "3. Nhà vệ sinh tiếp cận (Accessible WC)": "3. Accessible restroom (Accessible WC)",
+    "4. Hỗ trợ y tế & sơ cấp cứu khẩn cấp": "4. Medical support & emergency first aid",
+    "Đối tượng phù hợp": "Suitable for",
+    "Người dùng xe lăn tay, xe lăn điện, người cao tuổi có gậy/khung tập đi, người suy giảm thị lực có hướng dẫn viên hỗ trợ dẫn đường.":
+        "Manual and power wheelchair users, seniors using canes or walkers, and visually impaired guests with a guide for navigation.",
+    "Chuẩn bị trước chuyến đi": "Preparation before the trip",
+    "Khách mang theo thuốc đặc trị cá nhân, sạc đầy pin xe lăn điện. Báo trước kích cỡ xe lăn đặc thù (nếu bề ngang > 85cm) để bố trí xe đón phù hợp.":
+        "Guests should bring personal medication and fully charge power wheelchair batteries. Notify us in advance of any non-standard wheelchair (width over 85 cm) so we can arrange a suitable vehicle.",
+
+    // ----- Bản đồ & Y tế -----
+    "Bản Đồ Du Lịch Tiếp Cận & Cơ Sở Y Tế": "Accessible Travel Map & Medical Facilities",
+    "Tất cả vị trí": "All locations",
+    "Lối đi xe lăn": "Wheelchair routes",
+    "Cơ sở y tế & Cấp cứu": "Medical facilities & emergency",
+    "Điểm nghỉ râm mát": "Shaded rest spots",
+    "Lớp dữ liệu": "Data layers",
+    "Đường dốc chuẩn (< 6%)": "Standard ramps (< 6%)",
+    "Nhà vệ sinh tiếp cận": "Accessible restrooms",
+    "Ghế nghỉ có mái che": "Covered benches",
+    "Bệnh viện đa khoa gần nhất": "Nearest general hospital",
+    "Đã khảo sát thực địa": "Field-surveyed",
+    "Cách điểm đến 0 m": "Distance: 0 m",
+    "Cổng Tiếp Cận Trợ Năng Chính": "Main Accessible Gate",
+    "Địa điểm xuất phát của tuyến tham quan": "Departure point of the sightseeing route",
+    "Đường dốc": "Ramp",
+    "Ram dốc 5.5%, tay vịn 2 bậc": "5.5% ramp, 2-step handrails",
+    "Nhà vệ sinh": "Restroom",
+    "Cách 40m, cửa lùa rộng 95cm": "40 m away, 95 cm sliding door",
+    "Điểm nghỉ": "Rest area",
+    "Nhà chờ có điều hòa và nước uống": "Waiting room with air conditioning and drinking water",
+    "Y tế hỗ trợ": "Medical support",
+    "Trạm y tế trực chốt 24/7 (SĐT: 115)": "Medical post on duty 24/7 (phone: 115)",
+    "Gọi Hỗ Trợ": "Call Support",
+    "Chỉ Đường Xe Lăn": "Wheelchair Directions",
+    "Chạm nhanh để chuyển vị trí": "Tap to switch location",
+    "Cổng chính & Bãi đỗ xe có bửng nâng": "Main gate & parking with lift platform",
+    "Khu tham quan trung tâm (Sàn phẳng)": "Central sightseeing area (flat floor)",
+    "Bệnh viện / Trạm cấp cứu gần nhất": "Nearest hospital / emergency station",
+    "Cách điểm đến: 0 mét từ cổng": "Distance: 0 m from the gate",
+    "0 mét từ cổng": "0 m from the gate",
+    "250 mét từ cổng": "250 m from the gate",
+    "1.2 km": "1.2 km",
+    "Cách 40m": "40 m away",
+    "Cách 50 m": "50 m away",
+    "Cách điểm đến: 250 mét từ cổng": "Distance: 250 m from the gate",
+    "Cách điểm đến: 1.2 km": "Distance: 1.2 km",
+    "Cổng Đón Trả Trợ Năng Chính": "Main Accessible Pickup Gate",
+    "Khu vực bãi đỗ xe ưu tiên P1 (Đã bố trí bửng nâng xe lăn)": "Priority parking zone P1 (wheelchair lift platform available)",
+    "Ram dốc chuẩn 5.5%, bề mặt nhám chống trượt": "Standard 5.5% ramp, slip-resistant surface",
+    "WC số 1 cách 40m (Cửa 95cm, có chuông SOS)": "Restroom No. 1, 40 m away (95 cm door, SOS alarm)",
+    "Nhà chờ mái vòm râm mát, có quạt thông gió & nước uống": "Shaded covered waiting hall with ventilation fans and drinking water",
+    "Tủ thuốc sơ cấp cứu & bình oxy mini tại trạm điều hành": "First-aid cabinet and mini oxygen cylinder at the operations station",
+    "Khu Trung Tâm Tham Quan & Sảnh Nghỉ Trưa": "Central Sightseeing Area & Lunch Lounge",
+    "Sảnh trung tâm – Sàn đá nhám không bậc tam cấp": "Central hall, non-slip stone floor, no steps",
+    "Độ dốc 0% (Hoàn toàn bằng phẳng xuyên suốt)": "0% slope (completely flat throughout)",
+    "WC trợ năng chuẩn quốc tế tại tầng trệt (Xoay xe 360°)": "International-standard accessible restroom on the ground floor (360° turning space)",
+    "Khu ghế đệm dài có tựa lưng, máy lọc nước nóng lạnh miễn phí": "Long padded benches with backrests and free hot/cold water dispenser",
+    "Y tá trực sẵn trong giờ mở cửa tour": "Nurse on standby during tour hours",
+    "Bệnh Viện Đa Khoa & Cấp Cứu Khu Vực": "Local General & Emergency Hospital",
+    "Trục đường chính, tiếp cận xe cứu thương trong 8 phút": "Main road, ambulance access within 8 minutes",
+    "Đường xe cứu thương và xe lăn chuyên dụng tiêu chuẩn Bộ Y Tế": "Ambulance and wheelchair routes meeting Ministry of Health standards",
+    "Hệ thống nhà vệ sinh bệnh viện chuẩn y tế": "Medical-standard hospital restroom system",
+    "Phòng cấp cứu lưu bệnh nhân": "Emergency room for patient observation",
+    "Trực cấp cứu 115 và bác sĩ đa khoa 24/24": "115 emergency line and general physicians 24/7",
+
+    // ----- Gói dịch vụ & đặt chỗ -----
+    "Chọn Lịch Khởi Hành & Đặt Chỗ": "Choose Departure Schedule & Book",
+    "Ngày khởi hành & Suất khả dụng": "Departure date & availability",
+    "Số lượng khách (Vé)": "Number of guests (tickets)",
+    "Nhu cầu trợ năng đi kèm": "Accessibility needs",
+    "Tổng thanh toán tạm tính": "Estimated total",
+    "Xác Nhận & Thanh Toán": "Confirm & Pay",
+    "Hỗ trợ xe lăn & đường ram dốc": "Wheelchair & ramp assistance",
+    "Xe điện gầm thấp cho người cao tuổi": "Low-floor electric buggy for seniors",
+    "Cabin / WC có tay vịn an toàn": "Cabin / restroom with safety grab bars",
+    "Không yêu cầu đặc biệt": "No special requirements",
+    "Lịch này hiện còn đúng 12 suất khả dụng trên hệ thống": "This schedule currently has exactly 12 slots available",
+    "Gói Tiêu Chuẩn Tiếp Cận Toàn Diện": "Standard Full-Access Package",
+    "✔ Cửa phòng rộng ≥ 85cm · Thang máy kết nối": "✔ Room door ≥ 85 cm · Connected elevator",
+    "Tiêu chuẩn": "Standard",
+    "Hỗ trợ xe lăn": "Wheelchair assistance",
+    "Đã gồm phí hỗ trợ": "Support fee included",
+    "Đặt Lịch Này": "Book This Schedule",
+    "Gói Cao Cấp (Kèm Y Tế & Điều Dưỡng Viên Đồng Hành)": "Premium Package (with Medical & Accompanying Nurse)",
+    "✔ Bác sĩ trực 24/7 · Xe điện đưa đón tận sảnh": "✔ Doctor on duty 24/7 · Electric shuttle to the lobby",
+    "Ưu tiên VIP": "VIP priority",
+    "Chăm sóc đặc biệt": "Special care",
+    "Đã gồm y tá đi cùng": "Accompanying nurse included",
+
+    // ----- Đánh giá -----
+    "Phản hồi thực tế từ những người sử dụng xe lăn và người cao tuổi đã trải nghiệm hành trình này.":
+        "Real feedback from wheelchair users and seniors who experienced this journey.",
+    "Viết đánh giá chuyến đi của bạn": "Write your trip review",
+    "Chia sẻ trải nghiệm thực tế về độ dốc, thang máy, phòng nghỉ hoặc thái độ hỗ trợ của nhân viên...":
+        "Share your real experience of the slopes, elevators, rooms or staff support...",
+    "Đính kèm ảnh chuyến đi": "Attach trip photo",
+    "Ảnh trải nghiệm": "Experience photo",
+    "Preview": "Preview",
+    "Gửi Đánh Giá Ngay": "Submit Review Now",
+    "Tất cả": "All",
+    "5 Sao ★": "5 Stars ★",
+    "4 Sao ★": "4 Stars ★",
+    "3 Sao ★": "3 Stars ★",
+    "1-2 Sao ★": "1-2 Stars ★",
+    "Mới nhất": "Newest",
+    "Cũ nhất": "Oldest",
+    "Đánh giá cao nhất": "Highest rated",
+    "Đánh giá thấp nhất": "Lowest rated",
+    "Chưa có đánh giá nào cho mức lọc này.": "No reviews for this filter yet.",
+    "Thang máy boong tàu chạy cực kỳ êm, cửa mở rộng xe lăn điện của tôi vào quay đầu nhẹ nhàng. Nhân viên hỗ trợ tận tình từ khâu đón ở cầu cảng.":
+        "The deck elevator runs extremely smoothly, and the wide door let my power wheelchair in and turn easily. Staff were very attentive from the pier pickup onward.",
+    "Độ dốc rãnh dốc dẫn lên du thuyền được làm chuẩn theo góc nghiêng an toàn, có gờ ma sát chống trơn trượt. Bố tôi đi lại rất an tâm.":
+        "The ramp leading up to the cruise is built to a safe incline with anti-slip grip strips. My father felt very secure moving around.",
+    "Phòng vệ sinh có tay vịn chịu lực chữ U vững chãi. Điểm trừ nhỏ là lúc cao điểm ở sảnh chờ cần bố trí thêm ghế tựa lưng cho các cụ.":
+        "The restroom has sturdy load-bearing U-shaped grab bars. One minor drawback: during peak hours the waiting hall needs more backrest chairs for elderly guests.",
+    "Trải nghiệm tuyệt vời nhất cho du khách khuyết tật từ trước đến nay. Nền tảng AccessTravel kiểm định thông số rất chính xác so với thực tế.":
+        "The best experience yet for guests with disabilities. AccessTravel's measurements matched real conditions very accurately.",
+    "Chế độ ăn nhạt theo yêu cầu sức khỏe của mẹ tôi được đầu bếp chuẩn bị riêng. Y tá đi cùng kiểm tra huyết áp mỗi sáng rất chu đáo.":
+        "The low-salt meals my mother needed were prepared separately by the chef. The accompanying nurse checked her blood pressure every morning with great care.",
+    "Cảnh đẹp và dịch vụ tốt, tuy nhiên đoạn dốc ở bãi đậu xe hơi xa khu vực lên tàu, người nhà tự đẩy xe lăn hơi mỏi một chút.":
+        "Beautiful scenery and good service, but the slope in the car park far from the boarding area left family members a bit tired from pushing the wheelchair themselves.",
+    "Không gian thoáng đãng, lối đi nội khu hoàn toàn không có bậc tam cấp. Rất khuyến khích các gia đình có người lớn tuổi nên trải nghiệm.":
+        "Open, airy space and paths with no steps at all. Highly recommended for families with elderly members.",
+    "Nhân viên hướng dẫn niềm nở. Đội ngũ y tế luôn có mặt hỗ trợ khi cần thiết. Sẽ giới thiệu cho bạn bè trong hội hưu trí.":
+        "Friendly guides. The medical team was always on hand when needed. I will recommend it to friends in my retirement club.",
+    "Cabin tiêu chuẩn tầng 2 cửa rộng thênh thang, giường hạ thấp vừa tầm để chuyển từ xe lăn sang giường một cách an toàn.":
+        "The standard second-floor cabin has a very wide door and a lowered bed at the right height for a safe transfer from wheelchair to bed.",
+    "Ngày khởi hành gặp trời mưa nhỏ nên lối đi hơi trơn trượt nhẹ dù có thảm cao su. Cần tăng cường nhân viên che ô và dìu khách hơn.":
+        "Light rain on departure day made the paths slightly slippery despite the rubber mats. More staff are needed to hold umbrellas and help guests.",
+    "Đồ uống chào mừng ngon, âm thanh hướng dẫn trên tàu to rõ ràng, rất phù hợp với người cao tuổi mắt kém tai lãng.":
+        "The welcome drinks were delicious and the on-board announcements were loud and clear, very suitable for seniors with poor eyesight or hearing.",
+    "Thời gian làm thủ tục tại quầy hôm 25/09 hơi đông và chờ hơi lâu. May mà có ghế ngồi nghỉ trợ năng nên người nhà không bị mệt.":
+        "Check-in at the counter on 25/09 was quite crowded and the wait was long. Luckily there were accessible rest seats, so family members did not get tired.",
+
+    // ----- Footer (cả hai khối footer) -----
+    "Nền tảng OTA tiên phong tại Việt Nam chuyên kiểm định thực tế độ dốc xe lăn, thang máy và tiện ích hỗ trợ người cao tuổi, người khuyết tật.":
+        "Vietnam's pioneering OTA platform specializing in on-site verification of wheelchair slopes, elevators and amenities for seniors and people with disabilities.",
+    "Hệ thống đặt tour du lịch tiếp cận dành riêng cho người cao tuổi và người suy giảm khả năng vận động. Mọi tuyến tour đều được khảo sát độ dốc ram, kích thước cửa và hỗ trợ y tế thực tế.":
+        "A booking system for accessible tours designed for seniors and people with reduced mobility. Every route is surveyed on site for ramp slopes, door sizes and medical support.",
+    "Khám phá": "Explore",
+    "Trang chủ": "Home",
+    "Tìm kiếm điểm đến": "Search destinations",
+    "Chi tiết tour trợ năng": "Accessible tour details",
+    "Trung tâm hỗ trợ": "Support center",
+    "Tiêu chuẩn kiểm định": "Verification standards",
+    "Độ dốc đường dẫn (< 8%)": "Ramp slope (< 8%)",
+    "Chiều rộng cửa & Thang máy": "Door width & elevators",
+    "Nhà vệ sinh có tay vịn": "Restrooms with grab bars",
+    "Khoảng cách trạm y tế": "Distance to medical stations",
+    "Hỗ trợ 24/7": "24/7 Support",
+    "Tổng đài trợ năng: 1900 xxxx": "Accessibility hotline: 1900 xxxx",
+    "Dịch vụ trợ năng": "Accessibility services",
+    "Cẩm nang & Tin tức": "Guides & News",
+    "Về chúng tôi": "About us",
+    "Tiện ích": "Utilities",
+    "Hỗ trợ khẩn cấp": "Emergency support",
+    "Cổng Quản trị viên": "Admin portal",
+    "Đổi giao diện Tối/Sáng": "Switch light/dark theme",
+    "Liên hệ hỗ trợ": "Contact support",
+    "Hotline: 1900 6868": "Hotline: 1900 6868",
+    "Trường Đại học Phenikaa, Hà Nội": "Phenikaa University, Hanoi",
+    "© 2026 AccessTravel - Đồ án học phần CSE703073 | Nhóm 14 Du Lịch.":
+        "© 2026 AccessTravel - CSE703073 course project | Group 14 Tourism",
+    "© 2026 AccessTravel - Đồ án cuối kỳ học phần CSE703073 | Khoa Hệ thống thông tin, Trường CNTT, Đại học Phenikaa.":
+        "© 2026 AccessTravel - CSE703073 final course project | Information Systems Faculty, School of IT, Phenikaa University.",
+
+    // ----- Ảnh (alt) & thông báo -----
+    "Tổng quan": "Overview",
+    "Bản đồ": "Map",
+    "Lịch trình": "Itinerary",
+    "Hỗ trợ": "Support",
+    "Room": "Room",
+    "Vui lòng nhập nội dung đánh giá của bạn!": "Please enter your review content!",
+    "Vui lòng đăng nhập tài khoản trước khi thực hiện đặt chỗ!": "Please log in before booking!",
+    "Bạn có chắc muốn đăng xuất?": "Are you sure you want to log out?",
+    "Nhập họ tên của bạn để hiển thị trên đánh giá:": "Enter your full name to display on the review:",
+    "🎉 Cảm ơn bạn! Đánh giá đã được ghi nhận và hiển thị ngay trên hệ thống.":
+        "🎉 Thank you! Your review has been recorded and is now displayed on the system.",
+    "Trang chủ | AccessTravel": "Home | AccessTravel",
+    "Chi Tiết Tour Trợ Năng | AccessTravel": "Accessible Tour Details | AccessTravel",
+};
+
+// Khối có thẻ inline (<strong>): key = innerHTML đã chuẩn hóa khoảng trắng
+const VI_EN_BLOCK = {
+    "Độ dốc tiêu chuẩn <strong>5.8% (đạt chuẩn TCVN &lt; 8%)</strong>; chiều rộng lối đi xuyên suốt tối thiểu <strong>140 cm</strong> đủ cho 2 xe lăn tránh nhau; bề mặt lát đá nhám chống trơn trượt khi trời mưa; hoàn toàn không có gờ bậc cản trở.":
+        "Standard slope <strong>5.8% (meets TCVN &lt; 8%)</strong>; minimum continuous pathway width <strong>140 cm</strong>, enough for 2 wheelchairs to pass; non-slip stone surface for rainy weather; no obstructing curbs or steps at all.",
+    "Tổng quãng đường di chuyển bộ/lăn xe khoảng <strong>650 mét</strong>; tốc độ di chuyển thong thả 1.5 km/h; cứ <strong>80 - 100 mét</strong> có bố trí trạm dừng nghỉ ghế gỗ có lưng tựa và tán cây râm mát.":
+        "Total walking/wheeling distance about <strong>650 m</strong>; relaxed pace of 1.5 km/h; a rest stop with backed wooden benches and tree shade every <strong>80 - 100 m</strong>.",
+    "Cửa trượt rộng <strong>92 cm</strong> mở tự động hoặc gạt nhẹ; không bậu cửa; đường kính xoay xe lăn bên trong đạt <strong>160 x 160 cm</strong>; bồn cầu cao 45cm kèm tay vịn chữ U inox 304 hai bên; tích hợp dây giật chuông cấp cứu SOS.":
+        "Sliding door <strong>92 cm</strong> wide, opens automatically or with a light push; no threshold; interior turning circle <strong>160 x 160 cm</strong>; 45 cm high toilet with 304 stainless U-shaped grab bars on both sides; built-in SOS emergency pull cord.",
+    "Đoàn trang bị sẵn hộp sơ cứu chuẩn y tế, máy đo huyết áp điện tử, máy đo nồng độ SpO2 và bình thở oxy mini 2L; kết nối trực tiếp với Trung tâm Y tế huyện/quận gần nhất (bán kính phản ứng cấp cứu dưới 12 phút).":
+        "The group carries a medical-grade first-aid kit, electronic blood pressure monitor, SpO2 oximeter and a 2L mini oxygen cylinder, directly linked to the nearest district medical center (emergency response radius under 12 minutes).",
+};
+
+// Mẫu động (có số, ngày, tên thay đổi)
+const VI_EN_PATTERNS = [
+    [/^· (\d+) đánh giá$/, "· $1 reviews"],
+    [/^Cách điểm đến:? (.+)$/, (m, a) => "Distance: " + (VI_EN[a] ?? a)],
+    [/^Cách (\d+) ?m$/, "$1 m away"],
+    [/^(\d{2}\/\d{2}\/\d{4}) \(Còn (\d+) suất\)$/, "$1 ($2 slots left)"],
+    [/^Khởi hành: (.+) \(Còn (\d+) suất\)$/, "Departure: $1 ($2 slots left)"],
+    [/^Lịch này hiện còn đúng (\d+) suất khả dụng trên hệ thống\.$/, "This schedule currently has exactly $1 slots available in the system."],
+    [/^Đã trải nghiệm vào: (.+)$/, "Experienced on: $1"],
+    [/^📍 (.+) · Khu vực đã được kiểm định an toàn$/, "📍 $1 · Verified safe area"],
+    [/^🎉 ĐẶT CHỖ & THANH TOÁN THÀNH CÔNG!\n-+\nMã đơn: #(.+)\nChuyến đi: (.+)\nNgày đi: (.+)\nSố vé: (.+) vé\nTổng tiền: (.+)\n-+\n[\s\S]*$/,
+        (m, ma, chuyen, ngay, ve, tien) =>
+            `🎉 BOOKING & PAYMENT SUCCESSFUL!\n---------------------------------\nOrder code: #${ma}\nTrip: ${chuyen}\nDeparture date: ${ngay}\nTickets: ${ve}\nTotal: ${tien}\n---------------------------------\nRedirecting to the Admin dashboard to check revenue.`],
+];
+
+// Tra cứu một chuỗi (đã cắt khoảng trắng)
+function lookupVi(s) {
+    if (!s) return null;
+    if (Object.prototype.hasOwnProperty.call(VI_EN, s)) return VI_EN[s];
+    for (const [re, rep] of VI_EN_PATTERNS) {
+        if (re.test(s)) return s.replace(re, rep);
+    }
+    return null;
+}
+
+// Dịch một text node: giữ nguyên khoảng trắng đầu/cuối, thử bỏ emoji/ký hiệu bao quanh
+function translateText(raw) {
+    const lead = raw.match(/^\s*/)[0];
+    const trail = raw.match(/\s*$/)[0];
+    const core = raw.trim();
+    if (!core) return null;
+    const direct = lookupVi(core);
+    if (direct !== null) return lead + direct + trail;
+    const m = core.match(/^([^\p{L}\p{N}]*)([\s\S]*?)([^\p{L}\p{N}]*)$/u);
+    const inner = lookupVi(m[2]);
+    if (inner !== null) return lead + m[1] + inner + m[3] + trail;
+    return null;
+}
+
+// Bộ nhớ: lưu bản gốc tiếng Việt của từng node để đổi qua lại không mất dữ liệu
+const TEXT_REC = new WeakMap();
+const ATTR_REC = new WeakMap();
+const BLOCK_REC = new WeakMap();
+const ATTR_LIST = ['placeholder', 'title', 'alt'];
+const BLOCK_SELECTOR = '.accordion-body-inner';
+const SKIP_TAGS = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, TEXTAREA: 1 };
+let i18nLang = 'vi';
+let titleRec = null;
+
+function syncBlocks() {
+    document.querySelectorAll(BLOCK_SELECTOR).forEach(el => {
+        const cur = el.innerHTML;
+        let rec = BLOCK_REC.get(el);
+        if (!rec || rec.applied !== cur) rec = { orig: cur, applied: null };
+        const key = rec.orig.replace(/\s+/g, ' ').trim();
+        const tr = (i18nLang === 'en' && Object.prototype.hasOwnProperty.call(VI_EN_BLOCK, key)) ? VI_EN_BLOCK[key] : null;
+        const out = tr !== null ? tr : rec.orig;
+        if (out !== cur) el.innerHTML = out;
+        rec.applied = el.innerHTML;
+        BLOCK_REC.set(el, rec);
+    });
+}
+
+function syncAttrs(el) {
+    let map = ATTR_REC.get(el);
+    if (!map) { map = {}; ATTR_REC.set(el, map); }
+    ATTR_LIST.forEach(a => {
+        const cur = el.getAttribute(a);
+        if (cur === null) return;
+        let rec = map[a];
+        if (!rec || rec.applied !== cur) rec = map[a] = { orig: cur, applied: null };
+        const tr = i18nLang === 'en' ? translateText(rec.orig) : null;
+        const out = tr !== null ? tr : rec.orig;
+        if (out !== cur) el.setAttribute(a, out);
+        rec.applied = out;
+    });
+}
+
+function syncText(node) {
+    const cur = node.nodeValue;
+    let rec = TEXT_REC.get(node);
+    if (!rec || rec.applied !== cur) rec = { orig: cur, applied: null };
+    const tr = i18nLang === 'en' ? translateText(rec.orig) : null;
+    const out = tr !== null ? tr : rec.orig;
+    if (out !== cur) node.nodeValue = out;
+    rec.applied = out;
+    TEXT_REC.set(node, rec);
+}
+
+function syncTexts(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(n) {
+            return (n.parentElement && SKIP_TAGS[n.parentElement.tagName])
+                ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
         }
+    });
+    const list = [];
+    let n;
+    while ((n = walker.nextNode())) list.push(n);
+    list.forEach(syncText);
+}
 
-        // HÀM DỊCH TỰ ĐỘNG VÀ LƯU LOCALSTORAGE
-        function changeLanguage(lang) {
-            localStorage.setItem('accessTravelLang', lang);
-            document.documentElement.setAttribute('lang', lang);
+function syncDocumentTitle() {
+    const cur = document.title;
+    if (!titleRec || titleRec.applied !== cur) titleRec = { orig: cur, applied: null };
+    const tr = i18nLang === 'en' ? translateText(titleRec.orig) : null;
+    const out = tr !== null ? tr : titleRec.orig;
+    if (out !== cur) document.title = out;
+    titleRec.applied = document.title;
+}
 
-            const select = document.getElementById('langSelect');
-            if (select) select.value = lang;
+function translatePage() {
+    syncBlocks();
+    document.querySelectorAll('[placeholder],[title],[alt]').forEach(syncAttrs);
+    syncTexts(document.body);
+    syncDocumentTitle();
+}
 
-            // Dịch tất cả các phần tử text
-            document.querySelectorAll('h1, h2, h3, h4, span, button, a, div, label, p').forEach(el => {
-                if (el.children.length === 0 || (el.children.length === 1 && el.querySelector('i'))) {
-                    if (!el.getAttribute('data-origin-vi')) {
-                        el.setAttribute('data-origin-vi', el.innerText.trim());
-                    }
-                    const origin = el.getAttribute('data-origin-vi');
-                    if (lang === 'en') {
-                        if (detailDict[origin]) {
-                            // Giữ lại icon nếu có
-                            const icon = el.querySelector('i');
-                            if (icon) {
-                                el.innerHTML = icon.outerHTML + ' ' + detailDict[origin];
-                            } else {
-                                el.innerText = detailDict[origin];
-                            }
-                        }
-                    } else {
-                        const icon = el.querySelector('i');
-                        if (icon) {
-                            el.innerHTML = icon.outerHTML + ' ' + origin;
-                        } else {
-                            el.innerText = origin;
-                        }
-                    }
-                }
-            });
-        }
+// Theo dõi nội dung do JavaScript render lại (đánh giá, bản đồ, dữ liệu API...)
+const i18nObserver = new MutationObserver(() => {
+    translatePage();
+    i18nObserver.takeRecords(); // bỏ qua các thay đổi do chính hàm dịch tạo ra
+});
+i18nObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+    attributes: true,
+    attributeFilter: ATTR_LIST
+});
 
-        // ĐỒNG BỘ NGÔN NGỮ KHI TẢI LẠI TRANG
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('accessTravelLang') || 'vi';
-            const select = document.getElementById('langSelect');
-            if (select) select.value = savedLang;
-            if (savedLang === 'en') {
-                changeLanguage('en');
-            }
-        });
+// Alert / confirm / prompt cũng được dịch
+const _nativeAlert = window.alert.bind(window);
+const _nativeConfirm = window.confirm.bind(window);
+const _nativePrompt = window.prompt.bind(window);
+const trMsg = s => (i18nLang === 'en' && typeof s === 'string') ? (translateText(s) ?? s) : s;
+window.alert = msg => _nativeAlert(trMsg(msg));
+window.confirm = msg => _nativeConfirm(trMsg(msg));
+window.prompt = (msg, def) => _nativePrompt(trMsg(msg), def);
+
+const LANG_UI = {
+    vi: { flag: "https://flagcdn.com/w20/vn.png", label: "Tiếng Việt" },
+    en: { flag: "https://flagcdn.com/w20/gb.png", label: "English" }
+};
+
+// HÀM ÁP DỤNG NGÔN NGỮ
+function applyDetailLanguage(lang) {
+    i18nLang = lang === 'en' ? 'en' : 'vi';
+    localStorage.setItem('accessTravelLang', i18nLang);
+    document.documentElement.setAttribute('lang', i18nLang);
+
+    const ui = LANG_UI[i18nLang];
+    const flag = document.getElementById('langFlag');
+    const text = document.getElementById('langText');
+    if (flag) flag.src = ui.flag;
+    if (text) text.innerText = ui.label;
+
+    translatePage();
+    i18nObserver.takeRecords();
+}
+
+// HÀM BẬT TẮT CHUYỂN ĐỔI NGÔN NGỮ
+function toggleDetailLanguage() {
+    const current = localStorage.getItem('accessTravelLang') || 'vi';
+    applyDetailLanguage(current === 'vi' ? 'en' : 'vi');
+}
+
+// Áp dụng ngôn ngữ đã lưu khi mở trang
+document.addEventListener('DOMContentLoaded', () => {
+    applyDetailLanguage(localStorage.getItem('accessTravelLang') || 'vi');
+});
     </script>
 
     <!-- FOOTER CHUẨN ĐỒ ÁN ACCESS-TRAVEL -->
@@ -1572,8 +1919,16 @@ function onLichChange() {
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2026 AccessTravel - Đồ án cuối kỳ học phần CSE703073 | Khoa Hệ thống thông tin, Trường CNTT, Đại học Phenikaa.</p>
+        <div class="footer-bottom" style="line-height: 1.8; text-align: center; padding: 20px 0;">
+            <p style="margin: 0; font-weight: 700; color: var(--c-text, #0f172a);">
+                &copy; 2026 AccessTravel &middot; Đồ án cuối kỳ
+            </p>
+            <p style="margin: 4px 0; color: var(--c-text-muted, #64748b);">
+                Lập trình Web 2 (CSE703073) &middot; Nhóm 14 – Du lịch
+            </p>
+            <p style="margin: 0; font-weight: 600; color: var(--c-text-muted, #64748b);">
+                Trường Đại học Phenikaa
+            </p>
         </div>
     </footer>
 
@@ -1691,57 +2046,7 @@ function onLichChange() {
         }
     </style>
 
-    <footer class="footer-custom">
-        <div class="footer-container">
-            <div class="footer-col">
-                <div class="footer-logo">
-                    <i class="fa-solid fa-wheelchair"></i> AccessTravel
-                </div>
-                <p class="footer-desc">
-                    Hệ thống đặt tour du lịch tiếp cận dành riêng cho người cao tuổi và người suy giảm khả năng vận động. Mọi tuyến tour đều được khảo sát độ dốc ram, kích thước cửa và hỗ trợ y tế thực tế.
-                </p>
-                <div class="footer-socials">
-                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h3>Khám phá</h3>
-                <ul class="footer-links">
-                    <li><a href="index.html">Trang chủ</a></li>
-                    <li><a href="services.html">Dịch vụ trợ năng</a></li>
-                    <li><a href="news.html">Cẩm nang & Tin tức</a></li>
-                    <li><a href="about.html">Về chúng tôi</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h3>Tiện ích</h3>
-                <ul class="footer-links">
-                    <li><a href="support.html">Hỗ trợ khẩn cấp</a></li>
-                    <li><a href="admin-login.html">Cổng Quản trị viên</a></li>
-                    <li><a href="javascript:void(0)" onclick="toggleCustomerTheme()">Đổi giao diện Tối/Sáng</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h3>Liên hệ hỗ trợ</h3>
-                <div class="footer-contact-info">
-                    <i class="fa-solid fa-phone" style="color: #0f766e;"></i> Hotline: 1900 6868
-                </div>
-                <div class="footer-contact-info">
-                    <i class="fa-solid fa-envelope" style="color: #0f766e;"></i> hotro@accesstravel.vn
-                </div>
-                <div class="footer-contact-info">
-                    <i class="fa-solid fa-location-dot" style="color: #0f766e;"></i> Trường Đại học Phenikaa, Hà Nội
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2026 AccessTravel - Đồ án học phần CSE703073 | Nhóm 14 Du Lịch.
-        </div>
+    
     </footer>
 
     <!-- SCRIPT ĐỒNG BỘ DARK/LIGHT THEME CHO DETAIL.HTML -->
