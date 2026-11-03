@@ -1084,11 +1084,21 @@
             }
         }
 
-        // TÌM KIẾM BẰNG GIỌNG NÓI
+        // TÌM KIẾM BẰNG GIỌNG NÓI HOÀN CHỈNH CHO MOBILE & PC
         function startVoiceSearchHome() {
+            // 1. Bắt buộc kết nối an toàn (HTTPS hoặc localhost) để điện thoại cấp quyền Micro
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                alert(typeof currentLang !== 'undefined' && currentLang === 'en'
+                    ? 'Voice search requires a secure HTTPS connection on mobile devices.'
+                    : 'Tính năng tìm kiếm bằng giọng nói trên điện thoại bắt buộc phải chạy trên đường link bảo mật HTTPS!');
+                return;
+            }
+
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert(currentLang === 'vi' ? 'Trình duyệt chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Cốc Cốc.' : 'Speech recognition not supported.');
+                alert(typeof currentLang !== 'undefined' && currentLang === 'en'
+                    ? 'Speech recognition not supported on this browser. Please use Chrome or Safari.'
+                    : 'Trình duyệt trên thiết bị này chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Safari mới nhất!');
                 return;
             }
 
@@ -1096,42 +1106,63 @@
             const btnVoice = document.getElementById('btnVoiceSearchHome');
             const micIcon = document.getElementById('micHomeIcon');
             const inputField = document.getElementById('homeSearchKeyword');
+            const isVi = (typeof currentLang === 'undefined' || currentLang === 'vi');
 
-            recognition.lang = currentLang === 'en' ? 'en-US' : 'vi-VN';
+            recognition.lang = isVi ? 'vi-VN' : 'en-US';
+            recognition.continuous = false;
             recognition.interimResults = false;
             recognition.maxAlternatives = 1;
 
             recognition.onstart = function() {
                 if (btnVoice) btnVoice.classList.add('listening');
                 if (micIcon) micIcon.className = 'fa-solid fa-microphone-lines';
-                if (inputField) inputField.placeholder = (currentLang === 'vi') ? 'Đang lắng nghe... Nói tên điểm đến' : 'Listening... Say a destination';
+                if (inputField) inputField.placeholder = isVi ? 'Đang lắng nghe... Hãy nói tên điểm đến' : 'Listening... Say a destination';
             };
 
             recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript;
-                if (inputField) {
-                    inputField.value = transcript.replace(/\./g, '');
-                    document.getElementById('homeSearchForm').submit();
+                if (event.results && event.results[0] && event.results[0][0]) {
+                    const transcript = event.results[0][0].transcript;
+                    if (inputField) {
+                        inputField.value = transcript.replace(/\./g, '').trim();
+                        // Tự động submit tìm kiếm sau khi nhận diện thành công
+                        const searchForm = document.getElementById('homeSearchForm');
+                        if (searchForm) {
+                            searchForm.submit();
+                        }
+                    }
                 }
             };
 
             recognition.onend = function() {
                 if (btnVoice) btnVoice.classList.remove('listening');
                 if (micIcon) micIcon.className = 'fa-solid fa-microphone';
-                if (inputField) inputField.placeholder = 'Hạ Long, Cát Bà, Huế...';
+                if (inputField) inputField.placeholder = isVi ? 'Hạ Long, Cát Bà, Huế...' : 'Halong, Cat Ba, Hue...';
             };
 
             recognition.onerror = function(event) {
+                console.warn('Speech Recognition Error:', event.error);
                 if (btnVoice) btnVoice.classList.remove('listening');
                 if (micIcon) micIcon.className = 'fa-solid fa-microphone';
-                if (inputField) inputField.placeholder = 'Hạ Long, Cát Bà, Huế...';
+                if (inputField) inputField.placeholder = isVi ? 'Hạ Long, Cát Bà, Huế...' : 'Halong, Cat Ba, Hue...';
+
                 if (event.error === 'not-allowed') {
-                    alert(currentLang === 'vi' ? 'Vui lòng cấp quyền truy cập Micro trên trình duyệt.' : 'Please allow microphone access.');
+                    alert(isVi 
+                        ? 'Quyền truy cập Micro bị chặn! Vui lòng vào Cài đặt trình duyệt trên điện thoại và chọn Cho phép Micro cho trang web này.' 
+                        : 'Microphone access blocked! Please enable microphone permission in your mobile browser settings.');
+                } else if (event.error === 'no-speech') {
+                    alert(isVi ? 'Không nhận được giọng nói. Vui lòng thử lại!' : 'No speech detected. Please try again!');
                 }
             };
 
-            recognition.start();
+            // Kích hoạt thu âm bên trong try...catch an toàn
+            try {
+                recognition.start();
+            } catch (err) {
+                console.error('Không thể kích hoạt micro:', err);
+            }
         }
+
+            recognition.start();
 
         function checkUserLoggedIn() {
             const raw = localStorage.getItem('currentUser');
