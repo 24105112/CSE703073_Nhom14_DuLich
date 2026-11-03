@@ -1084,85 +1084,137 @@
             }
         }
 
-        // TÌM KIẾM BẰNG GIỌNG NÓI HOÀN CHỈNH CHO MOBILE & PC
+        // TÌM KIẾM BẰNG GIỌNG NÓI (HỖ TRỢ CẢ ĐIỆN THOẠI & MÁY TÍNH)
+        let activeRecognition = null; // giữ tham chiếu để trình duyệt di động không hủy phiên thu âm giữa chừng
+
         function startVoiceSearchHome() {
-            // 1. Bắt buộc kết nối an toàn (HTTPS hoặc localhost) để điện thoại cấp quyền Micro
-            if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-                alert(typeof currentLang !== 'undefined' && currentLang === 'en'
-                    ? 'Voice search requires a secure HTTPS connection on mobile devices.'
-                    : 'Tính năng tìm kiếm bằng giọng nói trên điện thoại bắt buộc phải chạy trên đường link bảo mật HTTPS!');
+            const isEn = (typeof currentLang !== 'undefined' && currentLang === 'en');
+            const msg = (vi, en) => (isEn ? en : vi);
+
+            // 1. Micro chỉ hoạt động trên HTTPS (hoặc localhost) — điện thoại bắt buộc
+            const isLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+            if (location.protocol !== 'https:' && !isLocal) {
+                alert(msg(
+                    'Tìm kiếm bằng giọng nói chỉ hoạt động khi trang được mở bằng đường link HTTPS an toàn.',
+                    'Voice search requires a secure HTTPS connection.'
+                ));
                 return;
             }
 
+            // 2. Kiểm tra trình duyệt có hỗ trợ nhận diện giọng nói không
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert(typeof currentLang !== 'undefined' && currentLang === 'en'
-                    ? 'Speech recognition not supported on this browser. Please use Chrome or Safari.'
-                    : 'Trình duyệt trên thiết bị này chưa hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Safari mới nhất!');
+                alert(msg(
+                    'Trình duyệt này chưa hỗ trợ nhận diện giọng nói. Hãy mở trang bằng Google Chrome hoặc Safari (không dùng trình duyệt trong Zalo/Facebook).',
+                    'Speech recognition is not supported in this browser. Please open this page in Chrome or Safari.'
+                ));
                 return;
             }
 
-            const recognition = new SpeechRecognition();
+            // 3. Nếu đang thu âm thì dừng phiên cũ trước khi bắt đầu phiên mới
+            if (activeRecognition) {
+                try { activeRecognition.abort(); } catch (e) {}
+                activeRecognition = null;
+            }
+
             const btnVoice = document.getElementById('btnVoiceSearchHome');
             const micIcon = document.getElementById('micHomeIcon');
             const inputField = document.getElementById('homeSearchKeyword');
-            const isVi = (typeof currentLang === 'undefined' || currentLang === 'vi');
+            const defaultPlaceholder = isEn ? 'Halong, Cat Ba, Hue...' : 'Hạ Long, Cát Bà, Huế...';
 
-            recognition.lang = isVi ? 'vi-VN' : 'en-US';
+            const setListening = (on) => {
+                if (btnVoice) btnVoice.classList.toggle('listening', on);
+                if (micIcon) micIcon.className = on ? 'fa-solid fa-microphone-lines' : 'fa-solid fa-microphone';
+                if (inputField) {
+                    inputField.placeholder = on
+                        ? (isEn ? 'Listening... Say a destination' : 'Đang lắng nghe... Hãy nói tên điểm đến')
+                        : defaultPlaceholder;
+                }
+            };
+
+            const recognition = new SpeechRecognition();
+            activeRecognition = recognition;
+
+            recognition.lang = isEn ? 'en-US' : 'vi-VN';
             recognition.continuous = false;
             recognition.interimResults = false;
             recognition.maxAlternatives = 1;
 
-            recognition.onstart = function() {
-                if (btnVoice) btnVoice.classList.add('listening');
-                if (micIcon) micIcon.className = 'fa-solid fa-microphone-lines';
-                if (inputField) inputField.placeholder = isVi ? 'Đang lắng nghe... Hãy nói tên điểm đến' : 'Listening... Say a destination';
+            recognition.onstart = function () {
+                setListening(true);
             };
 
-            recognition.onresult = function(event) {
-                if (event.results && event.results[0] && event.results[0][0]) {
-                    const transcript = event.results[0][0].transcript;
-                    if (inputField) {
-                        inputField.value = transcript.replace(/\./g, '').trim();
-                        // Tự động submit tìm kiếm sau khi nhận diện thành công
-                        const searchForm = document.getElementById('homeSearchForm');
-                        if (searchForm) {
-                            searchForm.submit();
-                        }
+            recognition.onresult = function (event) {
+                // Ghép các đoạn đã nhận diện xong (isFinal) thành một câu tìm kiếm
+                let text = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal && event.results[i][0]) {
+                        text += event.results[i][0].transcript;
                     }
                 }
+                text = text.replace(/[.,!?;:]/g, '').trim();
+                if (!text) return;
+
+                if (inputField) inputField.value = text;
+                const searchForm = document.getElementById('homeSearchForm');
+                if (searchForm) searchForm.submit();
             };
 
-            recognition.onend = function() {
-                if (btnVoice) btnVoice.classList.remove('listening');
-                if (micIcon) micIcon.className = 'fa-solid fa-microphone';
-                if (inputField) inputField.placeholder = isVi ? 'Hạ Long, Cát Bà, Huế...' : 'Halong, Cat Ba, Hue...';
+            recognition.onnomatch = function () {
+                alert(msg('Không nhận diện được nội dung. Vui lòng nói rõ hơn và thử lại.',
+                          'Could not recognize the speech. Please speak more clearly and try again.'));
             };
 
-            recognition.onerror = function(event) {
+            recognition.onerror = function (event) {
                 console.warn('Speech Recognition Error:', event.error);
-                if (btnVoice) btnVoice.classList.remove('listening');
-                if (micIcon) micIcon.className = 'fa-solid fa-microphone';
-                if (inputField) inputField.placeholder = isVi ? 'Hạ Long, Cát Bà, Huế...' : 'Halong, Cat Ba, Hue...';
+                setListening(false);
 
-                if (event.error === 'not-allowed') {
-                    alert(isVi 
-                        ? 'Quyền truy cập Micro bị chặn! Vui lòng vào Cài đặt trình duyệt trên điện thoại và chọn Cho phép Micro cho trang web này.' 
-                        : 'Microphone access blocked! Please enable microphone permission in your mobile browser settings.');
-                } else if (event.error === 'no-speech') {
-                    alert(isVi ? 'Không nhận được giọng nói. Vui lòng thử lại!' : 'No speech detected. Please try again!');
+                switch (event.error) {
+                    case 'not-allowed':
+                    case 'service-not-allowed':
+                        alert(msg(
+                            'Micro đang bị chặn. Hãy vào Cài đặt trình duyệt (hoặc biểu tượng ổ khóa cạnh địa chỉ web) và cho phép Micro cho trang này.',
+                            'Microphone access is blocked. Please allow the microphone for this site in your browser settings.'
+                        ));
+                        break;
+                    case 'audio-capture':
+                        alert(msg('Không tìm thấy micro trên thiết bị. Vui lòng kiểm tra lại micro.',
+                                  'No microphone was found. Please check your microphone.'));
+                        break;
+                    case 'no-speech':
+                        alert(msg('Không nghe thấy giọng nói. Hãy bấm micro và nói lại.',
+                                  'No speech detected. Tap the mic and try again.'));
+                        break;
+                    case 'network':
+                        alert(msg('Lỗi kết nối khi nhận diện giọng nói. Vui lòng kiểm tra mạng và thử lại.',
+                                  'Network error during voice recognition. Please check your connection and try again.'));
+                        break;
+                    case 'language-not-supported':
+                        alert(msg('Thiết bị chưa hỗ trợ nhận diện tiếng Việt. Hãy thử chuyển sang English hoặc cập nhật trình duyệt.',
+                                  'This device does not support the selected language. Please try English or update your browser.'));
+                        break;
+                    case 'aborted':
+                        break; // người dùng tự dừng, không cần thông báo
+                    default:
+                        alert(msg('Không thể nhận diện giọng nói. Vui lòng thử lại.',
+                                  'Voice recognition failed. Please try again.'));
                 }
             };
 
-            // Kích hoạt thu âm bên trong try...catch an toàn
+            recognition.onend = function () {
+                setListening(false);
+                if (activeRecognition === recognition) activeRecognition = null;
+            };
+
             try {
                 recognition.start();
             } catch (err) {
                 console.error('Không thể kích hoạt micro:', err);
+                setListening(false);
+                activeRecognition = null;
+                alert(msg('Không thể bật micro. Vui lòng thử lại.', 'Could not start the microphone. Please try again.'));
             }
         }
-
-            recognition.start();
 
         function checkUserLoggedIn() {
             const raw = localStorage.getItem('currentUser');
